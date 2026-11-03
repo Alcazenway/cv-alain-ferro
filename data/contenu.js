@@ -18,7 +18,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV_Alain_Ferro.pdf"
+    "cvPdf": "./CV_Alain_Ferro.pdf?v=1.8"
   },
   "chiffres": [
     {
