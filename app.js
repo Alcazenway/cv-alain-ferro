@@ -225,6 +225,7 @@
       if (!vue.hidden) afficherAccueil(h.charAt(0) === "/" ? "" : h);
       return;
     }
+    retourEnCours = false;
     vue.textContent = "";
     contenu.forEach(function (n) { if (n) vue.appendChild(n); });
     accueil.hidden = true; vue.hidden = false;
