@@ -129,18 +129,35 @@
     ]);
   }
 
-  function section(titre, contenu) {
-    return contenu ? el("section", { class: "fiche-section" }, [el("h2", { text: titre }), contenu]) : null;
+  function section(titre, contenu, niveau) {
+    return contenu ? el("section", { class: "fiche-section" }, [el(niveau || "h2", { text: titre }), contenu]) : null;
   }
 
-  function galerie(photos) {
+  function galerie(photos, niveau) {
     if (!photos || !photos.length) return null;
     return section("En images", el("div", { class: "galerie" }, photos.map(function (p) {
       return el("figure", null, [
-        el("a", { href: p.src, target: "_blank", rel: "noopener", "aria-label": "Agrandir : " + p.alt }, [el("img", { src: p.src, alt: p.alt, loading: "lazy", decoding: "async" })]),
+        el("a", { href: p.src, target: "_blank", rel: "noopener", class: p.presentation === "aurore" ? "visuel-aurore" : "", "aria-label": "Agrandir : " + p.alt }, [el("img", { src: p.src, alt: p.alt, loading: "lazy", decoding: "async" })]),
         p.legende ? el("figcaption", { text: p.legende }) : null
       ]);
-    })));
+    })), niveau);
+  }
+
+  function dossiers(sections) {
+    if (!sections || !sections.length) return null;
+    var groupe = el("div", { class: "dossiers" });
+    sections.forEach(function (s) {
+      var corps = el("div", { class: "dossier-contenu" });
+      (s.paragraphes || []).forEach(function (t) { corps.appendChild(el("p", { text: t })); });
+      if (s.points && s.points.length) corps.appendChild(liste(s.points));
+      var photos = galerie(s.galerie, "h3"); if (photos) corps.appendChild(photos);
+      var bloc = el("details", { class: "dossier" }, [
+        el("summary", null, [el("h2", { text: s.titre })]), corps
+      ]);
+      if (s.ouvert) bloc.setAttribute("open", "");
+      groupe.appendChild(bloc);
+    });
+    return groupe;
   }
 
   function voisins(e) {
@@ -163,6 +180,7 @@
       ]),
       section("Contexte", el("p", { text: e.contexte })),
       section(e.type === "formation" ? "Contenu" : "Missions et réalisations", liste(e.missions)),
+      dossiers(e.sections),
       e.outils ? section("Outils", el("ul", { class: "etiquettes" }, e.outils.map(function (t) { return el("li", { text: t }); }))) : null,
       section("Compétences développées", el("ul", { class: "etiquettes" }, e.apports.map(function (t) { return el("li", { text: t }); }))),
       comps.length ? section("Compétences du CV liées", el("ul", { class: "liens-competences" }, comps.map(function (id) {

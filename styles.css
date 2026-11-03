@@ -169,10 +169,22 @@ main:focus, #fiche-titre:focus { outline: none; }
 .preuve a { display: grid; text-decoration: none; border: 1px solid var(--filet); border-left: 4px solid var(--c); border-radius: var(--rayon); padding: .7rem 1rem; color: var(--texte); }
 .preuve a:hover { box-shadow: 0 6px 18px rgba(25,56,61,.10); }
 .preuve-titre { font-weight: 700; color: var(--encre); }
-.galerie { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr)); gap: 1rem; }
+.galerie { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: 1rem; }
 .galerie img { border-radius: var(--rayon); width: 100%; height: auto; object-fit: contain; }
 .galerie a { display: block; }
+.galerie .visuel-aurore { position: relative; overflow: hidden; aspect-ratio: 1760 / 1109; border-radius: var(--rayon); }
+.galerie .visuel-aurore img { position: absolute; top: 0; left: 0; width: 113.637%; max-width: none; height: auto; transform: translateY(-1.423%); border-radius: 0; }
 .galerie figure { margin: 0; }
+.dossiers { margin: 1.5rem 0 2rem; }
+.dossier { border-top: 1px solid var(--filet); }
+.dossier:last-child { border-bottom: 1px solid var(--filet); }
+.dossier summary { cursor: pointer; color: var(--encre); padding: 1rem .25rem; }
+.dossier summary h2 { display: inline; font-size: 1.1rem; line-height: 1.5; }
+.dossier[open] summary { color: var(--experience); }
+.dossier-contenu { padding: .25rem .25rem 1.25rem; }
+.dossier-contenu .puces { margin-bottom: 1.25rem; }
+.dossier-contenu .fiche-section { margin: 1.5rem 0 0; }
+.dossier-contenu h3 { font-size: 1.05rem; }
 .galerie figcaption { font-size: .9rem; color: var(--discret); margin-top: .4rem; }
 .voisins { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; border-top: 1px solid var(--filet); padding-top: 1.5rem; margin-top: 2.5rem; }
 .voisins a { display: grid; text-decoration: none; padding: .5rem 0; }
