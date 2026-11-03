@@ -132,6 +132,23 @@ window.CV = {
       ]
     },
     {
+      "id": "plateformes",
+      "titre": "Git / GitHub et services web",
+      "sousTitre": "Git · GitHub · Supabase · Stripe · Brevo",
+      "resume": "Versionner les projets, organiser leurs données et relier les services de paiement et d’e-mails, avec l’appui d’assistants IA.",
+      "detail": [
+        "Git et GitHub : organiser les dépôts, consulter les modifications, suivre les commits et retrouver les versions des projets.",
+        "GitHub : partager et conserver les sources, coordonner les interventions des assistants IA et publier un site statique avec GitHub Pages.",
+        "Supabase : piloter l’organisation des données, de l’authentification et du stockage nécessaires aux applications.",
+        "Stripe : piloter l’intégration de Checkout et des webhooks pour relier le paiement au traitement des commandes.",
+        "Brevo : organiser les courriels transactionnels, leurs modèles et leurs déclencheurs dans le fonctionnement du site."
+      ],
+      "preuves": [
+        "skylivra",
+        "outils-ia"
+      ]
+    },
+    {
       "id": "manuel",
       "titre": "Travaux manuels",
       "sousTitre": "Bois, plomberie, électricité, préparation et chiffrage",
@@ -183,8 +200,18 @@ window.CV = {
         "Codex",
         "Claude",
         "Claude Code",
-        "GitHub",
         "Suno"
+      ]
+    },
+    {
+      "famille": "Versionnage et services web",
+      "items": [
+        "Git",
+        "GitHub",
+        "Supabase",
+        "Stripe",
+        "Brevo",
+        "Netlify"
       ]
     },
     {
@@ -945,7 +972,8 @@ window.CV = {
       ],
       "competences": [
         "ia",
-        "gestion"
+        "gestion",
+        "plateformes"
       ],
       "outils": [
         "ChatGPT",
@@ -961,7 +989,9 @@ window.CV = {
         "Inno Setup",
         "Git / GitHub",
         "PhotoFiltre",
-        "OBS Studio"
+        "OBS Studio",
+        "Stripe",
+        "Brevo"
       ],
       "apports": [
         "Architecture fonctionnelle",
@@ -1009,7 +1039,8 @@ window.CV = {
             "Découpage en modules : site, catalogue, créations, effets, fabrication et installation.",
             "Définition des interfaces, des données échangées et des dépendances entre les composants.",
             "Consignes et documents partagés pour préserver les décisions entre sessions et répartir les interventions.",
-            "Revues croisées, essais, corrections successives et suivi des versions avec Git / GitHub."
+            "Revues croisées, essais, corrections successives et suivi des versions avec Git / GitHub.",
+            "Manipulation de Git et GitHub avec l’appui des IA : dépôts, différences entre versions, commits et publication des évolutions."
           ]
         },
         {
@@ -1044,6 +1075,7 @@ window.CV = {
           "points": [
             "Site de présentation et catalogue en HTML, CSS et JavaScript, avec des fonctions serveur Netlify et des services Supabase.",
             "Organisation des données du catalogue, de la présentation des produits et du parcours de distribution, dont l’intégration de Stripe Checkout.",
+            "Supabase : organisation du catalogue et des données, authentification et stockage ; Brevo : modèles et envoi des e-mails transactionnels.",
             "SkyLivra Manager 0.9.0 : application Windows fondée sur Tauri et Rust, avec détection de l’installation MSFS et catalogue des créations.",
             "Contrôle des fichiers par empreinte SHA-256 et suivi des installations, mises à jour et désinstallations."
           ]
@@ -1080,7 +1112,8 @@ window.CV = {
       ],
       "competences": [
         "ia",
-        "gestion"
+        "gestion",
+        "plateformes"
       ],
       "outils": [
         "ChatGPT",
