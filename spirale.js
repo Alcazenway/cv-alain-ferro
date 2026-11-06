@@ -1,4 +1,4 @@
-/* Spirale du parcours — CV Intelligent v2.1 (6 novembre 2026).
+/* Spirale du parcours — CV Intelligent v2.2 (6 novembre 2026).
    Naissance au centre, étapes du plus ancien au plus récent sur une spirale d’Archimède qui se déroule
    dans le sens horaire vers l’extérieur. La spirale entière tourne très lentement vers la droite
    (un tour en DUREE secondes) : seules les positions tournent, les libellés restent horizontaux.
@@ -96,6 +96,8 @@
     var fenetre = el("div", { class: "spirale-fenetre" });
     var taille = el("div", { class: "spirale-taille" });
     var scene = el("div", { class: "spirale-scene", id: "spirale-scene" });
+    var galaxie = el("img", { class: "spirale-galaxie", src: "assets/galaxie-spirale-v2.2.webp", alt: "", "aria-hidden": "true", decoding: "async", draggable: "false" });
+    galaxie.addEventListener("error", function () { galaxie.remove(); });
     var trace = svg("svg", { class: "spirale-trace", "aria-hidden": "true", focusable: "false" });
     var groupe = svg("g", {});
     var chemin = svg("path", { class: "spirale-bras" });
@@ -121,7 +123,7 @@
     });
     elements.push(borne(options.fin, "fin"));
     elements.forEach(function (li) { liste.appendChild(li); });
-    scene.appendChild(trace); scene.appendChild(liste);
+    scene.appendChild(galaxie); scene.appendChild(trace); scene.appendChild(liste);
     taille.appendChild(scene); fenetre.appendChild(taille);
     racine.appendChild(outils);
     if (options.legende) racine.appendChild(options.legende);
@@ -145,7 +147,7 @@
       trace.setAttribute("width", 2 * centre); trace.setAttribute("height", 2 * centre);
       trace.setAttribute("viewBox", "0 0 " + 2 * centre + " " + 2 * centre);
       var d = "", dHalo = "";
-      for (var t = 0; t <= geo.tFin + 0.6; t += 0.04) {
+      for (var t = 0; t <= geo.tFin + 0.15; t += 0.04) {
         var r = geo.b * t, x = centre + r * Math.cos(t), y = centre + r * Math.sin(t);
         d += (d ? " L" : "M") + x.toFixed(1) + " " + y.toFixed(1);
       }
@@ -167,6 +169,7 @@
         n.li.style.transform = "translate(" + x.toFixed(2) + "px," + y.toFixed(2) + "px)";
       });
       groupe.setAttribute("transform", "rotate(" + (phi * 180 / Math.PI).toFixed(3) + " " + centre + " " + centre + ")");
+      galaxie.style.transform = "rotate(" + (phi * 180 / Math.PI).toFixed(3) + "deg)";
     }
 
     function tourne() { return !pauseUtilisateur && !survol && !focus && !toucher; }

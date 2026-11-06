@@ -1,10 +1,10 @@
-/* Contenu du site v2.1 (6 novembre 2026). Repris de la v2.0.
+/* Contenu du site v2.2 (6 novembre 2026). Repris de la v2.0.
    Le parcours est rangé du plus ancien au plus récent (l’ordre du tableau fait foi, comme la frise du PDF) ;
    aucune date intermédiaire affichée. « bulle » : titre seul des bulles de la spirale et du sommaire.
    « important » : six éléments mis en avant par une teinte plus foncée.
    Les fiches de type « formation » forment l’onglet « Savoir - formations », hors spirale.
    « alias » : anciennes fiches redirigées (Responsable soins adjoint fusionné dans thermes-responsable).
-   « retirees » : fiches supprimées en v2.1 (Enfance, Adolescence), redirigées vers le parcours.
+   « retirees » : fiches supprimées en v2.2 (Enfance, Adolescence), redirigées vers le parcours.
    Ajouter une photo : déposer un fichier WebP dans assets/photos/ puis ajouter à la fiche
    galerie: [{src: "assets/photos/nom.webp", alt: "Description précise", legende: "Texte visible"}]
    Une vidéo : {video: "assets/videos/nom.mp4", poster: "assets/videos/nom.webp", alt: "…", legende: "…"}
@@ -25,7 +25,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV_Alain_Ferro.pdf?v=2.1",
+    "cvPdf": "./CV_Alain_Ferro.pdf?v=2.2",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nJ’ai consulté votre CV en ligne et votre parcours m’intéresse pour un poste de [intitulé du poste] au sein de [entreprise], à [lieu].\n\nJe vous propose un entretien [proposition de date et d’horaire], en présentiel ou par téléphone.\n\nCordialement,\n\n[Prénom Nom]\n[Fonction] · [Entreprise]\n[Téléphone]"
