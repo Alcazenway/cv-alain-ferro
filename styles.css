@@ -1,9 +1,16 @@
-/* CV Intelligent v2.0 — 6 novembre 2026. Palette du CV : turquoise (Exp pro), cuivre (Savoir), violet (Projets perso). */
+/* CV Intelligent v2.1 — 6 novembre 2026. Palette du CV : turquoise (Exp pro), cuivre (Savoir - formations), violet (Projets perso).
+   Fonds « pâles » : teinte très légère de chaque catégorie. Fonds « foncés » : six éléments marquants, texte blanc (contraste AA). */
 :root {
   --experience: #087E83;
   --formation: #B9653F;
   --formation-texte: #9C5232; /* même teinte, assombrie pour les petits textes (contraste AA) */
   --personnel: #735389;
+  --experience-pale: #EAF4F4;
+  --formation-pale: #F8EEE8;
+  --personnel-pale: #F1ECF4;
+  --experience-fonce: #05595D;
+  --formation-fonce: #84401F;
+  --personnel-fonce: #553A68;
   --encre: #19383D;
   --texte: #2E4649;
   --discret: #56696C;
@@ -49,16 +56,21 @@ main:focus, #fiche-titre:focus, #titre-nom:focus { outline: none; }
 .cadre { width: 100%; max-width: var(--largeur); margin: 0 auto; padding: 0 1.25rem; }
 .evitement { position: absolute; left: -999px; top: .5rem; background: var(--encre); color: #fff; padding: .5rem 1rem; z-index: 10; border-radius: 6px; }
 .evitement:focus { left: .5rem; color: #fff; }
+.visuellement-cache { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
 /* Catégories : mêmes formes que la légende du PDF (cercle, losange, carré) */
-.experience { --c: var(--experience); --t: var(--experience); }
-.formation { --c: var(--formation); --t: var(--formation-texte); }
-.personnel { --c: var(--personnel); --t: var(--personnel); }
+.experience { --c: var(--experience); --t: var(--experience); --p: var(--experience-pale); --f: var(--experience-fonce); }
+.formation { --c: var(--formation); --t: var(--formation-texte); --p: var(--formation-pale); --f: var(--formation-fonce); }
+.personnel { --c: var(--personnel); --t: var(--personnel); --p: var(--personnel-pale); --f: var(--personnel-fonce); }
 .forme { display: inline-block; flex: none; width: .7rem; height: .7rem; background: var(--c, var(--encre)); margin-right: .45rem; vertical-align: .05em; }
 .forme.experience { border-radius: 50%; }
 .forme.formation { border-radius: 1px; transform: rotate(45deg) scale(.88); }
 .forme.personnel { border-radius: 2px; }
-.legende { display: flex; flex-wrap: wrap; gap: .3rem 1.25rem; font-size: .9rem; color: var(--discret); }
+.legende { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1.25rem; font-size: .9rem; color: var(--encre); }
+.legende li { display: inline-flex; align-items: center; gap: .45rem; }
+.pastille { display: inline-flex; align-items: center; justify-content: center; width: 1.6rem; height: 1.15rem; border-radius: 6px; background: var(--p); border: 1px solid var(--c); }
+.pastille .forme { margin: 0; width: .55rem; height: .55rem; }
+.pastille.important { background: var(--experience-fonce); border-color: var(--experience-fonce); }
 
 /* Relief commun : survol, focus clavier et pression tactile */
 .etape-lien, .tuile a, .preuve a, .entree, .logos a, .bouton, .onglets a, .liens-competences a, .competence-ligne, .sommaire-liste a {
@@ -133,7 +145,7 @@ main:focus, #fiche-titre:focus, #titre-nom:focus { outline: none; }
 
 /* Trois rubriques */
 .entrees-cadre { padding-top: 2.5rem; }
-.entrees { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.entrees { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1rem; }
 .entree {
   display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 1rem; height: 100%;
   padding: 1.2rem 1.25rem; background: var(--carte); border: 1px solid var(--filet); border-top: 4px solid var(--encre); border-radius: var(--rayon);
@@ -185,6 +197,10 @@ main:focus, #fiche-titre:focus, #titre-nom:focus { outline: none; }
 }
 .onglets a:hover, .onglets a:focus-visible { border-color: var(--encre); }
 .onglets a[aria-current="page"] { background: var(--encre); border-color: var(--encre); color: #fff; }
+.onglets .onglet-savoir { --c: var(--formation); }
+.onglets li:last-child { margin-left: .5rem; padding-left: .9rem; border-left: 1px solid var(--filet); } /* onglet séparé : hors spirale */
+.vue-choix { margin: -.75rem 0 1rem; }
+.vue-bascule { min-height: 44px; font-size: .95rem; padding: .4rem 1.1rem; }
 
 /* Bornes Naissance / Aujourd’hui : pictogramme fourni + texte explicite */
 .borne { display: flex; align-items: center; gap: .6rem; margin: 0 0 .9rem; color: var(--encre); font-size: .95rem; }
@@ -194,41 +210,34 @@ main:focus, #fiche-titre:focus, #titre-nom:focus { outline: none; }
 .borne.fin.sans-image::before { background: var(--encre); }
 .borne.fin { margin: .9rem 0 0; }
 
-/* Frise du parcours */
-.frise-cadre { max-width: 62rem; }
+/* Parcours en liste (alternative à la spirale) : titres seuls, plus récent en haut */
+.frise-cadre { max-width: 34rem; }
+.frise-cadre .borne.fin { margin: 0 0 .9rem; }
+.frise-cadre .borne.debut { margin: .9rem 0 0; }
 .frise { position: relative; }
-.frise::before { content: ""; position: absolute; top: -.5rem; bottom: -.5rem; left: calc(1.5rem - 1.5px); width: 3px; background: var(--filet); border-radius: 2px; }
-.etape { position: relative; padding-left: 3rem; margin-bottom: .6rem; }
-.etape::before {
-  content: ""; position: absolute; left: calc(1.5rem - .55rem); top: 50%; width: 1.1rem; height: 1.1rem; margin-top: -.55rem;
-  background: var(--c); border: 3px solid var(--fond); border-radius: 50%; box-sizing: border-box; z-index: 1;
-}
-.etape.formation::before { border-radius: 2px; transform: rotate(45deg); }
-.etape.personnel::before { border-radius: 3px; }
+.etape { margin-bottom: .45rem; }
 .etape-lien {
-  display: flex; align-items: center; justify-content: space-between; gap: .9rem; min-height: 4.75rem;
-  padding: .55rem .6rem .55rem 1rem; background: var(--carte); color: var(--texte); text-decoration: none;
+  display: flex; align-items: center; gap: .1rem; min-height: 46px;
+  padding: .45rem .9rem; background: var(--p, var(--carte)); color: var(--encre); text-decoration: none;
   border: 1px solid var(--filet); border-left: 4px solid var(--c); border-radius: var(--rayon);
 }
-.etape-lien:hover, .etape-lien:focus-visible { color: var(--texte); }
-.etape-texte { display: flex; flex-direction: column; min-width: 0; }
+.etape-lien:hover, .etape-lien:focus-visible { color: var(--encre); }
+.etape-titre { font-weight: 700; font-size: .98rem; line-height: 1.3; }
+.etape.important .etape-lien, .etape.important .etape-lien:hover { background: var(--f); border-color: var(--f); color: #fff; }
+.etape.important .forme { background: #fff; }
 .etape-type, .fiche-type { display: flex; align-items: center; font-size: .75rem; font-weight: 700; color: var(--t, var(--encre)); text-transform: uppercase; letter-spacing: .05em; }
-.etape-titre { font-weight: 800; color: var(--encre); font-size: 1.02rem; line-height: 1.25; }
-.etape-sous { font-size: .88rem; color: var(--discret); line-height: 1.3; }
-.etape-titre, .etape-sous { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.etape-image { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; flex: none; background: var(--fond-doux); }
 
-@media (min-width: 900px) {
-  .frise-cadre .borne { justify-content: center; }
-  .frise::before { left: calc(50% - 1.5px); }
-  .etape { width: 50%; padding: 0 2.25rem 0 0; margin: 0; }
-  .etape:nth-child(even) { margin-left: 50%; padding: 0 0 0 2.25rem; }
-  .etape + .etape { margin-top: -2rem; } /* entrelacement gauche / droite : pas de 2,75rem */
-  .etape::before { left: auto; right: -.55rem; }
-  .etape:nth-child(even)::before { right: auto; left: -.55rem; }
-  .etape-lien { height: 4.75rem; }
-  .etape:nth-child(odd) .etape-lien { border-left: 1px solid var(--filet); border-right: 4px solid var(--c); }
+/* Savoir - formations : onglet séparé, mêmes bulles titre seul */
+.savoir-liste { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: .65rem; max-width: 62rem; }
+.savoir-item a {
+  display: flex; align-items: center; height: 100%; min-height: 52px; padding: .6rem 1rem;
+  background: var(--p); color: var(--encre); text-decoration: none; font-weight: 700; line-height: 1.3;
+  border: 1px solid var(--filet); border-left: 4px solid var(--c); border-radius: var(--rayon);
+  transition: transform var(--duree) ease, box-shadow var(--duree) ease;
 }
+.savoir-item a:hover, .savoir-item a:focus-visible { transform: translateY(-2px); box-shadow: var(--ombre); color: var(--encre); }
+.savoir-item.important a, .savoir-item.important a:hover, .savoir-item.important a:focus-visible { background: var(--f); border-color: var(--f); color: #fff; }
+.savoir-item.important .forme { background: #fff; }
 
 /* Fiche : sommaire chronologique à gauche, contenu à droite */
 .parcours-mise { display: grid; grid-template-columns: 17rem minmax(0, 1fr); gap: 3rem; align-items: start; }
@@ -252,11 +261,13 @@ main:focus, #fiche-titre:focus, #titre-nom:focus { outline: none; }
 }
 .sommaire-liste .forme { width: .7rem; height: .7rem; margin: .32rem .65rem 0 0; box-shadow: 0 0 0 3px var(--fond); }
 .sommaire-texte { display: flex; flex-direction: column; min-width: 0; }
-.sommaire-titre { font-weight: 700; font-size: .9rem; color: var(--encre); line-height: 1.3; }
-.sommaire-sous { font-size: .78rem; color: var(--discret); line-height: 1.3; }
+.sommaire-titre { font-weight: 600; font-size: .88rem; color: var(--encre); line-height: 1.3; }
 .sommaire-liste a:hover { background: var(--fond-doux); }
+.sommaire-liste .important a { background: var(--p); }
+.sommaire-liste .important .sommaire-titre { font-weight: 800; color: var(--f); }
+.sommaire-liste .important .forme { width: .8rem; height: .8rem; background: var(--f); }
 .sommaire-liste a[aria-current] { background: var(--encre); }
-.sommaire-liste a[aria-current] .sommaire-titre, .sommaire-liste a[aria-current] .sommaire-sous { color: #fff; }
+.sommaire-liste a[aria-current] .sommaire-titre { color: #fff; }
 .sommaire-liste a[aria-current] .forme { box-shadow: 0 0 0 2px #fff; }
 
 .fiche { max-width: 48rem; }
@@ -354,7 +365,6 @@ main:focus, #fiche-titre:focus, #titre-nom:focus { outline: none; }
 }
 @media (max-width: 860px) {
   .reperes ul { grid-template-columns: repeat(2, 1fr); }
-  .entrees { grid-template-columns: 1fr; }
 }
 
 /* Tablette étroite et téléphone : sommaire repliable sous l’en-tête */
@@ -384,7 +394,7 @@ main:focus, #fiche-titre:focus, #titre-nom:focus { outline: none; }
   .bandeau-in { gap: 0 .75rem; padding-top: .35rem; padding-bottom: .1rem; min-height: 0; }
   .marque { flex: 1; padding: .3rem 0; }
   .bandeau nav { order: 3; flex-basis: 100%; }
-  .bandeau nav ul { justify-content: space-between; gap: .25rem; }
+  .bandeau nav ul { justify-content: flex-start; gap: 0 1.1rem; }
   .bandeau nav a { font-size: .95rem; padding: .45rem 0; }
   .bandeau-entretien { min-height: 38px; padding: .3rem .85rem; font-size: .85rem; }
 
@@ -414,11 +424,7 @@ main:focus, #fiche-titre:focus, #titre-nom:focus { outline: none; }
   .tuile-type { padding: .55rem .65rem 0; font-size: .68rem; }
   .tuile-titre { padding: .15rem .65rem .7rem; font-size: .9rem; }
 
-  .etape { padding-left: 2.6rem; }
-  .frise::before { left: calc(1.25rem - 1.5px); }
-  .etape::before { left: calc(1.25rem - .55rem); }
-  .etape-lien { padding-left: .8rem; }
-  .etape-image { width: 52px; height: 52px; }
+  .onglets li:last-child { margin-left: 0; padding-left: 0; border-left: 0; }
 
   .competence-ligne { grid-template-columns: 2.6rem minmax(0, 1fr); gap: .65rem; padding: 1.1rem 2.25rem 1.1rem .25rem; }
   .competence-ligne::after { right: .4rem; }

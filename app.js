@@ -1,20 +1,26 @@
 (function () {
   "use strict";
   var D = window.CV;
-  var LIBELLES = { experience: "Exp pro", formation: "Savoir", personnel: "Projets perso" };
+  var SAVOIR = "Savoir - formations";
+  var LIBELLES = { experience: "Exp pro", formation: SAVOIR, personnel: "Projets perso" };
+  // Catégories de la spirale ; les formations ont leur propre onglet, hors spirale.
   var CATEGORIES = [
     { slug: "exp-pro", type: "experience", titre: "Exp pro" },
-    { slug: "savoir", type: "formation", titre: "Savoir" },
     { slug: "projets-perso", type: "personnel", titre: "Projets perso" }
   ];
-  var catSlug = Object.create(null), catType = Object.create(null);
-  CATEGORIES.forEach(function (c) { catSlug[c.slug] = c; catType[c.type] = c; });
-  var ANCIENNES = { haut: "/", parcours: "/parcours", competences: "/competences", realisations: "/realisations", contact: "/contact", interets: "/interets" };
+  var catSlug = Object.create(null);
+  CATEGORIES.forEach(function (c) { catSlug[c.slug] = c; });
+  var ANCIENNES = { haut: "/", parcours: "/parcours", competences: "/competences", realisations: "/realisations", contact: "/contact", interets: "/interets",
+    savoir: "/savoir-formations", "savoir-formations": "/savoir-formations" };
   var ALIAS = D.alias || {};
+  var RETIREES = D.retirees || [];
   var parId = Object.create(null), compId = Object.create(null);
   D.parcours.forEach(function (e) { parId[e.id] = e; });
   D.competences.forEach(function (c) { compId[c.id] = c; });
-  var ordre = D.parcours; // du plus ancien au plus récent, même ordre que la frise du PDF
+  // Du plus ancien au plus récent, même ordre que la frise du PDF.
+  var ordre = D.parcours.filter(function (e) { return e.type !== "formation"; });
+  var formations = D.parcours.filter(function (e) { return e.type === "formation"; });
+  function suiteDe(e) { return e.type === "formation" ? formations : ordre; }
   var REPERES = {
     debut: { texte: "Naissance", annee: "1982", image: "assets/repere-naissance.png" },
     fin: { texte: "Aujourd’hui", annee: "2026", image: "assets/repere-aujourdhui.png" }
@@ -38,7 +44,7 @@
     return el("ul", { class: "etiquettes" }, items.map(function (t) { return el("li", { text: t }); }));
   }
   function forme(type) { return el("span", { class: "forme " + type, "aria-hidden": "true" }); }
-  function bulle(e) { return e.bulle || [e.titreCourt || e.titre, ""]; }
+  function bulle(e) { return (e.bulle && e.bulle[0]) || e.titreCourt || e.titre; } // titre seul
   // Première image fixe d’une fiche (version statique d’une animation), pour les vignettes.
   function vignette(e) {
     var toutes = (e.galerie || []).concat.apply(e.galerie || [], (e.sections || []).map(function (s) { return s.galerie || []; }));
@@ -81,7 +87,8 @@
   });
 
   var entrees = [
-    { href: "#/parcours", titre: "Parcours", texte: ordre.length + " étapes, de l’enfance à aujourd’hui" },
+    { href: "#/parcours", titre: "Parcours", texte: ordre.length + " étapes en spirale, de la naissance à aujourd’hui" },
+    { href: "#/savoir-formations", titre: SAVOIR, texte: formations.length + " formations, titre professionnel et certification" },
     { href: "#/competences", titre: "Compétences", texte: D.competences.length + " compétences, outils et preuves" },
     { href: "#/interets", titre: "Intérêts", texte: D.interets.length + " centres d’intérêt reliés au parcours" }
   ];
@@ -96,7 +103,7 @@
   function tuileRealisation(id) {
     var e = parId[id], v = vignette(e);
     return el("li", { class: "tuile " + e.type }, [el("a", { href: "#/parcours/" + e.id }, [
-      v ? image(v, "tuile-image") : el("span", { class: "tuile-mot", text: bulle(e)[0], "aria-hidden": "true" }),
+      v ? image(v, "tuile-image") : el("span", { class: "tuile-mot", text: bulle(e), "aria-hidden": "true" }),
       el("span", { class: "tuile-type" }, [forme(e.type), LIBELLES[e.type]]),
       el("span", { class: "tuile-titre", text: e.titre })
     ])]);
@@ -106,7 +113,7 @@
   $("titre-pistes").textContent = D.pistes.titre;
   $("pistes-texte").textContent = D.pistes.texte;
   D.pistes.metiers.forEach(function (m) { $("metiers").appendChild(el("li", { text: m })); });
-  $("maj").textContent = "Version 2.0 · mise à jour : " + D.mentions.maj;
+  $("maj").textContent = "Version 2.1 · mise à jour : " + D.mentions.maj;
 
   /* ---------- Briques communes ---------- */
   function retour(parent, texte) {
@@ -131,8 +138,8 @@
   }
   function legende() {
     return el("ul", { class: "legende", "aria-label": "Légende" }, CATEGORIES.map(function (c) {
-      return el("li", null, [forme(c.type), c.titre]);
-    }));
+      return el("li", { class: c.type }, [el("span", { class: "pastille " + c.type, "aria-hidden": "true" }, [forme(c.type)]), c.titre]);
+    }).concat([el("li", null, [el("span", { class: "pastille important", "aria-hidden": "true" }), "Élément marquant"])]));
   }
 
   function media(p) {
@@ -155,73 +162,122 @@
     return section("En images", el("div", { class: "galerie" }, photos.map(media)), niveau);
   }
 
-  /* ---------- Parcours : frise ---------- */
-  function etapeFrise(e) {
-    var v = vignette(e), b = bulle(e);
-    return el("li", { class: "etape " + e.type }, [
+  /* ---------- Parcours : spirale, liste alternative et onglets ---------- */
+  var ETAT_VUE = { liste: false };
+  var spiraleActive = null, spiraleAttente = null;
+
+  function onglets(actif) {
+    var items = [{ href: "#/parcours", slug: "", titre: "Tout" }]
+      .concat(CATEGORIES.map(function (c) { return { href: "#/parcours/" + c.slug, slug: c.slug, type: c.type, titre: c.titre }; }))
+      .concat([{ href: "#/savoir-formations", slug: "savoir", type: "formation", titre: SAVOIR }]);
+    return el("nav", { class: "onglets", "aria-label": "Catégories du parcours" }, [
+      el("ul", null, items.map(function (c) {
+        var a = el("a", { href: c.href, class: c.slug === "savoir" ? "onglet-savoir" : "" }, [c.type ? forme(c.type) : null, c.titre]);
+        if (c.slug === actif) a.setAttribute("aria-current", "page");
+        return el("li", null, [a]);
+      }))
+    ]);
+  }
+
+  // Liste lisible sans animation : du plus récent au plus ancien, comme le sommaire.
+  function etapeListe(e) {
+    return el("li", { class: "etape " + e.type + (e.important ? " important" : "") }, [
       el("a", { href: "#/parcours/" + e.id, class: "etape-lien" }, [
-        el("span", { class: "etape-texte" }, [
-          el("span", { class: "etape-type" }, [forme(e.type), LIBELLES[e.type]]),
-          el("span", { class: "etape-titre", text: b[0] }),
-          b[1] ? el("span", { class: "etape-sous", text: b[1] }) : null
-        ]),
-        v ? image(v, "etape-image") : null
+        forme(e.type),
+        el("span", { class: "etape-titre", text: bulle(e) }),
+        el("span", { class: "visuellement-cache", text: " (" + LIBELLES[e.type] + (e.important ? ", élément marquant" : "") + ")" })
       ])
     ]);
   }
 
   function pageParcours(cat) {
     var etapes = cat ? ordre.filter(function (e) { return e.type === cat.type; }) : ordre;
-    var onglets = el("nav", { class: "onglets", "aria-label": "Catégories du parcours" }, [
-      el("ul", null, [{ slug: "", titre: "Tout" }].concat(CATEGORIES).map(function (c) {
-        var a = el("a", { href: "#/parcours" + (c.slug ? "/" + c.slug : "") }, [c.type ? forme(c.type) : null, c.titre]);
-        if ((cat && cat.slug === c.slug) || (!cat && !c.slug)) a.setAttribute("aria-current", "page");
-        return el("li", null, [a]);
-      }))
+    var spirale = window.Spirale ? window.Spirale.creer({
+      items: etapes.map(function (e) {
+        return { id: e.id, titre: bulle(e), href: "#/parcours/" + e.id, type: e.type, important: !!e.important, libelle: LIBELLES[e.type] };
+      }),
+      debut: REPERES.debut, fin: REPERES.fin, legende: legende()
+    }) : null;
+    var vueListe = el("div", { class: "frise-cadre", id: "parcours-liste" }, [
+      borne("fin"),
+      el("ol", { class: "frise", reversed: "" }, etapes.slice().reverse().map(etapeListe)),
+      borne("debut")
     ]);
+    var bascule = el("button", { type: "button", class: "bouton secondaire vue-bascule", "aria-controls": "parcours-liste" });
+    function afficher() {
+      var liste = ETAT_VUE.liste || !spirale;
+      vueListe.hidden = !liste;
+      if (spirale) spirale.noeud.hidden = liste;
+      bascule.hidden = !spirale;
+      bascule.textContent = liste ? "Voir la spirale" : "Voir en liste";
+      bascule.setAttribute("aria-expanded", String(liste));
+    }
+    bascule.addEventListener("click", function () {
+      ETAT_VUE.liste = !ETAT_VUE.liste; afficher();
+      if (spirale && !ETAT_VUE.liste) spirale.actualiser();
+    });
+    afficher();
+    spiraleAttente = spirale;
     return [
       retour("/", "Accueil"),
       entete(cat ? "Parcours · " + cat.titre : "Parcours"),
-      onglets,
-      el("div", { class: "frise-cadre" }, [
-        borne("debut"),
-        el("ol", { class: "frise" }, etapes.map(etapeFrise)),
-        borne("fin")
-      ]),
+      onglets(cat ? cat.slug : ""),
+      el("p", { class: "vue-choix" }, [bascule]),
+      spirale ? spirale.noeud : null,
+      vueListe,
       el("p", { class: "suite" }, [el("a", { href: "#/realisations", text: "Réalisations marquantes →" })])
+    ];
+  }
+
+  /* ---------- Savoir - formations : onglet séparé, hors spirale ---------- */
+  function pageSavoir() {
+    return [
+      retour("/", "Accueil"),
+      entete(SAVOIR, "Formations suivies, titre professionnel et certification, regroupés hors de la spirale du parcours."),
+      onglets("savoir"),
+      el("ol", { class: "savoir-liste", reversed: "" }, formations.slice().reverse().map(function (e) {
+        return el("li", { class: "savoir-item formation" + (e.important ? " important" : "") }, [
+          el("a", { href: "#/parcours/" + e.id }, [
+            forme("formation"),
+            el("span", { class: "savoir-titre", text: bulle(e) }),
+            e.important ? el("span", { class: "visuellement-cache", text: " (élément marquant)" }) : null
+          ])
+        ]);
+      }))
     ];
   }
 
   /* ---------- Parcours : sommaire et fiche ---------- */
   var ETAT_SOMMAIRE = { defilement: 0 };
 
+  // Sommaire vertical : plus récent en haut, naissance en bas.
   function sommaire(actif) {
-    var rang = ordre.indexOf(actif) + 1;
+    var suite = suiteDe(actif), estSavoir = actif.type === "formation";
+    var rang = suite.indexOf(actif) + 1;
     var corps = el("div", { class: "sommaire-corps", id: "sommaire-corps" }, [
-      borne("debut"),
-      el("ol", { class: "sommaire-liste" }, ordre.map(function (e) {
-        var b = bulle(e);
+      borne("fin"),
+      el("ol", { class: "sommaire-liste", reversed: "" }, suite.slice().reverse().map(function (e) {
         var a = el("a", { href: "#/parcours/" + e.id }, [
           forme(e.type),
-          el("span", { class: "sommaire-texte" }, [
-            el("span", { class: "sommaire-titre", text: b[0] }),
-            b[1] ? el("span", { class: "sommaire-sous", text: b[1] }) : null
-          ])
+          el("span", { class: "sommaire-texte" }, [el("span", { class: "sommaire-titre", text: bulle(e) })])
         ]);
-        a.setAttribute("aria-label", b[0] + (b[1] ? ", " + b[1] : "") + " (" + LIBELLES[e.type] + ")");
+        a.setAttribute("aria-label", bulle(e) + " (" + LIBELLES[e.type] + (e.important ? ", élément marquant" : "") + ")");
         if (e === actif) a.setAttribute("aria-current", "page");
-        return el("li", { class: e.type }, [a]);
+        return el("li", { class: e.type + (e.important ? " important" : "") }, [a]);
       })),
-      borne("fin")
+      borne("debut")
     ]);
     var bascule = el("button", { type: "button", class: "sommaire-bascule", "aria-expanded": "false", "aria-controls": "sommaire-corps" }, [
-      el("span", { class: "sommaire-rang", text: rang + " / " + ordre.length }),
-      el("span", { class: "sommaire-actif", text: bulle(actif)[0] }),
+      el("span", { class: "sommaire-rang", text: rang + " / " + suite.length }),
+      el("span", { class: "sommaire-actif", text: bulle(actif) }),
       el("span", { class: "sommaire-ouvrir", text: "Sommaire" })
     ]);
     bascule.addEventListener("click", function () { basculerSommaire(); });
-    return el("nav", { class: "sommaire", id: "sommaire", "aria-label": "Sommaire du parcours" }, [
-      el("p", { class: "sommaire-tete" }, [el("a", { href: "#/parcours", text: "Parcours" }), el("span", { text: " · " + ordre.length + " étapes" })]),
+    return el("nav", { class: "sommaire", id: "sommaire", "aria-label": estSavoir ? "Sommaire des formations" : "Sommaire du parcours" }, [
+      el("p", { class: "sommaire-tete" }, [
+        el("a", { href: estSavoir ? "#/savoir-formations" : "#/parcours", text: estSavoir ? SAVOIR : "Parcours" }),
+        el("span", { text: " · " + suite.length + (estSavoir ? " formations" : " étapes") })
+      ]),
       bascule, corps
     ]);
   }
@@ -285,7 +341,7 @@
     var comps = (e.competences || []).filter(function (id) { return compId[id]; });
     var gouts = interetsDe(e);
     var fiche = el("div", { class: "fiche fiche-" + e.type }, [
-      retour(parent, /^\/parcours/.test(parent) ? "Parcours" : "Retour"),
+      retour(parent, /^\/parcours/.test(parent) ? "Parcours" : parent === "/savoir-formations" ? SAVOIR : "Retour"),
       el("header", { class: "fiche-tete " + e.type }, [
         el("p", { class: "fiche-type" }, [forme(e.type), LIBELLES[e.type]]),
         el("h1", { id: "fiche-titre", tabindex: "-1", text: e.titre }),
@@ -420,10 +476,14 @@
       if (catSlug[m[1]]) return { rubrique: "parcours", titre: "Parcours · " + catSlug[m[1]].titre, rendu: pageParcours(catSlug[m[1]]), liste: true };
       var e = parId[m[1]];
       if (e) {
-        var parent = listeOrigine && /^\/(parcours|competence|realisations|interets)/.test(listeOrigine) ? listeOrigine : "/parcours";
-        return { rubrique: "parcours", titre: e.titre, rendu: ficheParcours(e, parent), detail: true, fiche: true };
+        var savoir = e.type === "formation";
+        // Une formation ne revient jamais vers la spirale, qui ne la contient pas.
+        var origineValide = listeOrigine && (savoir ? /^\/(savoir-formations|competence|realisations|interets)/ : /^\/(parcours|competence|realisations|interets)/).test(listeOrigine);
+        var parent = origineValide ? listeOrigine : savoir ? "/savoir-formations" : "/parcours";
+        return { rubrique: savoir ? "savoir" : "parcours", titre: e.titre, rendu: ficheParcours(e, parent), detail: true, fiche: true };
       }
     }
+    if (h === "/savoir-formations") return { rubrique: "savoir", titre: SAVOIR, rendu: pageSavoir(), liste: true };
     if (h === "/competences") return { rubrique: "competences", titre: "Compétences", rendu: pageCompetences(), liste: true };
     if ((m = h.match(/^\/competence\/([\w-]+)$/)) && compId[m[1]]) return { rubrique: "competences", titre: compId[m[1]].titre, rendu: ficheCompetence(compId[m[1]]), liste: true, detail: true };
     if (h === "/interets") return { rubrique: "interets", titre: "Intérêts", rendu: pageInterets(), liste: true };
@@ -445,9 +505,15 @@
     if (Object.prototype.hasOwnProperty.call(ANCIENNES, h)) { history.replaceState(null, "", "#" + ANCIENNES[h]); h = ANCIENNES[h]; }
     // Ancienne page Contact : les actions sont désormais sur l’accueil, sans page intermédiaire.
     if (h === "/contact") { history.replaceState(null, "", "#/"); h = "/"; versContact = true; }
-    if ((m = h.match(/^\/parcours\/([\w-]+)$/)) && Object.prototype.hasOwnProperty.call(ALIAS, m[1])) {
-      h = "/parcours/" + ALIAS[m[1]]; history.replaceState(null, "", "#" + h);
+    if ((m = h.match(/^\/parcours\/([\w-]+)$/))) {
+      // Anciennes routes : fiche fusionnée, ancien onglet Savoir, fiches retirées (Enfance, Adolescence).
+      var cible = Object.prototype.hasOwnProperty.call(ALIAS, m[1]) ? "/parcours/" + ALIAS[m[1]]
+        : m[1] === "savoir" ? "/savoir-formations"
+        : RETIREES.indexOf(m[1]) !== -1 ? "/parcours" : null;
+      if (cible) { h = cible; history.replaceState(null, "", "#" + h); }
     }
+    if (spiraleActive) { spiraleActive.arreter(); spiraleActive = null; }
+    spiraleAttente = null;
     var r = resoudre(h);
     if (!r) { history.replaceState(null, "", "#/"); h = "/"; r = resoudre(h); }
     var precedente = routeCourante, deFiche = /^\/parcours\/[\w-]+$/.test(precedente) && $("sommaire-corps");
@@ -469,9 +535,12 @@
     r.rendu.forEach(function (n) { if (n) vue.appendChild(n); });
     accueil.hidden = true; vue.hidden = false;
     document.title = r.titre + " · Alain Ferro";
+    if (spiraleAttente) { spiraleActive = spiraleAttente; spiraleAttente = null; spiraleActive.demarrer(); }
 
-    // De retour sur une liste : on replace le focus sur le lien de la fiche quittée.
-    var lien = r.liste && dernierDetail ? vue.querySelector("a[href='#" + dernierDetail + "']") : null;
+    // De retour sur une liste : on replace le focus sur le lien visible de la fiche quittée.
+    var lien = r.liste && dernierDetail ? Array.prototype.filter.call(vue.querySelectorAll("a[href='#" + dernierDetail + "']"), function (a) {
+      return a.getClientRects().length > 0;
+    })[0] : null;
     if (lien) { lien.scrollIntoView({ block: "center" }); lien.focus({ preventScroll: true }); }
     else {
       if (!r.fiche || !deFiche) ETAT_SOMMAIRE.defilement = 0;
@@ -509,6 +578,9 @@
   function mesurerBandeau() { document.documentElement.style.setProperty("--bandeau", $("bandeau").offsetHeight + "px"); }
   window.addEventListener("resize", mesurerBandeau);
   mesurerBandeau();
+
+  // Contrôle de géométrie de la spirale affichée (recette) : marge minimale entre bulles, toute rotation.
+  window.CVControleSpirale = function () { return spiraleActive ? spiraleActive.controle() : null; };
 
   window.addEventListener("hashchange", router);
   router();

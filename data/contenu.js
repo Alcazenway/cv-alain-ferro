@@ -1,7 +1,10 @@
-/* Contenu du site v2.0 (6 novembre 2026). Construit depuis la v1.9 par le script de l’atelier.
+/* Contenu du site v2.1 (6 novembre 2026). Repris de la v2.0.
    Le parcours est rangé du plus ancien au plus récent (l’ordre du tableau fait foi, comme la frise du PDF) ;
-   aucune date intermédiaire affichée. « bulle » : deux lignes du sommaire et de la frise.
+   aucune date intermédiaire affichée. « bulle » : titre seul des bulles de la spirale et du sommaire.
+   « important » : six éléments mis en avant par une teinte plus foncée.
+   Les fiches de type « formation » forment l’onglet « Savoir - formations », hors spirale.
    « alias » : anciennes fiches redirigées (Responsable soins adjoint fusionné dans thermes-responsable).
+   « retirees » : fiches supprimées en v2.1 (Enfance, Adolescence), redirigées vers le parcours.
    Ajouter une photo : déposer un fichier WebP dans assets/photos/ puis ajouter à la fiche
    galerie: [{src: "assets/photos/nom.webp", alt: "Description précise", legende: "Texte visible"}]
    Une vidéo : {video: "assets/videos/nom.mp4", poster: "assets/videos/nom.webp", alt: "…", legende: "…"}
@@ -22,7 +25,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV_Alain_Ferro.pdf?v=2.0",
+    "cvPdf": "./CV_Alain_Ferro.pdf?v=2.1",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nJ’ai consulté votre CV en ligne et votre parcours m’intéresse pour un poste de [intitulé du poste] au sein de [entreprise], à [lieu].\n\nJe vous propose un entretien [proposition de date et d’horaire], en présentiel ou par téléphone.\n\nCordialement,\n\n[Prénom Nom]\n[Fonction] · [Entreprise]\n[Téléphone]"
@@ -466,104 +469,6 @@ window.CV = {
   ],
   "parcours": [
     {
-      "id": "enfance",
-      "type": "formation",
-      "titre": "Enfance · Premiers apprentissages",
-      "titreCourt": "Enfance",
-      "bulle": [
-        "Enfance",
-        "Lire · Écrire · Compter"
-      ],
-      "lieu": "",
-      "generale": true,
-      "resume": "L’école, les premiers apprentissages et les règles de la vie commune.",
-      "missions": [
-        "Lecture et écriture.",
-        "Français et mathématiques.",
-        "Respect des autres et savoir-vivre."
-      ],
-      "competences": [],
-      "apports": [
-        "Lecture",
-        "Écriture",
-        "Français",
-        "Mathématiques",
-        "Savoir-vivre"
-      ]
-    },
-    {
-      "id": "adolescence",
-      "type": "formation",
-      "titre": "Adolescence · Autonomie et méthode",
-      "titreCourt": "Adolescence",
-      "bulle": [
-        "Adolescence",
-        "Autonomie · Méthode"
-      ],
-      "lieu": "",
-      "generale": true,
-      "resume": "Plus d’autonomie, une méthode de travail, la vie collective et la découverte de centres d’intérêt.",
-      "missions": [
-        "Autonomie dans le travail.",
-        "Méthode de travail.",
-        "Vie collective.",
-        "Découverte de centres d’intérêt."
-      ],
-      "competences": [],
-      "apports": [
-        "Autonomie",
-        "Méthode de travail",
-        "Vie collective"
-      ]
-    },
-    {
-      "id": "jeunesse",
-      "type": "personnel",
-      "titre": "Jeunesse · Football, piano, sciences",
-      "titreCourt": "Jeunesse · Football · Piano · Sciences",
-      "lieu": "",
-      "resume": "Sport collectif, musique et curiosité scientifique depuis l’enfance.",
-      "contexte": "Football pratiqué pendant quinze ans, piano en amateur et intérêt durable pour l’astronomie et la physique.",
-      "missions": [
-        "Football en club.",
-        "Piano en amateur.",
-        "Lectures et contenus scientifiques : astronomie, physique."
-      ],
-      "competences": [],
-      "apports": [
-        "Esprit d’équipe",
-        "Persévérance",
-        "Curiosité"
-      ],
-      "transfert": "Le goût d’apprendre par soi-même, et une longue habitude du collectif.",
-      "galerie": [
-        {
-          "src": "assets/photos/selection/selection-031.webp",
-          "alt": "Découverte de formations rocheuses",
-          "legende": "Découverte de formations rocheuses"
-        },
-        {
-          "src": "assets/photos/selection/selection-032.webp",
-          "alt": "Curiosité et découvertes en voyage",
-          "legende": "Curiosité et découvertes en voyage"
-        },
-        {
-          "src": "assets/photos/selection/selection-033.webp",
-          "alt": "Visite d’un espace de médiation scientifique",
-          "legende": "Visite d’un espace de médiation scientifique"
-        },
-        {
-          "src": "assets/photos/selection/selection-034.webp",
-          "alt": "Piano et mécanique de l’instrument",
-          "legende": "Piano et mécanique de l’instrument"
-        }
-      ],
-      "bulle": [
-        "Jeunesse",
-        "Football · Piano · Sciences"
-      ]
-    },
-    {
       "id": "vendanges",
       "type": "experience",
       "titre": "Vendanges · Muscat",
@@ -583,8 +488,7 @@ window.CV = {
       ],
       "transfert": "Habitude des cadences collectives et des délais imposés par la saison : la récolte n’attend pas.",
       "bulle": [
-        "Vendanges",
-        "Muscat"
+        "Vendanges"
       ]
     },
     {
@@ -609,8 +513,7 @@ window.CV = {
       ],
       "transfert": "Associer un conseil adapté à chaque client et une exécution technique rapide, en période d’affluence.",
       "bulle": [
-        "Skiman",
-        "Bonascre"
+        "Skiman"
       ]
     },
     {
@@ -765,8 +668,7 @@ window.CV = {
         }
       ],
       "bulle": [
-        "Simulation de vol",
-        "Airbus · Boeing · Avions légers"
+        "Simulation de vol"
       ]
     },
     {
@@ -789,8 +691,7 @@ window.CV = {
       ],
       "transfert": "Socle commercial qui a conduit directement à la formation en alternance dans le courtage en vins.",
       "bulle": [
-        "Baccalauréat",
-        "STT"
+        "Baccalauréat STT"
       ]
     },
     {
@@ -798,8 +699,9 @@ window.CV = {
       "type": "formation",
       "titre": "Formation BTS commercial",
       "titreCourt": "Formation BTS · Commercial",
+      "important": true,
       "lieu": "Sup’Exup, Montpellier",
-      "resume": "Formation en communication commerciale, en alternance avec le courtage en vins.",
+      "resume": "Formation suivie en communication commerciale, en alternance avec le courtage en vins.",
       "contexte": "Deux années de formation en alternance, l’entreprise d’accueil étant un courtier en vins de Saint-Christol.",
       "missions": [
         "Cours de communication et de négociation commerciales.",
@@ -815,8 +717,7 @@ window.CV = {
       ],
       "transfert": "Une formation appliquée immédiatement sur le terrain, auprès de producteurs et de négociants.",
       "bulle": [
-        "Formation BTS",
-        "Commercial"
+        "BTS commercial"
       ]
     },
     {
@@ -842,8 +743,7 @@ window.CV = {
       ],
       "transfert": "Premier apprentissage de l’intermédiation commerciale : écouter les deux parties et assurer un suivi fiable.",
       "bulle": [
-        "Apprenti courtier",
-        "Vins"
+        "Apprenti courtier"
       ]
     },
     {
@@ -871,15 +771,15 @@ window.CV = {
       ],
       "transfert": "S’adapter vite à des organisations différentes et garder une qualité de service constante.",
       "bulle": [
-        "Londres",
-        "Restauration · Sondages"
+        "Londres"
       ]
     },
     {
       "id": "bateau",
       "type": "personnel",
-      "titre": "Bateau bois 11 m · Rénovation",
-      "titreCourt": "Bateau bois · 11 m · Rénovation",
+      "titre": "Rénovation Bateau bois 11 m",
+      "titreCourt": "Rénovation Bateau bois 11 m",
+      "important": true,
       "lieu": "",
       "resume": "Trois ans de chantier sur une coque à clin.",
       "contexte": "Rénovation du Wyjume, un bateau en bois de 11 mètres à coque à clin. Ce chantier a mobilisé la préparation, l’organisation des travaux et une pratique directe de plusieurs techniques. Les photos personnelles montrent notamment le carénage, les boiseries, le ponçage et le tableau électrique.",
@@ -968,15 +868,15 @@ window.CV = {
         }
       ],
       "bulle": [
-        "Bateau bois · 11 m",
-        "Rénovation"
+        "Rénovation Bateau bois 11 m"
       ]
     },
     {
       "id": "negoce",
       "type": "experience",
-      "titre": "Créateur gérant · Négoce B2B",
-      "titreCourt": "Entrepreneur · Négoce B2B",
+      "titre": "Créateur gérant · Négoce B2B Truffes",
+      "titreCourt": "Créateur gérant · Négoce B2B Truffes",
+      "important": true,
       "lieu": "Saveurs Européennes Culinaires, Balaruc-les-Bains",
       "resume": "Achat et vente de truffes, champignons et produits dérivés auprès de la restauration gastronomique.",
       "contexte": "Entreprise créée et gérée pendant sept ans : toute la chaîne, de l’achat auprès des fournisseurs à la livraison des restaurants clients.",
@@ -1110,8 +1010,7 @@ window.CV = {
         }
       ],
       "bulle": [
-        "Entrepreneur",
-        "Négoce B2B"
+        "Créateur gérant · Négoce B2B Truffes"
       ]
     },
     {
@@ -1136,8 +1035,7 @@ window.CV = {
       ],
       "transfert": "Organisation autonome d’un secteur et suivi régulier des clients.",
       "bulle": [
-        "Agent commercial",
-        "Vins"
+        "Agent commercial"
       ]
     },
     {
@@ -1164,8 +1062,7 @@ window.CV = {
       ],
       "transfert": "Suivre plusieurs dossiers en parallèle, chacun avec ses interlocuteurs et ses échéances.",
       "bulle": [
-        "Conseiller",
-        "Immobilier"
+        "Conseiller immobilier"
       ]
     },
     {
@@ -1191,15 +1088,15 @@ window.CV = {
       ],
       "transfert": "La connaissance du terrain qui a ensuite servi à organiser le travail des équipes.",
       "bulle": [
-        "Agent de soins",
-        "Thermaux"
+        "Agent de soins"
       ]
     },
     {
       "id": "thermes-responsable",
       "type": "experience",
       "titre": "Responsable d’équipe soignant",
-      "titreCourt": "Responsable d’équipe · Soignant",
+      "titreCourt": "Responsable d’équipe soignant",
+      "important": true,
       "lieu": "Thermes de Balaruc-les-Bains",
       "resume": "Encadrement de 30 à 40 agents et kinésithérapeutes, planification et suivi de l’activité.",
       "contexte": "Évolution interne après un an comme agent de soins : d’abord responsable soins adjoint, en appui du responsable soins, puis responsable soins pendant huit années.",
@@ -1235,8 +1132,7 @@ window.CV = {
       ],
       "transfert": "Passer du rôle d’équipier à celui de référent, puis organiser le travail de nombreuses personnes, tenir des plannings, faire remonter et circuler l’information : ce sont les bases des postes d’assistant de planification, d’assistant de gestion ou d’appui administratif RH.",
       "bulle": [
-        "Responsable d’équipe",
-        "Soignant"
+        "Responsable d’équipe soignant"
       ]
     },
     {
@@ -1286,8 +1182,7 @@ window.CV = {
         }
       ],
       "bulle": [
-        "Montage",
-        "Informatique"
+        "Montage PC"
       ]
     },
     {
@@ -1416,8 +1311,7 @@ window.CV = {
         }
       ],
       "bulle": [
-        "Travaux",
-        "Habitation"
+        "Travaux habitation"
       ]
     },
     {
@@ -1459,8 +1353,7 @@ window.CV = {
         }
       ],
       "bulle": [
-        "GED · GMAO",
-        "SST · Secours"
+        "GED · GMAO"
       ]
     },
     {
@@ -1482,8 +1375,7 @@ window.CV = {
       ],
       "transfert": "Apprendre seul un domaine technique nouveau.",
       "bulle": [
-        "Blockchains",
-        "Exploration"
+        "Blockchains"
       ]
     },
     {
@@ -1505,8 +1397,7 @@ window.CV = {
       ],
       "transfert": "Réflexes de prévention et de sécurité au sein d’une équipe.",
       "bulle": [
-        "Sauveteur secouriste",
-        "SST"
+        "Sauveteur secouriste"
       ]
     },
     {
@@ -1605,8 +1496,7 @@ window.CV = {
         }
       ],
       "bulle": [
-        "Jardinage",
-        "Course · Randonnée"
+        "Jardinage"
       ]
     },
     {
@@ -1630,7 +1520,6 @@ window.CV = {
       ],
       "transfert": "Mettre des méthodes sur une pratique d’encadrement de plusieurs années.",
       "bulle": [
-        "Formation",
         "Management"
       ]
     },
@@ -1655,7 +1544,6 @@ window.CV = {
       ],
       "transfert": "Savoir désamorcer une tension, avec des collègues comme avec du public.",
       "bulle": [
-        "Formation",
         "Gestion des conflits"
       ]
     },
@@ -1687,8 +1575,7 @@ window.CV = {
       ],
       "transfert": "Première immersion dans les outils et le rythme d’un cabinet comptable.",
       "bulle": [
-        "Stage comptable",
-        "Audit Conseil"
+        "Stage cabinet comptable"
       ]
     },
     {
@@ -1721,8 +1608,7 @@ window.CV = {
       ],
       "transfert": "Les opérations comptables courantes pratiquées sur des dossiers réels.",
       "bulle": [
-        "Stage comptable",
-        "Cecosud 34"
+        "Stage comptable assistant"
       ]
     },
     {
@@ -1746,8 +1632,7 @@ window.CV = {
       ],
       "transfert": "Le cadre comptable qui complète l’expérience de gestion acquise dans le négoce.",
       "bulle": [
-        "Titre professionnel",
-        "Comptable assistant"
+        "Titre Comptable assistant"
       ]
     },
     {
@@ -1771,8 +1656,7 @@ window.CV = {
       ],
       "transfert": "Des tableaux de suivi fiables et des tâches répétitives automatisées.",
       "bulle": [
-        "Excel avancé",
-        "Tosa · 850/1000"
+        "Tosa Excel avancé"
       ]
     },
     {
@@ -1841,8 +1725,7 @@ window.CV = {
         }
       ],
       "bulle": [
-        "BarySense",
-        "Suivi du café"
+        "BarySense"
       ]
     },
     {
@@ -1939,8 +1822,7 @@ window.CV = {
         }
       ],
       "bulle": [
-        "Knockin ever Door",
-        "CRM candidatures"
+        "Knockin ever Door"
       ]
     },
     {
@@ -1948,6 +1830,7 @@ window.CV = {
       "type": "personnel",
       "titre": "SkyLivra · Créations / Simulation aérienne",
       "titreCourt": "SkyLivra · Créations / Simulation aérienne",
+      "important": true,
       "lieu": "",
       "resume": "Direction artistique, cadrage et pilotage avec l’IA de créations et d’outils pour la simulation de vol.",
       "contexte": "Je définis les besoins, fournis les références, pilote les assistants IA et contrôle les résultats dans le simulateur. Les IA produisent le code technique ; je garde la direction fonctionnelle et artistique.",
@@ -2251,17 +2134,17 @@ window.CV = {
         }
       ],
       "bulle": [
-        "SkyLivra",
-        "Créations / Simulation aérienne"
+        "SkyLivra"
       ]
     },
     {
       "id": "outils-ia",
       "type": "personnel",
-      "titre": "Outils IA · Organisation",
-      "titreCourt": "Outils IA · Organisation",
-      "lieu": "Méthodes de travail et continuité des projets",
-      "resume": "Consignes communes, dossiers de référence et documents de reprise.",
+      "titre": "Intégration IA",
+      "titreCourt": "Intégration IA",
+      "important": true,
+      "lieu": "Méthodes de travail et continuité des projets personnels",
+      "resume": "Intégrer des assistants IA dans des projets suivis : consignes communes, dossiers de référence et documents de reprise.",
       "contexte": "Pour faire travailler plusieurs assistants IA sur des projets suivis dans la durée, je structure des consignes communes et des documents de reprise.",
       "missions": [
         "Rédaction de consignes structurées communes.",
@@ -2288,8 +2171,50 @@ window.CV = {
       ],
       "transfert": "Les mêmes réflexes que pour une équipe : rôles clairs, consignes écrites, contrôle et traçabilité.",
       "bulle": [
-        "Outils IA",
-        "Organisation"
+        "Intégration IA"
+      ]
+    },
+    {
+      "id": "jeunesse",
+      "type": "personnel",
+      "titre": "Loisirs actuels",
+      "titreCourt": "Loisirs actuels",
+      "lieu": "",
+      "resume": "Piano, curiosité scientifique et découvertes : des loisirs pratiqués aujourd’hui.",
+      "contexte": "Piano en amateur et intérêt durable pour l’astronomie et la physique, nourri par des visites et des découvertes en voyage. Auparavant, football pratiqué pendant quinze ans.",
+      "missions": [
+        "Piano en amateur.",
+        "Lectures et contenus scientifiques : astronomie, physique.",
+        "Visites et découvertes en voyage.",
+        "Football en club pendant quinze ans."
+      ],
+      "competences": [],
+      "apports": [
+        "Esprit d’équipe",
+        "Persévérance",
+        "Curiosité"
+      ],
+      "transfert": "Le goût d’apprendre par soi-même, et une longue habitude du collectif.",
+      "galerie": [
+        {
+          "src": "assets/photos/selection/selection-031.webp",
+          "alt": "Découverte de formations rocheuses"
+        },
+        {
+          "src": "assets/photos/selection/selection-032.webp",
+          "alt": "Curiosité et découvertes en voyage"
+        },
+        {
+          "src": "assets/photos/selection/selection-033.webp",
+          "alt": "Visite d’un espace de médiation scientifique"
+        },
+        {
+          "src": "assets/photos/selection/selection-034.webp",
+          "alt": "Piano et mécanique de l’instrument"
+        }
+      ],
+      "bulle": [
+        "Loisirs actuels"
       ]
     }
   ],
@@ -2301,5 +2226,9 @@ window.CV = {
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"
-  }
+  },
+  "retirees": [
+    "enfance",
+    "adolescence"
+  ]
 };
