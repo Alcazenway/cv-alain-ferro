@@ -2,11 +2,11 @@
   "use strict";
   var D = window.CV;
   var SAVOIR = "Savoir - formations";
-  var LIBELLES = { experience: "Exp pro", formation: SAVOIR, personnel: "Projets perso" };
+  var LIBELLES = { experience: "Expériences professionnelles", formation: SAVOIR, personnel: "Projets personnels" };
   // Catégories de la spirale ; les formations ont leur propre onglet, hors spirale.
   var CATEGORIES = [
-    { slug: "exp-pro", type: "experience", titre: "Exp pro" },
-    { slug: "projets-perso", type: "personnel", titre: "Projets perso" }
+    { slug: "exp-pro", type: "experience", titre: "Expériences professionnelles" },
+    { slug: "projets-perso", type: "personnel", titre: "Projets personnels" }
   ];
   var catSlug = Object.create(null);
   CATEGORIES.forEach(function (c) { catSlug[c.slug] = c; });
@@ -113,7 +113,7 @@
   $("titre-pistes").textContent = D.pistes.titre;
   $("pistes-texte").textContent = D.pistes.texte;
   D.pistes.metiers.forEach(function (m) { $("metiers").appendChild(el("li", { text: m })); });
-  $("maj").textContent = "Version 2.2 · mise à jour : " + D.mentions.maj;
+  $("maj").textContent = "Version 2.3 · mise à jour : " + D.mentions.maj;
 
   /* ---------- Briques communes ---------- */
   function retour(parent, texte) {
@@ -138,8 +138,8 @@
   }
   function legende() {
     return el("ul", { class: "legende", "aria-label": "Légende" }, CATEGORIES.map(function (c) {
-      return el("li", { class: c.type }, [el("span", { class: "pastille " + c.type, "aria-hidden": "true" }, [forme(c.type)]), c.titre]);
-    }).concat([el("li", null, [el("span", { class: "pastille important", "aria-hidden": "true" }), "Élément marquant"])]));
+      return el("li", { class: c.type, text: c.titre });
+    }).concat([el("li", { class: "legende-important", text: "Élément marquant" })]));
   }
 
   function media(p) {
@@ -166,13 +166,13 @@
   var ETAT_VUE = { liste: false };
   var spiraleActive = null, spiraleAttente = null;
 
-  function onglets(actif) {
+  function onglets(actif, sansSavoir) {
     var items = [{ href: "#/parcours", slug: "", titre: "Tout" }]
-      .concat(CATEGORIES.map(function (c) { return { href: "#/parcours/" + c.slug, slug: c.slug, type: c.type, titre: c.titre }; }))
-      .concat([{ href: "#/savoir-formations", slug: "savoir", type: "formation", titre: SAVOIR }]);
+      .concat(CATEGORIES.map(function (c) { return { href: "#/parcours/" + c.slug, slug: c.slug, type: c.type, titre: c.titre }; }));
+    if (!sansSavoir) items.push({ href: "#/savoir-formations", slug: "savoir", type: "formation", titre: SAVOIR });
     return el("nav", { class: "onglets", "aria-label": "Catégories du parcours" }, [
       el("ul", null, items.map(function (c) {
-        var a = el("a", { href: c.href, class: c.slug === "savoir" ? "onglet-savoir" : "" }, [c.type ? forme(c.type) : null, c.titre]);
+        var a = el("a", { href: c.href, class: (c.type || "") + (c.slug === "savoir" ? " onglet-savoir" : "") }, [!sansSavoir && c.type ? forme(c.type) : null, c.titre]);
         if (c.slug === actif) a.setAttribute("aria-current", "page");
         return el("li", null, [a]);
       }))
@@ -183,7 +183,6 @@
   function etapeListe(e) {
     return el("li", { class: "etape " + e.type + (e.important ? " important" : "") }, [
       el("a", { href: "#/parcours/" + e.id, class: "etape-lien" }, [
-        forme(e.type),
         el("span", { class: "etape-titre", text: bulle(e) }),
         el("span", { class: "visuellement-cache", text: " (" + LIBELLES[e.type] + (e.important ? ", élément marquant" : "") + ")" })
       ])
@@ -219,9 +218,8 @@
     afficher();
     spiraleAttente = spirale;
     return [
-      retour("/", "Accueil"),
-      entete(cat ? "Parcours · " + cat.titre : "Parcours"),
-      onglets(cat ? cat.slug : ""),
+      el("h1", { id: "fiche-titre", class: "visuellement-cache", tabindex: "-1", text: cat ? "Parcours · " + cat.titre : "Parcours" }),
+      onglets(cat ? cat.slug : "", true),
       el("p", { class: "vue-choix" }, [bascule]),
       spirale ? spirale.noeud : null,
       vueListe,
@@ -521,6 +519,8 @@
     routeCourante = h;
     marquerRubrique(r.rubrique);
     document.body.classList.toggle("sur-accueil", !r.rendu);
+    document.body.classList.toggle("sur-parcours", /^\/parcours(?:\/(?:exp-pro|projets-perso))?$/.test(h));
+    mesurerBandeau();
 
     if (!r.rendu) {
       vue.hidden = true; vue.textContent = ""; accueil.hidden = false;

@@ -1,11 +1,39 @@
-/* Spirale du parcours — CV Intelligent v2.2, habillage « galaxie ».
+/* Spirale du parcours — CV Intelligent v2.3, « Parcours plein ciel ».
    Positions calculées par spirale.js ; libellés toujours horizontaux. Les tailles de bulles sont mesurées par le JS :
    aucune position n’est codée ici. La surface défile horizontalement sur petit écran, sans réduire la police.
-   Thème sombre limité au cadre .spirale : le reste du site, la vue liste et l’impression gardent leur style clair.
-   Contraste : texte presque blanc sur verre sombre opaque à 88 % et plus, lisible même sur les étoiles les plus claires. */
+   1. Barre supérieure agrandie sur tout le site (marque ≈ 24 px, liens ≈ 19 px sur PC).
+   2. Base de la spirale (cadre sombre v2.2), conservée comme repli si la classe de route manque.
+   3. Thème « plein ciel » : uniquement sous body.sur-parcours (Parcours, filtres, liste), à l’écran seulement.
+      Fond étoilé fixe sur toute la fenêtre, panneaux neutralisés pour une galaxie continue.
+   Catégories : couleur seule (turquoise / violet), plus aucun rond ni carré ; libellés accessibles inchangés (JS).
+   Aucune animation ajoutée, aucun backdrop-filter. */
 
-/* Teintes du thème, par catégorie : lumière (bordure, forme), verre (fond normal), nuit (fond des éléments marquants). */
-.spirale {
+/* ---------- 1. Barre supérieure : polices plus grandes, partout ---------- */
+.marque { font-size: 1.5rem; letter-spacing: -.015em; }
+.bandeau-in { gap: .35rem 2.25rem; min-height: 4.5rem; }
+.bandeau nav ul { gap: .2rem 1.9rem; }
+.bandeau nav a { font-size: 1.2rem; padding: .6rem 0; }
+.bandeau-entretien { font-size: 1rem; min-height: 44px; }
+@media (max-width: 1180px) {
+  .bandeau-in { gap: .35rem 1.5rem; }
+  .bandeau nav ul { gap: .2rem 1.4rem; }
+  .bandeau nav a { font-size: 1.12rem; }
+}
+@media (max-width: 640px) {
+  .bandeau-in { gap: 0 .75rem; min-height: 0; }
+  .marque { font-size: 1.3rem; }
+  .bandeau nav ul { gap: 0 1.15rem; }          /* retour à la ligne autorisé : aucune rubrique masquée */
+  .bandeau nav a { font-size: 1.06rem; padding: .45rem 0; }
+  .bandeau-entretien { font-size: .9rem; min-height: 40px; }
+}
+@media (max-width: 359px) {
+  .marque { font-size: 1.18rem; }
+  .bandeau nav a { font-size: 1rem; }
+}
+
+/* ---------- 2. Spirale : base (cadre sombre, repli hors thème) ---------- */
+/* Teintes par catégorie : lumière (bordure), verre (fond normal), nuit (fond des éléments marquants), texte légèrement teinté. */
+.spirale, body.sur-parcours {
   --g-fond: #020407;
   --g-cadre: #06090D;
   --g-filet: rgba(255, 255, 255, .14);
@@ -15,11 +43,15 @@
   --g-lum: #E9EEF0;
   --g-verre: rgba(10, 14, 18, .88);
   --g-nuit: rgba(1, 2, 4, .97);
+  --g-encre: #F3F6F7;
 }
-.spirale .experience { --g-lum: #63D5D8; --g-verre: rgba(4, 30, 33, .88); --g-nuit: rgba(0, 10, 12, .97); --g-halo: rgba(99, 213, 216, .38); }
-.spirale .personnel { --g-lum: #C6A9DE; --g-verre: rgba(28, 16, 38, .88); --g-nuit: rgba(8, 2, 13, .97); --g-halo: rgba(198, 169, 222, .38); }
+.spirale .experience, body.sur-parcours .experience {
+  --g-lum: #63D5D8; --g-verre: rgba(4, 38, 42, .9); --g-nuit: rgba(0, 10, 12, .97); --g-halo: rgba(99, 213, 216, .4); --g-encre: #DDF6F7; --g-titre: #8EE3E6;
+}
+.spirale .personnel, body.sur-parcours .personnel {
+  --g-lum: #C6A9DE; --g-verre: rgba(36, 20, 50, .9); --g-nuit: rgba(8, 2, 13, .97); --g-halo: rgba(198, 169, 222, .4); --g-encre: #F1E8F8; --g-titre: #D9C4EC;
+}
 
-/* Cadre sombre arrondi : commandes, légende, statut et fenêtre de la galaxie */
 .spirale {
   margin: 0 0 1.5rem; padding: 1rem 1rem 1.1rem; color: var(--g-texte);
   background: radial-gradient(120% 80% at 50% 0%, #0B1116 0%, var(--g-cadre) 55%, var(--g-fond) 100%);
@@ -32,78 +64,84 @@
 .spirale-bouton {
   display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: .4rem 1.15rem;
   font: inherit; font-size: .95rem; font-weight: 700; color: var(--g-texte); cursor: pointer;
-  background: rgba(255, 255, 255, .06); border: 1.5px solid rgba(255, 255, 255, .42); border-radius: 999px;
+  background: rgba(8, 12, 16, .82); border: 1.5px solid rgba(255, 255, 255, .45); border-radius: 999px;
   transition: background-color var(--duree) ease, color var(--duree) ease, border-color var(--duree) ease;
 }
 .spirale-bouton:hover, .spirale-bouton:focus-visible { background: var(--g-texte); border-color: var(--g-texte); color: var(--g-fond); }
 .spirale-bouton:disabled, .spirale-bouton:disabled:hover {
-  opacity: .38; cursor: default; background: rgba(255, 255, 255, .06); border-color: rgba(255, 255, 255, .42); color: var(--g-texte);
+  opacity: .38; cursor: default; background: rgba(8, 12, 16, .82); border-color: rgba(255, 255, 255, .45); color: var(--g-texte);
 }
 .spirale-bouton.zoom { padding: 0; font-size: 1.3rem; line-height: 1; }
 .spirale-zooms { display: inline-flex; align-items: center; gap: .4rem; }
 .spirale-zoom { min-width: 3.6rem; text-align: center; font-size: .9rem; color: var(--g-doux); font-variant-numeric: tabular-nums; }
 
-/* Légende accordée au thème (mêmes pastilles que les bulles) */
-.spirale .legende { margin: 0 0 .45rem; color: var(--g-texte); }
-.spirale .pastille { background: var(--g-verre); border: 1px solid var(--g-lum); }
-.spirale .pastille .forme { background: var(--g-lum); }
-.spirale .pastille.important { background: #000; border: 1.5px solid #fff; box-shadow: 0 0 7px rgba(255, 255, 255, .45); }
+/* Légende : texte coloré par catégorie, élément marquant en capsule noire au liseré blanc ; aucun symbole. */
+.spirale .legende { margin: 0 0 .5rem; gap: .45rem 1.4rem; color: var(--g-texte); font-size: .95rem; }
+.spirale .legende li.experience, .spirale .legende li.personnel { color: var(--g-titre); font-weight: 700; }
+.spirale .legende li.legende-important {
+  padding: .12rem .7rem; color: #fff; font-weight: 800; background: #000;
+  border: 1.5px solid rgba(255, 255, 255, .85); border-radius: 999px; box-shadow: 0 0 8px rgba(255, 255, 255, .35);
+}
+.spirale .legende .pastille, .spirale .legende .forme { display: none; } /* sécurité si un ancien marqueur subsiste */
 .spirale-statut { margin: 0 0 .7rem; font-size: .88rem; color: var(--g-doux); }
 
-/* Fenêtre : fond noir continu, défilement horizontal contenu dans le cadre */
+/* Fenêtre et scène */
 .spirale-fenetre {
   overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; margin: 0; padding: 0;
   background: #000; border-radius: 16px; box-shadow: inset 0 0 0 1px var(--g-filet);
   scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, .35) transparent;
 }
 .spirale-taille { position: relative; margin: 0 auto; }
-/* La scène coupe les coins de l’image en rotation : la surface défilable ne varie pas et le noir reste continu. */
+/* La scène coupe les coins de l’image en rotation : la surface défilable ne varie pas. */
 .spirale-scene {
   position: absolute; left: 0; top: 0; transform-origin: 0 0; overflow: hidden;
   background: radial-gradient(closest-side, #0A0D12 0%, #030406 60%, #000 100%);
 }
-/* Fond galaxie (image insérée par spirale.js, même rotation que le tracé) */
+/* Galaxie tournante (insérée par spirale.js). Masque circulaire invariant par rotation : le bord carré de l’image
+   ne se voit jamais et la galaxie se fond dans le ciel de la page. Masque statique, calculé une fois avec la couche. */
 .spirale-galaxie {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
   pointer-events: none; user-select: none; transform-origin: 50% 50%; will-change: transform;
-  opacity: .84; /* étoiles un peu atténuées : contraste des bulles renforcé, sans filtre coûteux */
+  opacity: .84;
+  -webkit-mask-image: radial-gradient(circle closest-side at 50% 50%, #000 68%, rgba(0, 0, 0, 0) 99%);
+  mask-image: radial-gradient(circle closest-side at 50% 50%, #000 68%, rgba(0, 0, 0, 0) 99%);
 }
 
-/* Chemin chronologique : trait continu très fin ; le second bras décoratif s’efface devant les bras de la galaxie. */
+/* Chemin chronologique : trait continu très fin ; second bras décoratif masqué. */
 .spirale-trace { position: absolute; left: 0; top: 0; pointer-events: none; }
 .spirale-bras { fill: none; stroke: rgba(186, 236, 238, .30); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
 .spirale-halo { display: none; }
 
-/* Bulles : verre sombre compact, texte blanc net, nuance de catégorie en bordure et dans la forme */
+/* Bulles : verre sombre teinté, bordure et texte nuancés par catégorie ; aucune forme devant le titre. */
 .spirale-liste { position: absolute; left: 0; top: 0; margin: 0; padding: 0; }
 .spirale-noeud { position: absolute; left: 0; top: 0; width: max-content; pointer-events: none; will-change: transform; }
 .spirale-bulle {
-  display: inline-flex; align-items: center; width: max-content; max-width: 11rem; min-height: 40px; padding: .38rem .8rem;
-  pointer-events: auto; color: var(--g-texte); text-decoration: none;
+  display: inline-flex; align-items: center; width: max-content; max-width: 11rem; min-height: 40px; padding: .38rem .85rem;
+  pointer-events: auto; color: var(--g-encre); text-decoration: none;
   font-size: .92rem; font-weight: 650; line-height: 1.25; letter-spacing: .005em;
   background: linear-gradient(180deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, 0) 55%), var(--g-verre);
-  border: 1px solid color-mix(in srgb, var(--g-lum) 55%, transparent); border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--g-lum) 75%, transparent); border-radius: 12px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, .55);
   transition: box-shadow var(--duree) ease, border-color var(--duree) ease;
 }
 @supports not (border-color: color-mix(in srgb, red 50%, transparent)) {
   .spirale-bulle { border-color: var(--g-lum); }
 }
-a.spirale-bulle:hover { color: var(--g-texte); border-color: var(--g-lum); box-shadow: 0 0 0 1px var(--g-lum), 0 0 12px var(--g-halo, rgba(255, 255, 255, .3)); }
-/* Focus : anneau blanc sur liseré noir, visible sur le noir comme sur les étoiles claires ; pas de découpe (marge ≥ 12 px). */
-a.spirale-bulle:focus-visible { color: var(--g-texte); outline: 3px solid var(--g-focus); outline-offset: 2px; box-shadow: 0 0 0 5px #000; }
-.spirale-bulle .forme { margin-right: .55rem; background: var(--g-lum); }
+.spirale-bulle .forme { display: none; } /* sécurité : plus de marqueur de catégorie */
+a.spirale-bulle:hover { color: var(--g-encre); border-color: var(--g-lum); box-shadow: 0 0 0 1px var(--g-lum), 0 0 12px var(--g-halo, rgba(255, 255, 255, .3)); }
+/* Focus : anneau blanc sur liseré noir, visible sur le noir comme sur les étoiles claires ; dans la marge de 12 px. */
+a.spirale-bulle:focus-visible { color: var(--g-encre); outline: 3px solid var(--g-focus); outline-offset: 2px; box-shadow: 0 0 0 5px #000; }
 
-/* Six éléments marquants : plus sombres que les bulles normales, bordure lumineuse et halo discret */
+/* Six éléments marquants : plus sombres que les normales, bordure pleine lumineuse, halo discret, texte blanc gras. */
 .spirale-bulle.important {
   background: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, 0) 50%), var(--g-nuit);
   border: 1.5px solid var(--g-lum); color: #fff; font-weight: 800;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, .7), 0 0 10px var(--g-halo, rgba(255, 255, 255, .3)), 0 4px 14px rgba(0, 0, 0, .6);
 }
 a.spirale-bulle.important:hover { color: #fff; box-shadow: 0 0 0 1px var(--g-lum), 0 0 16px var(--g-halo, rgba(255, 255, 255, .35)); }
-.spirale-bulle.important .forme { background: #fff; box-shadow: 0 0 6px var(--g-lum); }
+a.spirale-bulle.important:focus-visible { color: #fff; }
 
-/* Repères : petite capsule au noyau (naissance), capsule d’arrivée en bord de spirale (aujourd’hui) */
+/* Repères illustrés (bébé, compas) : inchangés */
 .spirale-bulle.repere {
   gap: .4rem; max-width: none; min-height: 36px; padding: .2rem .75rem .2rem .3rem; border-radius: 999px; pointer-events: none;
   font-size: .85rem; font-weight: 400; color: var(--g-texte);
@@ -119,6 +157,86 @@ a.spirale-bulle.important:hover { color: #fff; box-shadow: 0 0 0 1px var(--g-lum
   .spirale-fenetre { border-radius: 12px; }
   .spirale-bulle { max-width: 9.5rem; }
   .spirale-outils { gap: .5rem .75rem; }
+}
+
+/* ---------- 3. Thème « plein ciel » : page Parcours seulement, à l’écran ---------- */
+@media screen {
+  body.sur-parcours { background: #000; color: var(--g-texte); }
+  /* Ciel fixe sur toute la fenêtre : zone extérieure étoilée du fond original, agrandie et atténuée.
+     Couches fixes et statiques (aucune animation) ; le voile renforce la lisibilité au centre. */
+  body.sur-parcours::before, body.sur-parcours::after {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  }
+  body.sur-parcours::before {
+    background: #000 url("assets/galaxie-spirale-v2.2.webp") center / cover no-repeat;
+    transform: scale(3); transform-origin: 12% 12%; opacity: .4;
+  }
+  body.sur-parcours::after {
+    background: radial-gradient(ellipse 75% 65% at 50% 45%, rgba(0, 0, 0, .45) 0%, rgba(0, 0, 0, .25) 60%, rgba(0, 0, 0, .5) 100%);
+  }
+  body.sur-parcours :focus-visible { outline-color: var(--g-focus); }
+
+  /* Bandeau et pied harmonisés : nuit translucide, sans flou coûteux */
+  body.sur-parcours .bandeau { background: rgba(2, 4, 7, .84); border-bottom-color: rgba(255, 255, 255, .12); }
+  body.sur-parcours .marque { color: #fff; }
+  body.sur-parcours .bandeau nav a { color: #E6EDEF; }
+  body.sur-parcours .bandeau nav a:hover { color: #8EE3E6; }
+  body.sur-parcours .bandeau nav a[aria-current="page"] { color: #8EE3E6; border-bottom-color: #63D5D8; }
+  body.sur-parcours .bandeau-entretien:hover, body.sur-parcours .bandeau-entretien:focus-visible { background: #fff; border-color: #fff; color: #020407; }
+  body.sur-parcours .pied { border-top-color: rgba(255, 255, 255, .12); color: var(--g-doux); background: rgba(2, 4, 7, .6); }
+  body.sur-parcours .pied a, body.sur-parcours .suite a { color: #8EE3E6; }
+  body.sur-parcours .pied a:hover, body.sur-parcours .suite a:hover { color: #fff; }
+  body.sur-parcours .vue .chapo, body.sur-parcours .vue .note { color: var(--g-doux); }
+
+  /* Filtres : capsules de verre sombre, texte coloré par catégorie, sélection en aplat clair ; aucun symbole. */
+  body.sur-parcours .onglets ul { margin-bottom: 1.25rem; }
+  body.sur-parcours .onglets li:last-child { margin-left: 0; padding-left: 0; border-left: 0; }
+  body.sur-parcours .onglets a {
+    color: var(--g-texte); background: rgba(8, 12, 16, .82); border: 1.5px solid rgba(255, 255, 255, .3);
+    font-size: 1rem; padding: .45rem 1.1rem;
+  }
+  body.sur-parcours .onglets a.experience, body.sur-parcours .onglets a.personnel { color: var(--g-titre); border-color: color-mix(in srgb, var(--g-lum) 60%, transparent); }
+  body.sur-parcours .onglets a:hover, body.sur-parcours .onglets a:focus-visible { border-color: var(--g-lum); }
+  body.sur-parcours .onglets a[aria-current="page"] { background: var(--g-texte); border-color: var(--g-texte); color: #020407; }
+  body.sur-parcours .onglets a.experience[aria-current="page"], body.sur-parcours .onglets a.personnel[aria-current="page"] {
+    background: var(--g-lum); border-color: var(--g-lum); color: #05070A;
+  }
+  body.sur-parcours .onglets .forme { display: none; }
+
+  /* Bouton « Voir en liste / Voir la spirale » assorti */
+  body.sur-parcours .vue-bascule { background: rgba(8, 12, 16, .82); color: var(--g-texte); border-color: rgba(255, 255, 255, .55); }
+  body.sur-parcours .vue-bascule.bouton.secondaire:hover, body.sur-parcours .vue-bascule.bouton.secondaire:focus-visible { background: var(--g-texte); border-color: var(--g-texte); color: #020407; }
+
+  /* Galaxie continue : plus de cadre ni de panneau opaque, la scène laisse voir le ciel de la page. */
+  body.sur-parcours .spirale { background: none; border: 0; box-shadow: none; border-radius: 0; padding: 0; }
+  body.sur-parcours .spirale-fenetre { background: transparent; box-shadow: none; border-radius: 0; }
+  body.sur-parcours .spirale-scene { background: none; }
+  body.sur-parcours .spirale-galaxie {
+    -webkit-mask-image: radial-gradient(circle closest-side at 50% 50%, #000 55%, transparent 88%);
+    mask-image: radial-gradient(circle closest-side at 50% 50%, #000 55%, transparent 88%);
+  }
+  body.sur-parcours .spirale-statut, body.sur-parcours .spirale-zoom, body.sur-parcours .spirale .legende { text-shadow: 0 1px 3px #000; }
+
+  /* Liste alternative lisible dans le thème : cartes de verre sombre, liseré gauche de catégorie, sans symbole. */
+  body.sur-parcours .frise-cadre .borne { color: var(--g-texte); }
+  body.sur-parcours .borne.sans-image::before { border-color: #fff; background: #000; }
+  body.sur-parcours .borne.fin.sans-image::before { background: #fff; }
+  body.sur-parcours .etape-lien {
+    color: var(--g-encre); background: var(--g-verre);
+    border: 1px solid rgba(255, 255, 255, .14); border-left: 4px solid var(--g-lum);
+  }
+  body.sur-parcours .etape-lien:hover, body.sur-parcours .etape-lien:focus-visible { color: var(--g-encre); border-color: var(--g-lum); box-shadow: 0 0 12px var(--g-halo, rgba(255, 255, 255, .3)); }
+  body.sur-parcours .etape.important .etape-lien, body.sur-parcours .etape.important .etape-lien:hover {
+    color: #fff; background: var(--g-nuit); border: 1.5px solid var(--g-lum); border-left-width: 4px;
+    box-shadow: 0 0 10px var(--g-halo, rgba(255, 255, 255, .3));
+  }
+  body.sur-parcours .etape.important .etape-titre { font-weight: 800; }
+  body.sur-parcours .etape .forme { display: none; }
+}
+
+@media (max-width: 640px) {
+  body.sur-parcours .spirale { margin: 0 -1.25rem 1.5rem; padding: 0; }
+  body.sur-parcours .onglets a { font-size: .95rem; padding: .4rem .95rem; }
 }
 
 @media print {

@@ -1,4 +1,4 @@
-/* Spirale du parcours — CV Intelligent v2.2 (6 novembre 2026).
+/* Spirale du parcours — CV Intelligent v2.3 (6 novembre 2026).
    Naissance au centre, étapes du plus ancien au plus récent sur une spirale d’Archimède qui se déroule
    dans le sens horaire vers l’extérieur. La spirale entière tourne très lentement vers la droite
    (un tour en DUREE secondes) : seules les positions tournent, les libellés restent horizontaux.
@@ -115,7 +115,6 @@
     var elements = [borne(options.debut, "debut")];
     items.forEach(function (it) {
       var a = el("a", { href: it.href, class: "spirale-bulle " + it.type + (it.important ? " important" : "") }, [
-        el("span", { class: "forme " + it.type, "aria-hidden": "true" }),
         el("span", { class: "spirale-titre", text: it.titre }),
         el("span", { class: "visuellement-cache", text: " (" + it.libelle + (it.important ? ", élément marquant" : "") + ")" })
       ]);
