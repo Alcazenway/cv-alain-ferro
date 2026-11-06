@@ -3,98 +3,77 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Alain Ferro · Gestion, coordination et projets numériques</title>
-<meta name="description" content="Parcours détaillé d’Alain Ferro, Poussan : encadrement d’équipes, gestion administrative et comptable, Excel avancé, projets numériques avec l’IA.">
+<title>Alain Ferro · Gestion et coordination administrative</title>
+<meta name="description" content="Alain Ferro, Poussan : recherche un poste en gestion et coordination administrative. Dix ans d’encadrement d’équipes, gestion d’une activité de négoce, titre de comptable assistant, Excel avancé, projets numériques avec l’IA.">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'">
 <meta name="theme-color" content="#087E83">
-<link rel="stylesheet" href="styles.css?v=1.8">
+<link rel="stylesheet" href="styles.css?v=2.0">
 <link rel="icon" href="assets/favicon.png" type="image/png">
 <link rel="canonical" href="https://alcazenway.github.io/cv-alain-ferro/">
-<meta property="og:title" content="Alain Ferro · Gestion, coordination et projets numériques">
-<meta property="og:description" content="Découvrez mon parcours, mes compétences et mes réalisations, puis échangeons de vive voix.">
+<meta property="og:title" content="Alain Ferro · Gestion et coordination administrative">
+<meta property="og:description" content="Parcours, compétences et intérêts d’Alain Ferro. Proposez-lui un entretien.">
 <meta property="og:type" content="profile">
 <meta property="og:url" content="https://alcazenway.github.io/cv-alain-ferro/">
 <meta property="og:image" content="https://alcazenway.github.io/cv-alain-ferro/assets/portrait-480.webp">
 </head>
-<body>
+<body class="sur-accueil">
 <a class="evitement" href="#contenu">Aller au contenu</a>
-<header class="bandeau">
+<header class="bandeau" id="bandeau">
   <div class="cadre bandeau-in">
-    <a class="marque" href="#haut">Alain Ferro</a>
+    <a class="marque" href="#/">Alain Ferro</a>
     <nav aria-label="Navigation principale">
       <ul>
-        <li><a href="#parcours">Parcours</a></li>
-        <li><a href="#competences">Compétences</a></li>
-        <li><a href="#realisations">Réalisations</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#/parcours" data-rubrique="parcours">Parcours</a></li>
+        <li><a href="#/competences" data-rubrique="competences">Compétences</a></li>
+        <li><a href="#/interets" data-rubrique="interets">Intérêts</a></li>
       </ul>
     </nav>
+    <a class="bouton bandeau-entretien" id="entretien-bandeau" href="mailto:alainferro34@gmail.com">Proposer un entretien</a>
   </div>
 </header>
 
 <main id="contenu" tabindex="-1">
   <div id="accueil">
-    <section class="intro cadre" id="haut" aria-labelledby="titre-nom">
-      <picture class="portrait">
-        <img id="portrait" src="assets/portrait-480.webp" srcset="assets/portrait-240.webp 240w, assets/portrait-480.webp 480w" sizes="(max-width: 640px) 120px, 220px" width="480" height="584" alt="Portrait d’Alain Ferro, souriant, chemise bleu clair">
-      </picture>
-      <div class="intro-texte">
-        <h1 id="titre-nom">Alain Ferro</h1>
-        <p class="accroche" id="accroche"></p>
-        <p class="promesse" id="promesse"></p>
-        <ul class="coordonnees" id="coordonnees"></ul>
-        <p class="actions">
-          <a class="bouton" href="#parcours">Explorer mon parcours</a>
-          <a class="bouton secondaire" href="#contact">Me contacter</a>
-        </p>
-        <p class="cv-download"><a id="lien-cv" href="./CV_Alain_Ferro.pdf" download>Télécharger le CV (PDF)</a></p>
+    <section class="une cadre" id="haut" aria-labelledby="titre-nom">
+      <p class="surtitre" id="recherche"></p>
+      <h1 id="titre-nom" tabindex="-1">Alain Ferro</h1>
+      <p class="positionnement"><strong id="accroche"></strong> <span id="appui"></span></p>
+      <figure class="une-portrait">
+        <picture>
+          <img id="portrait" src="assets/portrait-480.webp" srcset="assets/portrait-240.webp 240w, assets/portrait-480.webp 480w" sizes="(max-width: 640px) 104px, 300px" width="480" height="584" alt="Portrait d’Alain Ferro, souriant, chemise bleu clair">
+        </picture>
+      </figure>
+      <p class="promesse" id="promesse"></p>
+      <div class="contact" role="group" aria-label="Contact">
+        <a class="bouton principal" id="proposer-entretien" href="mailto:alainferro34@gmail.com">Proposer un entretien</a>
+        <a class="bouton appel" id="appeler" href="tel:+33612761012">Appeler · <span id="numero">06 12 76 10 12</span></a>
       </div>
+      <ul class="coordonnees" id="coordonnees"></ul>
+      <p class="pdf"><a id="lien-cv" href="./CV_Alain_Ferro.pdf?v=2.0" download="CV_Alain_Ferro.pdf">Télécharger le CV (PDF)</a></p>
     </section>
 
-    <section class="cadre chiffres" aria-label="Repères">
-      <ul id="chiffres"></ul>
+    <section class="reperes" aria-label="Repères">
+      <ul class="cadre" id="chiffres"></ul>
     </section>
 
-    <section class="cadre bloc" id="parcours" aria-labelledby="titre-parcours">
-      <h2 id="titre-parcours">Parcours</h2>
-      <p class="chapo">Chaque étape s’ouvre sur une fiche détaillée : contexte, missions, compétences mobilisées et ce qu’elles apportent à un nouveau poste.</p>
-      <div class="filtres" role="group" aria-label="Filtrer le parcours">
-        <button type="button" data-filtre="tous" aria-pressed="true">Tout</button>
-        <button type="button" data-filtre="experience" aria-pressed="false"><span class="pastille experience" aria-hidden="true"></span>Expériences</button>
-        <button type="button" data-filtre="formation" aria-pressed="false"><span class="pastille formation" aria-hidden="true"></span>Formations</button>
-        <button type="button" data-filtre="personnel" aria-pressed="false"><span class="pastille personnel" aria-hidden="true"></span>Parcours personnel</button>
-      </div>
-      <p class="compte" id="compte" aria-live="polite"></p>
-      <ol class="frise" id="frise"></ol>
+    <nav class="cadre entrees-cadre" aria-label="Rubriques">
+      <ul class="entrees" id="entrees"></ul>
+    </nav>
+
+    <section class="cadre selection-cadre" aria-labelledby="titre-selection">
+      <h2 id="titre-selection"><a href="#/realisations">Réalisations marquantes</a></h2>
+      <ul class="tuiles" id="selection"></ul>
     </section>
 
-    <section class="cadre bloc" id="competences" aria-labelledby="titre-competences">
-      <h2 id="titre-competences">Compétences</h2>
-      <p class="chapo">Chaque compétence renvoie à son détail et aux expériences qui l’étayent.</p>
-      <ul class="cartes" id="liste-competences"></ul>
-      <h3 class="sous-titre">Environnement numérique</h3>
-      <div class="outils" id="outils"></div>
-      <h3 class="sous-titre">Langues et mobilité</h3>
-      <p id="langues"></p>
-    </section>
-
-    <section class="cadre bloc" id="realisations" aria-labelledby="titre-realisations">
-      <h2 id="titre-realisations">Réalisations</h2>
-      <p class="chapo">Des projets menés de bout en bout, dans le cadre professionnel et personnel.</p>
-      <ul class="cartes" id="liste-realisations"></ul>
-      <h3 class="sous-titre">Centres d’intérêt</h3>
-      <ul class="etiquettes" id="interets"></ul>
-    </section>
-
-    <section class="cadre bloc contact" id="contact" aria-labelledby="titre-contact">
-      <h2 id="titre-contact">Contact</h2>
-      <p>Je recherche un poste en CDI autour de Poussan, dans la gestion, la coordination ou l’appui administratif. Le plus simple est de m’écrire ou de m’appeler.</p>
-      <ul class="coordonnees grandes" id="coordonnees-contact"></ul>
+    <section class="cadre pistes" aria-labelledby="titre-pistes">
+      <h2 id="titre-pistes"></h2>
+      <p id="pistes-texte"></p>
+      <ul class="etiquettes metiers" id="metiers"></ul>
     </section>
   </div>
 
-  <article id="vue" class="cadre vue" hidden aria-live="polite"></article>
+  <article id="vue" class="cadre vue" hidden></article>
 </main>
 
 <footer class="pied">
@@ -104,8 +83,8 @@
   </div>
 </footer>
 
-<noscript><p class="cadre">Ce site affiche le parcours détaillé à l’aide de JavaScript. Contact : <a href="mailto:alainferro34@gmail.com">alainferro34@gmail.com</a> · <a href="tel:+33612761012">06 12 76 10 12</a>.</p></noscript>
-<script src="data/contenu.js?v=1.8"></script>
-<script src="app.js?v=1.8"></script>
+<noscript><p class="cadre">Ce site affiche le parcours détaillé à l’aide de JavaScript. Contact : <a href="mailto:alainferro34@gmail.com">alainferro34@gmail.com</a> · <a href="tel:+33612761012">06 12 76 10 12</a> · <a href="CV_Alain_Ferro.pdf?v=2.0" download>CV (PDF)</a>.</p></noscript>
+<script src="data/contenu.js?v=2.0"></script>
+<script src="app.js?v=2.0"></script>
 </body>
 </html>
