@@ -1,52 +1,122 @@
-/* Spirale du parcours — CV Intelligent v2.1. Positions calculées par spirale.js ; libellés toujours horizontaux.
-   La surface s’agrandit avec les textes et défile horizontalement sur petit écran, sans réduire la police. */
-.spirale { margin: 0 0 1.5rem; }
-.spirale-outils { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin: 0 0 .75rem; }
-.spirale-bouton {
-  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: .4rem 1.1rem;
-  font: inherit; font-size: .95rem; font-weight: 700; color: var(--encre); background: var(--carte);
-  border: 1.5px solid var(--encre); border-radius: 999px; cursor: pointer;
+/* Spirale du parcours — CV Intelligent v2.2, habillage « galaxie ».
+   Positions calculées par spirale.js ; libellés toujours horizontaux. Les tailles de bulles sont mesurées par le JS :
+   aucune position n’est codée ici. La surface défile horizontalement sur petit écran, sans réduire la police.
+   Thème sombre limité au cadre .spirale : le reste du site, la vue liste et l’impression gardent leur style clair.
+   Contraste : texte presque blanc sur verre sombre opaque à 88 % et plus, lisible même sur les étoiles les plus claires. */
+
+/* Teintes du thème, par catégorie : lumière (bordure, forme), verre (fond normal), nuit (fond des éléments marquants). */
+.spirale {
+  --g-fond: #020407;
+  --g-cadre: #06090D;
+  --g-filet: rgba(255, 255, 255, .14);
+  --g-texte: #F3F6F7;
+  --g-doux: #B8C5C8;
+  --g-focus: #FFFFFF;
+  --g-lum: #E9EEF0;
+  --g-verre: rgba(10, 14, 18, .88);
+  --g-nuit: rgba(1, 2, 4, .97);
 }
-.spirale-bouton:hover, .spirale-bouton:focus-visible { background: var(--encre); color: #fff; }
-.spirale-bouton:disabled { opacity: .4; cursor: default; background: var(--carte); color: var(--encre); }
+.spirale .experience { --g-lum: #63D5D8; --g-verre: rgba(4, 30, 33, .88); --g-nuit: rgba(0, 10, 12, .97); --g-halo: rgba(99, 213, 216, .38); }
+.spirale .personnel { --g-lum: #C6A9DE; --g-verre: rgba(28, 16, 38, .88); --g-nuit: rgba(8, 2, 13, .97); --g-halo: rgba(198, 169, 222, .38); }
+
+/* Cadre sombre arrondi : commandes, légende, statut et fenêtre de la galaxie */
+.spirale {
+  margin: 0 0 1.5rem; padding: 1rem 1rem 1.1rem; color: var(--g-texte);
+  background: radial-gradient(120% 80% at 50% 0%, #0B1116 0%, var(--g-cadre) 55%, var(--g-fond) 100%);
+  border: 1px solid #141C22; border-radius: 22px;
+  box-shadow: 0 18px 40px rgba(2, 6, 10, .28), inset 0 1px 0 rgba(255, 255, 255, .05);
+}
+.spirale :focus-visible { outline: 3px solid var(--g-focus); outline-offset: 3px; }
+
+.spirale-outils { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin: 0 0 .8rem; }
+.spirale-bouton {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: .4rem 1.15rem;
+  font: inherit; font-size: .95rem; font-weight: 700; color: var(--g-texte); cursor: pointer;
+  background: rgba(255, 255, 255, .06); border: 1.5px solid rgba(255, 255, 255, .42); border-radius: 999px;
+  transition: background-color var(--duree) ease, color var(--duree) ease, border-color var(--duree) ease;
+}
+.spirale-bouton:hover, .spirale-bouton:focus-visible { background: var(--g-texte); border-color: var(--g-texte); color: var(--g-fond); }
+.spirale-bouton:disabled, .spirale-bouton:disabled:hover {
+  opacity: .38; cursor: default; background: rgba(255, 255, 255, .06); border-color: rgba(255, 255, 255, .42); color: var(--g-texte);
+}
 .spirale-bouton.zoom { padding: 0; font-size: 1.3rem; line-height: 1; }
 .spirale-zooms { display: inline-flex; align-items: center; gap: .4rem; }
-.spirale-zoom { min-width: 3.6rem; text-align: center; font-size: .9rem; color: var(--discret); font-variant-numeric: tabular-nums; }
-.spirale .legende { margin: 0 0 .4rem; }
-.spirale-statut { margin: 0 0 .5rem; font-size: .88rem; color: var(--discret); }
+.spirale-zoom { min-width: 3.6rem; text-align: center; font-size: .9rem; color: var(--g-doux); font-variant-numeric: tabular-nums; }
 
+/* Légende accordée au thème (mêmes pastilles que les bulles) */
+.spirale .legende { margin: 0 0 .45rem; color: var(--g-texte); }
+.spirale .pastille { background: var(--g-verre); border: 1px solid var(--g-lum); }
+.spirale .pastille .forme { background: var(--g-lum); }
+.spirale .pastille.important { background: #000; border: 1.5px solid #fff; box-shadow: 0 0 7px rgba(255, 255, 255, .45); }
+.spirale-statut { margin: 0 0 .7rem; font-size: .88rem; color: var(--g-doux); }
+
+/* Fenêtre : fond noir continu, défilement horizontal contenu dans le cadre */
 .spirale-fenetre {
-  overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; margin: 0 -1.25rem; padding: 0 0 .5rem;
-  scrollbar-width: thin;
+  overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; margin: 0; padding: 0;
+  background: #000; border-radius: 16px; box-shadow: inset 0 0 0 1px var(--g-filet);
+  scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, .35) transparent;
 }
 .spirale-taille { position: relative; margin: 0 auto; }
+/* La scène coupe les coins de l’image en rotation : la surface défilable ne varie pas et le noir reste continu. */
 .spirale-scene {
-  position: absolute; left: 0; top: 0; transform-origin: 0 0;
-  background: radial-gradient(closest-side, rgba(115,83,137,.07), rgba(8,126,131,.04) 55%, rgba(251,248,243,0) 100%);
+  position: absolute; left: 0; top: 0; transform-origin: 0 0; overflow: hidden;
+  background: radial-gradient(closest-side, #0A0D12 0%, #030406 60%, #000 100%);
 }
-.spirale-trace { position: absolute; left: 0; top: 0; pointer-events: none; }
-.spirale-bras { fill: none; stroke: #BDB5A6; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 0 12; }
-.spirale-halo { fill: none; stroke: #DDD7CB; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 0 10; }
+/* Fond galaxie (image insérée par spirale.js, même rotation que le tracé) */
+.spirale-galaxie {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain;
+  pointer-events: none; user-select: none; transform-origin: 50% 50%; will-change: transform;
+  opacity: .84; /* étoiles un peu atténuées : contraste des bulles renforcé, sans filtre coûteux */
+}
 
+/* Chemin chronologique : trait continu très fin ; le second bras décoratif s’efface devant les bras de la galaxie. */
+.spirale-trace { position: absolute; left: 0; top: 0; pointer-events: none; }
+.spirale-bras { fill: none; stroke: rgba(186, 236, 238, .30); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+.spirale-halo { display: none; }
+
+/* Bulles : verre sombre compact, texte blanc net, nuance de catégorie en bordure et dans la forme */
 .spirale-liste { position: absolute; left: 0; top: 0; margin: 0; padding: 0; }
 .spirale-noeud { position: absolute; left: 0; top: 0; width: max-content; pointer-events: none; will-change: transform; }
 .spirale-bulle {
-  display: inline-flex; align-items: center; width: max-content; max-width: 11rem; min-height: 40px; padding: .35rem .75rem;
-  pointer-events: auto; background: var(--p, var(--carte)); color: var(--encre); text-decoration: none;
-  font-size: .92rem; font-weight: 700; line-height: 1.25;
-  border: 1px solid var(--c, var(--filet)); border-radius: 10px; box-shadow: 0 2px 6px rgba(25,56,61,.08);
-  transition: box-shadow var(--duree) ease, background-color var(--duree) ease;
+  display: inline-flex; align-items: center; width: max-content; max-width: 11rem; min-height: 40px; padding: .38rem .8rem;
+  pointer-events: auto; color: var(--g-texte); text-decoration: none;
+  font-size: .92rem; font-weight: 650; line-height: 1.25; letter-spacing: .005em;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .07), rgba(255, 255, 255, 0) 55%), var(--g-verre);
+  border: 1px solid color-mix(in srgb, var(--g-lum) 55%, transparent); border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .55);
+  transition: box-shadow var(--duree) ease, border-color var(--duree) ease;
 }
-a.spirale-bulle:hover, a.spirale-bulle:focus-visible { color: var(--encre); box-shadow: 0 0 0 2px var(--c), var(--ombre); }
-.spirale-bulle .forme { margin-right: .5rem; }
-.spirale-bulle.important { background: var(--f); border-color: var(--f); color: #fff; font-weight: 800; }
-a.spirale-bulle.important:hover, a.spirale-bulle.important:focus-visible { color: #fff; }
-.spirale-bulle.important .forme { background: #fff; }
-.spirale-bulle.repere { gap: .45rem; max-width: none; background: var(--carte); border-color: var(--encre); font-weight: 400; pointer-events: none; }
-.spirale-bulle.repere img { width: 28px; height: 28px; object-fit: contain; }
+@supports not (border-color: color-mix(in srgb, red 50%, transparent)) {
+  .spirale-bulle { border-color: var(--g-lum); }
+}
+a.spirale-bulle:hover { color: var(--g-texte); border-color: var(--g-lum); box-shadow: 0 0 0 1px var(--g-lum), 0 0 12px var(--g-halo, rgba(255, 255, 255, .3)); }
+/* Focus : anneau blanc sur liseré noir, visible sur le noir comme sur les étoiles claires ; pas de découpe (marge ≥ 12 px). */
+a.spirale-bulle:focus-visible { color: var(--g-texte); outline: 3px solid var(--g-focus); outline-offset: 2px; box-shadow: 0 0 0 5px #000; }
+.spirale-bulle .forme { margin-right: .55rem; background: var(--g-lum); }
+
+/* Six éléments marquants : plus sombres que les bulles normales, bordure lumineuse et halo discret */
+.spirale-bulle.important {
+  background: linear-gradient(180deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, 0) 50%), var(--g-nuit);
+  border: 1.5px solid var(--g-lum); color: #fff; font-weight: 800;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .7), 0 0 10px var(--g-halo, rgba(255, 255, 255, .3)), 0 4px 14px rgba(0, 0, 0, .6);
+}
+a.spirale-bulle.important:hover { color: #fff; box-shadow: 0 0 0 1px var(--g-lum), 0 0 16px var(--g-halo, rgba(255, 255, 255, .35)); }
+.spirale-bulle.important .forme { background: #fff; box-shadow: 0 0 6px var(--g-lum); }
+
+/* Repères : petite capsule au noyau (naissance), capsule d’arrivée en bord de spirale (aujourd’hui) */
+.spirale-bulle.repere {
+  gap: .4rem; max-width: none; min-height: 36px; padding: .2rem .75rem .2rem .3rem; border-radius: 999px; pointer-events: none;
+  font-size: .85rem; font-weight: 400; color: var(--g-texte);
+  background: rgba(0, 0, 0, .84); border: 1px solid rgba(255, 255, 255, .5);
+  box-shadow: 0 0 16px rgba(255, 255, 255, .22);
+}
+.spirale-bulle.repere img { width: 26px; height: 26px; object-fit: contain; border-radius: 50%; background: rgba(255, 255, 255, .92); }
 .spirale-bulle.repere strong { font-weight: 800; }
+.spirale-noeud.fin .spirale-bulle.repere { border-color: #63D5D8; box-shadow: 0 0 14px rgba(99, 213, 216, .3); }
 
 @media (max-width: 640px) {
+  .spirale { margin: 0 -.75rem 1.5rem; padding: .75rem .6rem .8rem; border-radius: 18px; }
+  .spirale-fenetre { border-radius: 12px; }
   .spirale-bulle { max-width: 9.5rem; }
   .spirale-outils { gap: .5rem .75rem; }
 }

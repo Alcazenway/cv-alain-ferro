@@ -113,7 +113,7 @@
   $("titre-pistes").textContent = D.pistes.titre;
   $("pistes-texte").textContent = D.pistes.texte;
   D.pistes.metiers.forEach(function (m) { $("metiers").appendChild(el("li", { text: m })); });
-  $("maj").textContent = "Version 2.1 · mise à jour : " + D.mentions.maj;
+  $("maj").textContent = "Version 2.2 · mise à jour : " + D.mentions.maj;
 
   /* ---------- Briques communes ---------- */
   function retour(parent, texte) {
