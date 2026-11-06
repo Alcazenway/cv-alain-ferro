@@ -1,0 +1,57 @@
+/* Spirale du parcours — CV Intelligent v2.1. Positions calculées par spirale.js ; libellés toujours horizontaux.
+   La surface s’agrandit avec les textes et défile horizontalement sur petit écran, sans réduire la police. */
+.spirale { margin: 0 0 1.5rem; }
+.spirale-outils { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin: 0 0 .75rem; }
+.spirale-bouton {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: .4rem 1.1rem;
+  font: inherit; font-size: .95rem; font-weight: 700; color: var(--encre); background: var(--carte);
+  border: 1.5px solid var(--encre); border-radius: 999px; cursor: pointer;
+}
+.spirale-bouton:hover, .spirale-bouton:focus-visible { background: var(--encre); color: #fff; }
+.spirale-bouton:disabled { opacity: .4; cursor: default; background: var(--carte); color: var(--encre); }
+.spirale-bouton.zoom { padding: 0; font-size: 1.3rem; line-height: 1; }
+.spirale-zooms { display: inline-flex; align-items: center; gap: .4rem; }
+.spirale-zoom { min-width: 3.6rem; text-align: center; font-size: .9rem; color: var(--discret); font-variant-numeric: tabular-nums; }
+.spirale .legende { margin: 0 0 .4rem; }
+.spirale-statut { margin: 0 0 .5rem; font-size: .88rem; color: var(--discret); }
+
+.spirale-fenetre {
+  overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; margin: 0 -1.25rem; padding: 0 0 .5rem;
+  scrollbar-width: thin;
+}
+.spirale-taille { position: relative; margin: 0 auto; }
+.spirale-scene {
+  position: absolute; left: 0; top: 0; transform-origin: 0 0;
+  background: radial-gradient(closest-side, rgba(115,83,137,.07), rgba(8,126,131,.04) 55%, rgba(251,248,243,0) 100%);
+}
+.spirale-trace { position: absolute; left: 0; top: 0; pointer-events: none; }
+.spirale-bras { fill: none; stroke: #BDB5A6; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 0 12; }
+.spirale-halo { fill: none; stroke: #DDD7CB; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 0 10; }
+
+.spirale-liste { position: absolute; left: 0; top: 0; margin: 0; padding: 0; }
+.spirale-noeud { position: absolute; left: 0; top: 0; width: max-content; pointer-events: none; will-change: transform; }
+.spirale-bulle {
+  display: inline-flex; align-items: center; width: max-content; max-width: 11rem; min-height: 40px; padding: .35rem .75rem;
+  pointer-events: auto; background: var(--p, var(--carte)); color: var(--encre); text-decoration: none;
+  font-size: .92rem; font-weight: 700; line-height: 1.25;
+  border: 1px solid var(--c, var(--filet)); border-radius: 10px; box-shadow: 0 2px 6px rgba(25,56,61,.08);
+  transition: box-shadow var(--duree) ease, background-color var(--duree) ease;
+}
+a.spirale-bulle:hover, a.spirale-bulle:focus-visible { color: var(--encre); box-shadow: 0 0 0 2px var(--c), var(--ombre); }
+.spirale-bulle .forme { margin-right: .5rem; }
+.spirale-bulle.important { background: var(--f); border-color: var(--f); color: #fff; font-weight: 800; }
+a.spirale-bulle.important:hover, a.spirale-bulle.important:focus-visible { color: #fff; }
+.spirale-bulle.important .forme { background: #fff; }
+.spirale-bulle.repere { gap: .45rem; max-width: none; background: var(--carte); border-color: var(--encre); font-weight: 400; pointer-events: none; }
+.spirale-bulle.repere img { width: 28px; height: 28px; object-fit: contain; }
+.spirale-bulle.repere strong { font-weight: 800; }
+
+@media (max-width: 640px) {
+  .spirale-bulle { max-width: 9.5rem; }
+  .spirale-outils { gap: .5rem .75rem; }
+}
+
+@media print {
+  .spirale, .vue-choix { display: none !important; }
+  #parcours-liste[hidden] { display: block !important; }
+}
