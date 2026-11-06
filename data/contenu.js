@@ -1,4 +1,4 @@
-/* Contenu du site v2.2 (6 novembre 2026). Repris de la v2.0.
+/* Contenu du site v2.3 (6 novembre 2026). Repris de la v2.0.
    Le parcours est rangé du plus ancien au plus récent (l’ordre du tableau fait foi, comme la frise du PDF) ;
    aucune date intermédiaire affichée. « bulle » : titre seul des bulles de la spirale et du sommaire.
    « important » : six éléments mis en avant par une teinte plus foncée.
@@ -25,7 +25,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV_Alain_Ferro.pdf?v=2.2",
+    "cvPdf": "./CV_Alain_Ferro.pdf?v=2.3",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nJ’ai consulté votre CV en ligne et votre parcours m’intéresse pour un poste de [intitulé du poste] au sein de [entreprise], à [lieu].\n\nJe vous propose un entretien [proposition de date et d’horaire], en présentiel ou par téléphone.\n\nCordialement,\n\n[Prénom Nom]\n[Fonction] · [Entreprise]\n[Téléphone]"
