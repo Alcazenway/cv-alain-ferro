@@ -1,4 +1,7 @@
-/* Spirale du parcours — CV Intelligent v2.3 (6 novembre 2026).
+/* Spirale du parcours — CV Intelligent v2.4 (9 novembre 2026).
+   v2.4 : plus aucune commande visible (ni pause, ni zoom, ni légende, ni texte de rotation).
+   Arrêt du mouvement : survol d’une bulle, toucher, focus clavier dans la spirale ; Échap y fige la rotation
+   pour le reste de la visite ; mouvement réduit : spirale fixe. État annoncé aux seuls lecteurs d’écran.
    Naissance au centre, étapes du plus ancien au plus récent sur une spirale d’Archimède qui se déroule
    dans le sens horaire vers l’extérieur. La spirale entière tourne très lentement vers la droite
    (un tour en DUREE secondes) : seules les positions tournent, les libellés restent horizontaux.
@@ -15,8 +18,7 @@
   var MARGE = 12;             // écart minimal entre deux bulles, en pixels
   var BORD = 24;              // marge autour de la spirale
   var IMAGE_MS = 50;          // au plus 20 mises à jour par seconde : mouvement < 0,3 px par mise à jour
-  var ZOOMS = [0.6, 0.8, 1, 1.25, 1.5];
-  var etat = { angle: 0 };    // angle conservé d’un affichage à l’autre
+  var etat = { angle: 0, fige: false }; // angle et arrêt par Échap conservés d’un affichage à l’autre
 
   function el(tag, attrs, enfants) {
     var n = document.createElement(tag);
@@ -76,22 +78,17 @@
     return { noeuds: noeuds.length, margeMinimale: Math.round(pire * 10) / 10, paire: paire, garanti: pire >= 0 };
   }
 
-  /* options : items [{id, titre, href, type, important, libelle}], debut/fin {texte, annee, image}, legende */
+  /* options : items [{id, titre, href, type, important, libelle}], debut/fin {texte, annee, image, secours} */
   function creer(options) {
     var items = options.items;
-    var racine = el("section", { class: "spirale", "aria-label": "Parcours en spirale" });
-    var zoom = 1, pauseUtilisateur = mouvementReduit.matches, survol = false, focus = false, toucher = null;
+    var racine = el("section", { class: "spirale", "aria-label": "Parcours en spirale", "aria-describedby": "spirale-aide" });
+    var pauseUtilisateur = mouvementReduit.matches || etat.fige, survol = false, focus = false, toucher = null;
     var noeuds = [], geo = null, signature = "", centre = 0, dernier = 0, horloge = 0, actif = true, minuterie = 0;
 
-    // Outils : pause/reprise, zoom, état lisible
-    var bPause = el("button", { type: "button", class: "spirale-bouton", "aria-controls": "spirale-scene" });
-    var bMoins = el("button", { type: "button", class: "spirale-bouton zoom", "aria-label": "Zoom arrière", text: "−" });
-    var bPlus = el("button", { type: "button", class: "spirale-bouton zoom", "aria-label": "Zoom avant", text: "+" });
-    var vZoom = el("span", { class: "spirale-zoom", "aria-live": "polite" });
-    var statut = el("p", { class: "spirale-statut" });
-    var outils = el("div", { class: "spirale-outils", role: "group", "aria-label": "Commandes de la spirale" }, [
-      bPause, el("span", { class: "spirale-zooms" }, [bMoins, vZoom, bPlus]), options.extra || null
-    ]);
+    // Aucune commande visible : consigne et état réservés aux lecteurs d’écran.
+    var aide = el("p", { class: "visuellement-cache", id: "spirale-aide",
+      text: "La spirale tourne lentement ; elle s’arrête dès qu’une étape reçoit le focus. Échap la fige." });
+    var statut = el("p", { class: "visuellement-cache", "aria-live": "polite" });
 
     var fenetre = el("div", { class: "spirale-fenetre" });
     var taille = el("div", { class: "spirale-taille" });
@@ -107,7 +104,9 @@
 
     function borne(b, cle) {
       var img = el("img", { src: b.image, alt: "", width: "28", height: "28", decoding: "async" });
-      img.addEventListener("error", function () { img.remove(); });
+      img.addEventListener("error", function () {
+        if (b.secours && img.getAttribute("src") !== b.secours) img.setAttribute("src", b.secours); else img.remove();
+      });
       return el("li", { class: "spirale-noeud repere " + cle }, [
         el("span", { class: "spirale-bulle repere" }, [img, el("span", null, [el("strong", { text: b.texte }), " · " + b.annee])])
       ]);
@@ -124,8 +123,7 @@
     elements.forEach(function (li) { liste.appendChild(li); });
     scene.appendChild(galaxie); scene.appendChild(trace); scene.appendChild(liste);
     taille.appendChild(scene); fenetre.appendChild(taille);
-    racine.appendChild(outils);
-    if (options.legende) racine.appendChild(options.legende);
+    racine.appendChild(aide);
     racine.appendChild(statut);
     racine.appendChild(fenetre);
 
@@ -155,7 +153,7 @@
         dHalo += (dHalo ? " L" : "M") + x2.toFixed(1) + " " + y2.toFixed(1);
       }
       chemin.setAttribute("d", d); halo.setAttribute("d", dHalo);
-      appliquerZoom(!premier); // premier affichage : vue centrée sur la naissance
+      dimensionner(!premier); // premier affichage : vue centrée sur la naissance
       dessiner();
       return true;
     }
@@ -172,11 +170,12 @@
     }
 
     function tourne() { return !pauseUtilisateur && !survol && !focus && !toucher; }
+    // Annonce seulement les changements durables (pas le survol), pour ne pas bavarder.
+    var annonce = "";
     function majStatut() {
-      bPause.textContent = pauseUtilisateur ? (mouvementReduit.matches ? "Lancer la rotation" : "Reprendre la rotation") : "Mettre en pause";
-      statut.textContent = pauseUtilisateur
-        ? (mouvementReduit.matches ? "Spirale fixe (mouvement réduit demandé)." : "Rotation en pause.")
-        : tourne() ? "Rotation très lente vers la droite : un tour en 10 minutes." : "Rotation suspendue pendant la sélection.";
+      var texte = pauseUtilisateur ? (mouvementReduit.matches ? "Spirale fixe." : "Rotation arrêtée.")
+        : focus ? "Rotation suspendue pendant la navigation au clavier." : "";
+      if (texte !== annonce) { annonce = texte; statut.textContent = texte; }
     }
     function boucle(now) {
       if (!actif) return;
@@ -190,26 +189,20 @@
       dessiner();
     }
 
-    // Le zoom agrandit la surface défilable ; le point central de la vue reste en place.
-    function appliquerZoom(garderCentre) {
+    // Taille réelle (sans zoom) ; sur petit écran la surface défile horizontalement, le point central reste en place.
+    function dimensionner(garderCentre) {
       var cx = 0.5;
       if (garderCentre && taille.offsetWidth) cx = (fenetre.scrollLeft + fenetre.clientWidth / 2) / taille.offsetWidth;
-      var cote = 2 * centre * zoom;
+      var cote = 2 * centre;
       taille.style.width = taille.style.height = cote + "px";
-      scene.style.transform = zoom === 1 ? "" : "scale(" + zoom + ")";
-      vZoom.textContent = Math.round(zoom * 100) + " %";
-      bMoins.disabled = zoom === ZOOMS[0]; bPlus.disabled = zoom === ZOOMS[ZOOMS.length - 1];
       fenetre.scrollLeft = Math.max(0, cx * cote - fenetre.clientWidth / 2);
     }
-    function changerZoom(sens) {
-      var i = ZOOMS.indexOf(zoom) + sens;
-      if (i < 0 || i >= ZOOMS.length) return;
-      zoom = ZOOMS[i]; appliquerZoom(true);
-    }
 
-    bPause.addEventListener("click", function () { pauseUtilisateur = !pauseUtilisateur; majStatut(); });
-    bMoins.addEventListener("click", function () { changerZoom(-1); });
-    bPlus.addEventListener("click", function () { changerZoom(1); });
+    // Échap dans la spirale : rotation figée (pause accessible sans bouton visible).
+    scene.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape" || pauseUtilisateur) return;
+      e.preventDefault(); etat.fige = pauseUtilisateur = true; majStatut();
+    });
     // Souris : arrêt tant que le pointeur est sur une bulle.
     scene.addEventListener("pointerover", function (e) {
       if (e.pointerType !== "mouse") return;
@@ -224,7 +217,7 @@
     });
     scene.addEventListener("focusin", function () { focus = true; majStatut(); });
     scene.addEventListener("focusout", function (e) { if (!scene.contains(e.relatedTarget)) { focus = false; majStatut(); } });
-    function preference() { pauseUtilisateur = mouvementReduit.matches; majStatut(); }
+    function preference() { pauseUtilisateur = mouvementReduit.matches || etat.fige; majStatut(); }
     if (mouvementReduit.addEventListener) mouvementReduit.addEventListener("change", preference);
 
     function relancer() { clearTimeout(minuterie); minuterie = setTimeout(mesurer, 120); }
