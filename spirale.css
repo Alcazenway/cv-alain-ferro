@@ -180,3 +180,7 @@ a.spirale-bulle.important:focus-visible { color: #fff; }
   .spirale, .vue-bascule { display: none !important; }
   #parcours-liste[hidden] { display: block !important; }
 }
+
+/* Titres sur une ligne ; la géométrie reste recalculée à partir des tailles réelles. */
+.spirale-bulle { max-width: 15.5rem; }
+.spirale-titre { min-width: 0; white-space: nowrap; }
