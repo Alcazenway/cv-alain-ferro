@@ -69,7 +69,6 @@
   var I = D.identite;
   var mailto = "mailto:" + I.email + "?subject=" + encodeURIComponent(I.mail.objet) +
     "&body=" + encodeURIComponent(I.mail.corps.replace(/\n/g, "\r\n"));
-  $("accroche").textContent = I.accroche;
   $("promesse").textContent = I.promesse;
   $("lien-cv").setAttribute("href", I.cvPdf);
   $("proposer-entretien").setAttribute("href", mailto);
@@ -95,16 +94,14 @@
   // Postes visés à côté de la photo : les premiers intitulés, la page #/metiers donne la liste complète et les preuves.
   var POSTES_UNE = 6;
   D.pistes.metiers.slice(0, POSTES_UNE).forEach(function (m) { $("postes").appendChild(el("li", { text: m.titre })); });
-  $("postes").appendChild(el("li", { class: "postes-suite" }, [
-    el("a", { href: "#/metiers", text: "Les " + D.pistes.metiers.length + " postes et leurs preuves →" })
-  ]));
+
 
   // Réalisations marquantes : vignette, titre et apport concret.
   function tuileRealisation(id) {
     var e = parId[id], v = vignette(e);
     return el("li", { class: "tuile " + e.type }, [el("a", { href: "#/parcours/" + e.id }, [
-      v ? image(v, "tuile-image" + (v.entier ? " entier" : "")) : el("span", { class: "tuile-mot", text: e.titre }),
-      v ? el("span", { class: "tuile-titre", text: e.titre }) : null,
+      v ? image(v, "tuile-image" + (v.entier ? " entier" : "")) : el("span", { class: "tuile-mot", text: bulle(e) }),
+      v ? el("span", { class: "tuile-titre", text: bulle(e) }) : null,
       e.apportCourt ? el("span", { class: "tuile-apport", text: e.apportCourt }) : null
     ])]);
   }
@@ -306,7 +303,7 @@
     var e = parId[id];
     return el("li", { class: "preuve " + e.type }, [
       el("a", { href: "#/parcours/" + id }, [
-        el("span", { class: "preuve-titre", text: e.titre }),
+        el("span", { class: "preuve-titre", text: bulle(e) }),
         el("span", { class: "visuellement-cache", text: " (" + LIBELLES[e.type] + ")" })
       ])
     ]);
@@ -347,6 +344,7 @@
       retour(parent, /^\/parcours/.test(parent) ? "Parcours" : c && compId[c[1]] ? compId[c[1]].titre : RETOURS[parent] || "Retour"),
       el("header", { class: "fiche-tete " + e.type }, [
         el("h1", { id: "fiche-titre", tabindex: "-1", text: e.titre }),
+        el("p", { class: "fiche-periode", text: "(" + e.periode + ")" }),
         e.lieu ? el("p", { class: "fiche-lieu", text: e.lieu }) : null,
         el("p", { class: "fiche-resume", text: e.resume }),
         e.apportCourt ? el("p", { class: "fiche-apport", text: e.apportCourt }) : null
@@ -429,12 +427,7 @@
   function pageMetiers() {
     var P = D.pistes;
     return [
-      retour("/", "Présentation"),
-      el("header", { class: "page-tete" }, [
-        el("h1", { id: "fiche-titre", tabindex: "-1", text: P.titre }),
-        el("p", { class: "positionnement-rappel", text: I.accroche }),
-        el("p", { class: "note", text: P.note })
-      ]),
+      entete(P.titre),
       el("ul", { class: "metiers-liste" }, P.metiers.map(function (m) {
         return el("li", { class: "metier", id: "poste-" + m.id }, [
           el("h2", { text: m.titre }),
@@ -541,6 +534,7 @@
     routeCourante = h;
     marquerRubrique(r.rubrique);
     document.body.classList.toggle("sur-accueil", !r.rendu);
+    document.body.classList.toggle("sur-metiers", h === "/metiers");
     document.body.classList.toggle("sur-parcours", /^\/parcours(?:\/(?:exp-pro|projets-perso))?$/.test(h));
     // Mentions, version et date : uniquement sous la Présentation ; ailleurs le pied est retiré (ni espace ni focus).
     $("pied").hidden = !!r.rendu;
@@ -548,7 +542,8 @@
 
     if (!r.rendu) {
       vue.hidden = true; vue.textContent = ""; accueil.hidden = false;
-      document.title = "Alain Ferro · " + I.accroche;
+      document.title = "Présentation · Alain Ferro";
+      ajusterTitres();
       listeOrigine = null;
       if (versContact) { $("proposer-entretien").focus(); return; }
       window.scrollTo(0, 0);
@@ -559,6 +554,7 @@
     r.rendu.forEach(function (n) { if (n) vue.appendChild(n); });
     accueil.hidden = true; vue.hidden = false;
     document.title = r.titre + " · Alain Ferro";
+    ajusterTitres();
     if (spiraleAttente) { spiraleActive = spiraleAttente; spiraleAttente = null; spiraleActive.demarrer(); }
 
     // De retour sur une liste : on replace le focus sur le lien visible de la fiche quittée.
@@ -601,10 +597,31 @@
     revenir();
   });
 
+
+  // Une ligne entière, sans ellipse : la taille de police suit l’espace réellement disponible.
+  var TITRES_LIGNE = ".fiche-tete h1,.sommaire-titre,.savoir-titre,.etape-titre,.preuve-titre,.tuile-titre,.tuile-mot,.metier h2,.spirale-titre,.competence-titre,.interet h2,.liens-competences a";
+  function ajusterTitres() {
+    Array.prototype.forEach.call(document.querySelectorAll(TITRES_LIGNE), function (n) {
+      if (!n.getClientRects().length) return;
+      n.style.fontSize = "";
+      var c = getComputedStyle(n), taille = parseFloat(c.fontSize);
+      var pad = parseFloat(c.paddingLeft) + parseFloat(c.paddingRight);
+      var largeur = n.clientWidth - pad, texte = n.scrollWidth - pad;
+      if (largeur > 0 && texte > largeur) n.style.fontSize = Math.max(6, taille * (largeur - 1) / texte).toFixed(2) + "px";
+    });
+  }
+
   // Hauteur réelle de l’en-tête (une ou deux lignes) pour placer le sommaire collant.
   function mesurerBandeau() { document.documentElement.style.setProperty("--bandeau", $("bandeau").offsetHeight + "px"); }
-  window.addEventListener("resize", mesurerBandeau);
+  window.addEventListener("resize", function () { mesurerBandeau(); ajusterTitres(); if (spiraleActive) spiraleActive.actualiser(); });
   mesurerBandeau();
+  ajusterTitres();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(ajusterTitres);
+  // Le conteneur peut changer de largeur après un changement de grille ou de barre de défilement.
+  if (window.ResizeObserver) {
+    var observationTitres = new ResizeObserver(function () { ajusterTitres(); if (spiraleActive) spiraleActive.actualiser(); });
+    observationTitres.observe(vue); observationTitres.observe(accueil);
+  }
 
   // Contrôle de géométrie de la spirale affichée (recette) : marge minimale entre bulles, toute rotation.
   window.CVControleSpirale = function () { return spiraleActive ? spiraleActive.controle() : null; };

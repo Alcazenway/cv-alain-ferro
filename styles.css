@@ -1,4 +1,4 @@
-/* CV Intelligent v2.4 — 9 novembre 2026 (site épuré : onglets, présentation photo à gauche, postes visés). Palette du CV : turquoise (Exp pro), cuivre (Savoir - formations), violet (Projets perso).
+/* CV Intelligent v2.5 — 9 novembre 2026 (site épuré : onglets, présentation photo à gauche, postes visés). Palette du CV : turquoise (Exp pro), cuivre (Savoir - formations), violet (Projets perso).
    Fonds « pâles » : teinte très légère de chaque catégorie. Fonds « foncés » : six éléments marquants, texte blanc (contraste AA). */
 :root {
   --experience: #087E83;
@@ -458,4 +458,46 @@ main:focus, #fiche-titre:focus, #titre-nom:focus { outline: none; }
   .parcours-mise { display: block; }
   body { background: #fff; }
   .etape-lien, .tuile a, .competence-ligne { break-inside: avoid; }
+}
+
+/* Lisibilité v2.5 : intitulés complets sur une ligne, police ajustée par app.js. */
+.fiche, .competence-corps, .preuve, .metier { min-width: 0; }
+.fiche-tete h1, .sommaire-titre, .savoir-titre, .etape-titre, .preuve-titre,
+.tuile-titre, .tuile-mot, .metier h2, .spirale-titre, .competence-titre, .interet h2,
+.liens-competences a { white-space: nowrap; min-width: 0; }
+.sommaire-texte { flex: 1; }
+.savoir-titre, .etape-titre, .preuve-titre, .competence-titre { display: block; max-width: 100%; }
+.fiche-tete h1 { font-size: clamp(1.35rem, 2.6vw, 2.1rem); line-height: 1.2; }
+.fiche-periode { margin: .4rem 0 .75rem; font-size: .9rem; line-height: 1.3; font-weight: 600; color: var(--discret); }
+.liens-competences a { max-width: 100%; }
+.tuile-image, .tuile-mot { aspect-ratio: auto; height: 6rem; }
+.tuile-mot { align-items: center; padding: .55rem .8rem; font-size: 1rem; }
+.tuile-titre { font-size: .95rem; }
+.tuile-apport { padding: .55rem .8rem .8rem; font-size: .82rem; line-height: 1.4; }
+
+/* Treize postes espacés sur quatre colonnes, sans texte ni preuve masqués. */
+body.sur-metiers .vue { max-width: 100rem; padding-top: 1rem; padding-bottom: 1rem; }
+body.sur-metiers .page-tete { margin-bottom: .85rem; }
+body.sur-metiers .page-tete h1 { margin: 0; font-size: 1.8rem; }
+.metiers-liste { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(.75rem, 1.4vh, 1.4rem); max-width: none; }
+.metier { padding: .6rem .75rem; border-top-width: 3px; }
+.metier h2 { margin-bottom: .35rem; font-size: 1rem; line-height: 1.2; }
+.metier p { margin-bottom: .35rem; font-size: .82rem; line-height: 1.35; }
+.metier .preuves.compactes { gap: .28rem; }
+.metier .preuves.compactes a { padding: .1rem .5rem; border-left-width: 3px; }
+.metier .preuve-titre { font-size: .78rem; line-height: 1.3; }
+@media (max-height: 850px) and (min-width: 1051px) {
+  .metier { padding: .45rem .65rem; }
+  .metier p { font-size: .78rem; }
+  .metier .preuves.compactes a { padding-top: .1rem; padding-bottom: .1rem; }
+  .metiers-liste { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .65rem; }
+}
+@media (max-width: 1050px) { .metiers-liste { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 740px) { .metiers-liste { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) {
+  .tuiles { grid-template-columns: 1fr; gap: 1rem; }
+  .metiers-liste { grid-template-columns: 1fr; gap: 1rem; }
+  .metier { padding: .8rem; }
+  .metier .preuves.compactes a { padding: .5rem .65rem; }
+  .metier .preuve-titre { font-size: .88rem; }
 }
