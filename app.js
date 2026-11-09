@@ -161,7 +161,8 @@
   }
 
   /* ---------- Parcours : spirale, liste alternative et onglets ---------- */
-  var ETAT_VUE = { liste: false };
+  var ETAT_VUE = { liste: window.innerWidth < 700 };
+  var adapterParcours = null;
   var spiraleActive = null, spiraleAttente = null, filtreFocus = null;
 
   // Deux filtres à bascule : un clic active la catégorie, un second clic revient à toutes les étapes.
@@ -188,12 +189,32 @@
 
   function pageParcours(cat) {
     var etapes = cat ? ordre.filter(function (e) { return e.type === cat.type; }) : ordre;
-    var spirale = window.Spirale ? window.Spirale.creer({
-      items: etapes.map(function (e) {
+    var groupe = 0, nombre = window.innerWidth < 700 ? 1 : 4;
+    function creerSpirale() { return window.Spirale ? window.Spirale.creer({
+      items: etapes.slice(groupe * nombre, (groupe + 1) * nombre).map(function (e) {
         return { id: e.id, titre: bulle(e), href: "#/parcours/" + e.id, type: e.type, important: !!e.important, libelle: LIBELLES[e.type] };
       }),
       debut: REPERES.debut, fin: REPERES.fin
-    }) : null;
+    }) : null; }
+    var spirale = creerSpirale();
+    var avant = el("button", {type: "button", class: "bouton secondaire", text: "← Précédent"});
+    var apres = el("button", {type: "button", class: "bouton secondaire", text: "Suivant →"});
+    var progression = el("span", {role: "status"});
+    var chapitres = el("div", {class: "parcours-chapitres", "aria-label": "Étapes de la spirale"}, [avant, progression, apres]);
+    function etatChapitre() {
+      progression.textContent = "Étapes " + (groupe * nombre + 1) + "–" + Math.min(etapes.length, (groupe + 1) * nombre) + " / " + etapes.length;
+      avant.disabled = groupe === 0; apres.disabled = (groupe + 1) * nombre >= etapes.length;
+    }
+    function changerGroupe(index) {
+      groupe = Math.max(0, Math.min(Math.ceil(etapes.length / nombre) - 1, index));
+      var ancien = spirale; spirale = creerSpirale();
+      if (ancien && spirale) { ancien.arreter(); ancien.noeud.replaceWith(spirale.noeud); spiraleActive = spirale; spirale.demarrer(); }
+      etatChapitre(); afficher(); if (window.Lecture) window.Lecture.actualiser();
+    }
+    avant.addEventListener("click", function () { changerGroupe(groupe - 1); });
+    apres.addEventListener("click", function () { changerGroupe(groupe + 1); });
+    adapterParcours = function () { var n = window.innerWidth < 700 ? 1 : 4; if (n !== nombre) { var debut = groupe * nombre; nombre = n; changerGroupe(Math.floor(debut / nombre)); } };
+    etatChapitre();
     var vueListe = el("div", { class: "frise-cadre", id: "parcours-liste" }, [
       borne("fin"),
       el("ol", { class: "frise", reversed: "" }, etapes.slice().reverse().map(etapeListe)),
@@ -205,6 +226,7 @@
       vueListe.hidden = !liste;
       if (spirale) spirale.noeud.hidden = liste;
       bascule.hidden = !spirale;
+      chapitres.hidden = liste || !spirale;
       bascule.textContent = liste ? "Voir la spirale" : "Voir en liste";
       bascule.setAttribute("aria-expanded", String(liste));
     }
@@ -216,7 +238,7 @@
     spiraleAttente = spirale;
     return [
       titreCache(cat ? "Parcours · " + cat.titre : "Parcours"),
-      el("div", { class: "parcours-commandes" }, [filtres(cat ? cat.slug : ""), bascule]),
+      el("div", { class: "parcours-commandes" }, [filtres(cat ? cat.slug : ""), bascule, chapitres]),
       spirale ? spirale.noeud : null,
       vueListe
     ];
@@ -525,6 +547,8 @@
         : RETIREES.indexOf(m[1]) !== -1 ? "/parcours" : null;
       if (cible) { h = cible; history.replaceState(null, "", "#" + h); }
     }
+    if (window.Lecture) window.Lecture.arreter();
+    adapterParcours = null;
     if (spiraleActive) { spiraleActive.arreter(); spiraleActive = null; }
     spiraleAttente = null;
     var r = resoudre(h);
@@ -543,6 +567,7 @@
     if (!r.rendu) {
       vue.hidden = true; vue.textContent = ""; accueil.hidden = false;
       document.title = "Présentation · Alain Ferro";
+      if (window.Lecture) window.Lecture.installer(accueil, ajusterTitres);
       ajusterTitres();
       listeOrigine = null;
       if (versContact) { $("proposer-entretien").focus(); return; }
@@ -554,6 +579,7 @@
     r.rendu.forEach(function (n) { if (n) vue.appendChild(n); });
     accueil.hidden = true; vue.hidden = false;
     document.title = r.titre + " · Alain Ferro";
+    if (window.Lecture) window.Lecture.installer(vue, function () { ajusterTitres(); if (spiraleActive) spiraleActive.actualiser(); });
     ajusterTitres();
     if (spiraleAttente) { spiraleActive = spiraleAttente; spiraleAttente = null; spiraleActive.demarrer(); }
 
@@ -599,21 +625,22 @@
 
 
   // Une ligne entière, sans ellipse : la taille de police suit l’espace réellement disponible.
-  var TITRES_LIGNE = ".fiche-tete h1,.sommaire-titre,.savoir-titre,.etape-titre,.preuve-titre,.tuile-titre,.tuile-mot,.metier h2,.spirale-titre,.competence-titre,.interet h2,.liens-competences a";
+  var TITRES_LIGNE = ".onglets-site a,.fiche-tete h1,.sommaire-titre,.savoir-titre,.etape-titre,.preuve-titre,.tuile-titre,.tuile-mot,.metier h2,.spirale-titre,.competence-titre,.interet h2,.liens-competences a";
   function ajusterTitres() {
     Array.prototype.forEach.call(document.querySelectorAll(TITRES_LIGNE), function (n) {
       if (!n.getClientRects().length) return;
       n.style.fontSize = "";
       var c = getComputedStyle(n), taille = parseFloat(c.fontSize);
       var pad = parseFloat(c.paddingLeft) + parseFloat(c.paddingRight);
-      var largeur = n.clientWidth - pad, texte = n.scrollWidth - pad;
+      var plage = document.createRange(); plage.selectNodeContents(n);
+      var largeur = n.clientWidth - pad, texte = Math.max(n.scrollWidth - pad, plage.getBoundingClientRect().width);
       if (largeur > 0 && texte > largeur) n.style.fontSize = Math.max(6, taille * (largeur - 1) / texte).toFixed(2) + "px";
     });
   }
 
   // Hauteur réelle de l’en-tête (une ou deux lignes) pour placer le sommaire collant.
   function mesurerBandeau() { document.documentElement.style.setProperty("--bandeau", $("bandeau").offsetHeight + "px"); }
-  window.addEventListener("resize", function () { mesurerBandeau(); ajusterTitres(); if (spiraleActive) spiraleActive.actualiser(); });
+  window.addEventListener("resize", function () { mesurerBandeau(); if (adapterParcours) adapterParcours(); ajusterTitres(); if (spiraleActive) spiraleActive.actualiser(); if (window.Lecture) window.Lecture.actualiser(); });
   mesurerBandeau();
   ajusterTitres();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(ajusterTitres);

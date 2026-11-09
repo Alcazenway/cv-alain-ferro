@@ -1,4 +1,4 @@
-/* Spirale du parcours — CV Intelligent v2.4 (9 novembre 2026).
+/* Spirale du parcours — CV Intelligent v2.6 (9 novembre 2026).
    v2.4 : plus aucune commande visible (ni pause, ni zoom, ni légende, ni texte de rotation).
    Arrêt du mouvement : survol d’une bulle, toucher, focus clavier dans la spirale ; Échap y fige la rotation
    pour le reste de la visite ; mouvement réduit : spirale fixe. État annoncé aux seuls lecteurs d’écran.
@@ -135,7 +135,7 @@
       });
       if (!mesures[1] || !mesures[1].w) return false; // pas encore affiché (vue liste)
       var cle = mesures.map(function (n) { return n.w + "x" + n.h; }).join(",");
-      if (geo && cle === signature) return true;   // tailles inchangées : rien à recalculer
+      if (geo && cle === signature) { dimensionner(true); return true; }
       var premier = !geo;
       signature = cle; noeuds = mesures;
       geo = placer(noeuds);
@@ -189,13 +189,14 @@
       dessiner();
     }
 
-    // Taille réelle (sans zoom) ; sur petit écran la surface défile horizontalement, le point central reste en place.
+    // Le groupe d’étapes tient dans la fenêtre, sans défilement ; positions et rotation gardent leur géométrie.
     function dimensionner(garderCentre) {
-      var cx = 0.5;
-      if (garderCentre && taille.offsetWidth) cx = (fenetre.scrollLeft + fenetre.clientWidth / 2) / taille.offsetWidth;
       var cote = 2 * centre;
-      taille.style.width = taille.style.height = cote + "px";
-      fenetre.scrollLeft = Math.max(0, cx * cote - fenetre.clientWidth / 2);
+      var hauteur = fenetre.clientHeight || cote;
+      var echelle = Math.min(1, fenetre.clientWidth / cote, hauteur / cote);
+      taille.style.width = taille.style.height = (cote * echelle) + "px";
+      scene.style.transform = "scale(" + echelle + ")";
+      fenetre.scrollLeft = 0;
     }
 
     // Échap dans la spirale : rotation figée (pause accessible sans bouton visible).

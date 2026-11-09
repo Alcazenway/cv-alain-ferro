@@ -1,7 +1,7 @@
 # Alain Ferro — parcours détaillé
 
 Vitrine professionnelle personnelle, sans dépendance distante ni collecte de données.
-Version du site : 2.5 (9 novembre 2026). PDF et PowerPoint : 2.4, inchangés.
+Version du site : 2.6 (9 novembre 2026). PDF et PowerPoint : 2.4, inchangés.
 Navigation : cinq onglets — Présentation, Parcours, Savoir - formations, Compétences, Intérêts ; « Proposer un entretien » ouvre la messagerie du visiteur avec un message prérempli, sans envoi automatique.
 Adresse publique stable : https://alcazenway.github.io/cv-alain-ferro/
 
@@ -22,3 +22,6 @@ Habillage v2.2 : galaxie monochrome originale générée par ImageGen, bulles so
 V2.3 : page Parcours entièrement étoilée, catégories en toutes lettres.
 V2.4 : site épuré (onglets, présentation, fiches, parcours), page Postes visés, repère « Aujourd’hui » illustré par un adulte comme le PDF.
 V2.5 : textes explicatifs sans première personne, suppression du lien « Les 13 postes et leurs preuves », du positionnement vert et de la note des pistes. Miniatures plus petites. Grille des 13 postes sur un écran d’ordinateur de 1280 × 800 à 2320 × 1355 ; défilement vertical conservé sur mobile et pour les fiches détaillées.
+V2.6 : la clarification « toutes les pages, y compris les fiches » remplace la portée limitée de la v2.5. Toutes les routes tiennent dans la fenêtre. Le contenu complet se lit avec Précédent/Suivant, le sélecteur de pages ou Page précédente/Page suivante au clavier. La fragmentation native du navigateur conserve les textes, liens et médias ; l’ouverture d’un dossier, les images et les redimensionnements recalculent le nombre de vues. Un lien recevant le focus révèle automatiquement sa vue. Les vidéos quittées sont mises en pause. Le sommaire de fiche devient un sélecteur, sans barre de défilement interne.
+
+Parcours v2.6 : spirale ajustée à la fenêtre, groupes chronologiques de quatre étapes sur ordinateur et d’une étape sur petit écran, repères naissance/aujourd’hui conservés. La rotation600s et les textes horizontaux sont conservés. Sur un écran de moins de700px, la liste paginée s’ouvre par défaut ; la spirale reste accessible par la bascule. Les filtres et les30liens directs demeurent inchangés. Les feuilles lecture.css et le module lecture.js pilotent la lecture par écrans. L’impression conserve le contenu entier, sans pagination interactive.
