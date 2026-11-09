@@ -1,4 +1,4 @@
-/* Contenu du site v2.5 (9 novembre 2026). Repris de la v2.3.
+/* Contenu du site v2.6 (9 novembre 2026). Repris de la v2.3.
    Le parcours est rangé du plus ancien au plus récent (l’ordre du tableau fait foi, comme la frise du PDF) ;
    les périodes figurent uniquement dans l’en-tête des fiches. « bulle » : titre seul des bulles de la spirale et du sommaire.
    « important » : six éléments mis en avant par une teinte plus foncée.
@@ -29,7 +29,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV_Alain_Ferro.pdf?v=2.5",
+    "cvPdf": "./CV_Alain_Ferro.pdf?v=2.6",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV en ligne a retenu l’attention pour un poste de [intitulé du poste] au sein de [entreprise], à [lieu].\n\nUn entretien est proposé [proposition de date et d’horaire], en présentiel ou par téléphone.\n\nCordialement,\n\n[Prénom Nom]\n[Fonction] · [Entreprise]\n[Téléphone]"
@@ -2404,7 +2404,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne contient aucun formulaire : l’éditeur ne collecte aucune donnée. Le bouton « Proposer un entretien » ouvre simplement votre messagerie, sans aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "9 novembre 2026",
-    "version": "2.5"
+    "version": "2.6"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"
