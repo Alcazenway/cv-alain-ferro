@@ -11,7 +11,7 @@
   var catSlug = Object.create(null);
   CATEGORIES.forEach(function (c) { catSlug[c.slug] = c; });
   var ANCIENNES = { haut: "/", parcours: "/parcours", competences: "/competences", realisations: "/realisations", contact: "/contact", interets: "/interets",
-    savoir: "/savoir-formations", "savoir-formations": "/savoir-formations" };
+    savoir: "/savoir-formations", "savoir-formations": "/savoir-formations", metiers: "/metiers", postes: "/metiers", "/postes": "/metiers" };
   var ALIAS = D.alias || {};
   var RETIREES = D.retirees || [];
   var parId = Object.create(null), compId = Object.create(null);
@@ -21,9 +21,10 @@
   var ordre = D.parcours.filter(function (e) { return e.type !== "formation"; });
   var formations = D.parcours.filter(function (e) { return e.type === "formation"; });
   function suiteDe(e) { return e.type === "formation" ? formations : ordre; }
+  // Repère de fin : adulte (comme le PDF v2.4) ; l’ancien pictogramme sert de secours tant que le fichier manque.
   var REPERES = {
     debut: { texte: "Naissance", annee: "1982", image: "assets/repere-naissance.png" },
-    fin: { texte: "Aujourd’hui", annee: "2026", image: "assets/repere-aujourdhui.png" }
+    fin: { texte: "Aujourd’hui", annee: "2026", image: "assets/repere-adulte-v2.4.png", secours: "assets/repere-aujourdhui.png" }
   };
 
   var $ = function (id) { return document.getElementById(id); };
@@ -48,8 +49,15 @@
   // Première image fixe d’une fiche (version statique d’une animation), pour les vignettes.
   function vignette(e) {
     var toutes = (e.galerie || []).concat.apply(e.galerie || [], (e.sections || []).map(function (s) { return s.galerie || []; }));
-    for (var i = 0; i < toutes.length; i++) if (toutes[i].src) return { src: toutes[i].statique || toutes[i].src, alt: toutes[i].alt };
+    for (var i = 0; i < toutes.length; i++) if (toutes[i].src) return { src: toutes[i].statique || toutes[i].src, alt: toutes[i].alt, entier: !!toutes[i].entier };
     return null;
+  }
+  // Image de secours : en cas d’échec, essaie l’ancien fichier avant de retirer l’image.
+  function secours(img, chemin, retirer) {
+    img.addEventListener("error", function () {
+      if (chemin && img.getAttribute("src") !== chemin) img.setAttribute("src", chemin);
+      else retirer();
+    });
   }
   function image(v, cls) {
     var img = el("img", { src: v.src, alt: "", loading: "lazy", decoding: "async", class: cls || "" });
@@ -61,9 +69,7 @@
   var I = D.identite;
   var mailto = "mailto:" + I.email + "?subject=" + encodeURIComponent(I.mail.objet) +
     "&body=" + encodeURIComponent(I.mail.corps.replace(/\n/g, "\r\n"));
-  $("recherche").textContent = I.recherche;
   $("accroche").textContent = I.accroche;
-  $("appui").textContent = I.appui;
   $("promesse").textContent = I.promesse;
   $("lien-cv").setAttribute("href", I.cvPdf);
   $("proposer-entretien").setAttribute("href", mailto);
@@ -86,34 +92,25 @@
     $("chiffres").appendChild(el("li", null, [el("strong", { text: c.valeur }), el("span", { text: c.libelle })]));
   });
 
-  var entrees = [
-    { href: "#/parcours", titre: "Parcours", texte: ordre.length + " étapes en spirale, de la naissance à aujourd’hui" },
-    { href: "#/savoir-formations", titre: SAVOIR, texte: formations.length + " formations, titre professionnel et certification" },
-    { href: "#/competences", titre: "Compétences", texte: D.competences.length + " compétences, outils et preuves" },
-    { href: "#/interets", titre: "Intérêts", texte: D.interets.length + " centres d’intérêt reliés au parcours" }
-  ];
-  entrees.forEach(function (r, i) {
-    $("entrees").appendChild(el("li", null, [el("a", { href: r.href, class: "entree" }, [
-      el("span", { class: "entree-num", text: "0" + (i + 1), "aria-hidden": "true" }),
-      el("span", { class: "entree-titre", text: r.titre }),
-      el("span", { class: "entree-texte", text: r.texte })
-    ])]));
-  });
+  // Postes visés à côté de la photo : les premiers intitulés, la page #/metiers donne la liste complète et les preuves.
+  var POSTES_UNE = 6;
+  D.pistes.metiers.slice(0, POSTES_UNE).forEach(function (m) { $("postes").appendChild(el("li", { text: m.titre })); });
+  $("postes").appendChild(el("li", { class: "postes-suite" }, [
+    el("a", { href: "#/metiers", text: "Les " + D.pistes.metiers.length + " postes et leurs preuves →" })
+  ]));
 
+  // Réalisations marquantes : vignette, titre et apport concret.
   function tuileRealisation(id) {
     var e = parId[id], v = vignette(e);
     return el("li", { class: "tuile " + e.type }, [el("a", { href: "#/parcours/" + e.id }, [
-      v ? image(v, "tuile-image") : el("span", { class: "tuile-mot", text: bulle(e), "aria-hidden": "true" }),
-      el("span", { class: "tuile-type" }, [forme(e.type), LIBELLES[e.type]]),
-      el("span", { class: "tuile-titre", text: e.titre })
+      v ? image(v, "tuile-image" + (v.entier ? " entier" : "")) : el("span", { class: "tuile-mot", text: e.titre }),
+      v ? el("span", { class: "tuile-titre", text: e.titre }) : null,
+      e.apportCourt ? el("span", { class: "tuile-apport", text: e.apportCourt }) : null
     ])]);
   }
   D.realisations.filter(function (id) { return parId[id]; }).forEach(function (id) { $("selection").appendChild(tuileRealisation(id)); });
 
-  $("titre-pistes").textContent = D.pistes.titre;
-  $("pistes-texte").textContent = D.pistes.texte;
-  D.pistes.metiers.forEach(function (m) { $("metiers").appendChild(el("li", { text: m })); });
-  $("maj").textContent = "Version 2.3 · mise à jour : " + D.mentions.maj;
+  $("maj").textContent = "Version " + D.mentions.version + " · mise à jour : " + D.mentions.maj;
 
   /* ---------- Briques communes ---------- */
   function retour(parent, texte) {
@@ -125,21 +122,24 @@
       chapo ? el("p", { class: "chapo", text: chapo }) : null
     ]);
   }
+  // H1 accessible mais masqué : la navigation du haut nomme déjà la page.
+  function titreCache(titre) {
+    return el("h1", { id: "fiche-titre", class: "visuellement-cache", tabindex: "-1", text: titre });
+  }
   function section(titre, contenu, niveau) {
     return contenu ? el("section", { class: "fiche-section" }, [el(niveau || "h2", { text: titre }), contenu]) : null;
+  }
+  // Ligne compacte « libellé : contenu », sans titre de section.
+  function ligne(libelle, contenu) {
+    return contenu ? el("div", { class: "fiche-ligne" }, [el("span", { class: "fiche-ligne-titre", text: libelle }), contenu]) : null;
   }
   function borne(cle) {
     var r = REPERES[cle];
     var img = el("img", { src: r.image, alt: "", width: "32", height: "32", class: "borne-image", decoding: "async" });
     var p = el("p", { class: "borne " + cle }, [img, el("span", { class: "borne-texte" }, [el("strong", { text: r.texte }), " · " + r.annee])]);
     // Pictogramme absent : la borne garde son texte et un repère graphique simple.
-    img.addEventListener("error", function () { img.remove(); p.classList.add("sans-image"); });
+    secours(img, r.secours, function () { img.remove(); p.classList.add("sans-image"); });
     return p;
-  }
-  function legende() {
-    return el("ul", { class: "legende", "aria-label": "Légende" }, CATEGORIES.map(function (c) {
-      return el("li", { class: c.type, text: c.titre });
-    }).concat([el("li", { class: "legende-important", text: "Élément marquant" })]));
   }
 
   function media(p) {
@@ -157,26 +157,26 @@
     }
     return el("figure", null, [corps, p.legende ? el("figcaption", { text: p.legende }) : null]);
   }
-  function galerie(photos, niveau) {
+  // Galerie sans titre « En images » : les médias parlent d’eux-mêmes ; les légendes validées restent.
+  function galerie(photos) {
     if (!photos || !photos.length) return null;
-    return section("En images", el("div", { class: "galerie" }, photos.map(media)), niveau);
+    return el("div", { class: "galerie" }, photos.map(media));
   }
 
   /* ---------- Parcours : spirale, liste alternative et onglets ---------- */
   var ETAT_VUE = { liste: false };
-  var spiraleActive = null, spiraleAttente = null;
+  var spiraleActive = null, spiraleAttente = null, filtreFocus = null;
 
-  function onglets(actif, sansSavoir) {
-    var items = [{ href: "#/parcours", slug: "", titre: "Tout" }]
-      .concat(CATEGORIES.map(function (c) { return { href: "#/parcours/" + c.slug, slug: c.slug, type: c.type, titre: c.titre }; }));
-    if (!sansSavoir) items.push({ href: "#/savoir-formations", slug: "savoir", type: "formation", titre: SAVOIR });
-    return el("nav", { class: "onglets", "aria-label": "Catégories du parcours" }, [
-      el("ul", null, items.map(function (c) {
-        var a = el("a", { href: c.href, class: (c.type || "") + (c.slug === "savoir" ? " onglet-savoir" : "") }, [!sansSavoir && c.type ? forme(c.type) : null, c.titre]);
-        if (c.slug === actif) a.setAttribute("aria-current", "page");
-        return el("li", null, [a]);
-      }))
-    ]);
+  // Deux filtres à bascule : un clic active la catégorie, un second clic revient à toutes les étapes.
+  // Les routes #/parcours/exp-pro et #/parcours/projets-perso restent les adresses de chaque filtre.
+  function filtres(actif) {
+    return el("div", { class: "filtres", role: "group", "aria-label": "Filtrer le parcours" }, CATEGORIES.map(function (c) {
+      var presse = c.slug === actif;
+      var b = el("button", { type: "button", class: "filtre " + c.type, "aria-pressed": String(presse), "data-filtre": c.slug, text: c.titre });
+      // Après le changement de route, le focus revient sur ce même filtre (et non sur le titre masqué).
+      b.addEventListener("click", function () { filtreFocus = c.slug; location.hash = presse ? "#/parcours" : "#/parcours/" + c.slug; });
+      return b;
+    }));
   }
 
   // Liste lisible sans animation : du plus récent au plus ancien, comme le sommaire.
@@ -195,7 +195,7 @@
       items: etapes.map(function (e) {
         return { id: e.id, titre: bulle(e), href: "#/parcours/" + e.id, type: e.type, important: !!e.important, libelle: LIBELLES[e.type] };
       }),
-      debut: REPERES.debut, fin: REPERES.fin, legende: legende()
+      debut: REPERES.debut, fin: REPERES.fin
     }) : null;
     var vueListe = el("div", { class: "frise-cadre", id: "parcours-liste" }, [
       borne("fin"),
@@ -218,25 +218,20 @@
     afficher();
     spiraleAttente = spirale;
     return [
-      el("h1", { id: "fiche-titre", class: "visuellement-cache", tabindex: "-1", text: cat ? "Parcours · " + cat.titre : "Parcours" }),
-      onglets(cat ? cat.slug : "", true),
-      el("p", { class: "vue-choix" }, [bascule]),
+      titreCache(cat ? "Parcours · " + cat.titre : "Parcours"),
+      el("div", { class: "parcours-commandes" }, [filtres(cat ? cat.slug : ""), bascule]),
       spirale ? spirale.noeud : null,
-      vueListe,
-      el("p", { class: "suite" }, [el("a", { href: "#/realisations", text: "Réalisations marquantes →" })])
+      vueListe
     ];
   }
 
   /* ---------- Savoir - formations : onglet séparé, hors spirale ---------- */
   function pageSavoir() {
     return [
-      retour("/", "Accueil"),
-      entete(SAVOIR, "Formations suivies, titre professionnel et certification, regroupés hors de la spirale du parcours."),
-      onglets("savoir"),
+      titreCache(SAVOIR),
       el("ol", { class: "savoir-liste", reversed: "" }, formations.slice().reverse().map(function (e) {
         return el("li", { class: "savoir-item formation" + (e.important ? " important" : "") }, [
           el("a", { href: "#/parcours/" + e.id }, [
-            forme("formation"),
             el("span", { class: "savoir-titre", text: bulle(e) }),
             e.important ? el("span", { class: "visuellement-cache", text: " (élément marquant)" }) : null
           ])
@@ -306,24 +301,25 @@
     else if (bas > corps.clientHeight - 16) corps.scrollTop = Math.min(corps.scrollHeight - corps.clientHeight, corps.scrollTop + bas - corps.clientHeight + 24);
   }
 
+  // Lien vers une fiche : titre seul ; la catégorie n’est donnée que par la couleur et aux lecteurs d’écran.
   function lienEtape(id) {
     var e = parId[id];
     return el("li", { class: "preuve " + e.type }, [
       el("a", { href: "#/parcours/" + id }, [
-        el("span", { class: "etape-type" }, [forme(e.type), LIBELLES[e.type]]),
-        el("span", { class: "preuve-titre", text: e.titre })
+        el("span", { class: "preuve-titre", text: e.titre }),
+        el("span", { class: "visuellement-cache", text: " (" + LIBELLES[e.type] + ")" })
       ])
     ]);
   }
 
-  function dossiers(sections) {
+  function dossiers(sections, dejaVu) {
     if (!sections || !sections.length) return null;
     var groupe = el("div", { class: "dossiers" });
     sections.forEach(function (s) {
       var corps = el("div", { class: "dossier-contenu" });
-      (s.paragraphes || []).forEach(function (t) { corps.appendChild(el("p", { text: t })); });
+      (s.paragraphes || []).forEach(function (t) { if (dejaVu.indexOf(t) === -1) corps.appendChild(el("p", { text: t })); });
       if (s.points && s.points.length) corps.appendChild(liste(s.points));
-      var photos = galerie(s.galerie, "h3"); if (photos) corps.appendChild(photos);
+      var photos = galerie(s.galerie); if (photos) corps.appendChild(photos);
       var bloc = el("details", { class: "dossier" }, [el("summary", null, [el("h2", { text: s.titre })]), corps]);
       if (s.ouvert) bloc.setAttribute("open", "");
       groupe.appendChild(bloc);
@@ -335,31 +331,41 @@
     return D.interets.filter(function (x) { return x.fiches.indexOf(e.id) !== -1; });
   }
 
+  var RETOURS = { "/savoir-formations": SAVOIR, "/metiers": "Postes visés", "/competences": "Compétences", "/interets": "Intérêts", "/realisations": "Réalisations" };
+
+  // Fiche : un seul vrai titre, lieu, résumé, puis tout de suite l’apport concret.
+  // Pas de catégorie répétée ni de titres de sections mécaniques ; aucun texte affiché deux fois.
   function ficheParcours(e, parent) {
     var comps = (e.competences || []).filter(function (id) { return compId[id]; });
     var gouts = interetsDe(e);
+    var dejaVu = [e.resume, e.apportCourt];
+    var contexte = e.contexte && dejaVu.indexOf(e.contexte) === -1 ? e.contexte : null;
+    if (contexte) dejaVu.push(contexte);
+    var missions = (e.missions || []).filter(function (m) { return dejaVu.indexOf(m) === -1; });
+    var c = parent.match(/^\/competence\/([\w-]+)$/);
     var fiche = el("div", { class: "fiche fiche-" + e.type }, [
-      retour(parent, /^\/parcours/.test(parent) ? "Parcours" : parent === "/savoir-formations" ? SAVOIR : "Retour"),
+      retour(parent, /^\/parcours/.test(parent) ? "Parcours" : c && compId[c[1]] ? compId[c[1]].titre : RETOURS[parent] || "Retour"),
       el("header", { class: "fiche-tete " + e.type }, [
-        el("p", { class: "fiche-type" }, [forme(e.type), LIBELLES[e.type]]),
         el("h1", { id: "fiche-titre", tabindex: "-1", text: e.titre }),
         e.lieu ? el("p", { class: "fiche-lieu", text: e.lieu }) : null,
-        el("p", { class: "fiche-resume", text: e.resume })
+        el("p", { class: "fiche-resume", text: e.resume }),
+        e.apportCourt ? el("p", { class: "fiche-apport", text: e.apportCourt }) : null
       ]),
-      e.contexte ? el("p", { class: "fiche-intro", text: e.contexte }) : null,
+      contexte ? el("p", { class: "fiche-intro", text: contexte }) : null,
       e.site ? el("p", { class: "lien-externe" }, [el("a", { class: "bouton secondaire", href: e.site.url, target: "_blank", rel: "noopener", text: e.site.libelle + " ↗" })]) : null,
-      e.missions && e.missions.length ? liste(e.missions, "puces fiche-liste") : null,
-      dossiers(e.sections),
-      e.outils ? section("Outils", etiquettes(e.outils)) : null,
-      e.apports && e.apports.length ? section(e.generale ? "Thèmes" : "Acquis", etiquettes(e.apports)) : null,
-      comps.length ? section("Compétences liées", el("ul", { class: "liens-competences" }, comps.map(function (id) {
-        return el("li", null, [el("a", { href: "#/competence/" + id, text: compId[id].titre })]);
-      }))) : null,
-      e.transfert ? section("Apport au poste", el("p", { class: "transfert", text: e.transfert })) : null,
-      gouts.length ? section("Intérêts liés", el("ul", { class: "liens-competences" }, gouts.map(function (x) {
-        return el("li", null, [el("a", { href: "#/interets", text: x.nom })]);
-      }))) : null,
-      galerie(e.galerie)
+      missions.length ? liste(missions, "puces fiche-liste") : null,
+      galerie(e.galerie),
+      dossiers(e.sections, dejaVu),
+      el("div", { class: "fiche-lignes" }, [
+        e.outils ? ligne("Outils", etiquettes(e.outils)) : null,
+        e.apports && e.apports.length ? ligne("Acquis", etiquettes(e.apports)) : null,
+        comps.length ? ligne("Compétences", el("ul", { class: "liens-competences" }, comps.map(function (id) {
+          return el("li", null, [el("a", { href: "#/competence/" + id, text: compId[id].titre })]);
+        }))) : null,
+        gouts.length ? ligne("Intérêts", el("ul", { class: "liens-competences" }, gouts.map(function (x) {
+          return el("li", null, [el("a", { href: "#/interets", text: x.nom })]);
+        }))) : null
+      ])
     ]);
     return [el("div", { class: "parcours-mise" }, [sommaire(e), fiche])];
   }
@@ -378,10 +384,10 @@
     }));
   }
 
+  // Index : seulement les compétences, chacune ouvre sa fiche ; pas de chapo ni de commentaire.
   function pageCompetences() {
     return [
-      retour("/", "Accueil"),
-      entete("Compétences"),
+      titreCache("Compétences"),
       el("ol", { class: "competences-liste" }, D.competences.map(function (c, i) {
         var outils = outilsDe(c).reduce(function (t, f) { return t.concat(f.items); }, []);
         if (c.id === "plateformes") outils = D.plateformes.items.slice(0, 6).map(function (p) { return p.nom; });
@@ -390,12 +396,10 @@
           el("span", { class: "competence-corps" }, [
             el("span", { class: "competence-titre", text: c.titre }),
             el("span", { class: "competence-sous", text: c.sousTitre }),
-            el("span", { class: "competence-texte", text: c.resume }),
             outils.length ? el("span", { class: "competence-outils", text: outils.join(" · ") }) : null
           ])
         ])]);
-      })),
-      section("Langues et mobilité", el("p", { text: I.langues + " · " + I.permis + "." }))
+      }))
     ];
   }
 
@@ -405,15 +409,14 @@
     return [
       retour("/competences", "Compétences"),
       el("header", { class: "fiche-tete competence" }, [
-        el("p", { class: "fiche-type", text: "Compétence" }),
         el("h1", { id: "fiche-titre", tabindex: "-1", text: c.titre }),
         el("p", { class: "fiche-lieu", text: c.sousTitre }),
         el("p", { class: "fiche-resume", text: c.resume })
       ]),
-      section("En pratique", liste(c.detail)),
-      familles.length ? section("Outils", el("div", { class: "outils" }, familles.map(function (f) {
-        return el("div", { class: "famille" }, [el("h3", { text: f.famille }), etiquettes(f.items)]);
-      }))) : null,
+      liste(c.detail, "puces fiche-liste"),
+      familles.length ? el("div", { class: "outils fiche-section" }, familles.map(function (f) {
+        return el("div", { class: "famille" }, [el("h2", { text: f.famille }), etiquettes(f.items)]);
+      })) : null,
       c.id === "ia" || c.id === "plateformes" ? el("section", { class: "fiche-section plateformes" }, [
         el("h2", { text: P.titre }), el("p", { class: "note", text: P.note }), logos(P.items)
       ]) : null,
@@ -422,11 +425,30 @@
     ];
   }
 
+  /* ---------- Postes visés : pistes tirées du parcours, chacune avec ses preuves ---------- */
+  function pageMetiers() {
+    var P = D.pistes;
+    return [
+      retour("/", "Présentation"),
+      el("header", { class: "page-tete" }, [
+        el("h1", { id: "fiche-titre", tabindex: "-1", text: P.titre }),
+        el("p", { class: "positionnement-rappel", text: I.accroche }),
+        el("p", { class: "note", text: P.note })
+      ]),
+      el("ul", { class: "metiers-liste" }, P.metiers.map(function (m) {
+        return el("li", { class: "metier", id: "poste-" + m.id }, [
+          el("h2", { text: m.titre }),
+          el("p", { text: m.justification }),
+          el("ul", { class: "preuves compactes", "aria-label": "Preuves : " + m.titre }, m.preuves.filter(function (id) { return parId[id]; }).map(lienEtape))
+        ]);
+      }))
+    ];
+  }
+
   /* ---------- Intérêts ---------- */
   function pageInterets() {
     return [
-      retour("/", "Accueil"),
-      entete("Intérêts"),
+      titreCache("Intérêts"),
       el("ul", { class: "interets" }, D.interets.map(function (x) {
         return el("li", { class: "interet", id: "interet-" + x.id }, [
           el("figure", { class: "interet-image" }, [el("img", { src: x.image.src, alt: x.image.alt, loading: "lazy", decoding: "async" })]),
@@ -443,17 +465,16 @@
   /* ---------- Réalisations (route conservée), mentions ---------- */
   function pageRealisations() {
     return [
-      retour("/parcours", "Parcours"),
-      entete("Réalisations"),
-      el("ul", { class: "tuiles" }, D.realisations.filter(function (id) { return parId[id]; }).map(tuileRealisation)),
-      el("p", { class: "suite" }, [el("a", { href: "#/interets", text: "Centres d’intérêt →" })])
+      retour("/", "Présentation"),
+      entete("Réalisations marquantes"),
+      el("ul", { class: "tuiles" }, D.realisations.filter(function (id) { return parId[id]; }).map(tuileRealisation))
     ];
   }
 
   function pageMentions() {
     var M = D.mentions;
     return [
-      retour("/", "Accueil"),
+      retour("/", "Présentation"),
       entete("Mentions légales et confidentialité"),
       section("Éditeur", el("p", { text: M.editeur })),
       section("Hébergement", el("p", { text: M.hebergeur })),
@@ -468,7 +489,8 @@
 
   function resoudre(h) {
     var m;
-    if (h === "/" || h === "") return { rubrique: "", titre: "" };
+    if (h === "/" || h === "") return { rubrique: "presentation", titre: "" };
+    if (h === "/metiers") return { rubrique: "presentation", titre: D.pistes.titre, rendu: pageMetiers(), liste: true };
     if (h === "/parcours") return { rubrique: "parcours", titre: "Parcours", rendu: pageParcours(null), liste: true };
     if ((m = h.match(/^\/parcours\/([\w-]+)$/))) {
       if (catSlug[m[1]]) return { rubrique: "parcours", titre: "Parcours · " + catSlug[m[1]].titre, rendu: pageParcours(catSlug[m[1]]), liste: true };
@@ -476,7 +498,7 @@
       if (e) {
         var savoir = e.type === "formation";
         // Une formation ne revient jamais vers la spirale, qui ne la contient pas.
-        var origineValide = listeOrigine && (savoir ? /^\/(savoir-formations|competence|realisations|interets)/ : /^\/(parcours|competence|realisations|interets)/).test(listeOrigine);
+        var origineValide = listeOrigine && (savoir ? /^\/(savoir-formations|competence|realisations|interets|metiers)/ : /^\/(parcours|competence|realisations|interets|metiers)/).test(listeOrigine);
         var parent = origineValide ? listeOrigine : savoir ? "/savoir-formations" : "/parcours";
         return { rubrique: savoir ? "savoir" : "parcours", titre: e.titre, rendu: ficheParcours(e, parent), detail: true, fiche: true };
       }
@@ -485,7 +507,7 @@
     if (h === "/competences") return { rubrique: "competences", titre: "Compétences", rendu: pageCompetences(), liste: true };
     if ((m = h.match(/^\/competence\/([\w-]+)$/)) && compId[m[1]]) return { rubrique: "competences", titre: compId[m[1]].titre, rendu: ficheCompetence(compId[m[1]]), liste: true, detail: true };
     if (h === "/interets") return { rubrique: "interets", titre: "Intérêts", rendu: pageInterets(), liste: true };
-    if (h === "/realisations") return { rubrique: "parcours", titre: "Réalisations", rendu: pageRealisations(), liste: true };
+    if (h === "/realisations") return { rubrique: "presentation", titre: "Réalisations marquantes", rendu: pageRealisations(), liste: true };
     if (h === "/mentions") return { rubrique: "", titre: "Mentions légales", rendu: pageMentions() };
     return null;
   }
@@ -520,11 +542,13 @@
     marquerRubrique(r.rubrique);
     document.body.classList.toggle("sur-accueil", !r.rendu);
     document.body.classList.toggle("sur-parcours", /^\/parcours(?:\/(?:exp-pro|projets-perso))?$/.test(h));
+    // Mentions, version et date : uniquement sous la Présentation ; ailleurs le pied est retiré (ni espace ni focus).
+    $("pied").hidden = !!r.rendu;
     mesurerBandeau();
 
     if (!r.rendu) {
       vue.hidden = true; vue.textContent = ""; accueil.hidden = false;
-      document.title = "Alain Ferro · Gestion et coordination administrative";
+      document.title = "Alain Ferro · " + I.accroche;
       listeOrigine = null;
       if (versContact) { $("proposer-entretien").focus(); return; }
       window.scrollTo(0, 0);
@@ -541,7 +565,10 @@
     var lien = r.liste && dernierDetail ? Array.prototype.filter.call(vue.querySelectorAll("a[href='#" + dernierDetail + "']"), function (a) {
       return a.getClientRects().length > 0;
     })[0] : null;
-    if (lien) { lien.scrollIntoView({ block: "center" }); lien.focus({ preventScroll: true }); }
+    var filtre = filtreFocus ? vue.querySelector("[data-filtre='" + filtreFocus + "']") : null;
+    filtreFocus = null;
+    if (filtre) filtre.focus({ preventScroll: true });
+    else if (lien) { lien.scrollIntoView({ block: "center" }); lien.focus({ preventScroll: true }); }
     else {
       if (!r.fiche || !deFiche) ETAT_SOMMAIRE.defilement = 0;
       // D’une fiche à l’autre, la page ne remonte que si le haut de la fiche est sorti de l’écran.

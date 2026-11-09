@@ -1,7 +1,10 @@
-/* Contenu du site v2.3 (6 novembre 2026). Repris de la v2.0.
+/* Contenu du site v2.4 (9 novembre 2026). Repris de la v2.3.
    Le parcours est rangé du plus ancien au plus récent (l’ordre du tableau fait foi, comme la frise du PDF) ;
    aucune date intermédiaire affichée. « bulle » : titre seul des bulles de la spirale et du sommaire.
    « important » : six éléments mis en avant par une teinte plus foncée.
+   « apportCourt » : phrase courte affichée sous le résumé (ce qu’Alain apporte) ; « transfert » reste la source, sans affichage.
+   « pistes.metiers » : postes visés de la page #/metiers, chacun avec sa justification et ses fiches de preuve.
+   « entier: true » sur un média : vignette affichée en entier (document, carte), jamais rognée.
    Les fiches de type « formation » forment l’onglet « Savoir - formations », hors spirale.
    « alias » : anciennes fiches redirigées (Responsable soins adjoint fusionné dans thermes-responsable).
    « retirees » : fiches supprimées en v2.2 (Enfance, Adolescence), redirigées vers le parcours.
@@ -12,7 +15,7 @@
 window.CV = {
   "identite": {
     "nom": "Alain Ferro",
-    "accroche": "Gestion et coordination administrative",
+    "accroche": "Administration, coordination et relation clients",
     "promesse": "Pendant dix ans, j’ai encadré des équipes de soins aux Thermes de Balaruc-les-Bains. Auparavant, j’ai créé et géré pendant sept ans une activité de négoce. Titulaire du titre professionnel Comptable assistant, j’aime organiser le travail, tenir des dossiers à jour et faire circuler l’information. J’utilise Excel avancé et je mène des projets numériques avec l’IA.",
     "ville": "Poussan (34560)",
     "email": "alainferro34@gmail.com",
@@ -25,28 +28,94 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV_Alain_Ferro.pdf?v=2.3",
+    "cvPdf": "./CV_Alain_Ferro.pdf?v=2.4",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nJ’ai consulté votre CV en ligne et votre parcours m’intéresse pour un poste de [intitulé du poste] au sein de [entreprise], à [lieu].\n\nJe vous propose un entretien [proposition de date et d’horaire], en présentiel ou par téléphone.\n\nCordialement,\n\n[Prénom Nom]\n[Fonction] · [Entreprise]\n[Téléphone]"
-    },
-    "appui": "Comptabilité et projets numériques en appui",
-    "recherche": "Poste recherché en CDI, autour de Poussan"
+    }
   },
   "pistes": {
     "titre": "Postes visés",
-    "texte": "Environ 80 % de bureau, autour de Poussan.",
+    "note": "Pistes tirées de mon parcours ; chaque poste reste à confirmer selon les exigences de l’employeur.",
     "metiers": [
-      "Coordinateur administratif",
-      "Assistant administratif",
-      "Assistant de gestion",
-      "Gestionnaire de dossiers",
-      "Assistant comptable",
-      "Assistant commercial / ADV",
-      "Coordinateur planning",
-      "Assistant gestion documentaire",
-      "Assistant projets numériques",
-      "Support utilisateurs fonctionnel"
+      {
+        "id": "coordinateur-administratif",
+        "titre": "Coordinateur administratif",
+        "justification": "Dix ans de planification et de coordination aux Thermes, sept ans de gestion complète d’une entreprise de négoce.",
+        "preuves": ["thermes-responsable", "negoce", "keyce"]
+      },
+      {
+        "id": "assistant-administratif",
+        "titre": "Assistant administratif",
+        "justification": "Dossiers tenus à jour, formulaires et supports pour faire circuler l’information, gestion documentaire.",
+        "preuves": ["thermes-responsable", "ged-gmao", "titre-comptable"]
+      },
+      {
+        "id": "assistant-gestion",
+        "titre": "Assistant de gestion",
+        "justification": "Achats, stocks, commandes, facturation et encaissements suivis pendant sept ans avec EBP.",
+        "preuves": ["negoce", "titre-comptable", "tosa"]
+      },
+      {
+        "id": "assistant-comptable",
+        "titre": "Assistant comptable (junior)",
+        "justification": "Titre professionnel Comptable assistant (niveau 4) et deux stages en cabinet : saisie, rapprochements, lettrage.",
+        "preuves": ["titre-comptable", "stage-cecosud", "stage-audit"]
+      },
+      {
+        "id": "assistant-commercial-adv",
+        "titre": "Assistant commercial / ADV",
+        "justification": "Prospection et vente aux professionnels, puis traitement des commandes jusqu’à la facture.",
+        "preuves": ["negoce", "pailletrice", "courtier"]
+      },
+      {
+        "id": "charge-relation-clients",
+        "titre": "Chargé de relation clients",
+        "justification": "Accueil et conseil du public, suivi de clientèle en immobilier, service en restauration.",
+        "preuves": ["immobilier", "thermes-agent", "londres", "skiman"]
+      },
+      {
+        "id": "coordinateur-planning",
+        "titre": "Coordinateur planning",
+        "justification": "Plannings et coordination quotidienne d’une équipe de 30 à 40 agents et kinésithérapeutes.",
+        "preuves": ["thermes-responsable", "keyce"]
+      },
+      {
+        "id": "assistant-rh",
+        "titre": "Assistant RH (appui administratif)",
+        "justification": "Entretiens annuels et professionnels (EVA / EP), médiation et formation à la gestion des conflits.",
+        "preuves": ["thermes-responsable", "comtel", "keyce"]
+      },
+      {
+        "id": "gestionnaire-dossiers",
+        "titre": "Gestionnaire de dossiers",
+        "justification": "Plusieurs dossiers clients suivis en parallèle, traçabilité et classement documentaire.",
+        "preuves": ["immobilier", "ged-gmao", "stage-cecosud"]
+      },
+      {
+        "id": "assistant-approvisionnement",
+        "titre": "Assistant achats et approvisionnement",
+        "justification": "Achats auprès des fournisseurs, stocks de produits frais et tournées de livraison planifiées.",
+        "preuves": ["negoce"]
+      },
+      {
+        "id": "assistant-gestion-documentaire",
+        "titre": "Assistant gestion documentaire",
+        "justification": "Formation GED / GMAO, traçabilité, consignes et documents de reprise tenus à jour.",
+        "preuves": ["ged-gmao", "thermes-responsable", "outils-ia"]
+      },
+      {
+        "id": "assistant-projets-numeriques",
+        "titre": "Assistant projets numériques",
+        "justification": "Cadrage, consignes, essais et contrôle de projets menés avec des assistants IA.",
+        "preuves": ["skylivra", "knockin", "outils-ia", "barysense"]
+      },
+      {
+        "id": "support-utilisateurs",
+        "titre": "Support utilisateurs fonctionnel",
+        "justification": "Prise en main d’outils (GLPI, GED, GMAO), montage de postes, retours d’usage et contrôle des évolutions.",
+        "preuves": ["thermes-responsable", "pc", "knockin"]
+      }
     ]
   },
   "chiffres": [
@@ -475,6 +544,7 @@ window.CV = {
       "titreCourt": "Vendanges · Muscat",
       "lieu": "Mireval et Frontignan (Hérault)",
       "resume": "Trois saisons de vendanges chez un viticulteur.",
+      "apportCourt": "Je respecte les cadences d’un travail collectif et les délais d’une récolte.",
       "contexte": "Premiers emplois saisonniers, pendant les études, dans le vignoble du muscat.",
       "missions": [
         "Récolte du raisin au sécateur au sein d’une équipe.",
@@ -498,6 +568,7 @@ window.CV = {
       "titreCourt": "Skiman · Bonascre",
       "lieu": "Le Chamois d’Or, Bonascre (Ariège)",
       "resume": "Vente, location et entretien de matériel de ski.",
+      "apportCourt": "Je conseille chaque client et j’exécute vite, même en pleine affluence.",
       "contexte": "Saison d’hiver dans un magasin de location et de vente de skis en station.",
       "missions": [
         "Accueil et conseil des clients, vente et location.",
@@ -523,6 +594,7 @@ window.CV = {
       "titreCourt": "Simulation de vol · Airbus · Boeing · Avions légers",
       "lieu": "",
       "resume": "Plus de vingt ans de simulation de vol sur PC : Airbus, Boeing et avions légers.",
+      "apportCourt": "Je prépare, je suis une procédure et je vérifie avant d’agir.",
       "contexte": "Une passion technique pratiquée de façon exigeante, qui a ensuite conduit aux créations du projet SkyLivra.",
       "missions": [
         "Préparation des vols, météo et navigation.",
@@ -678,6 +750,7 @@ window.CV = {
       "titreCourt": "Baccalauréat · STT",
       "lieu": "Lycée Joliot-Curie, Sète",
       "resume": "Sciences et technologies tertiaires, spécialité action et communication commerciales.",
+      "apportCourt": "J’ai les bases du commerce et de la communication écrite et orale.",
       "contexte": "Baccalauréat technologique orienté vers le commerce et la communication.",
       "missions": [
         "Enseignements tertiaires : communication, action commerciale, gestion."
@@ -702,6 +775,7 @@ window.CV = {
       "important": true,
       "lieu": "Sup’Exup, Montpellier",
       "resume": "Formation suivie en communication commerciale, en alternance avec le courtage en vins.",
+      "apportCourt": "Je sais présenter une offre et négocier avec des professionnels.",
       "contexte": "Deux années de formation en alternance, l’entreprise d’accueil étant un courtier en vins de Saint-Christol.",
       "missions": [
         "Cours de communication et de négociation commerciales.",
@@ -727,6 +801,7 @@ window.CV = {
       "titreCourt": "Apprenti courtier · Vins",
       "lieu": "Louche, Saint-Christol (Hérault)",
       "resume": "Relation avec les domaines et collecte d’échantillons, en alternance.",
+      "apportCourt": "Je fais le lien entre deux parties et je suis chaque échantillon jusqu’au bout.",
       "contexte": "Le courtier fait le lien entre les producteurs et les négociants. Poste occupé en alternance avec la formation BTS.",
       "missions": [
         "Prospection auprès de professionnels du vin.",
@@ -753,6 +828,7 @@ window.CV = {
       "titreCourt": "Londres · Restauration · Sondages",
       "lieu": "Londres, Royaume-Uni",
       "resume": "Expériences en restauration et en enquêtes téléphoniques à Londres.",
+      "apportCourt": "Je m’adapte vite à une nouvelle équipe et je garde un service constant.",
       "contexte": "Travail à Londres dans des établissements de restauration de styles très différents, complété par une activité freelance.",
       "missions": [
         "Serveur à l’hôtel Le Méridien.",
@@ -782,6 +858,7 @@ window.CV = {
       "important": true,
       "lieu": "",
       "resume": "Trois ans de chantier sur une coque à clin.",
+      "apportCourt": "Je mène un projet de plusieurs années à son terme, en enchaînant les techniques.",
       "contexte": "Rénovation du Wyjume, un bateau en bois de 11 mètres à coque à clin. Ce chantier a mobilisé la préparation, l’organisation des travaux et une pratique directe de plusieurs techniques. Les photos personnelles montrent notamment le carénage, les boiseries, le ponçage et le tableau électrique.",
       "missions": [
         "Menuiserie et aménagement intérieur.",
@@ -879,6 +956,7 @@ window.CV = {
       "important": true,
       "lieu": "Saveurs Européennes Culinaires, Balaruc-les-Bains",
       "resume": "Achat et vente de truffes, champignons et produits dérivés auprès de la restauration gastronomique.",
+      "apportCourt": "Je connais toute la chaîne d’une commande : achat, stock, livraison, facture, encaissement.",
       "contexte": "Entreprise créée et gérée pendant sept ans : toute la chaîne, de l’achat auprès des fournisseurs à la livraison des restaurants clients.",
       "missions": [
         "Développement d’une clientèle de restaurants gastronomiques par la prospection.",
@@ -902,9 +980,10 @@ window.CV = {
       "transfert": "Une vision complète d’une petite entreprise : chaque commande engage les achats, le stock, la livraison et la facture. Cette expérience éclaire aujourd’hui les fonctions d’assistant de gestion, d’ADV ou d’approvisionnement.",
       "galerie": [
         {
-          "src": "assets/photos/selection/selection-013.webp",
+          "src": "assets/photos/selection/selection-013-v2.4.png",
           "alt": "Support de l’activité de négoce",
-          "legende": "Support de l’activité de négoce"
+          "legende": "Support de l’activité de négoce",
+          "entier": true
         },
         {
           "src": "assets/photos/selection/selection-026.webp",
@@ -1020,6 +1099,7 @@ window.CV = {
       "titreCourt": "Agent commercial · Vins",
       "lieu": "Domaine Pailletrice, Pérols / Montpellier",
       "resume": "Prospection et vente de vins auprès des professionnels.",
+      "apportCourt": "J’organise seul un secteur et je suis chaque client avec régularité.",
       "contexte": "Commercialisation des vins d’un domaine, notamment en bag-in-box, sur le secteur de Montpellier.",
       "missions": [
         "Prospection des restaurants, bars et épiceries.",
@@ -1045,6 +1125,7 @@ window.CV = {
       "titreCourt": "Conseiller · Immobilier",
       "lieu": "Carrefour Immobilier (Balaruc / Sète) et Century 21 (Sète)",
       "resume": "Prospection de mandats, recherche de biens, transactions et location.",
+      "apportCourt": "Je suis plusieurs dossiers clients en parallèle, chacun avec ses échéances.",
       "contexte": "Deux agences successives sur le bassin de Thau, en vente et en location.",
       "missions": [
         "Prospection de mandats de vente.",
@@ -1072,6 +1153,7 @@ window.CV = {
       "titreCourt": "Agent de soins · Thermaux",
       "lieu": "Thermes de Balaruc-les-Bains",
       "resume": "Soins aux curistes en rhumatologie et phlébologie.",
+      "apportCourt": "J’accueille le public avec écoute et je connais le travail de terrain avant de l’organiser.",
       "contexte": "Entrée aux Thermes de Balaruc-les-Bains, établissement thermal recevant des curistes pour des soins de rhumatologie et de phlébologie. Point de départ de dix années d’évolution interne.",
       "missions": [
         "Soins d’hydrothérapie et application de boue.",
@@ -1099,6 +1181,7 @@ window.CV = {
       "important": true,
       "lieu": "Thermes de Balaruc-les-Bains",
       "resume": "Encadrement de 30 à 40 agents et kinésithérapeutes, planification et suivi de l’activité.",
+      "apportCourt": "J’organise le travail de 30 à 40 personnes : plannings, entretiens, médiation et suivi.",
       "contexte": "Évolution interne après un an comme agent de soins : d’abord responsable soins adjoint, en appui du responsable soins, puis responsable soins pendant huit années.",
       "missions": [
         "Encadrement de 30 à 40 agents de soins et kinésithérapeutes.",
@@ -1142,6 +1225,7 @@ window.CV = {
       "titreCourt": "Montage · Informatique",
       "lieu": "",
       "resume": "Assemblage de deux ordinateurs, réseau et postes multi-écrans.",
+      "apportCourt": "Je prends en main seul un poste de travail, ses périphériques et son réseau.",
       "contexte": "Pratique personnelle liée à la simulation aérienne.",
       "missions": [
         "Assemblage de deux PC.",
@@ -1192,6 +1276,7 @@ window.CV = {
       "titreCourt": "Travaux · Habitation",
       "lieu": "Poussan",
       "resume": "Préparation, organisation et chiffrage de travaux d’habitation.",
+      "apportCourt": "Je chiffre un budget et je planifie les étapes avant de lancer des travaux.",
       "contexte": "Travaux sur son habitation, dans la continuité de nombreux travaux manuels.",
       "missions": [
         "Préparation des projets et organisation des étapes.",
@@ -1321,6 +1406,7 @@ window.CV = {
       "titreCourt": "GED · GMAO · SST · Secours",
       "lieu": "Formation interne, Thermes de Balaruc-les-Bains",
       "resume": "Prise en main des outils de gestion électronique des documents et de gestion de la maintenance.",
+      "apportCourt": "Je classe, je trace et je retrouve l’information dans une GED ou une GMAO.",
       "contexte": "Formation interne accompagnant le déploiement d’outils de gestion documentaire et de maintenance dans l’établissement.",
       "missions": [
         "Gestion documentaire et traçabilité.",
@@ -1363,6 +1449,7 @@ window.CV = {
       "titreCourt": "Blockchains · Exploration",
       "lieu": "",
       "resume": "Veille et exploration personnelle des plateformes centralisées et décentralisées.",
+      "apportCourt": "J’apprends seul un domaine technique nouveau, avec prudence et méthode.",
       "contexte": "Intérêt personnel pour les technologies numériques émergentes.",
       "missions": [
         "Exploration des écosystèmes CeFi et DeFi.",
@@ -1385,6 +1472,7 @@ window.CV = {
       "titreCourt": "Sauveteur secouriste · SST",
       "lieu": "Formation interne, Thermes de Balaruc-les-Bains",
       "resume": "Premiers secours et prévention des risques.",
+      "apportCourt": "J’ai les réflexes de premiers secours et de prévention au sein d’une équipe.",
       "contexte": "Formation interne suivie dans le cadre de l’établissement thermal.",
       "missions": [
         "Gestes de premiers secours.",
@@ -1407,6 +1495,7 @@ window.CV = {
       "titreCourt": "Jardinage · Course · Randonnée",
       "lieu": "",
       "resume": "Activités de plein air et entretien des espaces extérieurs.",
+      "apportCourt": "Je tiens un effort dans la durée, avec régularité.",
       "contexte": "Activités de plein air pratiquées en loisir.",
       "missions": [
         "Course à pied en amateur.",
@@ -1506,6 +1595,7 @@ window.CV = {
       "titreCourt": "Formation · Management",
       "lieu": "Keyce Academy, Pérols",
       "resume": "Management opérationnel, organisation de l’activité et des équipes.",
+      "apportCourt": "J’appuie l’organisation d’une activité et d’une équipe sur des méthodes de management.",
       "contexte": "Bloc de compétences en management, suivi après plusieurs années d’encadrement.",
       "missions": [
         "Management opérationnel.",
@@ -1530,6 +1620,7 @@ window.CV = {
       "titreCourt": "Formation · Gestion des conflits",
       "lieu": "Comtel, Castries, pour les Thermes de Balaruc-les-Bains",
       "resume": "Dialogue, prévention et gestion des conflits.",
+      "apportCourt": "Je désamorce une tension, entre collègues comme avec le public.",
       "contexte": "Formation suivie dans le cadre de la fonction de responsable soins.",
       "missions": [
         "Techniques de dialogue.",
@@ -1554,6 +1645,7 @@ window.CV = {
       "titreCourt": "Stage comptable · Audit Conseil",
       "lieu": "Audit Conseil & Associés, Saint-Jean-de-Védas",
       "resume": "Une semaine de découverte du travail en cabinet.",
+      "apportCourt": "Je connais les outils d’un cabinet : DEXT, ACD et Cegid Quadra.",
       "contexte": "Stage court réalisé pendant la formation de comptable assistant.",
       "missions": [
         "Classement et traitement des pièces comptables.",
@@ -1585,6 +1677,7 @@ window.CV = {
       "titreCourt": "Stage comptable · Cecosud 34",
       "lieu": "Cecosud 34, Agde",
       "resume": "Un mois et demi de pratique comptable en cabinet.",
+      "apportCourt": "Je saisis, je rapproche et je lettre des comptes sur des dossiers réels.",
       "contexte": "Stage de la formation de comptable assistant au GRETA de Sète.",
       "missions": [
         "Tri des pièces et saisie des écritures.",
@@ -1618,6 +1711,7 @@ window.CV = {
       "titreCourt": "Titre professionnel · Comptable assistant",
       "lieu": "GRETA, Sète · niveau 4",
       "resume": "Reconversion vers la comptabilité et la gestion.",
+      "apportCourt": "J’applique les bases comptables aux opérations courantes d’une petite structure.",
       "contexte": "Formation qualifiante suivie après dix ans aux Thermes, complétée par deux stages en cabinet.",
       "missions": [
         "Bases comptables et opérations courantes.",
@@ -1642,6 +1736,7 @@ window.CV = {
       "titreCourt": "Excel avancé · Tosa · 850/1000",
       "lieu": "GRETA, Sète",
       "resume": "Certification de la maîtrise d’Excel.",
+      "apportCourt": "Je construis des tableaux de suivi fiables et j’automatise les tâches répétitives.",
       "contexte": "Certification qui valide une pratique d’Excel utilisée depuis de nombreuses années pour le suivi d’activité.",
       "missions": [
         "Tableaux croisés dynamiques.",
@@ -1666,6 +1761,7 @@ window.CV = {
       "titreCourt": "BarySense · Suivi du café",
       "lieu": "",
       "resume": "Application de suivi des cafés, des machines, des extractions et du stock.",
+      "apportCourt": "J’organise un suivi de stock et de dépenses dans un outil adapté aux usages.",
       "contexte": "Je transforme une pratique personnelle du café en un outil de suivi : informations sur les cafés, réglages, extractions, machines et paquets.",
       "missions": [
         "Définition des informations à conserver et des parcours de consultation.",
@@ -1735,6 +1831,7 @@ window.CV = {
       "titreCourt": "Knockin ever Door · CRM candidatures",
       "lieu": "",
       "resume": "Conception d’un outil de suivi des entreprises, contacts, candidatures et relances.",
+      "apportCourt": "Je structure le suivi des contacts, des rendez-vous et des relances pour ne rien laisser de côté.",
       "contexte": "Projet personnel né d’un besoin concret : centraliser une recherche d’emploi. Je définis les besoins et pilote la réalisation avec des assistants IA.",
       "missions": [
         "Cadrage fonctionnel : entreprises, contacts, candidatures, rendez-vous, relances.",
@@ -1833,6 +1930,7 @@ window.CV = {
       "important": true,
       "lieu": "",
       "resume": "Direction artistique, cadrage et pilotage avec l’IA de créations et d’outils pour la simulation de vol.",
+      "apportCourt": "Je structure un projet, je coordonne intervenants et outils, puis je contrôle le résultat.",
       "contexte": "Je définis les besoins, fournis les références, pilote les assistants IA et contrôle les résultats dans le simulateur. Les IA produisent le code technique ; je garde la direction fonctionnelle et artistique.",
       "site": {
         "url": "https://skylivra.netlify.app/",
@@ -2145,6 +2243,7 @@ window.CV = {
       "important": true,
       "lieu": "Méthodes de travail et continuité des projets personnels",
       "resume": "Intégrer des assistants IA dans des projets suivis : consignes communes, dossiers de référence et documents de reprise.",
+      "apportCourt": "J’écris des consignes claires, je répartis les rôles et je garde la trace des versions.",
       "contexte": "Pour faire travailler plusieurs assistants IA sur des projets suivis dans la durée, je structure des consignes communes et des documents de reprise.",
       "missions": [
         "Rédaction de consignes structurées communes.",
@@ -2181,6 +2280,7 @@ window.CV = {
       "titreCourt": "Loisirs actuels",
       "lieu": "",
       "resume": "Piano, curiosité scientifique et découvertes : des loisirs pratiqués aujourd’hui.",
+      "apportCourt": "J’aime apprendre par moi-même et j’ai l’habitude du collectif.",
       "contexte": "Piano en amateur et intérêt durable pour l’astronomie et la physique, nourri par des visites et des découvertes en voyage. Auparavant, football pratiqué pendant quinze ans.",
       "missions": [
         "Piano en amateur.",
@@ -2222,7 +2322,8 @@ window.CV = {
     "editeur": "Alain Ferro, Poussan (34560), alainferro34@gmail.com.",
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne contient aucun formulaire : l’éditeur ne collecte aucune donnée. Le bouton « Proposer un entretien » ouvre simplement votre messagerie, sans aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
-    "maj": "6 novembre 2026"
+    "maj": "9 novembre 2026",
+    "version": "2.4"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"

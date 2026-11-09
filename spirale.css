@@ -1,35 +1,12 @@
-/* Spirale du parcours — CV Intelligent v2.3, « Parcours plein ciel ».
+/* Spirale du parcours — CV Intelligent v2.4 (9 novembre 2026), « Parcours plein ciel » épuré.
    Positions calculées par spirale.js ; libellés toujours horizontaux. Les tailles de bulles sont mesurées par le JS :
    aucune position n’est codée ici. La surface défile horizontalement sur petit écran, sans réduire la police.
-   1. Barre supérieure agrandie sur tout le site (marque ≈ 24 px, liens ≈ 19 px sur PC).
+   v2.4 : la barre d’onglets est définie dans styles.css ; plus de pause, zoom, légende ni texte de rotation.
    2. Base de la spirale (cadre sombre v2.2), conservée comme repli si la classe de route manque.
    3. Thème « plein ciel » : uniquement sous body.sur-parcours (Parcours, filtres, liste), à l’écran seulement.
       Fond étoilé fixe sur toute la fenêtre, panneaux neutralisés pour une galaxie continue.
    Catégories : couleur seule (turquoise / violet), plus aucun rond ni carré ; libellés accessibles inchangés (JS).
    Aucune animation ajoutée, aucun backdrop-filter. */
-
-/* ---------- 1. Barre supérieure : polices plus grandes, partout ---------- */
-.marque { font-size: 1.5rem; letter-spacing: -.015em; }
-.bandeau-in { gap: .35rem 2.25rem; min-height: 4.5rem; }
-.bandeau nav ul { gap: .2rem 1.9rem; }
-.bandeau nav a { font-size: 1.2rem; padding: .6rem 0; }
-.bandeau-entretien { font-size: 1rem; min-height: 44px; }
-@media (max-width: 1180px) {
-  .bandeau-in { gap: .35rem 1.5rem; }
-  .bandeau nav ul { gap: .2rem 1.4rem; }
-  .bandeau nav a { font-size: 1.12rem; }
-}
-@media (max-width: 640px) {
-  .bandeau-in { gap: 0 .75rem; min-height: 0; }
-  .marque { font-size: 1.3rem; }
-  .bandeau nav ul { gap: 0 1.15rem; }          /* retour à la ligne autorisé : aucune rubrique masquée */
-  .bandeau nav a { font-size: 1.06rem; padding: .45rem 0; }
-  .bandeau-entretien { font-size: .9rem; min-height: 40px; }
-}
-@media (max-width: 359px) {
-  .marque { font-size: 1.18rem; }
-  .bandeau nav a { font-size: 1rem; }
-}
 
 /* ---------- 2. Spirale : base (cadre sombre, repli hors thème) ---------- */
 /* Teintes par catégorie : lumière (bordure), verre (fond normal), nuit (fond des éléments marquants), texte légèrement teinté. */
@@ -59,31 +36,6 @@
   box-shadow: 0 18px 40px rgba(2, 6, 10, .28), inset 0 1px 0 rgba(255, 255, 255, .05);
 }
 .spirale :focus-visible { outline: 3px solid var(--g-focus); outline-offset: 3px; }
-
-.spirale-outils { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin: 0 0 .8rem; }
-.spirale-bouton {
-  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: .4rem 1.15rem;
-  font: inherit; font-size: .95rem; font-weight: 700; color: var(--g-texte); cursor: pointer;
-  background: rgba(8, 12, 16, .82); border: 1.5px solid rgba(255, 255, 255, .45); border-radius: 999px;
-  transition: background-color var(--duree) ease, color var(--duree) ease, border-color var(--duree) ease;
-}
-.spirale-bouton:hover, .spirale-bouton:focus-visible { background: var(--g-texte); border-color: var(--g-texte); color: var(--g-fond); }
-.spirale-bouton:disabled, .spirale-bouton:disabled:hover {
-  opacity: .38; cursor: default; background: rgba(8, 12, 16, .82); border-color: rgba(255, 255, 255, .45); color: var(--g-texte);
-}
-.spirale-bouton.zoom { padding: 0; font-size: 1.3rem; line-height: 1; }
-.spirale-zooms { display: inline-flex; align-items: center; gap: .4rem; }
-.spirale-zoom { min-width: 3.6rem; text-align: center; font-size: .9rem; color: var(--g-doux); font-variant-numeric: tabular-nums; }
-
-/* Légende : texte coloré par catégorie, élément marquant en capsule noire au liseré blanc ; aucun symbole. */
-.spirale .legende { margin: 0 0 .5rem; gap: .45rem 1.4rem; color: var(--g-texte); font-size: .95rem; }
-.spirale .legende li.experience, .spirale .legende li.personnel { color: var(--g-titre); font-weight: 700; }
-.spirale .legende li.legende-important {
-  padding: .12rem .7rem; color: #fff; font-weight: 800; background: #000;
-  border: 1.5px solid rgba(255, 255, 255, .85); border-radius: 999px; box-shadow: 0 0 8px rgba(255, 255, 255, .35);
-}
-.spirale .legende .pastille, .spirale .legende .forme { display: none; } /* sécurité si un ancien marqueur subsiste */
-.spirale-statut { margin: 0 0 .7rem; font-size: .88rem; color: var(--g-doux); }
 
 /* Fenêtre et scène */
 .spirale-fenetre {
@@ -141,7 +93,7 @@ a.spirale-bulle:focus-visible { color: var(--g-encre); outline: 3px solid var(--
 a.spirale-bulle.important:hover { color: #fff; box-shadow: 0 0 0 1px var(--g-lum), 0 0 16px var(--g-halo, rgba(255, 255, 255, .35)); }
 a.spirale-bulle.important:focus-visible { color: #fff; }
 
-/* Repères illustrés (bébé, compas) : inchangés */
+/* Repères illustrés (bébé, adulte) */
 .spirale-bulle.repere {
   gap: .4rem; max-width: none; min-height: 36px; padding: .2rem .75rem .2rem .3rem; border-radius: 999px; pointer-events: none;
   font-size: .85rem; font-weight: 400; color: var(--g-texte);
@@ -156,7 +108,6 @@ a.spirale-bulle.important:focus-visible { color: #fff; }
   .spirale { margin: 0 -.75rem 1.5rem; padding: .75rem .6rem .8rem; border-radius: 18px; }
   .spirale-fenetre { border-radius: 12px; }
   .spirale-bulle { max-width: 9.5rem; }
-  .spirale-outils { gap: .5rem .75rem; }
 }
 
 /* ---------- 3. Thème « plein ciel » : page Parcours seulement, à l’écran ---------- */
@@ -176,32 +127,19 @@ a.spirale-bulle.important:focus-visible { color: #fff; }
   }
   body.sur-parcours :focus-visible { outline-color: var(--g-focus); }
 
-  /* Bandeau et pied harmonisés : nuit translucide, sans flou coûteux */
+  /* Bandeau harmonisé : nuit translucide, onglets en verre sombre, onglet courant en aplat clair (sans flou coûteux) */
   body.sur-parcours .bandeau { background: rgba(2, 4, 7, .84); border-bottom-color: rgba(255, 255, 255, .12); }
-  body.sur-parcours .marque { color: #fff; }
-  body.sur-parcours .bandeau nav a { color: #E6EDEF; }
-  body.sur-parcours .bandeau nav a:hover { color: #8EE3E6; }
-  body.sur-parcours .bandeau nav a[aria-current="page"] { color: #8EE3E6; border-bottom-color: #63D5D8; }
+  body.sur-parcours .onglets-site a { color: #E6EDEF; background: rgba(8, 12, 16, .82); border-color: rgba(255, 255, 255, .35); box-shadow: none; }
+  body.sur-parcours .onglets-site a:hover, body.sur-parcours .onglets-site a:focus-visible { color: #fff; border-color: #8EE3E6; }
+  body.sur-parcours .onglets-site a[aria-current="page"] { background: #63D5D8; border-color: #63D5D8; color: #020407; }
   body.sur-parcours .bandeau-entretien:hover, body.sur-parcours .bandeau-entretien:focus-visible { background: #fff; border-color: #fff; color: #020407; }
-  body.sur-parcours .pied { border-top-color: rgba(255, 255, 255, .12); color: var(--g-doux); background: rgba(2, 4, 7, .6); }
-  body.sur-parcours .pied a, body.sur-parcours .suite a { color: #8EE3E6; }
-  body.sur-parcours .pied a:hover, body.sur-parcours .suite a:hover { color: #fff; }
-  body.sur-parcours .vue .chapo, body.sur-parcours .vue .note { color: var(--g-doux); }
 
-  /* Filtres : capsules de verre sombre, texte coloré par catégorie, sélection en aplat clair ; aucun symbole. */
-  body.sur-parcours .onglets ul { margin-bottom: 1.25rem; }
-  body.sur-parcours .onglets li:last-child { margin-left: 0; padding-left: 0; border-left: 0; }
-  body.sur-parcours .onglets a {
-    color: var(--g-texte); background: rgba(8, 12, 16, .82); border: 1.5px solid rgba(255, 255, 255, .3);
-    font-size: 1rem; padding: .45rem 1.1rem;
+  /* Deux filtres à bascule : verre sombre, texte coloré par catégorie, filtre actif en aplat lumineux ; aucun symbole. */
+  body.sur-parcours .filtre {
+    color: var(--g-titre); background: rgba(8, 12, 16, .82); border: 1.5px solid color-mix(in srgb, var(--g-lum) 60%, transparent);
   }
-  body.sur-parcours .onglets a.experience, body.sur-parcours .onglets a.personnel { color: var(--g-titre); border-color: color-mix(in srgb, var(--g-lum) 60%, transparent); }
-  body.sur-parcours .onglets a:hover, body.sur-parcours .onglets a:focus-visible { border-color: var(--g-lum); }
-  body.sur-parcours .onglets a[aria-current="page"] { background: var(--g-texte); border-color: var(--g-texte); color: #020407; }
-  body.sur-parcours .onglets a.experience[aria-current="page"], body.sur-parcours .onglets a.personnel[aria-current="page"] {
-    background: var(--g-lum); border-color: var(--g-lum); color: #05070A;
-  }
-  body.sur-parcours .onglets .forme { display: none; }
+  body.sur-parcours .filtre:hover, body.sur-parcours .filtre:focus-visible { border-color: var(--g-lum); }
+  body.sur-parcours .filtre[aria-pressed="true"] { background: var(--g-lum); border-color: var(--g-lum); color: #05070A; }
 
   /* Bouton « Voir en liste / Voir la spirale » assorti */
   body.sur-parcours .vue-bascule { background: rgba(8, 12, 16, .82); color: var(--g-texte); border-color: rgba(255, 255, 255, .55); }
@@ -215,7 +153,6 @@ a.spirale-bulle.important:focus-visible { color: #fff; }
     -webkit-mask-image: radial-gradient(circle closest-side at 50% 50%, #000 55%, transparent 88%);
     mask-image: radial-gradient(circle closest-side at 50% 50%, #000 55%, transparent 88%);
   }
-  body.sur-parcours .spirale-statut, body.sur-parcours .spirale-zoom, body.sur-parcours .spirale .legende { text-shadow: 0 1px 3px #000; }
 
   /* Liste alternative lisible dans le thème : cartes de verre sombre, liseré gauche de catégorie, sans symbole. */
   body.sur-parcours .frise-cadre .borne { color: var(--g-texte); }
@@ -236,10 +173,10 @@ a.spirale-bulle.important:focus-visible { color: #fff; }
 
 @media (max-width: 640px) {
   body.sur-parcours .spirale { margin: 0 -1.25rem 1.5rem; padding: 0; }
-  body.sur-parcours .onglets a { font-size: .95rem; padding: .4rem .95rem; }
+  body.sur-parcours .filtre { font-size: .95rem; padding: .4rem .95rem; }
 }
 
 @media print {
-  .spirale, .vue-choix { display: none !important; }
+  .spirale, .vue-bascule { display: none !important; }
   #parcours-liste[hidden] { display: block !important; }
 }
