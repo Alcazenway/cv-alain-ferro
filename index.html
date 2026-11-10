@@ -7,13 +7,12 @@
 <meta name="description" content="Alain Ferro, Poussan : administration, coordination et relation clients. Dix ans d’encadrement d’équipes, gestion d’une activité de négoce, titre de comptable assistant, Excel avancé, projets numériques avec l’IA.">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'">
-<meta name="theme-color" content="#19181f">
-<link rel="stylesheet" href="styles.css?v=2.14.2">
-<link rel="stylesheet" href="spirale.css?v=2.14.2">
-<link rel="stylesheet" href="lecture.css?v=2.14.2">
-<link rel="stylesheet" href="carte.css?v=2.14.2">
-<link rel="stylesheet" href="dashboard.css?v=2.14.2">
-<link rel="stylesheet" href="icones.css?v=2.14.2">
+<meta name="theme-color" content="#fcfcf8">
+<link rel="stylesheet" href="styles.css?v=2.15.0">
+<link rel="stylesheet" href="lecture.css?v=2.15.0">
+<link rel="stylesheet" href="carte.css?v=2.15.0">
+<link rel="stylesheet" href="icones.css?v=2.15.0">
+<link rel="stylesheet" href="coherence.css?v=2.15.0">
 <link rel="icon" href="assets/favicon.png" type="image/png">
 <link rel="canonical" href="https://alcazenway.github.io/cv-alain-ferro/">
 <meta property="og:title" content="Alain Ferro · Administration, coordination et relation clients">
@@ -24,74 +23,74 @@
 </head>
 <body class="sur-accueil">
 <a class="evitement" href="#contenu">Aller au contenu</a>
-<header class="bandeau" id="bandeau">
-  <div class="cadre bandeau-in">
-    <nav class="onglets-site" aria-label="Navigation principale">
-      <ul>
-        <li><a href="#/" data-rubrique="presentation">Présentation</a></li>
-        <li><a href="#/parcours" data-rubrique="parcours">Parcours</a></li>
-        <li><a href="#/savoir-formations" data-rubrique="savoir">Savoir - formations</a></li>
-        <li><a href="#/competences" data-rubrique="competences">Compétences</a></li>
-        <li><a href="#/interets" data-rubrique="interets">Intérêts</a></li>
+<header class="co-bandeau" id="bandeau">
+  <a class="co-marque" href="#/">Alain <b>FERRO</b><small>CV INTERACTIF</small></a>
+  <button class="co-menu" type="button" aria-expanded="false" aria-controls="navigation-principale"><span aria-hidden="true">☰</span><span class="co-menu-libelle">Menu</span></button>
+  <nav class="co-nav" id="navigation-principale" aria-label="Navigation principale">
+    <ul class="co-onglets">
+      <li><a href="#/" data-rubrique="presentation">Présentation</a></li>
+      <li><a href="#/parcours" data-rubrique="parcours">Parcours</a></li>
+      <li><a href="#/competences" data-rubrique="competences">Compétences</a></li>
+      <li><a href="#/savoir-formations" data-rubrique="savoir">Formation</a></li>
+      <li><a href="#/interets" data-rubrique="interets">Intérêts</a></li>
+    </ul>
+    <div class="co-plus">
+      <button class="co-plus-bouton" type="button" aria-expanded="false" aria-controls="menu-plus">Plus</button>
+      <ul class="co-plus-liste" id="menu-plus">
+        <li><a href="#/carte" data-rubrique="carte">Carte des liens</a></li>
+        <li><a href="#/metiers" data-rubrique="metiers">Postes visés</a></li>
+        <li><a href="#/realisations" data-rubrique="realisations">Réalisations</a></li>
+        <li><a id="lien-cv-menu" href="./CV-Interactif-Alain-FERRO.pdf?v=2.15.0" download="CV-Interactif-Alain-FERRO.pdf">CV (PDF)</a></li>
       </ul>
-    </nav>
-    <a class="bouton bandeau-entretien" id="entretien-bandeau" href="mailto:alainferro34@gmail.com">Proposer un entretien</a>
-  </div>
+    </div>
+  </nav>
+  <a class="co-entretien" id="entretien-bandeau" href="mailto:alainferro34@gmail.com">Proposer un entretien ↗</a>
 </header>
 
 <main id="contenu" tabindex="-1">
   <div id="accueil">
-    <section class="une cadre" id="haut" aria-labelledby="titre-nom">
-      <figure class="une-portrait">
-        <picture>
-          <img id="portrait" src="assets/portrait-480.webp" srcset="assets/portrait-240.webp 240w, assets/portrait-480.webp 480w" sizes="(max-width: 640px) 112px, 280px" width="480" height="584" alt="Portrait d’Alain Ferro, souriant, chemise bleu clair">
-        </picture>
-      </figure>
-      <div class="une-identite">
-        <h1 id="titre-nom" tabindex="-1">Alain Ferro</h1>
+    <section class="co-une" id="haut" aria-labelledby="titre-nom">
+      <div class="co-marques" id="marques-une"></div>
+      <div class="co-identite">
+        <img id="portrait" class="co-portrait" src="assets/portrait-480.webp" srcset="assets/portrait-240.webp 240w, assets/portrait-480.webp 480w" sizes="152px" width="480" height="584" alt="Portrait d’Alain Ferro, souriant, chemise bleu clair">
+        <p class="co-surtitre" id="ville">Poussan (34560)</p>
+        <h1 id="titre-nom" tabindex="-1">Alain FERRO</h1>
+        <p class="co-accroche" id="accroche">Administration, coordination et relation clients</p>
+        <ul class="co-coordonnees" id="coordonnees"></ul>
       </div>
-      <aside class="postes" aria-labelledby="titre-postes">
-        <h2 id="titre-postes"><a href="#/metiers">Postes visés</a></h2>
-        <ul class="postes-liste" id="postes"></ul>
-      </aside>
-      <p class="promesse" id="promesse"></p>
-      <div class="contact" role="group" aria-label="Contact">
-        <a class="bouton principal" id="proposer-entretien" href="mailto:alainferro34@gmail.com">Proposer un entretien</a>
-        <a class="bouton appel" id="appeler" href="tel:+33612761012">Appeler · <span id="numero">06 12 76 10 12</span></a>
+      <div class="co-profil">
+        <p id="promesse"></p>
+        <div class="co-actions" role="group" aria-label="Contact">
+          <a class="co-bouton principal" id="proposer-entretien" href="mailto:alainferro34@gmail.com">Proposer un entretien</a>
+          <a class="co-bouton" id="lien-cv" href="./CV-Interactif-Alain-FERRO.pdf?v=2.15.0" download="CV-Interactif-Alain-FERRO.pdf">Télécharger le CV (PDF)</a>
+        </div>
       </div>
-      <ul class="coordonnees" id="coordonnees"></ul>
-      <p class="entree-carte"><a href="#/carte">Voir la carte des liens du parcours →</a></p>
-      <p class="pdf"><a id="lien-cv" href="./CV-Interactif-Alain-FERRO.pdf?v=2.14.2" download="CV-Interactif-Alain-FERRO.pdf">Télécharger le CV (PDF)</a></p>
     </section>
 
-    <section class="reperes" aria-label="Repères">
-      <ul class="cadre" id="chiffres"></ul>
+    <section class="co-competences-une" aria-labelledby="titre-competences-une">
+      <div class="co-entete-section">
+        <h2 id="titre-competences-une">Compétences</h2>
+        <a class="co-bouton" href="#/competences">Toutes les compétences →</a>
+      </div>
+      <ul class="co-grille-competences" id="competences-une"></ul>
     </section>
 
-    <section class="cadre selection-cadre" aria-labelledby="titre-selection">
-      <h2 id="titre-selection">Réalisations marquantes</h2>
-      <ul class="tuiles" id="selection"></ul>
-    </section>
+    <footer class="co-pied" id="pied">
+      <p id="maj">Version 2.15.0</p>
+      <p><a href="#/mentions">Mentions légales et confidentialité</a></p>
+    </footer>
   </div>
 
-  <article id="vue" class="cadre vue" hidden></article>
+  <article id="vue" class="vue" hidden></article>
 </main>
 
-<footer class="pied" id="pied">
-  <div class="cadre">
-    <p><a href="#/mentions">Mentions légales et confidentialité</a></p>
-    <p id="maj"></p>
-  </div>
-</footer>
-
-<noscript><p class="cadre">Ce site affiche le parcours détaillé à l’aide de JavaScript. Contact : <a href="mailto:alainferro34@gmail.com">alainferro34@gmail.com</a> · <a href="tel:+33612761012">06 12 76 10 12</a> · <a href="CV-Interactif-Alain-FERRO.pdf?v=2.14.2" download="CV-Interactif-Alain-FERRO.pdf">CV (PDF)</a>.</p></noscript>
-<script src="data/contenu.js?v=2.14.2"></script>
-<script src="spirale.js?v=2.14.2"></script>
-<script src="lecture.js?v=2.14.2"></script>
-<script src="carte.js?v=2.14.2"></script>
-<script src="data/icones.js?v=2.14.2"></script>
-<script src="icones.js?v=2.14.2"></script>
-<script src="dashboard.js?v=2.14.2"></script>
-<script src="app.js?v=2.14.2"></script>
+<noscript><p class="cadre">Ce site affiche le parcours détaillé à l’aide de JavaScript. Contact : <a href="mailto:alainferro34@gmail.com">alainferro34@gmail.com</a> · <a href="tel:+33612761012">06 12 76 10 12</a> · <a href="CV-Interactif-Alain-FERRO.pdf?v=2.15.0" download="CV-Interactif-Alain-FERRO.pdf">CV (PDF)</a>.</p></noscript>
+<script src="data/contenu.js?v=2.15.0"></script>
+<script src="lecture.js?v=2.15.0"></script>
+<script src="carte.js?v=2.15.0"></script>
+<script src="data/icones.js?v=2.15.0"></script>
+<script src="icones.js?v=2.15.0"></script>
+<script src="coherence.js?v=2.15.0"></script>
+<script src="app.js?v=2.15.0"></script>
 </body>
 </html>

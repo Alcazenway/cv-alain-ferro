@@ -29,8 +29,8 @@
     }
     function mesurer() {
       demande = 0; if (!actif || !fenetre.clientHeight) return;
-      // Spirale et carte des liens occupent la fenêtre entière, sans défilement.
-      cadre.classList.toggle("lecture-galaxie", !!host.querySelector(".spirale:not([hidden]), .carte-liens"));
+      // La carte des liens occupe la fenêtre entière, sans défilement.
+      cadre.classList.toggle("lecture-galaxie", !!host.querySelector(".carte-liens"));
       flux.style.setProperty("--lecture-hauteur", fenetre.clientHeight + "px");
       if (ajuster) ajuster();
     }

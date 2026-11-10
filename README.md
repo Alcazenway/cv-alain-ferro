@@ -1,13 +1,15 @@
 # Alain Ferro — parcours détaillé
 
 Vitrine professionnelle personnelle, sans dépendance distante ni collecte de données.
-Version commune du site et du PDF : 2.14.0 (10 novembre 2026). PowerPoint : 2.4, historique.
-Navigation : tableau de bord sombre, menu latéral sur ordinateur et navigation compacte sur mobile — Présentation, Parcours, Savoir - formations, Compétences, Intérêts, Carte des liens, Postes visés, Réalisations. « Proposer un entretien » ouvre la messagerie du visiteur avec un message prérempli, sans envoi automatique.
+Version commune du site et du PDF : 2.15.0. PowerPoint : 2.4, historique.
+Navigation : bandeau clair compact — Présentation, Parcours, Compétences, Formation, Intérêts, et menu « Plus » (Carte des liens, Postes visés, Réalisations, CV PDF) ; menu repliable sur mobile. « Proposer un entretien » ouvre la messagerie du visiteur avec un message prérempli, sans envoi automatique.
 Versionnage : site et PDF partagent un seul numéro MAJEUR.MINEUR.CORRECTIF (x.x.x), quel que soit le support modifié. Source unique : mentions.version dans data/contenu.js ; la recette PDF lit cette valeur. Toute nouvelle version met à jour les deux supports.
 
 PDF de production stable : CV-Interactif-Alain-FERRO.pdf, remplacé à chaque version commune. Les téléchargements du site utilisent ce nom. CV_Alain_Ferro.pdf reste une copie strictement identique pour les anciens QR et liens.
 
 Adresse publique stable : https://alcazenway.github.io/cv-alain-ferro/
+
+V2.15 : format clair à bulles du PDF sur tout le site (coherence.css, coherence.js). Présentation : photo ronde fondue, identité et coordonnées, texte de présentation, contact et PDF, six compétences. Parcours : chemin libre de la naissance (1982, bas gauche) à aujourd’hui (haut droite), 21 étapes dans l’ordre de la source ; les hauteurs sont une métaphore graphique, pas un classement des expériences ; liste accessible sur mobile ; filtres Exp pro / Exp perso. Compétences et Formation : détails dépliables et fiches complètes conservées. Intérêts : sept passions avec symboles au trait et photos en approfondissement. Symboles très pâles : avion et planète, compas, réseau, toque. Pied de page : numéro de version seul. Les modules spirale.js/css et dashboard.js/css sont retirés ; les sections v2.2 à v2.14 ci-dessous restent l’historique. Routes, fiches, alias et redirections inchangés ; #/formation renvoie à #/savoir-formations.
 
 V2.13 : listes d’outils en icônes dans les fiches du parcours, familles de compétences, aperçus de l’index et plateformes. Nom au survol, au focus clavier et au toucher ; Échap ferme l’infobulle. Les liens de plateformes s’ouvrent au second toucher, ou directement au clic/à Entrée. Les outils sans icône gardent leur texte. Les titres, paragraphes et précisions sont conservés ; repères visuels ajoutés à la navigation, aux compétences, aux coordonnées, aux périodes et aux lieux.
 

@@ -5,11 +5,11 @@
 (function () {
   "use strict";
   var NS = "http://www.w3.org/2000/svg";
-  var COULEURS = { competence: "#5FD3C4", formation: "#E8A869", interet: "#8CCB6A", experience: "#5AA9F0", personnel: "#B18CF5" };
+  var COULEURS = { competence: "#19383D", formation: "#B9653F", interet: "#4E7D3A", experience: "#087E83", personnel: "#735389" };
   var POLES = [
     { id: "p-competence", titre: "Compétences", famille: "competence", href: "#/competences", ax: .26, ay: .3 },
     { id: "p-interet", titre: "Intérêts", famille: "interet", href: "#/interets", ax: .76, ay: .27 },
-    { id: "p-formation", titre: "Savoir - formations", famille: "formation", href: "#/savoir-formations", ax: .24, ay: .74 },
+    { id: "p-formation", titre: "Formation", famille: "formation", href: "#/savoir-formations", ax: .24, ay: .74 },
     { id: "p-parcours", titre: "Parcours", famille: "experience", href: "#/parcours", ax: .72, ay: .72 }
   ];
 
