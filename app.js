@@ -87,6 +87,8 @@
   coord.appendChild(el("li", { text: I.permis }));
   coord.appendChild(el("li", { text: I.langues }));
 
+  Array.prototype.forEach.call(coord.children, function (n, i) { n.prepend(Icones.symbole(["mail", "lieu", "permis", "langues"][i])); });
+
   D.chiffres.forEach(function (c) {
     $("chiffres").appendChild(el("li", null, [el("strong", { text: c.valeur }), el("span", { text: c.libelle })]));
   });
@@ -366,8 +368,8 @@
       retour(parent, /^\/parcours/.test(parent) ? "Parcours" : c && compId[c[1]] ? compId[c[1]].titre : RETOURS[parent] || "Retour"),
       el("header", { class: "fiche-tete " + e.type }, [
         el("h1", { id: "fiche-titre", tabindex: "-1", text: e.titre }),
-        el("p", { class: "fiche-periode", text: "(" + e.periode + ")" }),
-        e.lieu ? el("p", { class: "fiche-lieu", text: e.lieu }) : null,
+        el("p", { class: "fiche-periode" }, [Icones.symbole("periode"), "(" + e.periode + ")"]),
+        e.lieu ? el("p", { class: "fiche-lieu" }, [Icones.symbole("lieu"), e.lieu]) : null,
         el("p", { class: "fiche-resume", text: e.resume }),
         e.apportCourt ? el("p", { class: "fiche-apport", text: e.apportCourt }) : null
       ]),
@@ -377,10 +379,10 @@
       galerie(e.galerie),
       dossiers(e.sections, dejaVu),
       el("div", { class: "fiche-lignes" }, [
-        e.outils ? ligne("Outils", etiquettes(e.outils)) : null,
+        e.outils ? ligne("Outils", Icones.liste(e.outils)) : null,
         e.apports && e.apports.length ? ligne("Acquis", etiquettes(e.apports)) : null,
         comps.length ? ligne("Compétences", el("ul", { class: "liens-competences" }, comps.map(function (id) {
-          return el("li", null, [el("a", { href: "#/competence/" + id, text: compId[id].titre })]);
+          return el("li", null, [el("a", { href: "#/competence/" + id }, [Icones.symbole(Icones.competences[id]), compId[id].titre])]);
         }))) : null,
         gouts.length ? ligne("Intérêts", el("ul", { class: "liens-competences" }, gouts.map(function (x) {
           return el("li", null, [el("a", { href: "#/interets", text: x.nom })]);
@@ -395,12 +397,8 @@
     return D.outils.filter(function (f) { return f.competence === c.id; });
   }
   function logos(items) {
-    return el("ul", { class: "logos" }, items.map(function (p) {
-      return el("li", null, [el("a", { href: "#/parcours/" + p.fiche }, [
-        el("img", { src: p.logo, alt: "", width: "40", height: "40", loading: "lazy", decoding: "async" }),
-        el("span", { class: "logo-nom", text: p.nom }),
-        el("span", { class: "logo-role", text: p.role })
-      ])]);
+    return el("ul", { class: "logos outils-icones" }, items.map(function (p) {
+      return el("li", null, [Icones.outil(p.nom, {href: "#/parcours/" + p.fiche, logo: p.logo, description: p.role})]);
     }));
   }
 
@@ -413,11 +411,11 @@
         if (c.id === "plateformes") outils = D.plateformes.items.slice(0, 6).map(function (p) { return p.nom; });
         if (outils.length > 10) outils = outils.slice(0, 10).concat("…");
         return el("li", null, [el("a", { href: "#/competence/" + c.id, class: "competence-ligne" }, [
-          el("span", { class: "competence-num", text: (i < 9 ? "0" : "") + (i + 1), "aria-hidden": "true" }),
+          el("span", { class: "competence-num", "aria-hidden": "true" }, [Icones.symbole(Icones.competences[c.id])]),
           el("span", { class: "competence-corps" }, [
             el("span", { class: "competence-titre", text: c.titre }),
             el("span", { class: "competence-sous", text: c.sousTitre }),
-            outils.length ? el("span", { class: "competence-outils", text: outils.join(" · ") }) : null
+            outils.length ? Icones.liste(outils, true) : null
           ])
         ])]);
       }))
@@ -436,7 +434,7 @@
       ]),
       liste(c.detail, "puces fiche-liste"),
       familles.length ? el("div", { class: "outils fiche-section" }, familles.map(function (f) {
-        return el("div", { class: "famille" }, [el("h2", { text: f.famille }), etiquettes(f.items)]);
+        return el("div", { class: "famille" }, [el("h2", { text: f.famille }), Icones.liste(f.items)]);
       })) : null,
       c.id === "creations-ia" || c.id === "ia" || c.id === "plateformes" ? el("section", { class: "fiche-section plateformes" }, [
         el("h2", { text: P.titre }), el("p", { class: "note", text: P.note }), logos(P.items)
