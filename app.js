@@ -11,7 +11,7 @@
   var catSlug = Object.create(null);
   CATEGORIES.forEach(function (c) { catSlug[c.slug] = c; });
   var ANCIENNES = { haut: "/", parcours: "/parcours", competences: "/competences", realisations: "/realisations", contact: "/contact", interets: "/interets",
-    savoir: "/savoir-formations", "savoir-formations": "/savoir-formations", metiers: "/metiers", postes: "/metiers", "/postes": "/metiers" };
+    savoir: "/savoir-formations", carte: "/carte", "savoir-formations": "/savoir-formations", metiers: "/metiers", postes: "/metiers", "/postes": "/metiers" };
   var ALIAS = D.alias || {};
   var RETIREES = D.retirees || [];
   var parId = Object.create(null), compId = Object.create(null);
@@ -513,7 +513,7 @@
       if (e) {
         var savoir = e.type === "formation";
         // Une formation ne revient jamais vers la spirale, qui ne la contient pas.
-        var origineValide = listeOrigine && (savoir ? /^\/(savoir-formations|competence|realisations|interets|metiers)/ : /^\/(parcours|competence|realisations|interets|metiers)/).test(listeOrigine);
+        var origineValide = listeOrigine && (savoir ? /^\/(savoir-formations|competence|realisations|interets|metiers|carte)/ : /^\/(parcours|competence|realisations|interets|metiers|carte)/).test(listeOrigine);
         var parent = origineValide ? listeOrigine : savoir ? "/savoir-formations" : "/parcours";
         return { rubrique: savoir ? "savoir" : "parcours", titre: e.titre, rendu: ficheParcours(e, parent), detail: true, fiche: true };
       }
@@ -522,6 +522,7 @@
     if (h === "/competences") return { rubrique: "competences", titre: "Compétences", rendu: pageCompetences(), liste: true };
     if ((m = h.match(/^\/competence\/([\w-]+)$/)) && compId[m[1]]) return { rubrique: "competences", titre: compId[m[1]].titre, rendu: ficheCompetence(compId[m[1]]), liste: true, detail: true };
     if (h === "/interets") return { rubrique: "interets", titre: "Intérêts", rendu: pageInterets(), liste: true };
+    if (h === "/carte" && window.CarteLiens) return { rubrique: "presentation", titre: "Carte des liens", rendu: [retour("/", "Présentation"), titreCache("Carte des liens"), window.CarteLiens.page(D)], liste: true };
     if (h === "/realisations") return { rubrique: "presentation", titre: "Réalisations marquantes", rendu: pageRealisations(), liste: true };
     if (h === "/mentions") return { rubrique: "", titre: "Mentions légales", rendu: pageMentions() };
     return null;

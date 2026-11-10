@@ -1,0 +1,33 @@
+/* Carte des liens v2.7 : graphe sombre façon Obsidian, plein cadre. */
+.carte-liens { position: relative; flex: 1; min-height: 0; height: 100%; border-radius: 14px; overflow: hidden;
+  background: radial-gradient(ellipse at 50% 50%, #262A35 0%, #16181D 70%); color: #C9CDD6; }
+.lecture-galaxie .carte-liens { margin: 0; }
+.carte-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.carte-fil { stroke: #8C93A6; stroke-width: .8; opacity: .22; transition: opacity .18s; }
+.carte-fil.moi, .carte-fil.pole { stroke-width: 1.2; opacity: .42; }
+.carte-noeud { cursor: pointer; transition: opacity .18s; outline: none; }
+.carte-noeud .carte-bulle { stroke: none; }
+.carte-noeud.important .carte-bulle { stroke: #FFFFFF; stroke-width: 1.4; }
+.carte-anneau { fill: #F5F6FA; }
+.carte-texte { font-size: 11px; fill: #C9CDD6; text-anchor: middle; paint-order: stroke; stroke: #16181D; stroke-width: 3px; stroke-linejoin: round; pointer-events: none; }
+.carte-texte.fort { fill: #F1F3F8; font-weight: 700; }
+.carte-texte.discret { display: none; }
+.carte-pole { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-anchor: middle; paint-order: stroke; stroke: #16181D; stroke-width: 4px; }
+.carte-noeud:hover .carte-bulle, .carte-noeud:focus-visible .carte-bulle { stroke: #FFFFFF; stroke-width: 2.5; }
+.carte-noeud:focus-visible .carte-anneau { fill: #63D5D8; }
+/* Estompage : seules la bulle choisie, ses voisines et leurs fils restent visibles. */
+.carte-svg.estompe .carte-noeud:not(.on) { opacity: .14; }
+.carte-svg.estompe .carte-fil:not(.on) { opacity: .03; }
+.carte-svg.estompe .carte-fil.on { opacity: .95; stroke: #E6E9F2; stroke-width: 1.3; }
+.carte-svg.estompe .carte-noeud.on .carte-texte.discret { display: inline; }
+.carte-legende { position: absolute; left: .9rem; right: .9rem; bottom: .55rem; margin: 0; display: flex; flex-wrap: wrap; gap: .3rem 1rem; align-items: center;
+  font-size: .78rem; color: #9AA0AE; pointer-events: none; }
+.carte-cle::before { content: ""; display: inline-block; width: .6rem; height: .6rem; border-radius: 50%; margin-right: .35rem; vertical-align: -.02rem; background: currentColor; }
+.carte-cle.cle-competence { color: #5FD3C4; } .carte-cle.cle-formation { color: #E8A869; } .carte-cle.cle-interet { color: #8CCB6A; }
+.carte-cle.cle-experience { color: #5AA9F0; } .carte-cle.cle-personnel { color: #B18CF5; }
+.carte-aide { margin-left: auto; }
+.entree-carte { margin: 0 0 .65rem; }
+.entree-carte a { font-weight: 700; color: var(--experience); }
+@media (max-width: 620px) { .carte-aide { display: none; } .carte-legende { font-size: .7rem; gap: .2rem .7rem; } }
+@media (prefers-reduced-motion: reduce) { .carte-fil, .carte-noeud { transition: none; } }
+@media print { .carte-liens { min-height: 18cm; } }

@@ -1,7 +1,7 @@
 # Alain Ferro — parcours détaillé
 
 Vitrine professionnelle personnelle, sans dépendance distante ni collecte de données.
-Version du site : 2.6 (9 novembre 2026). PDF et PowerPoint : 2.4, inchangés.
+Version du site et du PDF : 2.7 (10 novembre 2026). PowerPoint : 2.4, non reconduit.
 Navigation : cinq onglets — Présentation, Parcours, Savoir - formations, Compétences, Intérêts ; « Proposer un entretien » ouvre la messagerie du visiteur avec un message prérempli, sans envoi automatique.
 Adresse publique stable : https://alcazenway.github.io/cv-alain-ferro/
 
@@ -13,7 +13,7 @@ Parcours : spirale interactive (spirale.js, spirale.css), naissance au centre, �
 
 Fiches : un seul titre sur une ligne, période entre parenthèses juste dessous dans l’en-tête, lieu, résumé, puis une phrase explicative sur l’apport concret (`apportCourt`) ; galeries sans en-tête. Les intitulés des liens reprennent les libellés courts du parcours, avec ajustement de la police sans ellipse. Les périodes ne figurent pas dans les liens.
 
-Routes stables : `#/parcours/<id>`, `#/competence/<id>`, `#/parcours/exp-pro|projets-perso`, `#/savoir-formations`, `#/interets`, `#/metiers`, `#/realisations`, `#/mentions`. Anciennes adresses conservées : `#/contact` (présentation, actions de contact), `#/parcours/thermes-adjoint` (fiche fusionnée « Responsable d’équipe soignant »), `#/parcours/savoir` (onglet « Savoir - formations »), `#/parcours/enfance` et `#/parcours/adolescence` (fiches retirées en 2.1, renvoi vers le parcours).
+Routes stables : `#/parcours/<id>`, `#/competence/<id>`, `#/parcours/exp-pro|projets-perso`, `#/savoir-formations`, `#/interets`, `#/metiers`, `#/realisations`, `#/carte`, `#/mentions`. Anciennes adresses conservées : `#/contact` (présentation, actions de contact), `#/parcours/thermes-adjoint` (fiche fusionnée « Responsable d’équipe soignant »), `#/parcours/savoir` (onglet « Savoir - formations »), `#/parcours/enfance` et `#/parcours/adolescence` (fiches retirées en 2.1, renvoi vers le parcours).
 
 Les photographies et visuels restent la propriété de leur auteur. Les logos identifient les outils de leurs éditeurs. Images et vidéos locales sont chargées à la demande.
 
@@ -25,3 +25,5 @@ V2.5 : textes explicatifs sans première personne, suppression du lien « Les 13
 V2.6 : la clarification « toutes les pages, y compris les fiches » remplace la portée limitée de la v2.5. Toutes les routes tiennent dans la fenêtre. Le contenu complet se lit avec Précédent/Suivant, le sélecteur de pages ou Page précédente/Page suivante au clavier. La fragmentation native du navigateur conserve les textes, liens et médias ; l’ouverture d’un dossier, les images et les redimensionnements recalculent le nombre de vues. Un lien recevant le focus révèle automatiquement sa vue. Les vidéos quittées sont mises en pause. Le sommaire de fiche devient un sélecteur, sans barre de défilement interne.
 
 Parcours v2.6 : spirale ajustée à la fenêtre, groupes chronologiques de quatre étapes sur ordinateur et d’une étape sur petit écran, repères naissance/aujourd’hui conservés. La rotation600s et les textes horizontaux sont conservés. Sur un écran de moins de700px, la liste paginée s’ouvre par défaut ; la spirale reste accessible par la bascule. Les filtres et les30liens directs demeurent inchangés. Les feuilles lecture.css et le module lecture.js pilotent la lecture par écrans. L’impression conserve le contenu entier, sans pagination interactive.
+
+V2.7 : page « Carte des liens » (`#/carte`, carte.js, carte.css), vue graphe façon Obsidian : Alain au centre, quatre pôles (Compétences, Intérêts, Savoir - formations, Parcours) et leurs bulles, reliées par les preuves des compétences, les fiches des intérêts et les formations suivies pendant un poste (champ `liens` des formations). Survol, focus ou premier toucher : la bulle et ses voisines s’allument ; clic : ouverture de la fiche. Accès depuis la Présentation. PDF 2.7 « Archipel » : mêmes en-tête, liens et QR, îlots Compétences, Intérêts et Savoir reliés au parcours en serpentin de la naissance à aujourd’hui.
