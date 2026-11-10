@@ -35,9 +35,9 @@
     return n;
   }
 
-  // Chemin libre et stable : naissance en bas à gauche, aujourd’hui en haut à droite.
-  // Les hauteurs sont une métaphore graphique de détours et de retours, jamais un classement des expériences.
-  var ANCRES = [[110,1480],[300,1420],[480,1460],[650,1330],[850,1390],[980,1200],[770,1110],[570,1190],[360,1100],[160,1180],[110,940],[300,860],[500,970],[680,830],[880,900],[970,670],[760,570],[550,650],[350,540],[430,330],[650,380],[790,190],[990,100]];
+  // Chemin libre et stable, au format paysage de l’écran : naissance en bas à gauche, aujourd’hui en haut à droite.
+  // Trois passages avec montées et descentes ; les hauteurs sont une métaphore graphique, jamais un classement des expériences.
+  var ANCRES = [[90,628],[264,593],[438,634],[612,589],[786,630],[960,585],[1134,618],[1308,567],[1221,352],[1047,394],[873,346],[699,390],[525,350],[351,396],[177,356],[90,170],[264,140],[438,178],[612,126],[786,162],[960,120],[1134,152],[1308,98]];
   function chemin(nombre) {
     if (nombre !== ANCRES.length) return null;
     var p = ANCRES.map(function (a) { return { x: a[0], y: a[1] }; });
@@ -47,7 +47,7 @@
       var a = p[Math.max(0, i - 1)], b = p[i], c = p[i + 1], d = p[Math.min(p.length - 1, i + 2)];
       route += " C" + arrondi(b.x + (c.x - a.x) / 6) + "," + arrondi(b.y + (c.y - a.y) / 6) + " " + arrondi(c.x - (d.x - b.x) / 6) + "," + arrondi(c.y - (d.y - b.y) / 6) + " " + c.x + "," + c.y;
     }
-    return { positions: p, route: route, viewBox: "0 0 1100 1620" };
+    return { positions: p, route: route, viewBox: "0 0 1400 740", rayon: 64 };
   }
 
   /* ---------- Bandeau : menu mobile et menu complémentaire ---------- */
@@ -74,10 +74,13 @@
   });
   window.addEventListener("hashchange", function () { ouvrirMenu(false); ouvrirPlus(false); });
   if (window.matchMedia) {
-    var large = window.matchMedia("(min-width: 901px)");
+    var large = window.matchMedia("(min-width: 1101px)");
     var fermer = function () { ouvrirMenu(false); ouvrirPlus(false); };
     if (large.addEventListener) large.addEventListener("change", fermer); else if (large.addListener) large.addListener(fermer);
   }
+
+  // Le mouvement lent des fonds s’arrête quand l’onglet est caché.
+  document.addEventListener("visibilitychange", function () { document.documentElement.classList.toggle("co-onglet-cache", document.hidden); });
 
   window.Coherence = { symbole: symbole, svg: svg, chemin: chemin, interets: INTERETS };
 })();

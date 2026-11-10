@@ -47,7 +47,7 @@ summary::-webkit-details-marker { display: none; }
 .co-orbite { position: absolute; width: 265px; height: 265px; right: 1%; bottom: 20px; color: var(--personnel); opacity: .12; }
 .co-une > *:not(.co-marques) { position: relative; z-index: 1; }
 .co-identite { text-align: center; padding: 20px; border-radius: 48% 48% 40% 40%; background: #edf2ec; }
-.co-portrait { display: block; width: 152px; height: 152px; margin: 0 auto 17px; object-fit: cover; object-position: center 25%; border-radius: 50%;
+.co-portrait { display: block; width: 152px; height: 152px; margin: 0 auto 17px; object-fit: cover; object-position: center; border-radius: 50%;
   -webkit-mask-image: radial-gradient(circle, #000 62%, transparent 71%); mask-image: radial-gradient(circle, #000 62%, transparent 71%); }
 .co-surtitre { margin: 0; text-transform: uppercase; letter-spacing: 2px; font-size: 11px; font-weight: 650; color: var(--discret); }
 #titre-nom { margin: 8px 0; font-size: 30px; font-weight: 600; line-height: 1.15; }
@@ -69,7 +69,6 @@ summary::-webkit-details-marker { display: none; }
 .co-competence-entree:hover { background: #e8f0ed; color: var(--encre); }
 .co-competence-entree strong { display: block; font-size: 16px; font-weight: 600; }
 .co-competence-entree small { display: block; margin: 4px 0; font-size: 12px; color: var(--discret); }
-.co-competence-entree em { font-style: normal; font-size: 12px; color: var(--experience); }
 .co-orbe { flex: 0 0 64px; width: 64px; height: 64px; display: grid; place-items: center; border: 1px solid var(--experience); border-radius: 50%; background: var(--fond); color: var(--experience); }
 .co-orbe .repere-visuel { width: 28px; height: 28px; margin: 0; color: inherit; }
 .co-orbe.o0, .co-orbe.o5 { color: var(--personnel); border-color: var(--personnel); }
@@ -82,23 +81,21 @@ summary::-webkit-details-marker { display: none; }
 
 /* ---------- Parcours : chemin libre ---------- */
 .co-legende { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin: 0 5% 8px; font-size: 13px; }
-.co-filtre { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 6px 14px; border: 1px solid var(--filet); border-radius: 22px; background: none; color: var(--encre); font: inherit; font-size: 13px; cursor: pointer; }
-.co-filtre:hover { background: #e8f0ed; }
-.co-filtre[aria-pressed="true"] { background: #e5efeb; border-color: var(--experience); font-weight: 700; }
-.co-filtre.personnel[aria-pressed="true"] { border-color: var(--personnel); }
-.co-filtre-info { display: inline-flex; align-items: center; gap: 8px; }
+.co-filtre { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 4px 2px; border: 0; border-radius: 6px; background: none; color: var(--encre); font: inherit; font-size: 13px; cursor: pointer; }
+.co-filtre:hover { text-decoration: underline; text-underline-offset: 5px; }
+.co-filtre[aria-pressed="true"] { font-weight: 700; text-decoration: underline 2px var(--experience); text-underline-offset: 5px; }
+.co-filtre.personnel[aria-pressed="true"] { text-decoration-color: var(--personnel); }
+.co-filtre-info { display: inline-flex; align-items: center; gap: 6px; }
 .co-point { display: inline-block; width: 18px; height: 18px; border: 1.5px solid var(--experience); border-radius: 50%; }
 .co-point.personnel { border-color: var(--personnel); }
 .co-point.plein { background: var(--experience); }
-.co-chemin-cadre { padding: 0 1% 10px; }
-.co-chemin { display: block; width: 100%; max-width: 1100px; height: auto; margin: 0 auto; }
+.co-point.plein.personnel { background: var(--personnel); border-color: var(--personnel); }
+.co-chemin-cadre { flex: 1; min-height: 0; padding: 0 0 4px; }
+.co-chemin { display: block; width: 100%; height: 100%; margin: 0 auto; }
 .co-route { fill: none; stroke: #c4d5ce; stroke-width: 2; }
-.co-temps { fill: none; stroke: #b9cbc3; stroke-dasharray: 4 8; }
-.co-fleche { fill: none; stroke: #8ca7a0; stroke-width: 1.2; }
-.co-temps-texte { fill: var(--discret); font-size: 11px; letter-spacing: 2px; }
 .co-noeud circle { fill: var(--fond); stroke: var(--experience); stroke-width: 1.5; }
-.co-noeud-texte { fill: var(--experience); font-size: 12px; }
-.co-noeud-periode { fill: var(--discret); font-size: 11px; }
+.co-noeud-texte { fill: var(--experience); font-weight: 600; }
+.co-noeud-periode { fill: var(--discret); font-size: 14px; }
 .co-noeud.personnel circle { stroke: var(--personnel); }
 .co-noeud.personnel .co-noeud-texte { fill: var(--personnel); }
 .co-noeud.important circle { fill: var(--experience); }
@@ -134,17 +131,15 @@ a.co-arret-corps:hover { box-shadow: 0 0 0 2px currentColor inset; color: var(--
 
 /* ---------- Compétences ---------- */
 .co-catalogue { padding: 0 5% 30px; }
-.co-competence { border-bottom: 1px solid #d6e1d7; }
-.co-competence > summary { display: flex; align-items: center; gap: 20px; padding: 20px 0; list-style: none; border-radius: 16px; }
-.co-competence-nom strong { display: block; font-size: 20px; font-weight: 600; color: var(--encre); }
-.co-competence-nom small { display: block; margin-top: 4px; font-size: 13px; color: var(--discret); }
+.co-competence { display: flex; align-items: center; gap: 20px; padding: 18px 0; border-bottom: 1px solid #d6e1d7; }
+.co-competence-nom { flex: 1; min-width: 0; }
+.co-competence-nom h2 { margin: 0; font-size: 20px; font-weight: 600; }
+.co-competence-nom p { margin: 4px 0 0; font-size: 13px; color: var(--discret); }
+.co-competence-nom .outils-apercu { margin-top: 10px; }
 .co-mini { flex: 0 0 48px; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; background: #edf3ec; color: var(--experience); }
 .co-mini .repere-visuel { width: 24px; height: 24px; margin: 0; color: inherit; }
-.co-plus-signe { margin-left: auto; padding: 0 6px; font-size: 26px; font-weight: 300; color: var(--encre); transition: transform .15s; }
-.co-competence[open] .co-plus-signe { transform: rotate(45deg); }
-.co-competence-detail { padding: 0 30px 25px 68px; }
-.co-competence-detail li { margin-bottom: 8px; }
-.co-competence-detail > .puces { margin-bottom: 14px; }
+.co-fiche-complete { flex: none; display: inline-flex; align-items: center; min-height: 42px; padding: 9px 18px; border: 1px solid var(--experience); border-radius: 24px; background: rgba(252, 252, 248, .85); color: var(--experience); font-size: 14px; font-weight: 600; text-decoration: none; }
+.co-fiche-complete:hover, .co-fiche-complete:focus-visible { background: var(--experience); color: #fff; }
 .co-fiche-lien { margin: 14px 0 0; font-size: 14px; }
 .co-fiche-lien a { font-weight: 600; }
 
@@ -204,8 +199,48 @@ a.co-arret-corps:hover { box-shadow: 0 0 0 2px currentColor inset; color: var(--
 .carte-cle.cle-competence { color: #19383d; } .carte-cle.cle-formation { color: #b9653f; } .carte-cle.cle-interet { color: #4e7d3a; }
 .carte-cle.cle-experience { color: #087e83; } .carte-cle.cle-personnel { color: #735389; }
 
+/* ---------- v2.16 : Parcours entier à l’écran ---------- */
+.co-tete-parcours { flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 28px; padding: 6px 1% 4px; }
+.co-tete-parcours h1 { margin: 0; font-size: 30px; font-weight: 600; }
+.co-tete-parcours .co-legende { margin: 0; }
+#accueil, #vue { margin-inline: auto; }
+#vue .lecture-galaxie .lecture-flux { max-width: 1760px; }
+.lecture-galaxie .co-pied { flex: none; margin-top: 4px; padding-top: 8px; }
+/* Écran étroit ou bas : liste lisible plutôt qu’un chemin aux titres minuscules (échelle < 0,75). */
+@media (max-width: 1099px), (max-height: 719px) {
+  .co-chemin-cadre { display: none; }
+  .co-chemin-liste { display: flex; }
+}
+
+/* ---------- v2.16 : fiche finale de compétence ---------- */
+.co-integres { display: grid; gap: 18px; }
+.co-integre { padding: 20px 24px; border: 1px solid var(--filet); border-left: 4px solid var(--experience); border-radius: 0 24px 24px 0; background: rgba(255, 255, 255, .82); }
+.co-integre.personnel { border-left-color: var(--personnel); }
+.co-integre.formation { border-left-color: var(--formation); background: rgba(248, 241, 233, .9); }
+.co-integre h3 { margin: 0 0 4px; font-size: 19px; }
+.co-integre-meta { margin-bottom: 10px; font-size: 13px; color: var(--discret); }
+.co-integre .puces { margin-bottom: 12px; }
+.co-integre-medias { margin-top: 10px; }
+.co-integre-medias > summary { display: inline-flex; align-items: center; min-height: 38px; font-weight: 600; color: var(--experience); }
+.co-integre-medias[open] > summary { margin-bottom: 10px; }
+
+/* ---------- v2.16 : fonds photographiques très voilés, mouvement lent ---------- */
+#contenu { position: relative; z-index: 1; }
+.co-fond { display: none; position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.co-fond::after { content: ""; position: absolute; inset: 0; background: rgba(252, 252, 248, .9); }
+.co-fond-image { position: absolute; inset: -6%; background-position: center; background-size: cover; background-repeat: no-repeat; animation: co-derive 80s ease-in-out infinite alternate; will-change: transform; }
+body[data-fond="parcours"] .co-fond, body[data-fond="competences"] .co-fond, body[data-fond="savoir"] .co-fond, body[data-fond="interets"] .co-fond { display: block; }
+body[data-fond="parcours"] .co-fond-image { background-image: url("assets/fonds/parcours-urbain.webp"); }
+body[data-fond="competences"] .co-fond-image { background-image: url("assets/fonds/competences.webp"); }
+body[data-fond="savoir"] .co-fond-image { background-image: url("assets/fonds/apprentissage.webp"); }
+body[data-fond="interets"] .co-fond-image { background-image: url("assets/fonds/galaxie.webp"); }
+/* Marge de 6 % de chaque côté : le zoom et le glissement (au plus 2,5 %) ne découvrent jamais de bord. */
+@keyframes co-derive { from { transform: scale(1) translate(0, 0); } to { transform: scale(1.05) translate(-2.5%, -1.5%); } }
+.co-onglet-cache .co-fond-image { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .co-fond-image { animation: none; } }
+
 /* ---------- Petits écrans ---------- */
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .co-bandeau { flex-wrap: wrap; gap: 10px; row-gap: 8px; padding: 10px 16px; }
   .co-marque { font-size: 17px; }
   .co-menu { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 7px 12px; border: 1px solid #bccdca; border-radius: 24px; background: none; color: var(--encre); font: inherit; font-size: 13px; cursor: pointer; }
@@ -241,11 +276,12 @@ a.co-arret-corps:hover { box-shadow: 0 0 0 2px currentColor inset; color: var(--
   .co-chemin-cadre { display: none; }
   .co-chemin-liste { display: flex; }
   .co-catalogue { padding: 0 2px 24px; }
-  .co-competence > summary { gap: 13px; }
-  .co-competence-nom strong { font-size: 17px; }
-  .co-competence-nom small { font-size: 12px; }
+  .co-competence { flex-wrap: wrap; gap: 12px; }
+  .co-competence-nom h2 { font-size: 17px; }
+  .co-competence-nom p { font-size: 12px; }
+  .co-fiche-complete { margin-left: 50px; }
+  .co-integre { padding: 16px; }
   .co-mini { flex-basis: 38px; width: 38px; height: 38px; }
-  .co-competence-detail { padding: 0 0 22px; }
   .co-formations, .co-interets { grid-template-columns: 1fr; gap: 18px; padding: 0 2px 24px; }
   .co-formation { padding: 22px; border-radius: 30px; }
   .co-interet { padding: 26px; border-radius: 36px; }
@@ -262,7 +298,6 @@ a.co-arret-corps:hover { box-shadow: 0 0 0 2px currentColor inset; color: var(--
   .co-onglets { grid-template-columns: 1fr 1fr; }
   p, li { hyphens: auto; }
 }
-@media (prefers-reduced-motion: reduce) { .co-plus-signe { transition: none; } }
 @media print {
   .co-bandeau, .co-marques, .co-filigrane, .co-interet-symbole { display: none !important; }
   .co-chemin-cadre { display: none; } .co-chemin-liste { display: flex; }

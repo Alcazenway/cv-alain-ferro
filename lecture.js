@@ -15,22 +15,11 @@
     originaux.forEach(function (n) { flux.appendChild(n); });
     fenetre.appendChild(flux); cadre.appendChild(fenetre); host.appendChild(cadre); host.classList.add("lecture-hote");
     var demande = 0, actif = true;
-    var sommaire = host.querySelector(".sommaire");
-    if (sommaire) {
-      sommaire.hidden = true;
-      var raccourci = noeud("div", "lecture-sommaire");
-      var label = noeud("label", "", "Parcourir : ");
-      var liste = noeud("select", ""); liste.setAttribute("aria-label", sommaire.getAttribute("aria-label"));
-      Array.prototype.forEach.call(sommaire.querySelectorAll(".sommaire-liste a"), function (a) {
-        var o = noeud("option", "", a.textContent); o.value = a.getAttribute("href"); o.selected = a.hasAttribute("aria-current"); liste.appendChild(o);
-      });
-      liste.addEventListener("change", function () { location.hash = liste.value; });
-      label.appendChild(liste); raccourci.appendChild(label); cadre.insertBefore(raccourci, fenetre);
-    }
     function mesurer() {
       demande = 0; if (!actif || !fenetre.clientHeight) return;
-      // La carte des liens occupe la fenêtre entière, sans défilement.
-      cadre.classList.toggle("lecture-galaxie", !!host.querySelector(".carte-liens"));
+      // La carte des liens et le chemin du parcours (s’il est affiché) occupent la fenêtre entière, sans défilement.
+      var chemin = host.querySelector(".co-chemin-cadre");
+      cadre.classList.toggle("lecture-galaxie", !!host.querySelector(".carte-liens") || !!(chemin && chemin.getClientRects().length));
       flux.style.setProperty("--lecture-hauteur", fenetre.clientHeight + "px");
       if (ajuster) ajuster();
     }
@@ -51,7 +40,7 @@
       actif = false; cancelAnimationFrame(demande); if (ro) ro.disconnect(); mo.disconnect();
       fenetre.removeEventListener("scroll", defilement);
       host.removeEventListener("load", actualiser, true); host.removeEventListener("toggle", actualiser, true);
-      originaux.forEach(function (n) { host.appendChild(n); }); cadre.remove(); host.classList.remove("lecture-hote"); if (sommaire) sommaire.hidden = false;
+      originaux.forEach(function (n) { host.appendChild(n); }); cadre.remove(); host.classList.remove("lecture-hote");
     }};
     mesurer();
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(actualiser);
