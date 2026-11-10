@@ -1,9 +1,13 @@
 # Alain Ferro — parcours détaillé
 
 Vitrine professionnelle personnelle, sans dépendance distante ni collecte de données.
-Version du site : 2.10 (10 novembre 2026). PDF Archipel : 2.8, conservé. PowerPoint : 2.4, non reconduit.
+Version du site : 2.13 (10 novembre 2026). PDF Archipel : 2.12, conservé. PowerPoint : 2.4, non reconduit.
 Navigation : tableau de bord sombre, menu latéral sur ordinateur et navigation compacte sur mobile — Présentation, Parcours, Savoir - formations, Compétences, Intérêts, Carte des liens, Postes visés, Réalisations. « Proposer un entretien » ouvre la messagerie du visiteur avec un message prérempli, sans envoi automatique.
 Adresse publique stable : https://alcazenway.github.io/cv-alain-ferro/
+
+V2.13 : listes d’outils en icônes dans les fiches du parcours, familles de compétences, aperçus de l’index et plateformes. Nom au survol, au focus clavier et au toucher ; Échap ferme l’infobulle. Les liens de plateformes s’ouvrent au second toucher, ou directement au clic/à Entrée. Les outils sans icône gardent leur texte. Les titres, paragraphes et précisions sont conservés ; repères visuels ajoutés à la navigation, aux compétences, aux coordonnées, aux périodes et aux lieux.
+
+Sources des nouvelles icônes : Simple Icons 13.21.0 (CC0-1.0) et Material Design Icons 7.4.47 (Apache-2.0). Sources, copies des licences et distinction entre pictogrammes génériques et logos : assets/icones/LICENCES.txt, Apache-2.0.txt et CC0-1.0.txt. Logos antérieurs conservés sans modification. Petits pictogrammes de navigation dessinés pour le site. Les marques identifient les outils utilisés, sans partenariat revendiqué. Modules : data/icones.js (correspondances), icones.js (composants et noms), icones.css (présentation).
 
 Présentation : identité compacte puis six entrées par besoin professionnel, « Créer avec l’IA » en tête. Chaque carte ouvre la compétence et ses éléments du parcours. Toutes les compétences, la carte, les repères et les réalisations restent accessibles. Profil complet, coordonnées et postes recherchés dans un panneau dépliable. Mentions légales, version et date de mise à jour figurent uniquement en bas de cette page.
 

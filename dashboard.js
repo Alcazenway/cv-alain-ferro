@@ -14,6 +14,8 @@
   [['#/carte', 'Carte des liens'], ['#/metiers', 'Postes visés'], ['#/realisations', 'Réalisations']].forEach(([href, text]) => {
     const li = node('li'); const a = node('a', '', text); a.href = href; li.append(a); list.append(li);
   });
+  const reperesNav = {'#/':'accueil', '#/parcours':'parcours', '#/savoir-formations':'savoir', '#/competences':'gestion', '#/interets':'interets', '#/carte':'carte', '#/metiers':'relation', '#/realisations':'manuel'};
+  list.querySelectorAll('a').forEach(a => a.prepend(Icones.symbole(reperesNav[a.getAttribute('href')])));
   side.append(node('p', 'dashboard-label', 'Pour aller plus loin'), document.querySelector('.pdf'));
   const mobilePdfItem = node('li', 'dashboard-mobile-pdf');
   const mobilePdf = node('a', '', 'CV · PDF'); mobilePdf.href = D.identite.cvPdf; mobilePdf.setAttribute('download', 'CV_Alain_Ferro.pdf'); mobilePdfItem.append(mobilePdf); list.append(mobilePdfItem);
@@ -52,7 +54,8 @@
   Object.entries(labels).forEach(([id, texts], i) => {
     const c = D.competences.find(c => c.id === id); if (!c) return;
     const li = node('li'); const a = node('a', 'dashboard-tile'); a.href = '#/competence/' + id;
-    a.append(node('span', 'dashboard-number', '0' + (i + 1)), node('h3', '', texts[0]), node('p', '', texts[1]));
+    a.append(Object.assign(node('span', 'dashboard-number'), {ariaHidden: 'true'}), node('h3', '', texts[0]), node('p', '', texts[1]));
+    a.querySelector('.dashboard-number').append(Icones.symbole(Icones.competences[id]));
     const count = new Set((c.preuves || []).filter(id => D.parcours.some(p => p.id === id))).size;
     a.append(node('span', 'dashboard-proof', count + ' éléments du parcours associés →')); li.append(a); grid.append(li);
   });
