@@ -1,13 +1,15 @@
 # Alain Ferro — parcours détaillé
 
 Vitrine professionnelle personnelle, sans dépendance distante ni collecte de données.
-Version commune du site et du PDF : 2.15.1. PowerPoint : 2.4, historique.
-Navigation : bandeau clair compact — Présentation, Parcours, Compétences, Formation, Intérêts, et menu « Plus » (Carte des liens, Postes visés, Réalisations, CV PDF) ; menu repliable sur mobile. « Proposer un entretien » ouvre la messagerie du visiteur avec un message prérempli, sans envoi automatique.
+Version commune du site et du PDF : 2.16.0. PowerPoint : 2.4, historique.
+Navigation : bandeau clair compact — Présentation, Parcours, Compétences, Formation, Intérêts, Postes visés, et menu « Plus » (Carte des liens, Réalisations, CV PDF) ; menu repliable sur mobile. « Proposer un entretien » ouvre la messagerie du visiteur avec un message prérempli, sans envoi automatique.
 Versionnage : site et PDF partagent un seul numéro MAJEUR.MINEUR.CORRECTIF (x.x.x), quel que soit le support modifié. Source unique : mentions.version dans data/contenu.js ; la recette PDF lit cette valeur. Toute nouvelle version met à jour les deux supports.
 
 PDF de production stable : CV-Interactif-Alain-FERRO.pdf, remplacé à chaque version commune. Les téléchargements du site utilisent ce nom. CV_Alain_Ferro.pdf reste une copie strictement identique pour les anciens QR et liens.
 
 Adresse publique stable : https://alcazenway.github.io/cv-alain-ferro/
+
+V2.16.0 : compétences organisées en deux niveaux : index puis « Fiche complète », regroupant expériences, acquis et formations sur la même page. Portrait identique au cadrage du PDF. Parcours entier sans défilement sur ordinateur, titres agrandis, légende simplifiée ; liste lisible sur les fenêtres étroites ou basses. Sélecteur « Parcourir » retiré des fiches. Postes visés directement dans le bandeau. Titres « BTS commercial » et « BAC Sciences et technologies tertiaires ». Fonds de rubrique générés, très pâles et lentement animés, avec arrêt en mouvement réduit. Le design du PDF reste identique ; son numéro et ses liens suivent la version commune. L'ouverture des liens du PDF en nouvel onglet dépend du lecteur utilisé.
 
 V2.15.1 : les liens de navigation du PDF portent la version commune pour éviter une ancienne entrée de cache. actualiser.js consulte version.json sans cache et réouvre la même fiche si la page chargée est périmée. version.json est dérivé de mentions.version lors de la construction du PDF. La lecture reste disponible en cas d’indisponibilité réseau.
 
