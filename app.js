@@ -411,6 +411,7 @@
       el("ol", { class: "competences-liste" }, D.competences.map(function (c, i) {
         var outils = outilsDe(c).reduce(function (t, f) { return t.concat(f.items); }, []);
         if (c.id === "plateformes") outils = D.plateformes.items.slice(0, 6).map(function (p) { return p.nom; });
+        if (outils.length > 10) outils = outils.slice(0, 10).concat("…");
         return el("li", null, [el("a", { href: "#/competence/" + c.id, class: "competence-ligne" }, [
           el("span", { class: "competence-num", text: (i < 9 ? "0" : "") + (i + 1), "aria-hidden": "true" }),
           el("span", { class: "competence-corps" }, [
@@ -437,7 +438,7 @@
       familles.length ? el("div", { class: "outils fiche-section" }, familles.map(function (f) {
         return el("div", { class: "famille" }, [el("h2", { text: f.famille }), etiquettes(f.items)]);
       })) : null,
-      c.id === "ia" || c.id === "plateformes" ? el("section", { class: "fiche-section plateformes" }, [
+      c.id === "creations-ia" || c.id === "ia" || c.id === "plateformes" ? el("section", { class: "fiche-section plateformes" }, [
         el("h2", { text: P.titre }), el("p", { class: "note", text: P.note }), logos(P.items)
       ]) : null,
       section("Preuves dans le parcours", el("ul", { class: "preuves" }, c.preuves.filter(function (id) { return parId[id]; }).map(lienEtape))),

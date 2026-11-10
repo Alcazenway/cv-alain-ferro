@@ -1,7 +1,7 @@
 # Alain Ferro — parcours détaillé
 
 Vitrine professionnelle personnelle, sans dépendance distante ni collecte de données.
-Version du site et du PDF : 2.7 (10 novembre 2026). PowerPoint : 2.4, non reconduit.
+Version du site et du PDF : 2.8 (10 novembre 2026). PowerPoint : 2.4, non reconduit.
 Navigation : cinq onglets — Présentation, Parcours, Savoir - formations, Compétences, Intérêts ; « Proposer un entretien » ouvre la messagerie du visiteur avec un message prérempli, sans envoi automatique.
 Adresse publique stable : https://alcazenway.github.io/cv-alain-ferro/
 
@@ -27,3 +27,5 @@ V2.6 : la clarification « toutes les pages, y compris les fiches » remplace la
 Parcours v2.6 : spirale ajustée à la fenêtre, groupes chronologiques de quatre étapes sur ordinateur et d’une étape sur petit écran, repères naissance/aujourd’hui conservés. La rotation600s et les textes horizontaux sont conservés. Sur un écran de moins de700px, la liste paginée s’ouvre par défaut ; la spirale reste accessible par la bascule. Les filtres et les30liens directs demeurent inchangés. Les feuilles lecture.css et le module lecture.js pilotent la lecture par écrans. L’impression conserve le contenu entier, sans pagination interactive.
 
 V2.7 : page « Carte des liens » (`#/carte`, carte.js, carte.css), vue graphe façon Obsidian : Alain au centre, quatre pôles (Compétences, Intérêts, Savoir - formations, Parcours) et leurs bulles, reliées par les preuves des compétences, les fiches des intérêts et les formations suivies pendant un poste (champ `liens` des formations). Survol, focus ou premier toucher : la bulle et ses voisines s’allument ; clic : ouverture de la fiche. Accès depuis la Présentation. PDF 2.7 « Archipel » : mêmes en-tête, liens et QR, îlots Compétences, Intérêts et Savoir reliés au parcours en serpentin de la naissance à aujourd’hui.
+
+V2.8 : compétence « Créations avec l’IA » (`creations-ia`) placée en tête : applications web, site marchand, logiciel Windows, créations MSFS, médias, ce CV et automatisations ; familles d’outils Intelligence artificielle, Développement et services web, Création et simulation, avec les logos des plateformes. « Pilotage de projets avec l’IA » complété (orchestration de plusieurs assistants avec Orca, skills communs). Index des compétences : dix outils au plus par ligne. PDF 2.8 : bulle « Créations avec l’IA » vers `#/competence/creations-ia`.
