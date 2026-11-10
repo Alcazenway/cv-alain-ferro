@@ -58,7 +58,7 @@
   });
   needs.append(grid);
   const all = node('a', 'dashboard-all', 'Toutes les compétences, les outils et leurs applications →'); all.href = '#/competences'; needs.append(all);
-  // Les rubriques existantes restent intégrales et paginées, y compris les réalisations.
+  // Les rubriques existantes restent intégrales, sur une seule page qui défile si nécessaire (v2.10), y compris les réalisations.
   home.insertBefore(needs, hero.nextSibling);
   if (graphEntry) needs.append(graphEntry);
   home.append(about);
