@@ -49,7 +49,8 @@
     }
     function mesurer() {
       demande = 0; if (!actif || !fenetre.clientWidth || !fenetre.clientHeight) return;
-      var spirale = host.querySelector(".spirale:not([hidden])");
+      // Spirale et carte des liens occupent la fenêtre entière, sans pagination.
+      var spirale = host.querySelector(".spirale:not([hidden]), .carte-liens");
       cadre.classList.toggle("lecture-galaxie", !!spirale);
       largeur = fenetre.clientWidth;
       flux.style.setProperty("--lecture-largeur", largeur + "px");
