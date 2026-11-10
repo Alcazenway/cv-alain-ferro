@@ -1,11 +1,13 @@
 # Alain Ferro — parcours détaillé
 
 Vitrine professionnelle personnelle, sans dépendance distante ni collecte de données.
-Version du site : 2.9 (10 novembre 2026). PDF Archipel : 2.8, conservé. PowerPoint : 2.4, non reconduit.
+Version du site : 2.10 (10 novembre 2026). PDF Archipel : 2.8, conservé. PowerPoint : 2.4, non reconduit.
 Navigation : tableau de bord sombre, menu latéral sur ordinateur et navigation compacte sur mobile — Présentation, Parcours, Savoir - formations, Compétences, Intérêts, Carte des liens, Postes visés, Réalisations. « Proposer un entretien » ouvre la messagerie du visiteur avec un message prérempli, sans envoi automatique.
 Adresse publique stable : https://alcazenway.github.io/cv-alain-ferro/
 
 Présentation : identité compacte puis six entrées par besoin professionnel, « Créer avec l’IA » en tête. Chaque carte ouvre la compétence et ses éléments du parcours. Toutes les compétences, la carte, les repères et les réalisations restent accessibles. Profil complet, coordonnées et postes recherchés dans un panneau dépliable. Mentions légales, version et date de mise à jour figurent uniquement en bas de cette page.
+
+V2.10 : pagination par écrans retirée à la demande d’Alain. Chaque page et chaque fiche tient sur une seule page ; une barre de défilement verticale apparaît dans la zone de contenu lorsque les informations dépassent la fenêtre (lecture.js, lecture.css). Bandeau et menu restent fixes ; sélecteur « Parcourir » des fiches conservé. Spirale du Parcours et carte des liens inchangées, plein cadre. La règle v2.6 « sans défilement » est remplacée.
 
 V2.9 : dashboard.js réorganise l’accueil avec les mêmes données et routes ; dashboard.css harmonise toutes les rubriques avec la carte Obsidian. Police Segoe UI commune au PDF ; familles de couleurs conservées. Pagination par écrans et liens directs antérieurs maintenus. Aucun contenu de carrière, média ou PDF modifié.
 
