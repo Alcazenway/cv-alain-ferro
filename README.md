@@ -1,8 +1,12 @@
 # Alain Ferro — parcours détaillé
 
 Vitrine professionnelle personnelle, sans dépendance distante ni collecte de données.
-Version du site : 2.13 (10 novembre 2026). PDF Archipel : 2.12, conservé. PowerPoint : 2.4, non reconduit.
+Version commune du site et du PDF : 2.14.0 (10 novembre 2026). PowerPoint : 2.4, historique.
 Navigation : tableau de bord sombre, menu latéral sur ordinateur et navigation compacte sur mobile — Présentation, Parcours, Savoir - formations, Compétences, Intérêts, Carte des liens, Postes visés, Réalisations. « Proposer un entretien » ouvre la messagerie du visiteur avec un message prérempli, sans envoi automatique.
+Versionnage : site et PDF partagent un seul numéro MAJEUR.MINEUR.CORRECTIF (x.x.x), quel que soit le support modifié. Source unique : mentions.version dans data/contenu.js ; la recette PDF lit cette valeur. Toute nouvelle version met à jour les deux supports.
+
+PDF de production stable : CV-Interactif-Alain-FERRO.pdf, remplacé à chaque version commune. Les téléchargements du site utilisent ce nom. CV_Alain_Ferro.pdf reste une copie strictement identique pour les anciens QR et liens.
+
 Adresse publique stable : https://alcazenway.github.io/cv-alain-ferro/
 
 V2.13 : listes d’outils en icônes dans les fiches du parcours, familles de compétences, aperçus de l’index et plateformes. Nom au survol, au focus clavier et au toucher ; Échap ferme l’infobulle. Les liens de plateformes s’ouvrent au second toucher, ou directement au clic/à Entrée. Les outils sans icône gardent leur texte. Les titres, paragraphes et précisions sont conservés ; repères visuels ajoutés à la navigation, aux compétences, aux coordonnées, aux périodes et aux lieux.
