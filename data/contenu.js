@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV_Alain_Ferro.pdf?v=2.11",
+    "cvPdf": "./CV_Alain_Ferro.pdf?v=2.12",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV en ligne a retenu l’attention pour un poste de [intitulé du poste] au sein de [entreprise], à [lieu].\n\nUn entretien est proposé [proposition de date et d’horaire], en présentiel ou par téléphone.\n\nCordialement,\n\n[Prénom Nom]\n[Fonction] · [Entreprise]\n[Téléphone]"
@@ -1913,6 +1913,49 @@ window.CV = {
       "periode": "2025"
     },
     {
+      "id": "outils-ia",
+      "type": "personnel",
+      "titre": "Intégration IA",
+      "titreCourt": "Intégration IA",
+      "important": true,
+      "lieu": "Méthodes de travail et continuité des projets personnels",
+      "resume": "Intégrer des assistants IA dans des projets suivis : consignes communes, dossiers de référence et documents de reprise.",
+      "apportCourt": "Consignes écrites, répartition des rôles et traçabilité des versions.",
+      "contexte": "La coordination de plusieurs assistants IA sur des projets suivis repose sur des consignes communes et des documents de reprise.",
+      "missions": [
+        "Rédaction de consignes structurées communes.",
+        "Dossiers de référence et documents de reprise entre sessions.",
+        "Coordination de plusieurs assistants travaillant en parallèle avec Orca, chacun sur un périmètre défini, puis revue croisée.",
+        "Définition du périmètre de chaque intervention et des éléments attendus pour vérifier un résultat.",
+        "Suivi des versions avec Git et GitHub."
+      ],
+      "competences": [
+        "creations-ia",
+        "ia",
+        "gestion",
+        "plateformes"
+      ],
+      "outils": [
+        "ChatGPT",
+        "Codex",
+        "Claude",
+        "Claude Code",
+        "Orca",
+        "Git",
+        "GitHub"
+      ],
+      "apports": [
+        "Organisation",
+        "Documentation",
+        "Contrôle des résultats"
+      ],
+      "transfert": "Les mêmes réflexes que pour une équipe : rôles clairs, consignes écrites, contrôle et traçabilité.",
+      "bulle": [
+        "Intégration IA"
+      ],
+      "periode": "2026–aujourd’hui"
+    },
+    {
       "id": "barysense",
       "type": "personnel",
       "titre": "BarySense · Suivi du café",
@@ -2400,49 +2443,6 @@ window.CV = {
       "periode": "2026–aujourd’hui"
     },
     {
-      "id": "outils-ia",
-      "type": "personnel",
-      "titre": "Intégration IA",
-      "titreCourt": "Intégration IA",
-      "important": true,
-      "lieu": "Méthodes de travail et continuité des projets personnels",
-      "resume": "Intégrer des assistants IA dans des projets suivis : consignes communes, dossiers de référence et documents de reprise.",
-      "apportCourt": "Consignes écrites, répartition des rôles et traçabilité des versions.",
-      "contexte": "La coordination de plusieurs assistants IA sur des projets suivis repose sur des consignes communes et des documents de reprise.",
-      "missions": [
-        "Rédaction de consignes structurées communes.",
-        "Dossiers de référence et documents de reprise entre sessions.",
-        "Coordination de plusieurs assistants travaillant en parallèle avec Orca, chacun sur un périmètre défini, puis revue croisée.",
-        "Définition du périmètre de chaque intervention et des éléments attendus pour vérifier un résultat.",
-        "Suivi des versions avec Git et GitHub."
-      ],
-      "competences": [
-        "creations-ia",
-        "ia",
-        "gestion",
-        "plateformes"
-      ],
-      "outils": [
-        "ChatGPT",
-        "Codex",
-        "Claude",
-        "Claude Code",
-        "Orca",
-        "Git",
-        "GitHub"
-      ],
-      "apports": [
-        "Organisation",
-        "Documentation",
-        "Contrôle des résultats"
-      ],
-      "transfert": "Les mêmes réflexes que pour une équipe : rôles clairs, consignes écrites, contrôle et traçabilité.",
-      "bulle": [
-        "Intégration IA"
-      ],
-      "periode": "2026–aujourd’hui"
-    },
-    {
       "id": "jeunesse",
       "type": "personnel",
       "titre": "Loisirs actuels",
@@ -2493,7 +2493,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne contient aucun formulaire : l’éditeur ne collecte aucune donnée. Le bouton « Proposer un entretien » ouvre simplement votre messagerie, sans aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "10 novembre 2026",
-    "version": "2.11"
+    "version": "2.12"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"
