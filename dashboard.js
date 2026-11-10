@@ -18,7 +18,7 @@
   list.querySelectorAll('a').forEach(a => a.prepend(Icones.symbole(reperesNav[a.getAttribute('href')])));
   side.append(node('p', 'dashboard-label', 'Pour aller plus loin'), document.querySelector('.pdf'));
   const mobilePdfItem = node('li', 'dashboard-mobile-pdf');
-  const mobilePdf = node('a', '', 'CV · PDF'); mobilePdf.href = D.identite.cvPdf; mobilePdf.setAttribute('download', 'CV_Alain_Ferro.pdf'); mobilePdfItem.append(mobilePdf); list.append(mobilePdfItem);
+  const mobilePdf = node('a', '', 'CV · PDF'); mobilePdf.href = D.identite.cvPdf; mobilePdf.setAttribute('download', D.identite.cvPdf.split('/').pop().split('?')[0]); mobilePdfItem.append(mobilePdf); list.append(mobilePdfItem);
   document.body.insertBefore(side, document.querySelector('main'));
   const brand = node('a', 'dashboard-brand', 'Alain Ferro'); brand.href = '#/';
   const crystal = node('span', '', '◈'); crystal.setAttribute('aria-hidden', 'true'); brand.prepend(crystal);
