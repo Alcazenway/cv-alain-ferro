@@ -282,7 +282,7 @@ body[data-fond="interets"] .co-fond-image { background-image: url("assets/fonds/
   .co-competence-nom h2 { font-size: 17px; }
   .co-competence-nom p { font-size: 12px; }
   .co-fiche-complete { margin-left: 50px; }
-  .co-integre { padding: 16px; }
+  .co-integre { padding: 0; }
   .co-mini { flex-basis: 38px; width: 38px; height: 38px; }
   .co-formations, .co-interets { grid-template-columns: 1fr; gap: 18px; padding: 0 2px 24px; }
   .co-formation { padding: 22px; border-radius: 30px; }
@@ -372,6 +372,35 @@ body[data-fond="metiers"] .co-fond-image, body[data-fond="realisations"] .co-fon
 .avec-fond .co-tuile { background: rgba(255, 255, 255, .55); }
 .avec-fond a.co-tuile:hover .co-tuile-fond, .avec-fond a.co-tuile:focus-visible .co-tuile-fond { opacity: .32; transform: scale(1.04); }
 @media (prefers-reduced-motion: reduce) { .co-tuile-fond { transition: none; } }
+
+/* ---------- v2.21 : vignettes à titre seul (hauteur inchangée), fiches compétence aérées ---------- */
+.co-tuile { min-height: 85px; }
+.co-competence-nom h2, .co-competence-nom h3 { line-height: 1.3; }
+.fiche-tete.competence .fiche-resume { font-size: 18px; max-width: 760px; }
+.co-groupes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 10px 36px; }
+.co-groupe h3 { margin: 0 0 6px; font-size: 15px; letter-spacing: .04em; text-transform: uppercase; color: var(--discret); }
+.co-integres { display: grid; gap: 10px; }
+details.co-integre, article.co-integre { padding: 0; }
+.co-integre-tete { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 18px; padding: 16px 22px; list-style: none; cursor: default; }
+summary.co-integre-tete { cursor: pointer; }
+summary.co-integre-tete::-webkit-details-marker { display: none; }
+summary.co-integre-tete::after { content: "+"; margin-left: auto; font-size: 22px; line-height: 1; color: var(--experience); transition: transform .3s ease; }
+details.co-integre[open] > summary.co-integre-tete::after { transform: rotate(45deg); }
+.co-integre-titre { display: flex; flex-direction: column; min-width: min(220px, 100%); }
+.co-integre-titre strong { font-size: 17px; font-weight: 600; }
+.co-integre-titre small { font-size: 13px; color: var(--discret); }
+.co-integre-apport { flex: 1 1 min(280px, 100%); font-size: 15px; color: var(--encre); }
+.co-integre-corps { padding: 0 22px 18px; border-top: 1px solid var(--filet); }
+.co-integre-corps > :first-child { margin-top: 14px; }
+.co-replie > summary { cursor: pointer; list-style: none; }
+.co-replie > summary::-webkit-details-marker { display: none; }
+.co-replie > summary h2 { display: inline; }
+.co-replie > summary::after { content: " +"; color: var(--experience); font-size: 20px; }
+@media (max-width: 800px) {
+  .co-tuile { min-height: 72px; }
+  .co-integre-tete { padding: 14px 16px; }
+  .co-integre-corps { padding: 0 16px 14px; }
+}
 
 @media print {
   .co-bandeau, .co-marques, .co-filigrane, .co-interet-symbole { display: none !important; }

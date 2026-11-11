@@ -124,7 +124,7 @@
     return el("ul", { class: "co-catalogue" }, items.map(function (it) {
       var mini = it.visuel ? el("span", { class: "co-mini co-mini-image", "aria-hidden": "true" }, [image(it.visuel)])
         : it.icone ? el("span", { class: "co-mini" + (it.cls ? " " + it.cls : ""), "aria-hidden": "true" }, [it.icone]) : null;
-      var corps = [mini, el("div", { class: "co-competence-nom" }, [el(niveau || "h3", { text: it.titre }), it.texte ? el("p", { text: it.texte }) : null])];
+      var corps = [mini, el("div", { class: "co-competence-nom" }, [el(niveau || "h3", { text: it.titre })])]; // v2.21 : titre seul
       // v2.20 : image de fond très atténuée sur toute la vignette ; retirée si le fichier manque.
       if (it.fond) corps.unshift(image({ src: it.fond }, "co-tuile-fond"));
       return el("li", { class: "co-competence" + (it.cls ? " " + it.cls : "") + (it.fond ? " avec-fond" : ""), id: it.id }, it.lien
@@ -377,15 +377,27 @@
       return el("details", { class: "dossier" }, [el("summary", null, [el(niveau, { text: s.titre })]), corps]);
     }));
   }
+  // v2.21 : redondances repérées par les mots significatifs communs, pas seulement par la phrase exacte.
+  var VIDES = /^(avec|dans|pour|leurs?|entre|chez|puis|aussi|ainsi)$/;
+  function mots(t) {
+    return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9 ]+/g, " ").split(" ")
+      .filter(function (m) { return m.length > 3 && !VIDES.test(m); }).map(function (m) { return m.slice(0, 7); });
+  }
+  function proche(a, b) {
+    var A = mots(a), B = mots(b);
+    if (A.length < 2 || B.length < 2) return false;
+    var communs = A.filter(function (m) { return B.indexOf(m) !== -1; }).length;
+    return communs / Math.min(A.length, B.length) >= 0.6;
+  }
+
+  // Carte repliée : titre, période et apport visibles ; le détail s’ouvre au clic.
   function blocIntegre(e, garder) {
+    var apport = e.apportCourt && garder(e.apportCourt) ? e.apportCourt : garder(e.resume) ? e.resume : "";
     var missions = (e.missions || []).filter(garder);
     var medias = (e.galerie || []).length + (e.sections || []).length;
-    return el("article", { class: "co-integre " + e.type, id: "integre-" + e.id }, [
-      el("h3", { text: e.titre }),
-      el("p", { class: "co-integre-meta", text: e.periode + (e.lieu ? " · " + e.lieu : "") }),
-      garder(e.resume) ? el("p", { text: e.resume }) : null,
-      e.apportCourt && garder(e.apportCourt) ? el("p", { class: "fiche-apport", text: e.apportCourt }) : null,
-      e.contexte && garder(e.contexte) ? el("p", { text: e.contexte }) : null,
+    var corps = [
+      apport !== e.resume && garder(e.resume) ? el("p", { text: e.resume }) : null,
+      e.contexte && garder(e.contexte) ? el("p", { class: "co-integre-contexte", text: e.contexte }) : null,
       missions.length ? liste(missions) : null,
       e.site ? el("p", { class: "lien-externe" }, [el("a", { class: "bouton secondaire", href: e.site.url, target: "_blank", rel: "noopener", text: e.site.libelle + " ↗" })]) : null,
       e.outils && e.outils.length ? Icones.liste(e.outils) : null,
@@ -394,16 +406,25 @@
         galerie(e.galerie),
         dossiersNiveau(e.sections, garder, "h4")
       ]) : null
-    ]);
+    ].filter(Boolean);
+    var tete = [
+      el("span", { class: "co-integre-titre" }, [el("strong", { text: e.titre }), el("small", { text: e.periode + (e.lieu ? " · " + e.lieu : "") })]),
+      apport ? el("span", { class: "co-integre-apport", text: apport }) : null
+    ];
+    if (!corps.length) return el("article", { class: "co-integre " + e.type, id: "integre-" + e.id }, [el("div", { class: "co-integre-tete" }, tete)]);
+    return el("details", { class: "co-integre " + e.type, id: "integre-" + e.id }, [el("summary", { class: "co-integre-tete" }, tete), el("div", { class: "co-integre-corps" }, corps)]);
   }
 
+  // Fiche finale (v2.21) : l’essentiel d’abord, puis expériences et formations en cartes repliées ; une idée n’apparaît qu’une fois.
   function ficheCompetence(c) {
     var familles = outilsDe(c);
     var P = D.plateformes;
-    var vu = Object.create(null);
-    // Une même phrase n’apparaît qu’une fois dans la fiche.
-    function garder(t) { if (!t || vu[t]) return false; vu[t] = true; return true; }
-    garder(c.resume); c.detail.forEach(garder);
+    var vus = [];
+    function garder(t) {
+      if (!t || vus.some(function (v) { return v === t || proche(v, t); })) return false;
+      vus.push(t); return true;
+    }
+    garder(c.resume); c.detail.forEach(function (t) { vus.push(t); });
     var liees = associeesA(c);
     var experiences = liees.filter(function (e) { return e.type !== "formation"; });
     var formees = liees.filter(function (e) { return e.type === "formation"; });
@@ -411,22 +432,24 @@
     liees.forEach(function (e) { (e.apports || []).forEach(function (a) { if (acquis.indexOf(a) === -1) acquis.push(a); }); });
     var blocsExp = experiences.map(function (e) { return blocIntegre(e, garder); });
     var blocsForm = formees.map(function (e) { return blocIntegre(e, garder); });
+    var essentiel = c.groupes
+      ? el("div", { class: "co-groupes" }, c.groupes.map(function (g) { return el("div", { class: "co-groupe" }, [el("h3", { text: g.titre }), liste(g.points, "puces fiche-liste")]); }))
+      : liste(c.detail, "puces fiche-liste");
     return [
       retour("/competences", "Compétences"),
       el("header", { class: "fiche-tete competence" }, [
         el("h1", { id: "fiche-titre", tabindex: "-1", text: c.titre }),
-        el("p", { class: "fiche-lieu", text: c.sousTitre }),
         el("p", { class: "fiche-resume", text: c.resume })
       ]),
-      section("Savoir-faire", liste(c.detail, "puces fiche-liste")),
-      blocsExp.length ? section(experiences.length > 1 ? "Expériences et projets" : "Expérience", el("div", { class: "co-integres" }, blocsExp)) : null,
-      acquis.length ? section("Acquis développés", etiquettes(acquis)) : null,
-      blocsForm.length ? section(formees.length > 1 ? "Formations associées" : "Formation associée", el("div", { class: "co-integres" }, blocsForm)) : null,
+      section("L’essentiel", essentiel),
+      blocsExp.length ? section("Où je l’ai exercée", el("div", { class: "co-integres" }, blocsExp)) : null,
+      blocsForm.length ? section(formees.length > 1 ? "Formations" : "Formation", el("div", { class: "co-integres" }, blocsForm)) : null,
+      acquis.length ? section("Acquis", etiquettes(acquis)) : null,
       familles.length ? section("Outils", el("div", { class: "outils" }, familles.map(function (f) {
         return el("div", { class: "famille" }, [el("h3", { text: f.famille }), Icones.liste(f.items)]);
       }))) : null,
-      c.id === "creations-ia" || c.id === "ia" || c.id === "plateformes" ? el("section", { class: "fiche-section plateformes" }, [
-        el("h2", { text: P.titre }), el("p", { class: "note", text: P.note }), logos(P.items)
+      c.id === "creations-ia" || c.id === "plateformes" ? el("details", { class: "fiche-section plateformes co-replie" }, [
+        el("summary", null, [el("h2", { text: P.titre })]), el("p", { class: "note", text: P.note }), logos(P.items)
       ]) : null,
       galerie(c.galerie)
     ];
@@ -508,6 +531,7 @@
     }
     if (h === "/savoir-formations") return { rubrique: "savoir", titre: SAVOIR, rendu: pageSavoir(), liste: true };
     if (h === "/competences") return { rubrique: "competences", titre: "Compétences", rendu: pageCompetences(), liste: true };
+    if ((m = h.match(/^\/competence\/([\w-]+)$/)) && !compId[m[1]] && (D.aliasCompetences || {})[m[1]]) { history.replaceState(null, "", "#/competence/" + D.aliasCompetences[m[1]]); return resoudre("/competence/" + D.aliasCompetences[m[1]]); }
     if ((m = h.match(/^\/competence\/([\w-]+)$/)) && compId[m[1]]) return { rubrique: "competences", titre: compId[m[1]].titre, rendu: ficheCompetence(compId[m[1]]), liste: true, detail: true };
     if (h === "/interets") return { rubrique: "interets", titre: "Intérêts", rendu: pageInterets(), liste: true };
     if (h === "/carte" && window.CarteLiens) return { rubrique: "carte", titre: "Carte des liens", rendu: [retour("/", "Présentation"), titreCache("Carte des liens"), window.CarteLiens.page(D)], liste: true };
