@@ -72,3 +72,28 @@
 @media (prefers-reduced-motion: reduce) {
   .co-brille, .co-brille::after, .co-competence.co-brille .co-tuile, .co-competence.co-brille .co-tuile::after, .co-hub-anneau { animation: none; }
 }
+
+/* ---------- v2.25 : bouton Orchestration IA en tête de Compétences, applications en bulles flottantes ---------- */
+.co-bouton-rubrique { margin: 18px 5% 12px; }
+h2.co-bouton-methode-titre { margin: 0; color: #fff; }
+@media (max-width: 800px) { .co-bouton-rubrique { margin: 14px 2px 12px; padding: 18px 22px; } }
+.co-bulles { display: flex; flex-wrap: wrap; justify-content: center; gap: 26px 40px; margin: 10px 0 0; padding: 18px 0 30px; list-style: none; }
+.co-bulle-appli { animation: co-flotte 7s ease-in-out infinite; }
+.co-bulle-appli:nth-child(2) { animation-duration: 8.5s; animation-delay: -2s; }
+.co-bulle-appli:nth-child(3) { animation-duration: 6.5s; animation-delay: -4s; }
+.co-bulle-appli:nth-child(4) { animation-duration: 9s; animation-delay: -1s; }
+.co-bulle-appli:nth-child(5) { animation-duration: 7.5s; animation-delay: -5s; }
+.co-bulle-appli a { display: flex; flex-direction: column; align-items: center; gap: 12px; color: var(--encre); text-decoration: none; }
+.co-bulle-disque { position: relative; display: block; width: 168px; height: 168px; overflow: hidden; border: 3px solid #fff; border-radius: 50%; background: var(--personnel); box-shadow: 0 10px 26px rgba(25, 56, 61, .18), 0 0 0 1px var(--filet); isolation: isolate; transition: transform .35s ease, box-shadow .35s ease; }
+.co-bulle-logo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.co-bulle-appli h3 { margin: 0; font-size: 17px; font-weight: 700; color: var(--personnel); text-align: center; }
+.co-bulle-appli a:hover .co-bulle-disque, .co-bulle-appli a:focus-visible .co-bulle-disque { transform: scale(1.07); box-shadow: 0 16px 34px rgba(115, 83, 137, .3), 0 0 0 3px var(--personnel); }
+.co-bulle-appli a:focus-visible { outline: none; }
+@keyframes co-flotte { 0%, 100% { transform: translate(0, 0); } 25% { transform: translate(5px, -10px); } 50% { transform: translate(-3px, -4px); } 75% { transform: translate(-6px, -12px); } }
+@media (max-width: 800px) { .co-bulles { gap: 20px 22px; } .co-bulle-disque { width: 128px; height: 128px; } .co-bulle-appli h3 { font-size: 15px; } }
+
+/* ---------- v2.25 : îlot Poste de pilotage IA (Orca), entre Alain et les assistants ---------- */
+.co-ilot.pilotage { fill: #e6e9f4; }
+.co-gnoeud.pilotage .co-gnoeud-fond { stroke: #5d6fa8; stroke-width: 2.4; }
+.co-graphe-lien.pilotage { stroke: #5d6fa8; opacity: .45; stroke-width: 1.6; }
+@media (prefers-reduced-motion: reduce) { .co-bulle-appli { animation: none; } }

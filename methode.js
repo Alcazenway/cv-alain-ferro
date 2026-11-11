@@ -14,12 +14,15 @@
     coche: '<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/>',
     branche: '<circle cx="6" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="8" r="2"/><path d="M6 7v10M18 10c0 4-6 3-12 7"/>'
   };
-  var ASSISTANTS = ["ChatGPT", "Codex", "Claude", "Claude Code", "Orca"];
+  var ASSISTANTS = ["ChatGPT", "Codex", "Claude", "Claude Code"];
+  // v2.25 : Orca n’est pas un assistant mais l’interface qui pilote les assistants ; îlot à part, entre Alain et eux.
+  var PILOTAGE = ["Orca"];
   // Îlots, comme le PDF : position relative de leur centre (x, y en fraction de la zone) et rayon des bulles.
   var GROUPES = {
     hub: { titre: "", ancre: [0.5, 0.5], r: 60 },
     action: { titre: "Ce que je demande aux IA", ancre: [0.5, 0.5], r: 30 },
     assistant: { titre: "Assistants IA", ancre: [0.14, 0.22], r: 27 },
+    pilotage: { titre: "Poste de pilotage IA", ancre: [0.28, 0.44], r: 30 },
     dev: { titre: "Développement et services", ancre: [0.86, 0.24], r: 20 },
     creation: { titre: "Création et simulation", ancre: [0.86, 0.8], r: 21 },
     projet: { titre: "Applications créées", ancre: [0.14, 0.78], r: 34 }
@@ -58,6 +61,7 @@
     function outil(nomBrut, groupe) {
       return noms(nomBrut).map(function (nom) {
         if (ASSISTANTS.indexOf(nom) !== -1) groupe = "assistant";
+        if (PILOTAGE.indexOf(nom) !== -1) groupe = "pilotage";
         var p = (D.plateformes.items || []).filter(function (x) { return x.nom === nom; })[0];
         return ajouter({ id: "o-" + nom, groupe: groupe, titre: nom, image: logo(nomBrut) || logo(nom), texte: p ? p.role : "" }).id;
       });
@@ -71,6 +75,13 @@
       relier("hub", "p-" + id);
     });
     ASSISTANTS.forEach(function (n) { outil(n, "assistant"); });
+    // Alain pilote ses assistants depuis Orca : Alain – Orca – chaque assistant.
+    PILOTAGE.forEach(function (n) {
+      var o = outil(n, "pilotage")[0];
+      index[o].texte = "Interface qui me permet de lancer, suivre et coordonner plusieurs assistants IA en parallèle.";
+      relier("hub", o);
+      ASSISTANTS.forEach(function (a) { relier(o, "o-" + a); });
+    });
     M.actions.forEach(function (a) {
       ajouter({ id: "a-" + a.id, groupe: "action", titre: a.titre, picto: a.icone, texte: a.texte });
       relier("hub", "a-" + a.id);
@@ -114,7 +125,7 @@
 
     // Îlots pâles nommés, comme les grandes rubriques du PDF.
     var ilots = {};
-    ["assistant", "dev", "creation", "projet"].forEach(function (g) {
+    ["assistant", "pilotage", "dev", "creation", "projet"].forEach(function (g) {
       ilots[g] = { cercle: svg("circle", { class: "co-ilot " + g }), titre: svg("text", { class: "co-ilot-titre", "text-anchor": "middle" }, [GROUPES[g].titre.toUpperCase()]) };
       calqueIlots.appendChild(ilots[g].cercle); calqueIlots.appendChild(ilots[g].titre);
     });
@@ -135,15 +146,15 @@
     var parGroupe = {};
     G.noeuds.forEach(function (n) { n.r = GROUPES[n.groupe].r; n.vx = n.vy = 0; (parGroupe[n.groupe] = parGroupe[n.groupe] || []).push(n); });
     var P = etroit
-      ? { hub: [380, 600], anneau: [235, 175], assistant: [170, 150, 82], dev: [540, 200, 74], projet: [200, 1030, 112], creation: [560, 1040, 70] }
-      : { hub: [600, 400], anneau: [215, 185], assistant: [165, 205, 82], dev: [1000, 250, 74], projet: [205, 565, 112], creation: [1020, 645, 70] };
+      ? { hub: [380, 600], anneau: [235, 175], assistant: [170, 150, 82], pilotage: [190, 385, 70], dev: [540, 200, 74], projet: [200, 1030, 112], creation: [560, 1040, 70] }
+      : { hub: [600, 400], anneau: [215, 185], assistant: [165, 205, 82], pilotage: [315, 362, 70], dev: [1000, 250, 74], projet: [205, 590, 112], creation: [1020, 645, 70] };
     var hub = parGroupe.hub[0]; hub.hx = P.hub[0]; hub.hy = P.hub[1]; hub.fixe = true;
     parGroupe.action.forEach(function (n, k, t) { var ang = -Math.PI / 2 + k * 2 * Math.PI / t.length; n.hx = P.hub[0] + P.anneau[0] * Math.cos(ang); n.hy = P.hub[1] + P.anneau[1] * Math.sin(ang); });
-    ["assistant", "projet", "dev", "creation"].forEach(function (g) { couronnes(parGroupe[g] || [], P[g][0], P[g][1], P[g][2]); });
+    ["assistant", "pilotage", "projet", "dev", "creation"].forEach(function (g) { couronnes(parGroupe[g] || [], P[g][0], P[g][1], P[g][2]); });
     G.noeuds.forEach(function (n) { n.x = n.hx; n.y = n.hy; });
 
     G.liens.forEach(function (l) {
-      l.el = svg("line", { class: "co-graphe-lien " + (l.a.groupe === "hub" || l.b.groupe === "hub" ? "hub" : l.a.groupe === "action" || l.b.groupe === "action" ? "action" : "outil") });
+      l.el = svg("line", { class: "co-graphe-lien " + (l.a.groupe === "pilotage" || l.b.groupe === "pilotage" ? "pilotage" : l.a.groupe === "hub" || l.b.groupe === "hub" ? "hub" : l.a.groupe === "action" || l.b.groupe === "action" ? "action" : "outil") });
       calqueLiens.appendChild(l.el);
     });
     var voisins = {};

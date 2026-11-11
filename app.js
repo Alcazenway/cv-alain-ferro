@@ -361,22 +361,27 @@
 
   /* ---------- Orchestration IA (v2.22) : rubrique unique, projets puis méthode ---------- */
   function pageOrchestration() {
-    var c = compId["creations-ia"], f = parId["outils-ia"];
+    var f = parId["outils-ia"];
     var projets = (f.enfants || []).filter(function (id) { return parId[id]; });
     return [
       retour("/competences", "Compétences"),
       tetePage("Orchestration IA", "reseau"),
-      el("p", { class: "co-chapo-rubrique", text: c.resume }),
       // v2.24 : la méthode, les outils et les réalisations sont réunis dans le graphe de la page Méthode.
       el("a", { class: "co-bouton-methode co-brille", href: "#/orchestration-ia/methode" }, [
         el("span", { class: "co-bouton-methode-titre", text: "Méthode" }),
         el("span", { class: "co-bouton-methode-texte", text: "Comment j’orchestre les assistants IA, outil par outil" }),
         el("span", { class: "co-tuile-fleche", "aria-hidden": "true", text: "→" })
       ]),
-      section("Projets réalisés", catalogue(projets.map(function (id) {
+      // v2.25 : applications en bulles flottantes, logo de chacune en fond (assets/applis/<id>.webp).
+      section("Projets réalisés", el("ul", { class: "co-bulles" }, projets.map(function (id) {
         var x = parId[id];
-        return { id: "projet-" + id, cls: "personnel" + (id === "skylivra" ? " co-brille" : ""), titre: bulle(x), lien: "#/parcours/" + id, nom: x.titre };
-      }), "h3"))
+        return el("li", { class: "co-bulle-appli", id: "projet-" + id }, [
+          el("a", { href: "#/parcours/" + id, "aria-label": x.titre + " : fiche complète" }, [
+            el("span", { class: "co-bulle-disque" + (id === "skylivra" ? " co-brille" : ""), "aria-hidden": "true" }, [image({ src: "assets/applis/" + id + ".webp" }, "co-bulle-logo")]),
+            el("h3", { text: bulle(x) })
+          ])
+        ]);
+      })))
     ];
   }
 
@@ -472,9 +477,16 @@
   function pageCompetences() {
     return [
       tetePage("Compétences", "reseau"),
-      // v2.23 : Orchestration IA est une vignette de Compétences qui ouvre sa page dédiée.
-      catalogue(D.competences.map(function (c) {
-        return { id: "competence-" + c.id, titre: c.titre, texte: c.sousTitre, lien: c.rubrique ? "#/" + c.rubrique : "#/competence/" + c.id, fond: fondVignette("competence", c.id) };
+      // v2.25 : Orchestration IA, rubrique dédiée, prend le format du bouton Méthode en tête de Compétences.
+      D.competences.filter(function (c) { return c.rubrique; }).map(function (c) {
+        return el("a", { class: "co-bouton-methode co-bouton-rubrique", id: "competence-" + c.id, href: "#/" + c.rubrique }, [
+          el("h2", { class: "co-bouton-methode-titre", text: c.titre }),
+          el("span", { class: "co-bouton-methode-texte", text: c.sousTitre }),
+          el("span", { class: "co-tuile-fleche", "aria-hidden": "true", text: "→" })
+        ]);
+      })[0] || null,
+      catalogue(D.competences.filter(function (c) { return !c.rubrique; }).map(function (c) {
+        return { id: "competence-" + c.id, titre: c.titre, texte: c.sousTitre, lien: "#/competence/" + c.id, fond: fondVignette("competence", c.id) };
       }), "h2")
     ];
   }
