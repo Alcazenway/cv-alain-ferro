@@ -326,6 +326,45 @@ body[data-fond="interets"] .co-fond-image { background-image: url("assets/fonds/
 .co-mini.poste { color: #2f5d8a; background: #e8eff6; }
 @media (max-width: 800px) { .co-competence-nom h3 { font-size: 17px; } .co-promesse p { font-size: 16px; } }
 
+/* ---------- v2.19 : vignettes en grands boutons, légère animation de toutes les pages ---------- */
+.co-catalogue { display: grid; gap: 12px; }
+.co-competence:has(> .co-tuile) { display: block; padding: 0; border-bottom: 0; }
+.co-tuile { display: flex; align-items: center; gap: 20px; min-height: 84px; padding: 18px 26px; border: 1px solid var(--filet); border-radius: 28px; background: rgba(255, 255, 255, .72); color: var(--encre); text-decoration: none; transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease, background .35s ease; }
+a.co-tuile:hover, a.co-tuile:focus-visible { transform: translateY(-3px); border-color: var(--experience); background: #fff; box-shadow: 0 12px 28px rgba(25, 56, 61, .12); color: var(--encre); }
+.co-tuile-fleche { flex: none; margin-left: auto; font-size: 22px; color: var(--experience); transition: transform .35s ease; }
+a.co-tuile:hover .co-tuile-fleche, a.co-tuile:focus-visible .co-tuile-fleche { transform: translateX(5px); }
+.co-competence.formation a.co-tuile:hover, .co-competence.formation a.co-tuile:focus-visible { border-color: var(--formation); }
+.co-competence.formation .co-tuile-fleche { color: var(--formation); }
+.co-competence.interet a.co-tuile:hover, .co-competence.interet a.co-tuile:focus-visible { border-color: var(--interet); }
+.co-competence.interet .co-tuile-fleche { color: var(--interet); }
+.co-competence.personnel .co-tuile-fleche { color: var(--personnel); }
+/* Apparition douce et décalée du contenu à chaque page. */
+@keyframes co-apparition { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+#vue > *, #accueil > *, .co-catalogue > li { animation: co-apparition .7s ease both; }
+.co-catalogue > li:nth-child(2) { animation-delay: .06s; } .co-catalogue > li:nth-child(3) { animation-delay: .12s; }
+.co-catalogue > li:nth-child(4) { animation-delay: .18s; } .co-catalogue > li:nth-child(5) { animation-delay: .24s; }
+.co-catalogue > li:nth-child(6) { animation-delay: .3s; } .co-catalogue > li:nth-child(7) { animation-delay: .36s; }
+.co-catalogue > li:nth-child(n+8) { animation-delay: .42s; }
+/* Filigranes, symboles et bulles qui respirent lentement. */
+@keyframes co-respire { from { transform: translateY(0) rotate(0); } to { transform: translateY(-8px) rotate(3deg); } }
+@keyframes co-flotte { from { transform: translateY(0); } to { transform: translateY(-4px); } }
+.co-filigrane svg, .co-marques .co-symbole { animation: co-respire 9s ease-in-out infinite alternate; }
+.co-identite { animation: co-apparition .7s ease both, co-flotte 7s ease-in-out .7s infinite alternate; }
+.co-noeud { animation: co-flotte 5s ease-in-out infinite alternate; }
+.co-noeud:nth-of-type(3n) { animation-duration: 6s; animation-delay: -2s; } .co-noeud:nth-of-type(3n+1) { animation-duration: 7s; animation-delay: -4s; }
+.co-repere-temps image { animation: co-flotte 4s ease-in-out infinite alternate; }
+.co-route { stroke-dasharray: 14 10; animation: co-chemine 40s linear infinite; }
+@keyframes co-chemine { to { stroke-dashoffset: -480; } }
+/* Pages sans photo de fond : halos colorés très pâles en dérive lente. */
+body[data-fond="metiers"] .co-fond, body[data-fond="realisations"] .co-fond, body[data-fond="carte"] .co-fond, body[data-fond=""] .co-fond { display: block; }
+body[data-fond="metiers"] .co-fond-image, body[data-fond="realisations"] .co-fond-image, body[data-fond="carte"] .co-fond-image, body[data-fond=""] .co-fond-image {
+  background: radial-gradient(40% 45% at 20% 30%, rgba(8, 126, 131, .28), transparent 70%), radial-gradient(35% 40% at 80% 25%, rgba(115, 83, 137, .22), transparent 70%), radial-gradient(45% 45% at 60% 85%, rgba(185, 101, 63, .18), transparent 70%); animation-duration: 40s; }
+@media (max-width: 800px) { .co-tuile { gap: 12px; min-height: 0; padding: 14px 18px; border-radius: 22px; } }
+@media (prefers-reduced-motion: reduce) {
+  #vue > *, #accueil > *, .co-catalogue > li, .co-identite, .co-noeud, .co-repere-temps image, .co-route, .co-filigrane svg, .co-marques .co-symbole { animation: none; }
+  .co-tuile, .co-tuile-fleche { transition: none; }
+}
+
 @media print {
   .co-bandeau, .co-marques, .co-filigrane, .co-interet-symbole { display: none !important; }
   .co-chemin-cadre { display: none; } .co-chemin-liste { display: flex; }
