@@ -1,0 +1,74 @@
+/* Page Méthode (v2.24) : graphe façon Obsidian aux couleurs du PDF ; bouton Méthode et vignette SkyLivra qui brillent par intermittence. */
+
+/* ---------- Bouton Méthode et vignettes « brillantes » ---------- */
+.co-bouton-methode { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; margin: 18px 0 8px; padding: 22px 28px; overflow: hidden; border: 1px solid var(--experience); border-radius: 28px; background: linear-gradient(120deg, #0b6f74, #087e83 55%, #735389); color: #fff; text-decoration: none; isolation: isolate; }
+.co-bouton-methode:hover, .co-bouton-methode:focus-visible { color: #fff; transform: translateY(-2px); box-shadow: 0 14px 30px rgba(8, 126, 131, .28); }
+.co-bouton-methode-titre { font-size: 24px; font-weight: 700; }
+.co-bouton-methode-texte { flex: 1 1 260px; font-size: 15px; opacity: .92; }
+.co-bouton-methode .co-tuile-fleche { color: #fff; }
+/* Reflet qui balaie le bouton toutes les cinq secondes, halo qui pulse au même rythme. */
+.co-brille { animation: co-halo 5s ease-in-out infinite; }
+.co-brille::after, .co-competence.co-brille .co-tuile::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .55) 50%, transparent 65%); transform: translateX(-120%); animation: co-reflet 5s ease-in-out infinite; }
+.co-competence.co-brille { animation: none; }
+.co-competence.co-brille .co-tuile { animation: co-halo 5s ease-in-out infinite; }
+.co-competence.co-brille::after { content: none; }
+@keyframes co-reflet { 0%, 62% { transform: translateX(-120%); } 82%, 100% { transform: translateX(120%); } }
+@keyframes co-halo { 0%, 60%, 100% { box-shadow: 0 0 0 rgba(8, 126, 131, 0); } 75% { box-shadow: 0 0 0 6px rgba(8, 126, 131, .18), 0 0 26px rgba(115, 83, 137, .35); } }
+
+/* ---------- Graphe ---------- */
+.co-graphe-filtres { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 10px; }
+.co-graphe-filtre { min-height: 38px; padding: 6px 16px; border: 1px solid var(--personnel); border-radius: 999px; background: rgba(255, 255, 255, .8); color: var(--personnel); font: inherit; font-size: 14px; cursor: pointer; }
+.co-graphe-filtre[aria-pressed="true"] { background: var(--personnel); color: #fff; }
+.co-graphe-filtre:focus-visible { outline: 3px solid var(--experience); outline-offset: 2px; }
+.co-graphe { position: relative; height: max(560px, calc(100vh - var(--bandeau, 70px) - 190px)); border: 1px solid var(--filet); border-radius: 28px; background: rgba(255, 255, 255, .78); overflow: hidden; }
+.co-graphe-svg { display: block; width: 100%; height: 100%; user-select: none; }
+.co-ilot { fill: #edf3ec; opacity: .7; transition: opacity .3s; }
+.co-ilot.assistant { fill: #e3ecec; } .co-ilot.dev { fill: #e8eff6; } .co-ilot.creation { fill: #f8eee8; } .co-ilot.projet { fill: #efe9f3; }
+.co-ilot-titre { font-size: 12px; font-weight: 700; letter-spacing: .14em; fill: var(--discret); }
+.co-graphe-lien { stroke-width: 1.2; opacity: .28; transition: opacity .25s, stroke-width .25s; }
+.co-graphe-lien.hub { stroke: var(--encre); stroke-dasharray: 3 5; }
+.co-graphe-lien.action { stroke: var(--experience); }
+.co-graphe-lien.outil { stroke: var(--personnel); }
+.co-graphe-lien.allume { opacity: .9; stroke-width: 2; }
+.co-graphe-lien.estompe { opacity: .05; }
+.co-gnoeud { cursor: grab; transition: opacity .25s; outline: none; touch-action: none; }
+.co-gnoeud:active { cursor: grabbing; }
+.co-gnoeud.estompe { opacity: .14; }
+.co-gnoeud-fond { fill: #fff; stroke: var(--discret); stroke-width: 1.4; transition: stroke-width .2s; }
+.co-gnoeud.allume .co-gnoeud-fond, .co-gnoeud:focus-visible .co-gnoeud-fond, .co-gnoeud.choisi .co-gnoeud-fond { stroke-width: 3; }
+.co-gnoeud.hub .co-gnoeud-fond { fill: #dfe0df; stroke: var(--encre); stroke-width: 2; }
+.co-hub-anneau { fill: none; stroke: var(--experience); stroke-width: 1.5; stroke-dasharray: 2 6; animation: co-hub-tourne 30s linear infinite; transform-origin: 0 0; }
+@keyframes co-hub-tourne { to { transform: rotate(360deg); } }
+.co-gnoeud.action .co-gnoeud-fond { stroke: var(--experience); stroke-width: 1.8; }
+.co-gnoeud-picto { fill: none; stroke: var(--experience); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.co-gnoeud.assistant .co-gnoeud-fond { stroke: var(--encre); stroke-width: 2.2; }
+.co-gnoeud.projet .co-gnoeud-fond { fill: var(--personnel); stroke: var(--personnel); stroke-width: 3; }
+.co-gnoeud.dev .co-gnoeud-fond { stroke: #8ea7c0; }
+.co-gnoeud.creation .co-gnoeud-fond { stroke: var(--formation); }
+.co-gnoeud-initiales { font-size: 13px; font-weight: 700; fill: var(--encre); pointer-events: none; }
+.co-gnoeud.projet .co-gnoeud-initiales { fill: #fff; font-size: 16px; }
+.co-gnoeud-titre { font-size: 13px; font-weight: 600; fill: var(--encre); paint-order: stroke; stroke: rgba(255, 255, 255, .92); stroke-width: 4px; stroke-linejoin: round; pointer-events: none; }
+.co-gnoeud.hub .co-gnoeud-titre { font-size: 16px; font-weight: 700; }
+.co-gnoeud.projet .co-gnoeud-titre { font-size: 14px; fill: var(--personnel); font-weight: 700; }
+.co-gnoeud.dev .co-gnoeud-titre, .co-gnoeud.creation .co-gnoeud-titre { font-size: 11.5px; font-weight: 500; }
+.co-gnoeud-sous { font-size: 12px; fill: var(--experience); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; paint-order: stroke; stroke: rgba(255, 255, 255, .92); stroke-width: 4px; pointer-events: none; }
+.co-gnoeud image { pointer-events: none; }
+.co-graphe-panneau { position: absolute; left: 50%; top: 14px; transform: translateX(-50%); width: min(380px, calc(100% - 32px)); padding: 14px 18px; border: 1px solid var(--filet); border-radius: 18px; background: rgba(252, 252, 248, .95); box-shadow: 0 8px 24px rgba(25, 56, 61, .12); font-size: 14px; }
+.co-graphe-panneau strong { display: block; margin-bottom: 4px; font-size: 16px; }
+.co-graphe-panneau p { margin: 0; color: var(--encre); }
+.co-graphe-lien-fiche { display: inline-block; margin-top: 8px; font-weight: 600; }
+.co-graphe-aide { margin: 8px 0 0; font-size: 13px; color: var(--discret); }
+.co-methode-texte { margin-top: 26px; }
+@media (max-width: 800px) {
+  .co-graphe { height: auto; min-height: 0; border-radius: 20px; }
+  .co-graphe-svg { height: auto; aspect-ratio: 760 / 1240; }
+  .co-gnoeud-titre { font-size: 19px; }
+  .co-gnoeud.hub .co-gnoeud-titre { font-size: 22px; }
+  .co-gnoeud-sous { font-size: 16px; }
+  .co-gnoeud.dev .co-gnoeud-titre, .co-gnoeud.creation .co-gnoeud-titre { display: none; }
+  .co-ilot-titre { font-size: 16px; }
+  .co-graphe-panneau { position: static; transform: none; width: auto; margin: 0 8px 8px; padding: 10px 14px; font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .co-brille, .co-brille::after, .co-competence.co-brille .co-tuile, .co-competence.co-brille .co-tuile::after, .co-hub-anneau { animation: none; }
+}

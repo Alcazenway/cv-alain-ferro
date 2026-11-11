@@ -89,5 +89,5 @@
   document.addEventListener('keydown', e => { if (e.key === 'Tab' || e.key === 'Enter') pointerType = 'keyboard'; if (e.key === 'Escape' && active) { cacher(); e.preventDefault(); e.stopImmediatePropagation(); } });
   document.addEventListener('scroll', () => { if (active && (active.contains(document.activeElement) || active.parentElement === document.activeElement)) afficher(active); else cacher(); }, true);
   window.addEventListener('resize', cacher); window.addEventListener('hashchange', cacher); window.addEventListener('blur', cacher);
-  window.Icones = {outil, liste, symbole, competences};
+  window.Icones = {outil, liste, symbole, competences, sources};
 })();
