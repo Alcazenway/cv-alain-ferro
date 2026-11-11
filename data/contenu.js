@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.25.0",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.26.0",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -2325,10 +2325,6 @@ window.CV = {
       "resume": "Direction artistique, cadrage et pilotage avec l’IA de créations et d’outils pour la simulation de vol.",
       "apportCourt": "Cadrage du projet, coordination des intervenants et contrôle des livrables.",
       "contexte": "Définition des besoins, fourniture des références, pilotage des assistants IA et contrôle dans le simulateur. Les IA produisent le code technique ; la direction fonctionnelle et artistique reste assurée par Alain Ferro.",
-      "site": {
-        "url": "https://skylivra.netlify.app/",
-        "libelle": "Voir le site SkyLivra"
-      },
       "missions": [
         "Définir les besoins, les contraintes techniques et les critères d’acceptation de chaque création.",
         "Structurer l’architecture : rôle des modules, interfaces, dépendances et circulation des données.",
@@ -2374,7 +2370,7 @@ window.CV = {
           "src": "assets/photos/selection/skylivra-decollage-boucle.gif",
           "alt": "Découvrir SkyLivra",
           "legende": "Découvrir SkyLivra",
-          "lien": "https://skylivra.netlify.app/",
+          "attente": "Ouverture prochaine : le site SkyLivra est finalisé. Sa mise en ligne publique est suspendue dans l’attente de la validation de mes partenaires ; il sera accessible dès leur accord.",
           "statique": "assets/photos/selection/skylivra-affiche.webp"
         },
         {
@@ -2394,194 +2390,6 @@ window.CV = {
             "Site de gestion : espace d’administration du site marchand.",
             "Logiciel Windows SkyLivra Manager : installation et mise à jour des créations chez les clients.",
             "Studios vidéo : outils de montage des clips de présentation des livrées et de cinématiques du simulateur."
-          ]
-        },
-        {
-          "titre": "Ancient Dragon",
-          "galerie": [
-            {
-              "src": "assets/photos/selection/selection-077.webp",
-              "alt": "Ancient Dragon — vue extérieure dans MSFS",
-              "legende": "Ancient Dragon — vue extérieure dans MSFS"
-            },
-            {
-              "src": "assets/photos/selection/selection-078.webp",
-              "alt": "Ancient Dragon — aménagement intérieur",
-              "legende": "Ancient Dragon — aménagement intérieur"
-            },
-            {
-              "src": "assets/photos/selection/selection-079.webp",
-              "alt": "Ancient Dragon — vue de profil dans MSFS",
-              "legende": "Ancient Dragon — vue de profil dans MSFS"
-            },
-            {
-              "video": "assets/videos/ancient-dragon-exterieur.mp4",
-              "poster": "assets/videos/ancient-dragon-exterieur.webp",
-              "alt": "Ancient Dragon — vues extérieures",
-              "legende": "Ancient Dragon — vues extérieures"
-            },
-            {
-              "video": "assets/videos/ancient-dragon-interieur.mp4",
-              "poster": "assets/videos/ancient-dragon-interieur.webp",
-              "alt": "Ancient Dragon — cockpit et cabine",
-              "legende": "Ancient Dragon — cockpit et cabine"
-            }
-          ]
-        },
-        {
-          "titre": "Aurora Borealis Blue",
-          "galerie": [
-            {
-              "src": "assets/photos/selection/selection-088.webp",
-              "alt": "Aurora Borealis Blue — vue extérieure",
-              "legende": "Aurora Borealis Blue — vue extérieure"
-            },
-            {
-              "src": "assets/photos/selection/selection-089.webp",
-              "alt": "Aurora Borealis Blue — voilure et motifs",
-              "legende": "Aurora Borealis Blue — voilure et motifs"
-            },
-            {
-              "src": "assets/photos/selection/selection-091.webp",
-              "alt": "Aurora Borealis Blue — vue de profil",
-              "legende": "Aurora Borealis Blue — vue de profil"
-            },
-            {
-              "src": "assets/photos/selection/selection-085.webp",
-              "alt": "Aurora Borealis Blue — poste de pilotage",
-              "legende": "Aurora Borealis Blue — poste de pilotage"
-            },
-            {
-              "src": "assets/photos/selection/selection-086.webp",
-              "alt": "Aurora Borealis Blue — sièges du cockpit",
-              "legende": "Aurora Borealis Blue — sièges du cockpit"
-            },
-            {
-              "src": "assets/photos/selection/selection-087.webp",
-              "alt": "Aurora Borealis Blue — décoration de la cabine",
-              "legende": "Aurora Borealis Blue — décoration de la cabine"
-            },
-            {
-              "src": "assets/photos/selection/selection-090.webp",
-              "alt": "Aurora Borealis Blue — cabine passagers",
-              "legende": "Aurora Borealis Blue — cabine passagers"
-            },
-            {
-              "video": "assets/videos/aurora-blue-exterieur.mp4",
-              "poster": "assets/videos/aurora-blue-exterieur.webp",
-              "alt": "Aurora Borealis Blue — vues extérieures",
-              "legende": "Aurora Borealis Blue — vues extérieures"
-            },
-            {
-              "video": "assets/videos/aurora-blue-interieur.mp4",
-              "poster": "assets/videos/aurora-blue-interieur.webp",
-              "alt": "Aurora Borealis Blue — cockpit et cabine",
-              "legende": "Aurora Borealis Blue — cockpit et cabine"
-            }
-          ]
-        },
-        {
-          "titre": "Phoenix — Pristine",
-          "galerie": [
-            {
-              "src": "assets/photos/selection/selection-098.webp",
-              "alt": "Phoenix — Pristine : vue extérieure",
-              "legende": "Phoenix — Pristine : vue extérieure"
-            },
-            {
-              "src": "assets/photos/selection/selection-099.webp",
-              "alt": "Phoenix — Pristine : motifs et voilure",
-              "legende": "Phoenix — Pristine : motifs et voilure"
-            },
-            {
-              "src": "assets/photos/selection/selection-103.webp",
-              "alt": "Phoenix — Pristine : vue de profil",
-              "legende": "Phoenix — Pristine : vue de profil"
-            },
-            {
-              "src": "assets/photos/selection/selection-096.webp",
-              "alt": "Phoenix — Pristine : avion dans le simulateur",
-              "legende": "Phoenix — Pristine : avion dans le simulateur"
-            },
-            {
-              "src": "assets/photos/selection/selection-097.webp",
-              "alt": "Phoenix — Pristine : sièges et cloisons",
-              "legende": "Phoenix — Pristine : sièges et cloisons"
-            },
-            {
-              "src": "assets/photos/selection/selection-100.webp",
-              "alt": "Phoenix — Pristine : cabine passagers",
-              "legende": "Phoenix — Pristine : cabine passagers"
-            },
-            {
-              "src": "assets/photos/selection/selection-101.webp",
-              "alt": "Phoenix — Pristine : décor de plafond",
-              "legende": "Phoenix — Pristine : décor de plafond"
-            },
-            {
-              "src": "assets/photos/selection/selection-102.webp",
-              "alt": "Phoenix — Pristine : sièges du cockpit",
-              "legende": "Phoenix — Pristine : sièges du cockpit"
-            },
-            {
-              "src": "assets/photos/selection/selection-104.webp",
-              "alt": "Phoenix — Pristine : ambiance de cabine",
-              "legende": "Phoenix — Pristine : ambiance de cabine"
-            },
-            {
-              "video": "assets/videos/phoenix-cabine-court.mp4",
-              "poster": "assets/videos/phoenix-cabine-court.webp",
-              "alt": "Phoenix — Pristine : ambiance de cabine",
-              "legende": "Phoenix — Pristine : ambiance de cabine"
-            },
-            {
-              "video": "assets/videos/phoenix-exterieur.mp4",
-              "poster": "assets/videos/phoenix-exterieur.webp",
-              "alt": "Phoenix — Pristine : vues extérieures",
-              "legende": "Phoenix — Pristine : vues extérieures"
-            },
-            {
-              "video": "assets/videos/phoenix-interieur.mp4",
-              "poster": "assets/videos/phoenix-interieur.webp",
-              "alt": "Phoenix — Pristine : cockpit et cabine",
-              "legende": "Phoenix — Pristine : cockpit et cabine"
-            }
-          ]
-        },
-        {
-          "titre": "Aurores boréales, australes",
-          "ouvert": false,
-          "paragraphes": [
-            "Pilotage de la conception d’un add-on faisant apparaître des aurores pendant les vols de nuit, en fonction de la position de l’avion.",
-            "Les captures et vidéos montrent des états de travail distincts : la capture de diagnostic est identifiée comme version 0.9.2."
-          ],
-          "points": [
-            "Activation de nuit lorsque l’avion se trouve à portée de l’ovale auroral de son hémisphère.",
-            "Niveau d’activité géomagnétique simulé, tiré à chaque nuit, qui fait varier l’étendue des phénomènes.",
-            "Apparition progressive : les lueurs naissent en continu et s’allument en fondu ; le ciel se remplit en une à deux minutes.",
-            "Animation par vagues lentes et sursauts, avec extinction en fondu à l’aube ou en quittant la zone visible.",
-            "Arcs lumineux suivant la courbure de l’ovale et la rotondité de la Terre, avec des couleurs réparties selon l’altitude.",
-            "Panneau de commande dans le simulateur, interrupteur et indication d’état, avec remise en marche automatique à l’entrée dans une zone visible.",
-            "Module C++ compilé en WebAssembly, échanges SimConnect et effets VFX ; génération des textures et des graphes d’effets par des scripts Python."
-          ],
-          "galerie": [
-            {
-              "src": "assets/photos/selection/selection-082.webp",
-              "alt": "Aurora Borealis Add-on — capture de diagnostic 0.9.2",
-              "legende": "Aurora Borealis Add-on — capture de diagnostic 0.9.2"
-            },
-            {
-              "video": "assets/videos/aurores-vues-exterieures.mp4",
-              "poster": "assets/videos/aurores-vues-exterieures.webp",
-              "alt": "Aurores dans le simulateur — vues extérieures",
-              "legende": "Aurores dans le simulateur — vues extérieures"
-            },
-            {
-              "video": "assets/videos/aurores-en-vol.mp4",
-              "poster": "assets/videos/aurores-en-vol.webp",
-              "alt": "Aurores dans le simulateur — en vol",
-              "legende": "Aurores dans le simulateur — en vol"
-            }
           ]
         },
         {
@@ -2640,7 +2448,341 @@ window.CV = {
         "SkyLivra"
       ],
       "periode": "2026–aujourd’hui",
-      "parent": "outils-ia"
+      "parent": "outils-ia",
+      "enfants": [
+        "skylivra-ancient-dragon",
+        "skylivra-aurora-borealis-blue",
+        "skylivra-phoenix-pristine",
+        "skylivra-aurores"
+      ],
+      "enfantsTitre": "Créations livrées"
+    },
+    {
+      "id": "skylivra-ancient-dragon",
+      "type": "personnel",
+      "titre": "Ancient Dragon",
+      "titreCourt": "Ancient Dragon",
+      "lieu": "",
+      "resume": "Livrée « dragon » pour le Fenix A320 CFM dans Microsoft Flight Simulator 2020, extérieur et cabine.",
+      "apportCourt": "Direction artistique d’une livrée complète, de la tête du dragon aux fresques de cabine.",
+      "contexte": "Livrée SkyLivra pour le Fenix A320 CFM de Microsoft Flight Simulator 2020, immatriculation fictive A-DRGN. Alain Ferro définit la direction artistique, approuve les maquettes et contrôle le rendu ; la fabrication est pilotée avec des assistants IA.",
+      "missions": [
+        "Choix de la tête « Ancien » : armure cuivrée, écailles orientées de l’avant vers l’arrière, regard ambre et vapeur peinte sur le museau.",
+        "Respect de la silhouette réelle de l’avion : aucun ajout géométrique, cadres, poignées et signalétique conservés.",
+        "Cabine approuvée sur maquette : fresques cuivre et ivoire au plafond, sur les porte-bagages et les parois, sols taupe.",
+        "Emblème du dragon sur les 174 sièges passagers et les deux sièges pilotes.",
+        "Préparation des textures DDS et de l’installateur Windows, contrôles avant l’essai en vol dans MSFS."
+      ],
+      "outils": [
+        "ChatGPT",
+        "Codex",
+        "Claude Code",
+        "Python",
+        "Blender",
+        "SDK MSFS 2020",
+        "OBS Studio"
+      ],
+      "apports": [
+        "Direction artistique",
+        "Cohérence extérieur et cabine",
+        "Contrôle qualité"
+      ],
+      "transfert": "Traduire une intention artistique en consignes précises, puis contrôler chaque surface jusqu’au rendu attendu.",
+      "galerie": [
+        {
+          "src": "assets/photos/selection/selection-077.webp",
+          "alt": "Ancient Dragon — vue extérieure dans MSFS",
+          "legende": "Ancient Dragon — vue extérieure dans MSFS"
+        },
+        {
+          "src": "assets/photos/selection/selection-078.webp",
+          "alt": "Ancient Dragon — aménagement intérieur",
+          "legende": "Ancient Dragon — aménagement intérieur"
+        },
+        {
+          "src": "assets/photos/selection/selection-079.webp",
+          "alt": "Ancient Dragon — vue de profil dans MSFS",
+          "legende": "Ancient Dragon — vue de profil dans MSFS"
+        },
+        {
+          "video": "assets/videos/ancient-dragon-exterieur.mp4",
+          "poster": "assets/videos/ancient-dragon-exterieur.webp",
+          "alt": "Ancient Dragon — vues extérieures",
+          "legende": "Ancient Dragon — vues extérieures"
+        },
+        {
+          "video": "assets/videos/ancient-dragon-interieur.mp4",
+          "poster": "assets/videos/ancient-dragon-interieur.webp",
+          "alt": "Ancient Dragon — cockpit et cabine",
+          "legende": "Ancient Dragon — cockpit et cabine"
+        }
+      ],
+      "bulle": [
+        "Ancient Dragon"
+      ],
+      "periode": "2026",
+      "parent": "skylivra"
+    },
+    {
+      "id": "skylivra-aurora-borealis-blue",
+      "type": "personnel",
+      "titre": "Aurora Borealis Blue",
+      "titreCourt": "Aurora Borealis Blue",
+      "lieu": "",
+      "resume": "Livrée aux couleurs des aurores boréales pour le Fenix A320 CFM dans Microsoft Flight Simulator 2020 : extérieur, cockpit et cabine.",
+      "apportCourt": "Livrée menée jusqu’à sa validation en jeu par des révisions successives.",
+      "contexte": "Livrée SkyLivra pour le Fenix A320 CFM de Microsoft Flight Simulator 2020, terminée en version 1.28.0 après validation en jeu par Alain Ferro le 1er novembre 2026. Alain fixe la direction artistique, essaie les versions dans le simulateur et demande les corrections ; les assistants IA produisent les textures et les installateurs. Une déclinaison pour le PMDG 737-900ER existe, sans validation en jeu à ce jour.",
+      "missions": [
+        "Maquettes extérieure et intérieure approuvées, puis emblème Aurora Borealis décliné sur la dérive, les portes et les appuie-têtes.",
+        "Aurore en haute définition et ciel étoilé, avec continuité du motif entre les pièces qui partagent leurs coordonnées de texture.",
+        "Alignement des motifs des volets et des becs, contrôlé à chaque cran de sortie.",
+        "Cabine et cockpit : voile blanc partagé par six sièges, plafond, sols et poste de pilotage retravaillés.",
+        "Essais en vol, retours précis et suivi des révisions jusqu’à la version 1.28.0."
+      ],
+      "outils": [
+        "ChatGPT",
+        "Codex",
+        "Claude Code",
+        "Python",
+        "SDK MSFS 2020",
+        "SPAD.neXt",
+        "OBS Studio"
+      ],
+      "apports": [
+        "Direction artistique",
+        "Itérations contrôlées",
+        "Tests en simulateur"
+      ],
+      "transfert": "Conduire un livrable par itérations courtes, avec des retours précis, jusqu’à sa validation finale.",
+      "galerie": [
+        {
+          "src": "assets/photos/selection/selection-088.webp",
+          "alt": "Aurora Borealis Blue — vue extérieure",
+          "legende": "Aurora Borealis Blue — vue extérieure"
+        },
+        {
+          "src": "assets/photos/selection/selection-089.webp",
+          "alt": "Aurora Borealis Blue — voilure et motifs",
+          "legende": "Aurora Borealis Blue — voilure et motifs"
+        },
+        {
+          "src": "assets/photos/selection/selection-091.webp",
+          "alt": "Aurora Borealis Blue — vue de profil",
+          "legende": "Aurora Borealis Blue — vue de profil"
+        },
+        {
+          "src": "assets/photos/selection/selection-085.webp",
+          "alt": "Aurora Borealis Blue — poste de pilotage",
+          "legende": "Aurora Borealis Blue — poste de pilotage"
+        },
+        {
+          "src": "assets/photos/selection/selection-086.webp",
+          "alt": "Aurora Borealis Blue — sièges du cockpit",
+          "legende": "Aurora Borealis Blue — sièges du cockpit"
+        },
+        {
+          "src": "assets/photos/selection/selection-087.webp",
+          "alt": "Aurora Borealis Blue — décoration de la cabine",
+          "legende": "Aurora Borealis Blue — décoration de la cabine"
+        },
+        {
+          "src": "assets/photos/selection/selection-090.webp",
+          "alt": "Aurora Borealis Blue — cabine passagers",
+          "legende": "Aurora Borealis Blue — cabine passagers"
+        },
+        {
+          "video": "assets/videos/aurora-blue-exterieur.mp4",
+          "poster": "assets/videos/aurora-blue-exterieur.webp",
+          "alt": "Aurora Borealis Blue — vues extérieures",
+          "legende": "Aurora Borealis Blue — vues extérieures"
+        },
+        {
+          "video": "assets/videos/aurora-blue-interieur.mp4",
+          "poster": "assets/videos/aurora-blue-interieur.webp",
+          "alt": "Aurora Borealis Blue — cockpit et cabine",
+          "legende": "Aurora Borealis Blue — cockpit et cabine"
+        }
+      ],
+      "bulle": [
+        "Aurora Borealis Blue"
+      ],
+      "periode": "2026",
+      "parent": "skylivra"
+    },
+    {
+      "id": "skylivra-phoenix-pristine",
+      "type": "personnel",
+      "titre": "Phoenix — Pristine",
+      "titreCourt": "Phoenix — Pristine",
+      "lieu": "",
+      "resume": "Livrée Phoenix, version neuve, pour le Fenix A320 CFM dans Microsoft Flight Simulator 2020.",
+      "apportCourt": "Livrée de référence d’une famille, déclinée ensuite en version usée.",
+      "contexte": "Livrée SkyLivra pour le Fenix A320 CFM de Microsoft Flight Simulator 2020, immatriculation fictive F-PHNX. Les sources de peinture correspondent à l’édition confirmée par Alain Ferro le 8 octobre 2026 ; les éditions suivantes renforcent l’installateur. La variante usée Phoenix — Weathered en dépend.",
+      "missions": [
+        "Direction artistique de la livrée et validation des sources de peinture.",
+        "Habillage de l’extérieur et de la cabine : motifs, voilure, sièges, cloisons et décor de plafond.",
+        "Base de la variante usée Phoenix — Weathered.",
+        "Installateur Windows renforcé : reprise automatique en cas de fichier verrouillé et restauration protégée.",
+        "Contrôles du profil, du logo, des dépendances et de la fabrication avant chaque édition."
+      ],
+      "outils": [
+        "ChatGPT",
+        "Codex",
+        "Claude Code",
+        "Python",
+        "SDK MSFS 2020",
+        "OBS Studio"
+      ],
+      "apports": [
+        "Direction artistique",
+        "Déclinaison de variantes",
+        "Fiabilité de l’installation"
+      ],
+      "transfert": "Stabiliser une référence avant de la décliner, en contrôlant chaque nouvelle édition.",
+      "galerie": [
+        {
+          "src": "assets/photos/selection/selection-098.webp",
+          "alt": "Phoenix — Pristine : vue extérieure",
+          "legende": "Phoenix — Pristine : vue extérieure"
+        },
+        {
+          "src": "assets/photos/selection/selection-099.webp",
+          "alt": "Phoenix — Pristine : motifs et voilure",
+          "legende": "Phoenix — Pristine : motifs et voilure"
+        },
+        {
+          "src": "assets/photos/selection/selection-103.webp",
+          "alt": "Phoenix — Pristine : vue de profil",
+          "legende": "Phoenix — Pristine : vue de profil"
+        },
+        {
+          "src": "assets/photos/selection/selection-096.webp",
+          "alt": "Phoenix — Pristine : avion dans le simulateur",
+          "legende": "Phoenix — Pristine : avion dans le simulateur"
+        },
+        {
+          "src": "assets/photos/selection/selection-097.webp",
+          "alt": "Phoenix — Pristine : sièges et cloisons",
+          "legende": "Phoenix — Pristine : sièges et cloisons"
+        },
+        {
+          "src": "assets/photos/selection/selection-100.webp",
+          "alt": "Phoenix — Pristine : cabine passagers",
+          "legende": "Phoenix — Pristine : cabine passagers"
+        },
+        {
+          "src": "assets/photos/selection/selection-101.webp",
+          "alt": "Phoenix — Pristine : décor de plafond",
+          "legende": "Phoenix — Pristine : décor de plafond"
+        },
+        {
+          "src": "assets/photos/selection/selection-102.webp",
+          "alt": "Phoenix — Pristine : sièges du cockpit",
+          "legende": "Phoenix — Pristine : sièges du cockpit"
+        },
+        {
+          "src": "assets/photos/selection/selection-104.webp",
+          "alt": "Phoenix — Pristine : ambiance de cabine",
+          "legende": "Phoenix — Pristine : ambiance de cabine"
+        },
+        {
+          "video": "assets/videos/phoenix-cabine-court.mp4",
+          "poster": "assets/videos/phoenix-cabine-court.webp",
+          "alt": "Phoenix — Pristine : ambiance de cabine",
+          "legende": "Phoenix — Pristine : ambiance de cabine"
+        },
+        {
+          "video": "assets/videos/phoenix-exterieur.mp4",
+          "poster": "assets/videos/phoenix-exterieur.webp",
+          "alt": "Phoenix — Pristine : vues extérieures",
+          "legende": "Phoenix — Pristine : vues extérieures"
+        },
+        {
+          "video": "assets/videos/phoenix-interieur.mp4",
+          "poster": "assets/videos/phoenix-interieur.webp",
+          "alt": "Phoenix — Pristine : cockpit et cabine",
+          "legende": "Phoenix — Pristine : cockpit et cabine"
+        }
+      ],
+      "bulle": [
+        "Phoenix — Pristine"
+      ],
+      "periode": "2026",
+      "parent": "skylivra"
+    },
+    {
+      "id": "skylivra-aurores",
+      "type": "personnel",
+      "titre": "Aurora Borealis Add-on",
+      "titreCourt": "Aurora Borealis Add-on",
+      "lieu": "",
+      "resume": "Add-on faisant apparaître des aurores boréales et australes pendant les vols de nuit dans Microsoft Flight Simulator 2020.",
+      "apportCourt": "Pilotage de la conception d’un effet visuel dynamique, du scénario au panneau de commande.",
+      "contexte": "Add-on SkyLivra pour Microsoft Flight Simulator 2020. Alain Ferro définit le rendu recherché à partir de références photographiques, essaie les versions en vol et oriente les corrections ; le code C++ / WebAssembly et les scripts Python sont produits par les assistants IA.",
+      "missions": [
+        "Définition du comportement : activation de nuit selon la position de l’avion et l’ovale auroral.",
+        "Choix de la direction visuelle : lueurs vert-bleu, arcs lumineux, couleurs réparties selon l’altitude.",
+        "Conception du panneau de commande dans le simulateur : interrupteur et indication d’état.",
+        "Essais en vol, diagnostic des versions successives et suivi jusqu’à la version 0.10.3."
+      ],
+      "outils": [
+        "ChatGPT",
+        "Codex",
+        "Claude Code",
+        "C++ / WebAssembly",
+        "SDK MSFS 2020 / SimConnect",
+        "Python",
+        "Inno Setup"
+      ],
+      "apports": [
+        "Conception fonctionnelle",
+        "Tests et diagnostic",
+        "Suivi de versions"
+      ],
+      "transfert": "Décrire un comportement attendu, le faire réaliser par étapes et vérifier le résultat en conditions réelles.",
+      "galerie": [
+        {
+          "src": "assets/photos/selection/selection-082.webp",
+          "alt": "Aurora Borealis Add-on — capture de diagnostic 0.9.2",
+          "legende": "Aurora Borealis Add-on — capture de diagnostic 0.9.2"
+        },
+        {
+          "video": "assets/videos/aurores-vues-exterieures.mp4",
+          "poster": "assets/videos/aurores-vues-exterieures.webp",
+          "alt": "Aurores dans le simulateur — vues extérieures",
+          "legende": "Aurores dans le simulateur — vues extérieures"
+        },
+        {
+          "video": "assets/videos/aurores-en-vol.mp4",
+          "poster": "assets/videos/aurores-en-vol.webp",
+          "alt": "Aurores dans le simulateur — en vol",
+          "legende": "Aurores dans le simulateur — en vol"
+        }
+      ],
+      "sections": [
+        {
+          "titre": "Fonctionnement",
+          "ouvert": false,
+          "paragraphes": [
+            "Pilotage de la conception d’un add-on faisant apparaître des aurores pendant les vols de nuit, en fonction de la position de l’avion.",
+            "Les captures et vidéos montrent des états de travail distincts : la capture de diagnostic est identifiée comme version 0.9.2."
+          ],
+          "points": [
+            "Activation de nuit lorsque l’avion se trouve à portée de l’ovale auroral de son hémisphère.",
+            "Niveau d’activité géomagnétique simulé, tiré à chaque nuit, qui fait varier l’étendue des phénomènes.",
+            "Apparition progressive : les lueurs naissent en continu et s’allument en fondu ; le ciel se remplit en une à deux minutes.",
+            "Animation par vagues lentes et sursauts, avec extinction en fondu à l’aube ou en quittant la zone visible.",
+            "Arcs lumineux suivant la courbure de l’ovale et la rotondité de la Terre, avec des couleurs réparties selon l’altitude.",
+            "Panneau de commande dans le simulateur, interrupteur et indication d’état, avec remise en marche automatique à l’entrée dans une zone visible.",
+            "Module C++ compilé en WebAssembly, échanges SimConnect et effets VFX ; génération des textures et des graphes d’effets par des scripts Python."
+          ]
+        }
+      ],
+      "bulle": [
+        "Aurora Borealis Add-on"
+      ],
+      "periode": "2026",
+      "parent": "skylivra"
     },
     {
       "id": "poussepousse",
@@ -2767,7 +2909,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne contient aucun formulaire : l’éditeur ne collecte aucune donnée. Le bouton « Proposer un entretien » ouvre simplement votre messagerie, sans aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "11 novembre 2026",
-    "version": "2.25.0"
+    "version": "2.26.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"

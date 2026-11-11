@@ -151,7 +151,7 @@
     // Rangées toujours complètes : 1 à 4 photos sur une rangée, 6 en 3 × 2, sinon 4 ou 8 vignettes dont la dernière ouvre la suite.
     var n = photos.length, montrees = n <= 4 || n === 6 ? n : n < 8 ? 4 : MAX_VIGNETTES, colonnes = n === 6 ? 3 : Math.min(montrees, 4);
     var visibles = photos.slice(0, montrees), reste = n - montrees;
-    var agrandissables = photos.filter(function (x) { return !x.lien; });
+    var agrandissables = photos.filter(function (x) { return !x.lien || x.attente; }); // v2.26 : image en attente agrandissable, jamais un lien
     return el("div", { class: "co-galerie c" + colonnes + (montrees % 2 ? " impair" : "") }, visibles.map(function (p, i) {
       var legende = p.legende || p.alt || "";
       var apercu = p.video
@@ -160,14 +160,21 @@
       var plus = reste > 0 && i === visibles.length - 1;
       var contenu = [apercu,
         p.video ? el("span", { class: "co-galerie-lecture", "aria-hidden": "true", text: "▶" }) : null,
-        p.lien ? el("span", { class: "co-galerie-lecture", "aria-hidden": "true", text: "↗" }) : null,
+        p.lien && !p.attente ? el("span", { class: "co-galerie-lecture", "aria-hidden": "true", text: "↗" }) : null,
+        // v2.26 : site pas encore ouvert, bandeau discret sur l’image.
+        p.attente ? el("span", { class: "co-galerie-attente", text: "Ouverture prochaine" }) : null,
         plus ? el("span", { class: "co-galerie-plus", text: "+" + (reste + 1) }) : legende ? el("span", { class: "co-galerie-legende", text: legende }) : null];
       var cls = "co-galerie-item" + (p.entier ? " entier" : "");
-      if (p.lien) return el("a", { class: cls, href: p.lien, target: "_blank", rel: "noopener", "aria-label": legende + " (nouvel onglet)" }, contenu);
+      if (p.lien && !p.attente) return el("a", { class: cls, href: p.lien, target: "_blank", rel: "noopener", "aria-label": legende + " (nouvel onglet)" }, contenu);
       var bouton = el("button", { type: "button", class: cls, "aria-label": plus ? "Voir les " + photos.length + " photos" : "Agrandir : " + legende }, contenu);
       bouton.addEventListener("click", function () { Visionneuse.ouvrir(agrandissables, agrandissables.indexOf(p), bouton); });
       return bouton;
     }));
+  }
+  // v2.26 : explication d’une ouverture différée (champ « attente » d’une image), sous la galerie.
+  function attentes(photos) {
+    var p = (photos || []).filter(function (x) { return x.attente; })[0];
+    return p ? el("p", { class: "co-attente", role: "note", text: p.attente }) : null;
   }
   // Visionneuse : image ou vidéo en grand, légende, compteur, précédent / suivant, clavier et glissement.
   var Visionneuse = (function () {
@@ -346,13 +353,20 @@
   }
 
   // Pages enfants (v2.18) : projets réalisés avec l’IA, présentés sous Orchestration IA au format du catalogue.
+  // v2.26 : titre propre à la fiche (« enfantsTitre », ex. Créations livrées de SkyLivra).
   function enfantsDe(e) {
     var ids = (e.enfants || []).filter(function (id) { return parId[id]; });
     if (!ids.length) return null;
-    return section("Projets réalisés avec l’IA", catalogue(ids.map(function (id) {
+    return section(e.enfantsTitre || "Projets réalisés avec l’IA", catalogue(ids.map(function (id) {
       var x = parId[id];
       return { id: "projet-" + id, visuel: vignette(x), titre: bulle(x), texte: x.resume, lien: "#/parcours/" + id, nom: x.titre };
     })));
+  }
+
+  // v2.26 : ancêtre racine d’une page enfant (petits-enfants de SkyLivra → outils-ia).
+  function racine(e) {
+    for (var n = 0; e.parent && parId[e.parent] && n < 10; n++) e = parId[e.parent];
+    return e;
   }
 
   var RETOURS = { "/orchestration-ia/methode": "Méthode", "/savoir-formations": SAVOIR, "/metiers": "Postes visés", "/competences": "Compétences", "/interets": "Intérêts", "/orchestration-ia": "Orchestration IA" };
@@ -448,6 +462,7 @@
       missions.length ? liste(missions, "puces fiche-liste") : null,
       enfantsDe(e),
       galerie(e.galerie),
+      attentes(e.galerie),
       dossiers(e.sections, dejaVu),
       el("div", { class: "fiche-lignes" }, [
         e.outils ? ligne("Outils", Icones.liste(e.outils)) : null,
@@ -536,6 +551,7 @@
       medias ? el("details", { class: "co-integre-medias" }, [
         el("summary", { text: "Médias et compléments" }),
         galerie(e.galerie),
+        attentes(e.galerie),
         dossiersNiveau(e.sections, garder, "h4")
       ]) : null
     ].filter(Boolean);
@@ -644,9 +660,11 @@
         var origineValide = listeOrigine && (savoir ? /^\/(savoir-formations|competence|interets?|metiers)/ : /^\/(parcours|competence|interets?|metiers|orchestration-ia)/).test(listeOrigine);
         // Une page enfant revient vers sa fiche parente, sauf depuis une autre rubrique.
         if (e.parent && parId[e.parent] && !(origineValide && !/^\/parcours/.test(listeOrigine))) origineValide = false;
+        // v2.26 : un petit-enfant (parent lui-même enfant, ex. créations de SkyLivra) revient toujours vers son parent.
+        if (e.parent && parId[e.parent] && parId[e.parent].parent) origineValide = false;
         var parent = origineValide ? listeOrigine : e.parent && parId[e.parent] ? rediriger("/parcours/" + e.parent) : savoir ? "/savoir-formations" : "/parcours";
-        // Les projets IA ont leur maison dans la rubrique Orchestration IA.
-        return { rubrique: savoir ? "savoir" : e.parent === "outils-ia" ? "competences" : "parcours", titre: e.titre, rendu: ficheParcours(e, parent), detail: true, fiche: true };
+        // Les projets IA ont leur maison dans la rubrique Orchestration IA ; v2.26 : leurs pages enfants aussi.
+        return { rubrique: savoir ? "savoir" : e.parent && racine(e).id === "outils-ia" ? "competences" : "parcours", titre: e.titre, rendu: ficheParcours(e, parent), detail: true, fiche: true };
       }
     }
     if (h === "/savoir-formations") return { rubrique: "savoir", titre: SAVOIR, rendu: pageSavoir(), liste: true };

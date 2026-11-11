@@ -417,6 +417,9 @@ a.co-galerie-item { cursor: pointer; }
 .co-galerie-item:hover .co-galerie-legende, .co-galerie-item:focus-visible .co-galerie-legende { opacity: 1; transform: none; }
 .co-galerie-lecture { position: absolute; top: 50%; left: 50%; display: grid; place-items: center; width: 48px; height: 48px; margin: -24px 0 0 -24px; border-radius: 50%; background: rgba(10, 25, 28, .55); font-size: 18px; }
 .co-galerie-plus { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(10, 25, 28, .55); font-size: 26px; font-weight: 600; }
+/* v2.26 : image d’un site pas encore ouvert — bandeau discret et encadré explicatif sous la galerie. */
+.co-galerie-attente { position: absolute; top: 10px; left: 10px; padding: 4px 10px; border-radius: 999px; background: rgba(255, 255, 255, .9); color: var(--personnel); font-size: 12px; font-weight: 600; letter-spacing: .02em; box-shadow: 0 2px 8px rgba(10, 25, 28, .15); }
+.co-attente { max-width: 760px; margin: 4px 0 22px; padding: 12px 16px; border: 1px solid var(--filet); border-left: 4px solid var(--personnel); border-radius: 0 12px 12px 0; background: rgba(255, 255, 255, .82); color: var(--texte); font-size: 15px; line-height: 1.5; }
 .co-visionneuse { position: fixed; inset: 0; z-index: 100; display: grid; grid-template-columns: 64px minmax(0, 1fr) 64px; grid-template-rows: 1fr auto; align-items: center; padding: 24px 12px 16px; background: rgba(8, 18, 20, .97); color: #f1f5f4; animation: co-apparition .25s ease both; }
 .co-visionneuse-scene { grid-column: 2; grid-row: 1; display: grid; place-items: center; height: 100%; min-height: 0; }
 .co-visionneuse-scene img, .co-visionneuse-scene video { max-width: 100%; max-height: calc(100vh - 120px); border-radius: 6px; object-fit: contain; box-shadow: 0 18px 50px rgba(0, 0, 0, .45); }
