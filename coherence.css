@@ -229,7 +229,8 @@ a.co-arret-corps:hover { box-shadow: 0 0 0 2px currentColor inset; color: var(--
 .co-fond { display: none; position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
 .co-fond::after { content: ""; position: absolute; inset: 0; background: rgba(252, 252, 248, .9); }
 .co-fond-image { position: absolute; inset: -6%; background-position: center; background-size: cover; background-repeat: no-repeat; animation: co-derive 80s ease-in-out infinite alternate; will-change: transform; }
-body[data-fond="parcours"] .co-fond, body[data-fond="competences"] .co-fond, body[data-fond="savoir"] .co-fond, body[data-fond="interets"] .co-fond { display: block; }
+body[data-fond="parcours"] .co-fond, body[data-fond="competences"] .co-fond, body[data-fond="savoir"] .co-fond, body[data-fond="interets"] .co-fond, body[data-fond="presentation"] .co-fond { display: block; }
+body[data-fond="presentation"] .co-fond-image { background-image: url("assets/fonds/presentation.webp"); }
 body[data-fond="parcours"] .co-fond-image { background-image: url("assets/fonds/parcours-urbain.webp"); }
 body[data-fond="competences"] .co-fond-image { background-image: url("assets/fonds/competences.webp"); }
 body[data-fond="savoir"] .co-fond-image { background-image: url("assets/fonds/apprentissage.webp"); }
@@ -244,7 +245,8 @@ body[data-fond="interets"] .co-fond-image { background-image: url("assets/fonds/
   .co-bandeau { flex-wrap: wrap; gap: 10px; row-gap: 8px; padding: 10px 16px; }
   .co-marque { font-size: 17px; }
   .co-menu { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 7px 12px; border: 1px solid #bccdca; border-radius: 24px; background: none; color: var(--encre); font: inherit; font-size: 13px; cursor: pointer; }
-  .co-entretien { margin-left: auto; font-size: 12px; }
+  .co-actions-bandeau { margin-left: auto; }
+  .co-entretien { font-size: 12px; }
   .co-nav { display: none; order: 5; width: 100%; margin: 0; flex-direction: column; align-items: stretch; gap: 8px; padding: 4px 0 6px; }
   .co-nav.ouvert { display: flex; }
   .co-onglets { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 6px; }
@@ -298,6 +300,32 @@ body[data-fond="interets"] .co-fond-image { background-image: url("assets/fonds/
   .co-onglets { grid-template-columns: 1fr 1fr; }
   p, li { hyphens: auto; }
 }
+/* ---------- v2.18 : bandeau à deux actions, repères temporels, catalogues uniformes ---------- */
+.co-actions-bandeau { display: flex; flex-wrap: nowrap; justify-content: flex-end; gap: 8px; }
+@media (max-width: 1279px) { .co-long { display: none; } }
+.co-entretien.secondaire { border: 1px solid var(--encre); background: var(--fond); color: var(--encre); }
+.co-entretien.secondaire:hover, .co-entretien.secondaire:focus-visible { border-color: var(--experience); background: var(--experience); color: #fff; }
+.co-promesse p { max-width: 680px; margin: 0 0 14px; font-size: 17px; color: var(--encre); }
+.co-promesse p:last-child { margin-bottom: 0; }
+.co-repere-fil { fill: none; stroke: var(--discret); stroke-width: 2; stroke-dasharray: 2 9; stroke-linecap: round; opacity: .55; }
+.co-repere-halo { fill: rgba(252, 252, 248, .9); stroke: none; }
+.co-repere-texte { font-size: 17px; font-weight: 600; fill: var(--encre); }
+.co-repere-annee { font-size: 15px; fill: var(--discret); }
+.co-arret.repere .co-arret-corps { display: flex; align-items: center; gap: 12px; border-style: dashed; background: rgba(252, 252, 248, .85); }
+.co-arret-icone { width: 40px; height: 40px; flex: none; }
+.co-arret.repere small { margin-left: auto; }
+.filtre-forte .co-noeud:not(.important), .filtre-forte .co-arret:not(.important):not(.repere) { opacity: .22; }
+.co-filtre.forte[aria-pressed="true"] { text-decoration-color: var(--encre); }
+.co-filtre.forte .co-point + .co-point { margin-left: -4px; }
+.co-competence-nom h3 { margin: 0; font-size: 20px; font-weight: 600; }
+.fiche-section .co-catalogue { padding: 0; }
+.co-mini-image { overflow: hidden; background: #fff; border: 1px solid var(--filet); }
+.co-mini-image img { width: 100%; height: 100%; object-fit: cover; }
+.co-mini.formation { color: var(--formation, #b9653f); background: #f8eee8; }
+.co-mini.interet { color: #4e7d3a; background: #eaf2e4; }
+.co-mini.poste { color: #2f5d8a; background: #e8eff6; }
+@media (max-width: 800px) { .co-competence-nom h3 { font-size: 17px; } .co-promesse p { font-size: 16px; } }
+
 @media print {
   .co-bandeau, .co-marques, .co-filigrane, .co-interet-symbole { display: none !important; }
   .co-chemin-cadre { display: none; } .co-chemin-liste { display: flex; }

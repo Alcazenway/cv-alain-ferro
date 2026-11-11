@@ -19,7 +19,7 @@ window.CV = {
   "identite": {
     "nom": "Alain Ferro",
     "accroche": "Administration, coordination et relation clients",
-    "promesse": "Dix ans d’encadrement d’équipes aux Thermes de Balaruc-les-Bains et sept ans de gestion d’une activité de négoce. Un titre professionnel de Comptable assistant complète ce parcours, avec une pratique d’Excel avancé et la création d’applications, de sites et d’outils réalisés avec l’IA.",
+    "promesse": "Dix ans d’encadrement d’équipes aux Thermes de Balaruc-les-Bains, sept ans à la tête d’une activité de négoce et un titre professionnel de Comptable assistant : mon parcours associe organisation, relation clients et rigueur administrative, avec une pratique d’Excel avancé (Tosa 850 / 1000).\nJ’orchestre aujourd’hui des assistants IA pour mener des projets complets, du cadrage au contrôle des résultats : applications, sites, logiciel Windows et créations pour la simulation de vol, avec des consignes écrites, des rôles répartis et un suivi de versions.\nPilote virtuel depuis plus de vingt ans, je prépare mes vols comme dans la réalité : plan de vol, météo, lecture des cartes et navigation, puis pilotage d’Airbus, de Boeing et d’avions légers. Cette passion m’a appris à maîtriser des systèmes avioniques complexes, à suivre des procédures et à garder une méthode rigoureuse.",
     "ville": "Poussan (34560)",
     "email": "alainferro34@gmail.com",
     "telephone": "06 12 76 10 12",
@@ -31,10 +31,10 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.17.1",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.18.0",
     "mail": {
       "objet": "Proposition d’entretien",
-      "corps": "Bonjour Monsieur Ferro,\n\nVotre CV en ligne a retenu l’attention pour un poste de [intitulé du poste] au sein de [entreprise], à [lieu].\n\nUn entretien est proposé [proposition de date et d’horaire], en présentiel ou par téléphone.\n\nCordialement,\n\n[Prénom Nom]\n[Fonction] · [Entreprise]\n[Téléphone]"
+      "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
     }
   },
   "pistes": {
@@ -192,7 +192,7 @@ window.CV = {
   "competences": [
     {
       "id": "creations-ia",
-      "titre": "Créations avec l’IA",
+      "titre": "Orchestration IA",
       "sousTitre": "Applications, sites, logiciel Windows, add-ons, médias",
       "resume": "Concevoir des applications, des sites et des outils complets, les faire réaliser par des assistants IA et les mener jusqu’à un produit utilisé.",
       "detail": [
@@ -201,7 +201,7 @@ window.CV = {
         "Logiciel Windows SkyLivra Manager (Tauri) : installation et mise à jour des créations chez les clients, avec des installateurs Inno Setup.",
         "Créations pour Microsoft Flight Simulator : livrées d’avions (textures et matériaux), add-on d’aurores boréales (effets visuels en C++ / WebAssembly) et outils de vues caméra.",
         "Médias : clips de présentation des livrées, GIF animés, musiques composées avec Suno, visuels générés ou retouchés par IA.",
-        "Ce CV interactif : site publié sur GitHub Pages, parcours en spirale, carte des liens et PDF relié par QR code.",
+        "Ce CV interactif : site publié sur GitHub Pages, parcours interactif, carte des liens et PDF relié par QR code.",
         "Automatisations et documents : scripts Python et PowerShell, tableaux Excel, documents Word, PDF et présentations produits puis vérifiés avec l’IA."
       ],
       "preuves": [
@@ -591,14 +591,13 @@ window.CV = {
     {
       "id": "numerique",
       "nom": "Technologie numérique",
-      "texte": "Montage de PC, veille blockchain et outils conçus avec l’IA.",
+      "texte": "Montage de PC et outils conçus avec l’IA.",
       "image": {
         "src": "assets/photos/selection/selection-054.webp",
         "alt": "Montage d’un ordinateur sur table"
       },
       "fiches": [
         "pc",
-        "blockchain",
         "knockin",
         "barysense",
         "outils-ia"
@@ -717,163 +716,6 @@ window.CV = {
       "periode": "1998"
     },
     {
-      "id": "simulation",
-      "type": "personnel",
-      "titre": "Simulation de vol",
-      "titreCourt": "Simulation de vol · Airbus · Boeing · Avions légers",
-      "lieu": "",
-      "resume": "Plus de vingt ans de simulation de vol sur PC : Airbus, Boeing et avions légers.",
-      "apportCourt": "Préparation des opérations, suivi des procédures et vérification des paramètres.",
-      "contexte": "Une passion technique pratiquée de façon exigeante, qui a ensuite conduit aux créations du projet SkyLivra.",
-      "missions": [
-        "Préparation des vols, météo et navigation.",
-        "Avionique et réglementation simulée.",
-        "Configuration des périphériques avec SPAD.neXt."
-      ],
-      "competences": [],
-      "outils": [
-        "Microsoft Flight Simulator",
-        "SPAD.neXt",
-        "PC multi-écrans"
-      ],
-      "apports": [
-        "Méthode",
-        "Respect des procédures",
-        "Configuration technique"
-      ],
-      "transfert": "Préparer, suivre une procédure et vérifier : les réflexes d’une organisation rigoureuse.",
-      "galerie": [
-        {
-          "src": "assets/photos/selection/selection-061.webp",
-          "alt": "Installation personnelle de simulation de vol",
-          "legende": "Installation personnelle de simulation de vol"
-        },
-        {
-          "src": "assets/photos/selection/selection-062.webp",
-          "alt": "Matériel et commandes de simulation",
-          "legende": "Matériel et commandes de simulation"
-        },
-        {
-          "src": "assets/photos/selection/selection-059.webp",
-          "alt": "Cockpit d’Airbus dans le simulateur",
-          "legende": "Cockpit d’Airbus dans le simulateur"
-        },
-        {
-          "src": "assets/photos/selection/selection-060.webp",
-          "alt": "Avion de ligne dans le simulateur",
-          "legende": "Avion de ligne dans le simulateur"
-        },
-        {
-          "src": "assets/photos/selection/selection-063.webp",
-          "alt": "Poste de pilotage d’un avion léger simulé",
-          "legende": "Poste de pilotage d’un avion léger simulé"
-        },
-        {
-          "src": "assets/photos/selection/selection-064.webp",
-          "alt": "Cockpit d’Airbus A320 simulé",
-          "legende": "Cockpit d’Airbus A320 simulé"
-        },
-        {
-          "src": "assets/photos/selection/selection-065.webp",
-          "alt": "Cockpit d’avion léger simulé",
-          "legende": "Cockpit d’avion léger simulé"
-        },
-        {
-          "src": "assets/photos/selection/selection-071.webp",
-          "alt": "Vue du cockpit dans le simulateur",
-          "legende": "Vue du cockpit dans le simulateur"
-        },
-        {
-          "src": "assets/photos/selection/selection-073.webp",
-          "alt": "Avion de ligne simulé",
-          "legende": "Avion de ligne simulé"
-        }
-      ],
-      "sections": [
-        {
-          "titre": "Univers simulation",
-          "galerie": [
-            {
-              "src": "assets/photos/selection/selection-057.webp",
-              "alt": "Aviation et simulation : Boeing 777",
-              "legende": "Aviation et simulation : Boeing 777"
-            },
-            {
-              "src": "assets/photos/selection/selection-058.webp",
-              "alt": "Présentation d’un avion pour la simulation",
-              "legende": "Présentation d’un avion pour la simulation"
-            },
-            {
-              "src": "assets/photos/selection/selection-069.webp",
-              "alt": "Microsoft Flight Simulator — intérêt pour la simulation",
-              "legende": "Microsoft Flight Simulator — intérêt pour la simulation"
-            }
-          ]
-        },
-        {
-          "titre": "Défis simulateur",
-          "galerie": [
-            {
-              "src": "assets/photos/selection/selection-066.webp",
-              "alt": "Attestation virtuelle Flight Simulator : pilote de ligne",
-              "legende": "Attestation virtuelle Flight Simulator : pilote de ligne"
-            },
-            {
-              "src": "assets/photos/selection/selection-067.webp",
-              "alt": "Attestation virtuelle Flight Simulator : pilote privé",
-              "legende": "Attestation virtuelle Flight Simulator : pilote privé"
-            },
-            {
-              "src": "assets/photos/selection/selection-068.webp",
-              "alt": "Attestation virtuelle Flight Simulator : pilote commercial",
-              "legende": "Attestation virtuelle Flight Simulator : pilote commercial"
-            },
-            {
-              "src": "assets/photos/selection/selection-070.webp",
-              "alt": "Attestation virtuelle Flight Simulator : vol aux instruments",
-              "legende": "Attestation virtuelle Flight Simulator : vol aux instruments"
-            },
-            {
-              "src": "assets/photos/selection/selection-074.webp",
-              "alt": "Attestation virtuelle Flight Simulator : premier vol solo",
-              "legende": "Attestation virtuelle Flight Simulator : premier vol solo"
-            }
-          ],
-          "paragraphes": [
-            "Attestations internes de Flight Simulator : elles ne constituent pas des qualifications aéronautiques réelles."
-          ]
-        },
-        {
-          "titre": "Aviation · Découverte",
-          "galerie": [
-            {
-              "src": "assets/photos/selection/selection-005.webp",
-              "alt": "Visite d’un musée aéronautique",
-              "legende": "Visite d’un musée aéronautique"
-            },
-            {
-              "src": "assets/photos/selection/selection-006.webp",
-              "alt": "Découverte d’un Airbus A380",
-              "legende": "Découverte d’un Airbus A380"
-            },
-            {
-              "video": "assets/videos/aviation-vol-cotier.mp4",
-              "poster": "assets/videos/aviation-vol-cotier.webp",
-              "alt": "Découverte en vol sur la côte",
-              "legende": "Découverte en vol sur la côte"
-            }
-          ],
-          "paragraphes": [
-            "Visites et découverte en vol."
-          ]
-        }
-      ],
-      "bulle": [
-        "Simulation de vol"
-      ],
-      "periode": "1998–aujourd’hui"
-    },
-    {
       "id": "bac",
       "type": "formation",
       "titre": "BAC Sciences et technologies tertiaires",
@@ -900,7 +742,9 @@ window.CV = {
     },
     {
       "id": "bts",
-      "liens": ["courtier"],
+      "liens": [
+        "courtier"
+      ],
       "type": "formation",
       "titre": "BTS commercial",
       "titreCourt": "BTS · Commercial",
@@ -1230,6 +1074,164 @@ window.CV = {
       "periode": "2003–2010"
     },
     {
+      "id": "simulation",
+      "type": "personnel",
+      "titre": "Simulation de vol",
+      "titreCourt": "Simulation de vol · Airbus · Boeing · Avions légers",
+      "lieu": "",
+      "resume": "Plus de vingt ans de simulation de vol sur PC : Airbus, Boeing et avions légers.",
+      "apportCourt": "Préparation des opérations, suivi des procédures et vérification des paramètres.",
+      "contexte": "Une passion technique pratiquée de façon exigeante, qui a ensuite conduit aux créations du projet SkyLivra.",
+      "missions": [
+        "Préparation des vols, météo et navigation.",
+        "Avionique et réglementation simulée.",
+        "Configuration des périphériques avec SPAD.neXt."
+      ],
+      "competences": [],
+      "outils": [
+        "Microsoft Flight Simulator",
+        "SPAD.neXt",
+        "PC multi-écrans"
+      ],
+      "apports": [
+        "Méthode",
+        "Respect des procédures",
+        "Configuration technique"
+      ],
+      "transfert": "Préparer, suivre une procédure et vérifier : les réflexes d’une organisation rigoureuse.",
+      "galerie": [
+        {
+          "src": "assets/photos/selection/selection-061.webp",
+          "alt": "Installation personnelle de simulation de vol",
+          "legende": "Installation personnelle de simulation de vol"
+        },
+        {
+          "src": "assets/photos/selection/selection-062.webp",
+          "alt": "Matériel et commandes de simulation",
+          "legende": "Matériel et commandes de simulation"
+        },
+        {
+          "src": "assets/photos/selection/selection-059.webp",
+          "alt": "Cockpit d’Airbus dans le simulateur",
+          "legende": "Cockpit d’Airbus dans le simulateur"
+        },
+        {
+          "src": "assets/photos/selection/selection-060.webp",
+          "alt": "Avion de ligne dans le simulateur",
+          "legende": "Avion de ligne dans le simulateur"
+        },
+        {
+          "src": "assets/photos/selection/selection-063.webp",
+          "alt": "Poste de pilotage d’un avion léger simulé",
+          "legende": "Poste de pilotage d’un avion léger simulé"
+        },
+        {
+          "src": "assets/photos/selection/selection-064.webp",
+          "alt": "Cockpit d’Airbus A320 simulé",
+          "legende": "Cockpit d’Airbus A320 simulé"
+        },
+        {
+          "src": "assets/photos/selection/selection-065.webp",
+          "alt": "Cockpit d’avion léger simulé",
+          "legende": "Cockpit d’avion léger simulé"
+        },
+        {
+          "src": "assets/photos/selection/selection-071.webp",
+          "alt": "Vue du cockpit dans le simulateur",
+          "legende": "Vue du cockpit dans le simulateur"
+        },
+        {
+          "src": "assets/photos/selection/selection-073.webp",
+          "alt": "Avion de ligne simulé",
+          "legende": "Avion de ligne simulé"
+        }
+      ],
+      "sections": [
+        {
+          "titre": "Univers simulation",
+          "galerie": [
+            {
+              "src": "assets/photos/selection/selection-057.webp",
+              "alt": "Aviation et simulation : Boeing 777",
+              "legende": "Aviation et simulation : Boeing 777"
+            },
+            {
+              "src": "assets/photos/selection/selection-058.webp",
+              "alt": "Présentation d’un avion pour la simulation",
+              "legende": "Présentation d’un avion pour la simulation"
+            },
+            {
+              "src": "assets/photos/selection/selection-069.webp",
+              "alt": "Microsoft Flight Simulator — intérêt pour la simulation",
+              "legende": "Microsoft Flight Simulator — intérêt pour la simulation"
+            }
+          ]
+        },
+        {
+          "titre": "Défis simulateur",
+          "galerie": [
+            {
+              "src": "assets/photos/selection/selection-066.webp",
+              "alt": "Attestation virtuelle Flight Simulator : pilote de ligne",
+              "legende": "Attestation virtuelle Flight Simulator : pilote de ligne"
+            },
+            {
+              "src": "assets/photos/selection/selection-067.webp",
+              "alt": "Attestation virtuelle Flight Simulator : pilote privé",
+              "legende": "Attestation virtuelle Flight Simulator : pilote privé"
+            },
+            {
+              "src": "assets/photos/selection/selection-068.webp",
+              "alt": "Attestation virtuelle Flight Simulator : pilote commercial",
+              "legende": "Attestation virtuelle Flight Simulator : pilote commercial"
+            },
+            {
+              "src": "assets/photos/selection/selection-070.webp",
+              "alt": "Attestation virtuelle Flight Simulator : vol aux instruments",
+              "legende": "Attestation virtuelle Flight Simulator : vol aux instruments"
+            },
+            {
+              "src": "assets/photos/selection/selection-074.webp",
+              "alt": "Attestation virtuelle Flight Simulator : premier vol solo",
+              "legende": "Attestation virtuelle Flight Simulator : premier vol solo"
+            }
+          ],
+          "paragraphes": [
+            "Attestations internes de Flight Simulator : elles ne constituent pas des qualifications aéronautiques réelles."
+          ]
+        },
+        {
+          "titre": "Aviation · Découverte",
+          "galerie": [
+            {
+              "src": "assets/photos/selection/selection-005.webp",
+              "alt": "Visite d’un musée aéronautique",
+              "legende": "Visite d’un musée aéronautique"
+            },
+            {
+              "src": "assets/photos/selection/selection-006.webp",
+              "alt": "Découverte d’un Airbus A380",
+              "legende": "Découverte d’un Airbus A380"
+            },
+            {
+              "video": "assets/videos/aviation-vol-cotier.mp4",
+              "poster": "assets/videos/aviation-vol-cotier.webp",
+              "alt": "Découverte en vol sur la côte",
+              "legende": "Découverte en vol sur la côte"
+            }
+          ],
+          "paragraphes": [
+            "Visites et découverte en vol."
+          ]
+        }
+      ],
+      "bulle": [
+        "Simulation de vol"
+      ],
+      "periode": "1998–aujourd’hui",
+      "important": true
+    },
+    {
       "id": "pailletrice",
       "type": "experience",
       "titre": "Agent commercial · Vins",
@@ -1544,7 +1546,9 @@ window.CV = {
     },
     {
       "id": "ged-gmao",
-      "liens": ["thermes-responsable"],
+      "liens": [
+        "thermes-responsable"
+      ],
       "type": "formation",
       "titre": "Gestion documentaire, maintenance · GED / GMAO",
       "titreCourt": "GED · GMAO · SST · Secours",
@@ -1588,32 +1592,10 @@ window.CV = {
       "periode": "2019"
     },
     {
-      "id": "blockchain",
-      "type": "personnel",
-      "titre": "Écosystèmes blockchain",
-      "titreCourt": "Blockchains · Exploration",
-      "lieu": "",
-      "resume": "Veille et exploration personnelle des plateformes centralisées et décentralisées.",
-      "apportCourt": "Apprentissage autonome d’un domaine technique, avec veille et vérification.",
-      "contexte": "Intérêt personnel pour les technologies numériques émergentes.",
-      "missions": [
-        "Exploration des écosystèmes CeFi et DeFi.",
-        "Gestion de portefeuilles numériques personnels."
-      ],
-      "competences": [],
-      "apports": [
-        "Veille technologique",
-        "Prudence et méthode"
-      ],
-      "transfert": "Apprendre seul un domaine technique nouveau.",
-      "bulle": [
-        "Blockchains"
-      ],
-      "periode": "2019–aujourd’hui"
-    },
-    {
       "id": "sst",
-      "liens": ["thermes-responsable"],
+      "liens": [
+        "thermes-responsable"
+      ],
       "type": "formation",
       "titre": "Sauveteur secouriste du travail · SST",
       "titreCourt": "Sauveteur secouriste · SST",
@@ -1739,7 +1721,9 @@ window.CV = {
     },
     {
       "id": "keyce",
-      "liens": ["thermes-responsable"],
+      "liens": [
+        "thermes-responsable"
+      ],
       "type": "formation",
       "titre": "Bloc de compétences · Management",
       "titreCourt": "Formation · Management",
@@ -1766,7 +1750,9 @@ window.CV = {
     },
     {
       "id": "comtel",
-      "liens": ["thermes-responsable"],
+      "liens": [
+        "thermes-responsable"
+      ],
       "type": "formation",
       "titre": "Management · Gestion des conflits",
       "titreCourt": "Formation · Gestion des conflits",
@@ -1861,7 +1847,9 @@ window.CV = {
     },
     {
       "id": "titre-comptable",
-      "liens": ["stage-cecosud"],
+      "liens": [
+        "stage-cecosud"
+      ],
       "type": "formation",
       "titre": "Titre professionnel · Comptable assistant",
       "titreCourt": "Titre professionnel · Comptable assistant",
@@ -1915,11 +1903,11 @@ window.CV = {
     {
       "id": "outils-ia",
       "type": "personnel",
-      "titre": "Intégration IA",
-      "titreCourt": "Intégration IA",
+      "titre": "Orchestration IA",
+      "titreCourt": "Orchestration IA",
       "important": true,
       "lieu": "Méthodes de travail et continuité des projets personnels",
-      "resume": "Intégrer des assistants IA dans des projets suivis : consignes communes, dossiers de référence et documents de reprise.",
+      "resume": "Orchestrer des assistants IA dans des projets suivis : consignes communes, dossiers de référence et documents de reprise.",
       "apportCourt": "Consignes écrites, répartition des rôles et traçabilité des versions.",
       "contexte": "La coordination de plusieurs assistants IA sur des projets suivis repose sur des consignes communes et des documents de reprise.",
       "missions": [
@@ -1951,9 +1939,16 @@ window.CV = {
       ],
       "transfert": "Les mêmes réflexes que pour une équipe : rôles clairs, consignes écrites, contrôle et traçabilité.",
       "bulle": [
-        "Intégration IA"
+        "Orchestration IA"
       ],
-      "periode": "2026–aujourd’hui"
+      "periode": "2026–aujourd’hui",
+      "enfants": [
+        "skylivra",
+        "barysense",
+        "knockin",
+        "poussepousse",
+        "cv-interactif"
+      ]
     },
     {
       "id": "barysense",
@@ -2025,7 +2020,8 @@ window.CV = {
       "bulle": [
         "BarySense"
       ],
-      "periode": "2026"
+      "periode": "2026",
+      "parent": "outils-ia"
     },
     {
       "id": "knockin",
@@ -2125,7 +2121,8 @@ window.CV = {
       "bulle": [
         "Knockin ever Door"
       ],
-      "periode": "2026–aujourd’hui"
+      "periode": "2026–aujourd’hui",
+      "parent": "outils-ia"
     },
     {
       "id": "skylivra",
@@ -2197,6 +2194,18 @@ window.CV = {
         }
       ],
       "sections": [
+        {
+          "titre": "Sous-projets",
+          "ouvert": true,
+          "points": [
+            "Livrées d’avions pour Microsoft Flight Simulator : textures, matériaux et variantes.",
+            "Add-ons : aurores boréales et australes (effets visuels en C++ / WebAssembly), outils de vues caméra.",
+            "Site e-commerce : catalogue, panier, paiement Stripe et e-mails Brevo, hébergé sur Netlify.",
+            "Site de gestion : espace d’administration du site marchand.",
+            "Logiciel Windows SkyLivra Manager : installation et mise à jour des créations chez les clients.",
+            "Studios vidéo : outils de montage des clips de présentation des livrées et de cinématiques du simulateur."
+          ]
+        },
         {
           "titre": "Ancient Dragon",
           "galerie": [
@@ -2440,6 +2449,83 @@ window.CV = {
       "bulle": [
         "SkyLivra"
       ],
+      "periode": "2026–aujourd’hui",
+      "parent": "outils-ia"
+    },
+    {
+      "id": "poussepousse",
+      "type": "personnel",
+      "parent": "outils-ia",
+      "competences": [
+        "creations-ia",
+        "ia",
+        "plateformes"
+      ],
+      "titre": "PoussePousse · Potager",
+      "titreCourt": "PoussePousse",
+      "lieu": "Projet personnel",
+      "resume": "Application de plan et de suivi d’un potager, utilisable sur téléphone, tablette et PC.",
+      "apportCourt": "Organisation des cultures, des arrosages et des récoltes dans un outil simple au quotidien.",
+      "contexte": "Application installable sur Android depuis Chrome, qui fonctionne aussi hors connexion, née de la pratique du jardinage.",
+      "missions": [
+        "Plan du jardin au cœur de l’application : emplacements, cultures et état de chaque parcelle.",
+        "Suivi des semis, des graines, des arrosages, des récoltes et des dépenses.",
+        "Journal du potager et sauvegarde des données sur l’appareil.",
+        "Pilotage de la réalisation avec des assistants IA et contrôle des évolutions."
+      ],
+      "outils": [
+        "React",
+        "Vite",
+        "TypeScript"
+      ],
+      "apports": [
+        "Conception d’interfaces",
+        "Structuration des données",
+        "Usage mobile"
+      ],
+      "bulle": [
+        "PoussePousse"
+      ],
+      "periode": "2026"
+    },
+    {
+      "id": "cv-interactif",
+      "type": "personnel",
+      "parent": "outils-ia",
+      "competences": [
+        "creations-ia",
+        "ia",
+        "plateformes"
+      ],
+      "titre": "CV interactif · Site et PDF",
+      "titreCourt": "CV interactif",
+      "lieu": "Projet personnel",
+      "resume": "Ce CV : un site publié sur GitHub Pages et un PDF interactif relié au site, construits à partir d’une seule source de contenu.",
+      "apportCourt": "Un même contenu, une même version, deux supports cohérents.",
+      "contexte": "Projet conçu et dirigé par Alain Ferro, réalisé avec deux assistants IA coordonnés (Claude et Codex) qui se répartissent les tâches et se relisent.",
+      "missions": [
+        "Définition du contenu, de l’organisation des pages et du design.",
+        "Site : parcours interactif, compétences, formations, intérêts, carte des liens.",
+        "PDF : bulles reliées façon Obsidian, boutons animés et QR code vers la dernière version.",
+        "Numéro de version commun au site et au PDF, contrôles automatiques avant chaque publication."
+      ],
+      "outils": [
+        "GitHub",
+        "Claude",
+        "Codex"
+      ],
+      "apports": [
+        "Orchestration d’IA",
+        "Direction créative",
+        "Suivi de versions"
+      ],
+      "site": {
+        "url": "https://alcazenway.github.io/cv-alain-ferro/",
+        "libelle": "Voir le site"
+      },
+      "bulle": [
+        "CV interactif"
+      ],
       "periode": "2026–aujourd’hui"
     },
     {
@@ -2493,13 +2579,14 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne contient aucun formulaire : l’éditeur ne collecte aucune donnée. Le bouton « Proposer un entretien » ouvre simplement votre messagerie, sans aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "11 novembre 2026",
-    "version": "2.17.1"
+    "version": "2.18.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"
   },
   "retirees": [
     "enfance",
-    "adolescence"
+    "adolescence",
+    "blockchain"
   ]
 };

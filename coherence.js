@@ -35,19 +35,29 @@
     return n;
   }
 
-  // Chemin libre et stable, au format paysage de l’écran : naissance en bas à gauche, aujourd’hui en haut à droite.
+  // Chemin libre et stable, au format paysage de l’écran : premier pas en bas à gauche, dernier en haut à droite.
   // Trois passages avec montées et descentes ; les hauteurs sont une métaphore graphique, jamais un classement des expériences.
-  var ANCRES = [[90,628],[264,593],[438,634],[612,589],[786,630],[960,585],[1134,618],[1308,567],[1221,352],[1047,394],[873,346],[699,390],[525,350],[351,396],[177,356],[90,170],[264,140],[438,178],[612,126],[786,162],[960,120],[1134,152],[1308,98]];
+  // v2.18 : calculé pour n’importe quel nombre d’étapes ; les repères Naissance et Aujourd’hui sont posés hors du chemin (marges gauche et droite).
+  var RANGEES = [628, 372, 116], X0 = 250, X1 = 1150;
   function chemin(nombre) {
-    if (nombre !== ANCRES.length) return null;
-    var p = ANCRES.map(function (a) { return { x: a[0], y: a[1] }; });
+    if (nombre < 6) return null;
+    var p = [], tailles = [Math.ceil(nombre / 3), Math.ceil((nombre - Math.ceil(nombre / 3)) / 2)];
+    tailles.push(nombre - tailles[0] - tailles[1]);
+    tailles.forEach(function (n, r) {
+      for (var j = 0; j < n; j++) {
+        var x = n > 1 ? X0 + j * (X1 - X0) / (n - 1) : (X0 + X1) / 2;
+        // Rangée du milieu parcourue de droite à gauche ; légère ondulation.
+        p.push({ x: Math.round(r === 1 ? X0 + X1 - x : x), y: RANGEES[r] + (j % 2 ? -22 : 18) });
+      }
+    });
     var arrondi = function (n) { return Math.round(n * 10) / 10; };
     var route = "M" + p[0].x + "," + p[0].y;
     for (var i = 0; i < p.length - 1; i++) {
       var a = p[Math.max(0, i - 1)], b = p[i], c = p[i + 1], d = p[Math.min(p.length - 1, i + 2)];
       route += " C" + arrondi(b.x + (c.x - a.x) / 6) + "," + arrondi(b.y + (c.y - a.y) / 6) + " " + arrondi(c.x - (d.x - b.x) / 6) + "," + arrondi(c.y - (d.y - b.y) / 6) + " " + c.x + "," + c.y;
     }
-    return { positions: p, route: route, viewBox: "0 0 1400 740", rayon: 64 };
+    return { positions: p, route: route, viewBox: "0 0 1400 740", rayon: 64,
+      debut: { x: 90, y: 660 }, fin: { x: 1310, y: 84 } };
   }
 
   /* ---------- Bandeau : menu mobile et menu complémentaire ---------- */
