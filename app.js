@@ -117,16 +117,15 @@
   function titreCache(titre) {
     return el("h1", { id: "fiche-titre", class: "visuellement-cache", tabindex: "-1", text: titre });
   }
-  // Catalogue au format de la page Compétences (v2.18) : pastille, titre, texte court, un seul lien « Fiche complète ».
+  // Catalogue (v2.19) : chaque vignette est un grand bouton vers sa fiche complète ; pastille seulement si une image ou une icône est fournie.
   function catalogue(items, niveau) {
     return el("ul", { class: "co-catalogue" }, items.map(function (it) {
       var mini = it.visuel ? el("span", { class: "co-mini co-mini-image", "aria-hidden": "true" }, [image(it.visuel)])
-        : el("span", { class: "co-mini" + (it.cls ? " " + it.cls : ""), "aria-hidden": "true" }, [it.icone]);
-      return el("li", { class: "co-competence" + (it.cls ? " " + it.cls : ""), id: it.id }, [
-        mini,
-        el("div", { class: "co-competence-nom" }, [el(niveau || "h3", { text: it.titre }), it.texte ? el("p", { text: it.texte }) : null, it.extra || null]),
-        it.lien ? el("a", { class: "co-fiche-complete", href: it.lien, "aria-label": "Fiche complète : " + (it.nom || it.titre), text: "Fiche complète" }) : null
-      ]);
+        : it.icone ? el("span", { class: "co-mini" + (it.cls ? " " + it.cls : ""), "aria-hidden": "true" }, [it.icone]) : null;
+      var corps = [mini, el("div", { class: "co-competence-nom" }, [el(niveau || "h3", { text: it.titre }), it.texte ? el("p", { text: it.texte }) : null])];
+      return el("li", { class: "co-competence" + (it.cls ? " " + it.cls : ""), id: it.id }, it.lien
+        ? [el("a", { class: "co-tuile", href: it.lien, "aria-label": (it.nom || it.titre) + " : fiche complète" }, corps.concat(el("span", { class: "co-tuile-fleche", "aria-hidden": "true", text: "→" })))]
+        : [el("div", { class: "co-tuile statique" }, corps)]);
     }));
   }
   function section(titre, contenu, niveau) {
@@ -248,7 +247,7 @@
     return [
       tetePage(SAVOIR, "toque"),
       catalogue(formations.slice().reverse().map(function (e) {
-        return { id: "formation-" + e.id, cls: "formation" + (e.important ? " important" : ""), icone: C.symbole("toque"), titre: e.titre,
+        return { id: "formation-" + e.id, cls: "formation" + (e.important ? " important" : ""), titre: e.titre,
           texte: e.periode + (e.lieu ? " · " + e.lieu : ""), lien: "#/parcours/" + e.id };
       }), "h2")
     ];
@@ -346,23 +345,13 @@
     }));
   }
 
-  // Index : huit compétences, un seul lien d’approfondissement chacune (« Fiche complète »).
+  // Index (v2.19) : huit grands boutons sans icônes, chacun vers la fiche complète de la compétence.
   function pageCompetences() {
     return [
       tetePage("Compétences", "reseau"),
-      el("ul", { class: "co-catalogue" }, D.competences.map(function (c) {
-        var outils = outilsDe(c).reduce(function (t, f) { return t.concat(f.items); }, []);
-        if (c.id === "plateformes") outils = D.plateformes.items.slice(0, 6).map(function (p) { return p.nom; });
-        if (outils.length > 10) outils = outils.slice(0, 10).concat("…");
-        return el("li", { class: "co-competence", id: "competence-" + c.id }, [
-          el("span", { class: "co-mini", "aria-hidden": "true" }, [Icones.symbole(Icones.competences[c.id])]),
-          el("div", { class: "co-competence-nom" }, [
-            el("h2", { text: c.titre }), el("p", { text: c.sousTitre }),
-            outils.length ? Icones.liste(outils, true) : null
-          ]),
-          el("a", { class: "co-fiche-complete", href: "#/competence/" + c.id, "aria-label": "Fiche complète : " + c.titre, text: "Fiche complète" })
-        ]);
-      }))
+      catalogue(D.competences.map(function (c) {
+        return { id: "competence-" + c.id, titre: c.titre, texte: c.sousTitre, lien: "#/competence/" + c.id };
+      }), "h2")
     ];
   }
 
@@ -445,7 +434,8 @@
     var P = D.pistes;
     return [
       tetePage(P.titre, "compas"),
-      catalogue(P.metiers.map(function (m) {
+      // Ordre alphabétique (v2.19).
+      catalogue(P.metiers.slice().sort(function (a, b) { return a.titre.localeCompare(b.titre, "fr"); }).map(function (m) {
         return { id: "poste-" + m.id, cls: "poste", icone: C.symbole("compas"), titre: m.titre, texte: m.justification };
       }), "h2")
     ];
@@ -458,7 +448,7 @@
       tetePage("Intérêts", "planete"),
       catalogue(D.interets.map(function (x) {
         var fiche = x.fiches.filter(function (id) { return parId[id]; })[0];
-        return { id: "interet-" + x.id, cls: "interet", icone: C.symbole(C.interets[x.id] || "planete"), titre: x.nom, texte: x.texte,
+        return { id: "interet-" + x.id, cls: "interet", titre: x.nom, texte: x.texte,
           lien: fiche ? "#/parcours/" + fiche : null };
       }), "h2")
     ];
