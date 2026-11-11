@@ -234,7 +234,7 @@ body[data-fond="presentation"] .co-fond-image { background-image: url("assets/fo
 body[data-fond="parcours"] .co-fond-image { background-image: url("assets/fonds/parcours-urbain.webp"); }
 body[data-fond="competences"] .co-fond-image { background-image: url("assets/fonds/competences.webp"); }
 body[data-fond="savoir"] .co-fond-image { background-image: url("assets/fonds/apprentissage.webp"); }
-body[data-fond="interets"] .co-fond-image { background-image: url("assets/fonds/galaxie.webp"); }
+body[data-fond="interets"] .co-fond-image { background-image: url("assets/fonds/interets.webp"), url("assets/fonds/galaxie.webp"); }
 /* Marge de 6 % de chaque côté : le zoom et le glissement (au plus 2,5 %) ne découvrent jamais de bord. */
 @keyframes co-derive { from { transform: scale(1) translate(0, 0); } to { transform: scale(1.05) translate(-2.5%, -1.5%); } }
 .co-onglet-cache .co-fond-image { animation-play-state: paused; }
@@ -364,6 +364,14 @@ body[data-fond="metiers"] .co-fond-image, body[data-fond="realisations"] .co-fon
   #vue > *, #accueil > *, .co-catalogue > li, .co-identite, .co-noeud, .co-repere-temps image, .co-route, .co-filigrane svg, .co-marques .co-symbole { animation: none; }
   .co-tuile, .co-tuile-fleche { transition: none; }
 }
+
+/* ---------- v2.20 : image de fond des vignettes, juste devinée ---------- */
+.co-tuile { position: relative; overflow: hidden; isolation: isolate; }
+.co-tuile-fond { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: .16; filter: grayscale(.35); transition: opacity .45s ease, transform 6s ease; }
+.co-tuile::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(90deg, rgba(255, 255, 255, .78) 0%, rgba(255, 255, 255, .35) 45%, rgba(255, 255, 255, 0) 75%); }
+.avec-fond .co-tuile { background: rgba(255, 255, 255, .55); }
+.avec-fond a.co-tuile:hover .co-tuile-fond, .avec-fond a.co-tuile:focus-visible .co-tuile-fond { opacity: .32; transform: scale(1.04); }
+@media (prefers-reduced-motion: reduce) { .co-tuile-fond { transition: none; } }
 
 @media print {
   .co-bandeau, .co-marques, .co-filigrane, .co-interet-symbole { display: none !important; }

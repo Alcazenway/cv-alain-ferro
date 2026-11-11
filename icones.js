@@ -60,7 +60,7 @@
     box.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + (dessins[type] || dessins.gestion) + '</svg>';
     return box;
   }
-  const competences = {'creations-ia':'ia', ia:'ia', encadrement:'equipe', gestion:'gestion', relation:'relation', excel:'excel', manuel:'manuel', plateformes:'carte'};
+  const competences = {'creations-ia':'ia', ia:'ia', encadrement:'equipe', gestion:'gestion', relation:'relation', excel:'excel', manuel:'manuel', plateformes:'carte', informatique:'carte'};
   const tip = document.createElement('div'); tip.id = 'nom-outil'; tip.className = 'outil-tooltip'; tip.setAttribute('role', 'tooltip'); tip.hidden = true; document.body.append(tip);
   let active = null, pinned = false, pointerType = '', fermeture;
   function cacher() { clearTimeout(fermeture); if (active) active.removeAttribute('aria-describedby'); active = null; pinned = false; tip.hidden = true; }
