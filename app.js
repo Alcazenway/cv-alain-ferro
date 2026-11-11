@@ -370,6 +370,7 @@
     var projets = (f.enfants || []).filter(function (id) { return parId[id]; });
     var familles = outilsDe(c);
     return [
+      retour("/competences", "Compétences"),
       tetePage("Orchestration IA", "reseau"),
       el("p", { class: "co-chapo-rubrique", text: c.resume }),
       section("Projets réalisés", catalogue(projets.map(function (id) {
@@ -454,8 +455,9 @@
   function pageCompetences() {
     return [
       tetePage("Compétences", "reseau"),
-      catalogue(D.competences.filter(function (c) { return !c.rubrique; }).map(function (c) {
-        return { id: "competence-" + c.id, titre: c.titre, texte: c.sousTitre, lien: "#/competence/" + c.id, fond: fondVignette("competence", c.id) };
+      // v2.23 : Orchestration IA est une vignette de Compétences qui ouvre sa page dédiée.
+      catalogue(D.competences.map(function (c) {
+        return { id: "competence-" + c.id, titre: c.titre, texte: c.sousTitre, lien: c.rubrique ? "#/" + c.rubrique : "#/competence/" + c.id, fond: fondVignette("competence", c.id) };
       }), "h2")
     ];
   }
@@ -615,7 +617,7 @@
         if (e.parent && parId[e.parent] && !(origineValide && !/^\/parcours/.test(listeOrigine))) origineValide = false;
         var parent = origineValide ? listeOrigine : e.parent && parId[e.parent] ? rediriger("/parcours/" + e.parent) : savoir ? "/savoir-formations" : "/parcours";
         // Les projets IA ont leur maison dans la rubrique Orchestration IA.
-        return { rubrique: savoir ? "savoir" : e.parent === "outils-ia" ? "orchestration" : "parcours", titre: e.titre, rendu: ficheParcours(e, parent), detail: true, fiche: true };
+        return { rubrique: savoir ? "savoir" : e.parent === "outils-ia" ? "competences" : "parcours", titre: e.titre, rendu: ficheParcours(e, parent), detail: true, fiche: true };
       }
     }
     if (h === "/savoir-formations") return { rubrique: "savoir", titre: SAVOIR, rendu: pageSavoir(), liste: true };
@@ -627,7 +629,7 @@
       var x = D.interets.filter(function (i) { return i.id === m[1] && i.page; })[0];
       if (x) return { rubrique: "interets", titre: x.nom, rendu: pageInteret(x), liste: true, detail: true };
     }
-    if (h === "/orchestration-ia") return { rubrique: "orchestration", titre: "Orchestration IA", rendu: pageOrchestration(), liste: true };
+    if (h === "/orchestration-ia") return { rubrique: "competences", titre: "Orchestration IA", rendu: pageOrchestration(), liste: true, detail: true };
     if (h === "/mentions") return { rubrique: "", titre: "Mentions légales", rendu: pageMentions() };
     return null;
   }
