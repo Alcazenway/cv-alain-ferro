@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.23.0",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.24.0",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -2761,7 +2761,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne contient aucun formulaire : l’éditeur ne collecte aucune donnée. Le bouton « Proposer un entretien » ouvre simplement votre messagerie, sans aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "11 novembre 2026",
-    "version": "2.23.0"
+    "version": "2.24.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"
@@ -2780,5 +2780,128 @@ window.CV = {
     "/competence/ia": "/orchestration-ia",
     "/realisations": "/",
     "/carte": "/"
+  },
+  "methode": {
+    "titre": "Méthode",
+    "intro": "Au centre, je joue le rôle de l’orchestrateur : je cadre, je confie le travail aux assistants IA, je fais relire et je contrôle chaque livrable. Déplacez les bulles, survolez-les pour voir leurs liens, filtrez par application.",
+    "actions": [
+      {
+        "id": "cadrer",
+        "titre": "Cadrer le besoin",
+        "icone": "cible",
+        "texte": "Définir les besoins, les contraintes techniques et les critères d’acceptation de chaque création.",
+        "assistants": [
+          "ChatGPT",
+          "Claude"
+        ],
+        "projets": [
+          "skylivra",
+          "barysense",
+          "knockin",
+          "poussepousse",
+          "cv-interactif"
+        ]
+      },
+      {
+        "id": "consignes",
+        "titre": "Rédiger les consignes",
+        "icone": "plume",
+        "texte": "Consignes structurées communes et bibliothèque de compétences réutilisables (skills), pour que chaque assistant applique les mêmes règles d’un projet à l’autre.",
+        "assistants": [
+          "ChatGPT",
+          "Claude",
+          "Codex",
+          "Claude Code"
+        ],
+        "projets": [
+          "skylivra",
+          "barysense",
+          "knockin",
+          "poussepousse",
+          "cv-interactif"
+        ]
+      },
+      {
+        "id": "architecture",
+        "titre": "Découper en modules",
+        "icone": "blocs",
+        "texte": "Architecture fonctionnelle : découper les projets en modules, préciser leurs interfaces et dépendances, puis coordonner la fabrication.",
+        "assistants": [
+          "Claude Code",
+          "Codex"
+        ],
+        "projets": [
+          "skylivra",
+          "barysense",
+          "knockin",
+          "poussepousse",
+          "cv-interactif"
+        ]
+      },
+      {
+        "id": "repartir",
+        "titre": "Répartir entre assistants",
+        "icone": "aiguillage",
+        "texte": "Plusieurs assistants travaillent en parallèle avec Orca, chacun sur un périmètre défini.",
+        "assistants": [
+          "Orca",
+          "Claude",
+          "Codex"
+        ],
+        "projets": [
+          "skylivra",
+          "cv-interactif"
+        ]
+      },
+      {
+        "id": "relire",
+        "titre": "Faire relire",
+        "icone": "oeil",
+        "texte": "Revues croisées entre assistants et synchronisation par des fichiers de coordination communs.",
+        "assistants": [
+          "Claude",
+          "Codex"
+        ],
+        "projets": [
+          "skylivra",
+          "cv-interactif"
+        ]
+      },
+      {
+        "id": "controler",
+        "titre": "Tester et contrôler",
+        "icone": "coche",
+        "texte": "Contrôle des livrables, retours d’usage et corrections successives, jusqu’à la vérification du résultat ; essais en vol dans le simulateur pour SkyLivra.",
+        "assistants": [
+          "Claude Code",
+          "Codex"
+        ],
+        "projets": [
+          "skylivra",
+          "barysense",
+          "knockin",
+          "poussepousse",
+          "cv-interactif"
+        ]
+      },
+      {
+        "id": "versionner",
+        "titre": "Versionner et documenter",
+        "icone": "branche",
+        "texte": "Suivi des versions avec Git et GitHub, dossiers de référence et documents de reprise entre sessions.",
+        "assistants": [],
+        "outils": [
+          "Git",
+          "GitHub"
+        ],
+        "projets": [
+          "skylivra",
+          "barysense",
+          "knockin",
+          "poussepousse",
+          "cv-interactif"
+        ]
+      }
+    ]
   }
 };
