@@ -69,7 +69,7 @@
   I.promesse.split("\n").forEach(function (t) { $("promesse").appendChild(el("p", { text: t })); });
   $("ville").textContent = I.ville;
   $("accroche").textContent = I.accroche;
-  ["lien-cv", "lien-cv-menu"].forEach(function (id) { $(id).setAttribute("href", I.cvPdf); $(id).setAttribute("download", nomPdf); });
+  ["lien-cv"].forEach(function (id) { $(id).setAttribute("href", I.cvPdf); $(id).setAttribute("download", nomPdf); });
   $("lien-cv-logo").setAttribute("href", I.cvPdf);
   // Courriel prêt à envoyer, ouvert dans la messagerie du visiteur.
   $("entretien-bandeau").setAttribute("href", mailto);
@@ -92,6 +92,10 @@
   // Pied de page : numéro de version seul ; mentions légales accessibles.
   var VERSION = "Version " + D.mentions.version;
   $("maj").textContent = VERSION;
+  // v2.22 : chiffres clés repris de l’ancienne page Réalisations.
+  $("promesse").appendChild(el("ul", { class: "co-chiffres co-chiffres-une", "aria-label": "Repères" }, D.chiffres.map(function (c) {
+    return el("li", null, [el("strong", { text: c.valeur }), el("span", { text: c.libelle })]);
+  })));
   function piedDePage() {
     return el("footer", { class: "co-pied" }, [el("p", { text: VERSION }), el("p", null, [el("a", { href: "#/mentions", text: "Mentions légales et confidentialité" })])]);
   }
@@ -140,26 +144,79 @@
     return contenu ? el("div", { class: "fiche-ligne" }, [el("span", { class: "fiche-ligne-titre", text: libelle }), contenu]) : null;
   }
 
-  function media(p) {
-    var corps;
-    if (p.video) {
-      corps = el("video", { controls: "", preload: "none", playsinline: "", poster: p.poster || "", "aria-label": p.alt }, [
-        el("source", { src: p.video, type: "video/mp4" })
-      ]);
-      if (!p.poster) corps.removeAttribute("poster");
-    } else {
-      var img = el("img", { src: p.src, alt: p.alt, loading: "lazy", decoding: "async" });
-      var visuel = p.statique ? el("picture", null, [el("source", {media: "(prefers-reduced-motion: reduce)", srcset: p.statique}), img]) : img;
-      corps = el("a", { href: p.lien || p.src, target: "_blank", rel: "noopener", class: p.presentation === "aurore" ? "visuel-aurore" : "",
-        "aria-label": p.lien ? p.alt + " (nouvel onglet)" : "Agrandir : " + p.alt }, [visuel]);
-    }
-    return el("figure", null, [corps, p.legende ? el("figcaption", { text: p.legende }) : null]);
-  }
-  // Galerie sans titre « En images » : les médias parlent d’eux-mêmes ; les légendes validées restent.
+  // v2.22 : grille régulière de vignettes (format 4:3, cadrage centré), légende au survol, visionneuse plein écran.
+  var MAX_VIGNETTES = 8;
   function galerie(photos) {
     if (!photos || !photos.length) return null;
-    return el("div", { class: "galerie" }, photos.map(media));
+    // Rangées toujours complètes : 1 à 4 photos sur une rangée, 6 en 3 × 2, sinon 4 ou 8 vignettes dont la dernière ouvre la suite.
+    var n = photos.length, montrees = n <= 4 || n === 6 ? n : n < 8 ? 4 : MAX_VIGNETTES, colonnes = n === 6 ? 3 : Math.min(montrees, 4);
+    var visibles = photos.slice(0, montrees), reste = n - montrees;
+    var agrandissables = photos.filter(function (x) { return !x.lien; });
+    return el("div", { class: "co-galerie c" + colonnes + (montrees % 2 ? " impair" : "") }, visibles.map(function (p, i) {
+      var legende = p.legende || p.alt || "";
+      var apercu = p.video
+        ? (p.poster ? el("img", { src: p.poster, alt: "", loading: "lazy", decoding: "async" }) : el("video", { src: p.video + "#t=1", preload: "metadata", muted: "", playsinline: "", "aria-hidden": "true" }))
+        : el("img", { src: p.statique || p.src, alt: "", loading: "lazy", decoding: "async" });
+      var plus = reste > 0 && i === visibles.length - 1;
+      var contenu = [apercu,
+        p.video ? el("span", { class: "co-galerie-lecture", "aria-hidden": "true", text: "▶" }) : null,
+        p.lien ? el("span", { class: "co-galerie-lecture", "aria-hidden": "true", text: "↗" }) : null,
+        plus ? el("span", { class: "co-galerie-plus", text: "+" + (reste + 1) }) : legende ? el("span", { class: "co-galerie-legende", text: legende }) : null];
+      var cls = "co-galerie-item" + (p.entier ? " entier" : "");
+      if (p.lien) return el("a", { class: cls, href: p.lien, target: "_blank", rel: "noopener", "aria-label": legende + " (nouvel onglet)" }, contenu);
+      var bouton = el("button", { type: "button", class: cls, "aria-label": plus ? "Voir les " + photos.length + " photos" : "Agrandir : " + legende }, contenu);
+      bouton.addEventListener("click", function () { Visionneuse.ouvrir(agrandissables, agrandissables.indexOf(p), bouton); });
+      return bouton;
+    }));
   }
+  // Visionneuse : image ou vidéo en grand, légende, compteur, précédent / suivant, clavier et glissement.
+  var Visionneuse = (function () {
+    var liste = [], index = 0, retourFocus = null, departX = null;
+    var scene = el("div", { class: "co-visionneuse-scene" });
+    var legende = el("p", { class: "co-visionneuse-legende" });
+    var compteur = el("span", { class: "co-visionneuse-compteur" });
+    var prec = el("button", { type: "button", class: "co-visionneuse-nav prec", "aria-label": "Photo précédente", text: "‹" });
+    var suiv = el("button", { type: "button", class: "co-visionneuse-nav suiv", "aria-label": "Photo suivante", text: "›" });
+    var fermer = el("button", { type: "button", class: "co-visionneuse-fermer", "aria-label": "Fermer", text: "×" });
+    var boite = el("div", { class: "co-visionneuse", role: "dialog", "aria-modal": "true", "aria-label": "Visionneuse de photos", hidden: "" }, [
+      fermer, prec, scene, suiv, el("div", { class: "co-visionneuse-pied" }, [legende, compteur])
+    ]);
+    document.body.appendChild(boite);
+    function afficher() {
+      var p = liste[index];
+      scene.textContent = "";
+      scene.appendChild(p.video
+        ? el("video", { src: p.video, controls: "", autoplay: "", playsinline: "", "aria-label": p.alt })
+        : el("img", { src: p.src, alt: p.alt || "" }));
+      legende.textContent = p.legende || p.alt || "";
+      compteur.textContent = liste.length > 1 ? (index + 1) + " / " + liste.length : "";
+      prec.hidden = suiv.hidden = liste.length < 2;
+    }
+    function aller(d) { index = (index + d + liste.length) % liste.length; afficher(); }
+    function clore() { boite.hidden = true; scene.textContent = ""; document.documentElement.classList.remove("co-visionneuse-ouverte"); if (retourFocus) retourFocus.focus(); }
+    prec.addEventListener("click", function () { aller(-1); });
+    suiv.addEventListener("click", function () { aller(1); });
+    fermer.addEventListener("click", clore);
+    boite.addEventListener("click", function (ev) { if (ev.target === boite || ev.target === scene) clore(); });
+    boite.addEventListener("pointerdown", function (ev) { departX = ev.clientX; });
+    boite.addEventListener("pointerup", function (ev) { if (departX !== null && Math.abs(ev.clientX - departX) > 50 && liste.length > 1) aller(ev.clientX < departX ? 1 : -1); departX = null; });
+    // Capture : Échap ferme la visionneuse sans déclencher le retour de page ; Tab reste dans la visionneuse.
+    document.addEventListener("keydown", function (ev) {
+      if (boite.hidden) return;
+      if (ev.key === "Escape") { ev.preventDefault(); ev.stopPropagation(); clore(); }
+      else if (ev.key === "ArrowLeft" && liste.length > 1) aller(-1);
+      else if (ev.key === "ArrowRight" && liste.length > 1) aller(1);
+      else if (ev.key === "Tab") {
+        var f = [fermer, prec, suiv].filter(function (x) { return !x.hidden; }), i = f.indexOf(document.activeElement);
+        ev.preventDefault(); f[(i + (ev.shiftKey ? f.length - 1 : 1)) % f.length].focus();
+      }
+    }, true);
+    window.addEventListener("hashchange", function () { if (!boite.hidden) { retourFocus = null; clore(); } });
+    return { ouvrir: function (photos, i, origine) {
+      liste = photos; index = Math.max(0, i); retourFocus = origine;
+      boite.hidden = false; document.documentElement.classList.add("co-visionneuse-ouverte"); afficher(); fermer.focus();
+    } };
+  })();
 
   /* ---------- Parcours : chemin libre de la naissance à aujourd’hui ---------- */
   var filtreFocus = null;
@@ -298,7 +355,51 @@
     })));
   }
 
-  var RETOURS = { "/savoir-formations": SAVOIR, "/metiers": "Postes visés", "/competences": "Compétences", "/interets": "Intérêts", "/realisations": "Réalisations" };
+  var RETOURS = { "/savoir-formations": SAVOIR, "/metiers": "Postes visés", "/competences": "Compétences", "/interets": "Intérêts", "/orchestration-ia": "Orchestration IA" };
+  var REDIRECTIONS = D.redirections || {};
+  function rediriger(h) { return Object.prototype.hasOwnProperty.call(REDIRECTIONS, h) ? REDIRECTIONS[h] : h; }
+
+  /* ---------- Orchestration IA (v2.22) : rubrique unique, projets puis méthode ---------- */
+  function pageOrchestration() {
+    var c = compId["creations-ia"], f = parId["outils-ia"], P = D.plateformes;
+    var vus = [];
+    function garder(t) { if (!t || vus.some(function (v) { return v === t || proche(v, t); })) return false; vus.push(t); return true; }
+    var groupes = c.groupes || [{ titre: "Méthode", points: c.detail }];
+    groupes.forEach(function (g) { g.points.forEach(garder); });
+    var methode = groupes[0].points.concat((f.missions || []).filter(garder));
+    var projets = (f.enfants || []).filter(function (id) { return parId[id]; });
+    var familles = outilsDe(c);
+    return [
+      tetePage("Orchestration IA", "reseau"),
+      el("p", { class: "co-chapo-rubrique", text: c.resume }),
+      section("Projets réalisés", catalogue(projets.map(function (id) {
+        var x = parId[id];
+        return { id: "projet-" + id, cls: "personnel", titre: bulle(x), lien: "#/parcours/" + id, nom: x.titre };
+      }), "h3")),
+      section("Méthode", liste(methode, "puces fiche-liste")),
+      groupes[1] ? el("details", { class: "fiche-section co-replie" }, [el("summary", null, [el("h2", { text: "Détail des réalisations" })]), liste(groupes[1].points, "puces fiche-liste")]) : null,
+      familles.length ? section("Outils", el("div", { class: "outils" }, familles.map(function (fa) {
+        return el("div", { class: "famille" }, [el("h3", { text: fa.famille }), Icones.liste(fa.items)]);
+      }))) : null,
+      el("details", { class: "fiche-section plateformes co-replie" }, [el("summary", null, [el("h2", { text: P.titre })]), el("p", { class: "note", text: P.note }), logos(P.items)])
+    ];
+  }
+
+  /* ---------- Intérêt (v2.22) : une page par intérêt, avec ses photos ---------- */
+  function pageInteret(x) {
+    var g = x.page || {};
+    var liens = (g.liens || []).filter(function (id) { return parId[id]; });
+    return [
+      retour("/interets", "Intérêts"),
+      el("header", { class: "co-interet-tete" }, [
+        image({ src: fondVignette("interet", x.id) }, "co-interet-bandeau"),
+        el("h1", { id: "fiche-titre", tabindex: "-1", text: x.nom })
+      ]),
+      g.intro ? el("p", { class: "co-chapo-rubrique", text: g.intro }) : null,
+      galerie(g.photos),
+      liens.length ? section("Pour aller plus loin", el("ul", { class: "preuves compactes" }, liens.map(lienEtape))) : null
+    ];
+  }
 
   // Fiche : un seul vrai titre, lieu, résumé, puis tout de suite l’apport concret.
   // Pas de catégorie répétée ni de titres de sections mécaniques ; aucun texte affiché deux fois.
@@ -353,7 +454,7 @@
   function pageCompetences() {
     return [
       tetePage("Compétences", "reseau"),
-      catalogue(D.competences.map(function (c) {
+      catalogue(D.competences.filter(function (c) { return !c.rubrique; }).map(function (c) {
         return { id: "competence-" + c.id, titre: c.titre, texte: c.sousTitre, lien: "#/competence/" + c.id, fond: fondVignette("competence", c.id) };
       }), "h2")
     ];
@@ -475,26 +576,13 @@
       tetePage("Intérêts", "planete"),
       // v2.20 : ordre alphabétique, titre seul, image de fond.
       catalogue(D.interets.slice().sort(function (a, b) { return a.nom.localeCompare(b.nom, "fr"); }).map(function (x) {
-        var fiche = x.fiches.filter(function (id) { return parId[id]; })[0];
         return { id: "interet-" + x.id, cls: "interet", titre: x.nom, fond: fondVignette("interet", x.id),
-          lien: fiche ? "#/parcours/" + fiche : null };
+          lien: x.lien || "#/interet/" + x.id };
       }), "h2")
     ];
   }
 
-  /* ---------- Réalisations (route conservée), mentions ---------- */
-  // v2.18 : format Compétences ; la vignette de la fiche sert de pastille.
-  function pageRealisations() {
-    return [
-      tetePage("Réalisations", "reseau"),
-      el("ul", { class: "co-chiffres", "aria-label": "Repères" }, D.chiffres.map(function (c) { return el("li", null, [el("strong", { text: c.valeur }), el("span", { text: c.libelle })]); })),
-      catalogue(D.realisations.filter(function (id) { return parId[id]; }).map(function (id) {
-        var e = parId[id], v = vignette(e);
-        return { id: "realisation-" + id, cls: e.type, visuel: v, icone: C.symbole("reseau"), titre: bulle(e), texte: e.apportCourt || e.resume, lien: "#/parcours/" + id, nom: e.titre };
-      }), "h2")
-    ];
-  }
-
+  /* ---------- Mentions ---------- */
   function pageMentions() {
     var M = D.mentions;
     return [
@@ -522,11 +610,12 @@
       if (e) {
         var savoir = e.type === "formation";
         // Une formation ne revient jamais vers le chemin du parcours, qui ne la contient pas.
-        var origineValide = listeOrigine && (savoir ? /^\/(savoir-formations|competence|realisations|interets|metiers|carte)/ : /^\/(parcours|competence|realisations|interets|metiers|carte)/).test(listeOrigine);
+        var origineValide = listeOrigine && (savoir ? /^\/(savoir-formations|competence|interets?|metiers)/ : /^\/(parcours|competence|interets?|metiers|orchestration-ia)/).test(listeOrigine);
         // Une page enfant revient vers sa fiche parente, sauf depuis une autre rubrique.
         if (e.parent && parId[e.parent] && !(origineValide && !/^\/parcours/.test(listeOrigine))) origineValide = false;
-        var parent = origineValide ? listeOrigine : e.parent && parId[e.parent] ? "/parcours/" + e.parent : savoir ? "/savoir-formations" : "/parcours";
-        return { rubrique: savoir ? "savoir" : "parcours", titre: e.titre, rendu: ficheParcours(e, parent), detail: true, fiche: true };
+        var parent = origineValide ? listeOrigine : e.parent && parId[e.parent] ? rediriger("/parcours/" + e.parent) : savoir ? "/savoir-formations" : "/parcours";
+        // Les projets IA ont leur maison dans la rubrique Orchestration IA.
+        return { rubrique: savoir ? "savoir" : e.parent === "outils-ia" ? "orchestration" : "parcours", titre: e.titre, rendu: ficheParcours(e, parent), detail: true, fiche: true };
       }
     }
     if (h === "/savoir-formations") return { rubrique: "savoir", titre: SAVOIR, rendu: pageSavoir(), liste: true };
@@ -534,8 +623,11 @@
     if ((m = h.match(/^\/competence\/([\w-]+)$/)) && !compId[m[1]] && (D.aliasCompetences || {})[m[1]]) { history.replaceState(null, "", "#/competence/" + D.aliasCompetences[m[1]]); return resoudre("/competence/" + D.aliasCompetences[m[1]]); }
     if ((m = h.match(/^\/competence\/([\w-]+)$/)) && compId[m[1]]) return { rubrique: "competences", titre: compId[m[1]].titre, rendu: ficheCompetence(compId[m[1]]), liste: true, detail: true };
     if (h === "/interets") return { rubrique: "interets", titre: "Intérêts", rendu: pageInterets(), liste: true };
-    if (h === "/carte" && window.CarteLiens) return { rubrique: "carte", titre: "Carte des liens", rendu: [retour("/", "Présentation"), titreCache("Carte des liens"), window.CarteLiens.page(D)], liste: true };
-    if (h === "/realisations") return { rubrique: "realisations", titre: "Réalisations marquantes", rendu: pageRealisations(), liste: true };
+    if ((m = h.match(/^\/interet\/([\w-]+)$/))) {
+      var x = D.interets.filter(function (i) { return i.id === m[1] && i.page; })[0];
+      if (x) return { rubrique: "interets", titre: x.nom, rendu: pageInteret(x), liste: true, detail: true };
+    }
+    if (h === "/orchestration-ia") return { rubrique: "orchestration", titre: "Orchestration IA", rendu: pageOrchestration(), liste: true };
     if (h === "/mentions") return { rubrique: "", titre: "Mentions légales", rendu: pageMentions() };
     return null;
   }
@@ -551,6 +643,7 @@
     var h, m, versContact = false;
     try { h = decodeURIComponent(location.hash.replace(/^#/, "")); } catch (_) { h = "/"; history.replaceState(null, "", "#/"); }
     if (Object.prototype.hasOwnProperty.call(ANCIENNES, h)) { history.replaceState(null, "", "#" + ANCIENNES[h]); h = ANCIENNES[h]; }
+    if (rediriger(h) !== h) { h = rediriger(h); history.replaceState(null, "", "#" + h); }
     // Ancienne page Contact : les actions sont désormais sur l’accueil, sans page intermédiaire.
     if (h === "/contact") { history.replaceState(null, "", "#/"); h = "/"; versContact = true; }
     if ((m = h.match(/^\/parcours\/([\w-]+)$/))) {

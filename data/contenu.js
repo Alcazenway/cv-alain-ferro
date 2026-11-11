@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.21.0",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.22.0",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -239,7 +239,8 @@ window.CV = {
             "Automatisations et documents : scripts Python et PowerShell, tableaux Excel, documents Word, PDF et présentations produits puis vérifiés avec l’IA."
           ]
         }
-      ]
+      ],
+      "rubrique": "orchestration-ia"
     },
     {
       "id": "encadrement",
@@ -596,7 +597,48 @@ window.CV = {
       "fiches": [
         "simulation",
         "skylivra"
-      ]
+      ],
+      "page": {
+        "intro": "Plus de vingt ans de simulation de vol sur PC, d’Airbus et Boeing aux avions légers : préparation des vols, navigation, procédures et systèmes avioniques. Cette passion est à l’origine des créations SkyLivra.",
+        "photos": [
+          {
+            "src": "assets/photos/selection/selection-061.webp",
+            "alt": "Installation personnelle de simulation de vol"
+          },
+          {
+            "src": "assets/photos/selection/selection-062.webp",
+            "alt": "Matériel et commandes de simulation"
+          },
+          {
+            "src": "assets/photos/selection/selection-059.webp",
+            "alt": "Cockpit d’Airbus dans le simulateur"
+          },
+          {
+            "src": "assets/photos/selection/selection-060.webp",
+            "alt": "Avion de ligne dans le simulateur"
+          },
+          {
+            "src": "assets/photos/selection/selection-063.webp",
+            "alt": "Poste de pilotage d’un avion léger simulé"
+          },
+          {
+            "src": "assets/photos/selection/selection-064.webp",
+            "alt": "Cockpit d’Airbus A320 simulé"
+          },
+          {
+            "src": "assets/photos/selection/selection-065.webp",
+            "alt": "Cockpit d’avion léger simulé"
+          },
+          {
+            "src": "assets/photos/selection/selection-073.webp",
+            "alt": "Avion de ligne simulé"
+          }
+        ],
+        "liens": [
+          "simulation",
+          "skylivra"
+        ]
+      }
     },
     {
       "id": "piano",
@@ -608,7 +650,17 @@ window.CV = {
       },
       "fiches": [
         "jeunesse"
-      ]
+      ],
+      "page": {
+        "intro": "Pratique du piano en amateur.",
+        "photos": [
+          {
+            "src": "assets/photos/selection/selection-034.webp",
+            "alt": "Piano et mécanique de l’instrument"
+          }
+        ],
+        "liens": []
+      }
     },
     {
       "id": "numerique",
@@ -622,7 +674,8 @@ window.CV = {
         "outils-ia",
         "knockin",
         "barysense"
-      ]
+      ],
+      "lien": "#/orchestration-ia"
     },
     {
       "id": "sciences",
@@ -635,7 +688,31 @@ window.CV = {
       "fiches": [
         "jeunesse",
         "skylivra"
-      ]
+      ],
+      "page": {
+        "intro": "Intérêt durable pour l’astronomie et la physique, nourri par des lectures, des visites et des découvertes en voyage. Il se prolonge dans le projet d’aurores boréales et australes créé pour le simulateur.",
+        "photos": [
+          {
+            "src": "assets/photos/selection/selection-031.webp",
+            "alt": "Découverte de formations rocheuses"
+          },
+          {
+            "src": "assets/photos/selection/selection-032.webp",
+            "alt": "Curiosité et découvertes en voyage"
+          },
+          {
+            "src": "assets/photos/selection/selection-033.webp",
+            "alt": "Visite d’un espace de médiation scientifique"
+          },
+          {
+            "src": "assets/photos/aurores-msfs-capture.webp",
+            "alt": "Aurores boréales dans le simulateur"
+          }
+        ],
+        "liens": [
+          "skylivra"
+        ]
+      }
     },
     {
       "id": "jardinage",
@@ -647,7 +724,49 @@ window.CV = {
       },
       "fiches": [
         "plein-air"
-      ]
+      ],
+      "page": {
+        "intro": "Potager en bacs construits soi-même, du terrain à la récolte, et entretien des extérieurs à l’élagueuse, à la tronçonneuse et à la tondeuse.",
+        "photos": [
+          {
+            "src": "assets/photos/selection/selection-035.webp",
+            "alt": "Au potager"
+          },
+          {
+            "src": "assets/photos/selection/selection-037.webp",
+            "alt": "Préparation du terrain"
+          },
+          {
+            "src": "assets/photos/selection/selection-038.webp",
+            "alt": "Installation des bacs du potager"
+          },
+          {
+            "src": "assets/photos/selection/selection-041.webp",
+            "alt": "Construction d’un bac potager"
+          },
+          {
+            "src": "assets/photos/selection/selection-042.webp",
+            "alt": "Potager et paillage"
+          },
+          {
+            "src": "assets/photos/selection/selection-036.webp",
+            "alt": "Cultures et tuteurs"
+          },
+          {
+            "src": "assets/photos/selection/selection-039.webp",
+            "alt": "Récolte de courgettes"
+          },
+          {
+            "src": "assets/photos/selection/selection-040.webp",
+            "alt": "Produits du potager"
+          },
+          {
+            "src": "assets/photos/selection/selection-043.webp",
+            "alt": "Préparation des végétaux"
+          }
+        ],
+        "liens": []
+      }
     },
     {
       "id": "course",
@@ -659,19 +778,43 @@ window.CV = {
       },
       "fiches": [
         "plein-air"
-      ]
+      ],
+      "page": {
+        "intro": "Course à pied et marche en amateur. Auparavant, football en club pendant quinze ans.",
+        "photos": [
+          {
+            "src": "assets/photos/selection/selection-002.webp",
+            "alt": "Sortie à pied"
+          },
+          {
+            "src": "assets/photos/selection/selection-004.webp",
+            "alt": "Marche en plein air"
+          }
+        ],
+        "liens": []
+      }
     },
     {
       "id": "velo",
       "nom": "Vélo",
-      "texte": "Sorties à vélo en plein air.",
+      "texte": "Sorties à VTT en plein air.",
       "image": {
         "src": "assets/photos/selection/selection-003.webp",
         "alt": "Sortie à vélo"
       },
       "fiches": [
         "plein-air"
-      ]
+      ],
+      "page": {
+        "intro": "Sorties à VTT en plein air.",
+        "photos": [
+          {
+            "src": "assets/photos/selection/selection-003.webp",
+            "alt": "Sortie à vélo"
+          }
+        ],
+        "liens": []
+      }
     },
     {
       "id": "randonnee",
@@ -683,7 +826,17 @@ window.CV = {
       },
       "fiches": [
         "plein-air"
-      ]
+      ],
+      "page": {
+        "intro": "Randonnée en montagne et sorties en plein air.",
+        "photos": [
+          {
+            "src": "assets/photos/selection/selection-001.webp",
+            "alt": "Randonnée en montagne"
+          }
+        ],
+        "liens": []
+      }
     }
   ],
   "realisations": [
@@ -2608,7 +2761,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne contient aucun formulaire : l’éditeur ne collecte aucune donnée. Le bouton « Proposer un entretien » ouvre simplement votre messagerie, sans aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "11 novembre 2026",
-    "version": "2.21.0"
+    "version": "2.22.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"
@@ -2620,5 +2773,12 @@ window.CV = {
   ],
   "aliasCompetences": {
     "ia": "creations-ia"
+  },
+  "redirections": {
+    "/parcours/outils-ia": "/orchestration-ia",
+    "/competence/creations-ia": "/orchestration-ia",
+    "/competence/ia": "/orchestration-ia",
+    "/realisations": "/",
+    "/carte": "/"
   }
 };
