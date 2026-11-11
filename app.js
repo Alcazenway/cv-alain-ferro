@@ -70,6 +70,7 @@
   $("ville").textContent = I.ville;
   $("accroche").textContent = I.accroche;
   ["lien-cv", "lien-cv-menu"].forEach(function (id) { $(id).setAttribute("href", I.cvPdf); $(id).setAttribute("download", nomPdf); });
+  $("lien-cv-logo").setAttribute("href", I.cvPdf);
   // Courriel prêt à envoyer, ouvert dans la messagerie du visiteur.
   $("entretien-bandeau").setAttribute("href", mailto);
   // Jamais d’emplacement vide : sans portrait, l’identité garde son texte.
