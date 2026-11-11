@@ -402,6 +402,64 @@ details.co-integre[open] > summary.co-integre-tete::after { transform: rotate(45
   .co-integre-corps { padding: 0 16px 14px; }
 }
 
+/* ---------- v2.22 : galerie en grille régulière et visionneuse plein écran ---------- */
+.co-galerie { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 18px 0; }
+.co-galerie.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.co-galerie.c2 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 900px; }
+.co-galerie.c1 { grid-template-columns: minmax(0, 600px); }
+.co-galerie-item { position: relative; display: block; aspect-ratio: 4 / 3; padding: 0; overflow: hidden; border: 0; border-radius: 12px; background: var(--fond-doux); cursor: zoom-in; color: #fff; font: inherit; text-align: left; }
+a.co-galerie-item { cursor: pointer; }
+.co-galerie-item img, .co-galerie-item video { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.co-galerie-item.entier img { object-fit: contain; background: #fff; }
+.co-galerie-item:hover img, .co-galerie-item:focus-visible img, .co-galerie-item:hover video { transform: scale(1.05); }
+.co-galerie-item:focus-visible { outline: 3px solid var(--experience); outline-offset: 2px; }
+.co-galerie-legende { position: absolute; inset: auto 0 0; padding: 26px 12px 9px; background: linear-gradient(transparent, rgba(10, 25, 28, .72)); font-size: 13px; line-height: 1.35; opacity: 0; transform: translateY(6px); transition: opacity .3s ease, transform .3s ease; }
+.co-galerie-item:hover .co-galerie-legende, .co-galerie-item:focus-visible .co-galerie-legende { opacity: 1; transform: none; }
+.co-galerie-lecture { position: absolute; top: 50%; left: 50%; display: grid; place-items: center; width: 48px; height: 48px; margin: -24px 0 0 -24px; border-radius: 50%; background: rgba(10, 25, 28, .55); font-size: 18px; }
+.co-galerie-plus { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(10, 25, 28, .55); font-size: 26px; font-weight: 600; }
+.co-visionneuse { position: fixed; inset: 0; z-index: 100; display: grid; grid-template-columns: 64px minmax(0, 1fr) 64px; grid-template-rows: 1fr auto; align-items: center; padding: 24px 12px 16px; background: rgba(8, 18, 20, .97); color: #f1f5f4; animation: co-apparition .25s ease both; }
+.co-visionneuse-scene { grid-column: 2; grid-row: 1; display: grid; place-items: center; height: 100%; min-height: 0; }
+.co-visionneuse-scene img, .co-visionneuse-scene video { max-width: 100%; max-height: calc(100vh - 120px); border-radius: 6px; object-fit: contain; box-shadow: 0 18px 50px rgba(0, 0, 0, .45); }
+.co-visionneuse-nav, .co-visionneuse-fermer { display: grid; place-items: center; width: 48px; height: 48px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .1); color: #fff; font-size: 30px; line-height: 1; cursor: pointer; }
+.co-visionneuse-nav:hover, .co-visionneuse-fermer:hover, .co-visionneuse-nav:focus-visible, .co-visionneuse-fermer:focus-visible { background: rgba(255, 255, 255, .24); outline: none; }
+.co-visionneuse-nav.prec { grid-column: 1; grid-row: 1; justify-self: center; }
+.co-visionneuse-nav.suiv { grid-column: 3; grid-row: 1; justify-self: center; }
+.co-visionneuse-fermer { position: absolute; top: 14px; right: 14px; font-size: 28px; }
+.co-visionneuse-pied { grid-column: 1 / -1; grid-row: 2; display: flex; justify-content: center; gap: 18px; padding-top: 12px; font-size: 14px; }
+.co-visionneuse-legende { margin: 0; max-width: 70ch; text-align: center; }
+.co-visionneuse-compteur { color: #a9bab7; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.co-visionneuse-ouverte, .co-visionneuse-ouverte body { overflow: hidden; }
+/* Page d'intérêt : bandeau image atténué sous le titre. */
+.co-interet-tete { position: relative; display: flex; align-items: flex-end; min-height: 150px; margin: 6px 0 18px; padding: 22px 28px; overflow: hidden; border-radius: 26px; isolation: isolate; }
+.co-interet-bandeau { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; object-fit: cover; opacity: .45; }
+.co-interet-tete::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(252, 252, 248, .9), rgba(252, 252, 248, .2) 70%); }
+.co-interet-tete h1 { margin: 0; font-size: 38px; font-weight: 600; }
+.co-chapo-rubrique { max-width: 760px; margin: 0 0 8px; font-size: 18px; color: var(--encre); }
+.co-chiffres-une { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin-top: 22px; }
+body[data-fond="orchestration"] .co-fond { display: block; }
+body[data-fond="orchestration"] .co-fond-image { background-image: url("assets/fonds/galaxie.webp"); }
+@media (max-width: 800px) {
+  .co-galerie, .co-galerie.c3, .co-galerie.c2 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+  .co-galerie.c1 { grid-template-columns: minmax(0, 1fr); }
+  .co-galerie.impair:not(.c1) > :first-child { grid-column: span 2; aspect-ratio: 16 / 9; }
+  .co-galerie-legende { opacity: 1; transform: none; font-size: 12px; }
+  .co-visionneuse { grid-template-columns: 0 minmax(0, 1fr) 0; padding: 56px 8px 14px; }
+  .co-visionneuse-nav { position: absolute; bottom: 14px; }
+  .co-visionneuse-nav.prec { left: 14px; } .co-visionneuse-nav.suiv { right: 14px; }
+  .co-visionneuse-pied { padding: 12px 64px 0; }
+  .co-interet-tete { min-height: 110px; padding: 16px 18px; border-radius: 20px; }
+  .co-interet-tete h1 { font-size: 30px; }
+}
+@media (prefers-reduced-motion: reduce) { .co-galerie-item img, .co-galerie-legende, .co-visionneuse { transition: none; animation: none; } }
+
+/* Bandeau à sept onglets entre 1101 et 1250 px : onglets resserrés. */
+@media (min-width: 1101px) and (max-width: 1250px) {
+  .co-bandeau { gap: 12px; padding-left: 2%; padding-right: 2%; }
+  .co-onglets { gap: 0; }
+  .co-onglets a { padding: 8px 8px; font-size: 13px; }
+  .co-entretien { padding: 9px 13px; font-size: 12px; }
+}
+
 @media print {
   .co-bandeau, .co-marques, .co-filigrane, .co-interet-symbole { display: none !important; }
   .co-chemin-cadre { display: none; } .co-chemin-liste { display: flex; }
