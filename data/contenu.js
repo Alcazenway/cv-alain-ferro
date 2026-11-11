@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.20.0",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.21.0",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -194,8 +194,13 @@ window.CV = {
       "id": "creations-ia",
       "titre": "Orchestration IA",
       "sousTitre": "Applications, sites, logiciel Windows, add-ons, médias",
-      "resume": "Concevoir des applications, des sites et des outils complets, les faire réaliser par des assistants IA et les mener jusqu’à un produit utilisé.",
+      "resume": "Concevoir des applications, des sites et des outils, les faire réaliser par plusieurs assistants IA coordonnés et vérifier chaque livrable jusqu’au produit utilisé.",
       "detail": [
+        "Projets menés avec ChatGPT, Codex, Claude et Claude Code : cadrage fonctionnel, rédaction des consignes, retours d’usage, contrôle des livrables, suivi des versions et documentation.",
+        "Orchestration de plusieurs assistants IA en parallèle avec Orca : répartition des tâches, revues croisées et synchronisation par des fichiers de coordination communs.",
+        "Bibliothèque de compétences réutilisables (skills) et protocoles communs, pour que chaque assistant applique les mêmes règles d’un projet à l’autre.",
+        "Architecture fonctionnelle : découper les projets en modules, préciser leurs interfaces et dépendances, puis coordonner la fabrication, les essais et la documentation.",
+        "Une méthode de travail fondée sur des objectifs précis, des corrections successives et la vérification du résultat.",
         "Applications web avec base de données : Knockin ever Door (entreprises, contacts, candidatures et relances), BarySense (cafés, machines, extractions et stock), PoussePousse (plan et suivi d’un potager).",
         "Site marchand SkyLivra : catalogue, panier, paiement Stripe, e-mails Brevo et espace d’administration, hébergé sur Netlify.",
         "Logiciel Windows SkyLivra Manager (Tauri) : installation et mise à jour des créations chez les clients, avec des installateurs Inno Setup.",
@@ -210,6 +215,30 @@ window.CV = {
         "barysense",
         "outils-ia",
         "simulation"
+      ],
+      "groupes": [
+        {
+          "titre": "Méthode",
+          "points": [
+            "Projets menés avec ChatGPT, Codex, Claude et Claude Code : cadrage fonctionnel, rédaction des consignes, retours d’usage, contrôle des livrables, suivi des versions et documentation.",
+            "Orchestration de plusieurs assistants IA en parallèle avec Orca : répartition des tâches, revues croisées et synchronisation par des fichiers de coordination communs.",
+            "Bibliothèque de compétences réutilisables (skills) et protocoles communs, pour que chaque assistant applique les mêmes règles d’un projet à l’autre.",
+            "Architecture fonctionnelle : découper les projets en modules, préciser leurs interfaces et dépendances, puis coordonner la fabrication, les essais et la documentation.",
+            "Une méthode de travail fondée sur des objectifs précis, des corrections successives et la vérification du résultat."
+          ]
+        },
+        {
+          "titre": "Réalisations",
+          "points": [
+            "Applications web avec base de données : Knockin ever Door (entreprises, contacts, candidatures et relances), BarySense (cafés, machines, extractions et stock), PoussePousse (plan et suivi d’un potager).",
+            "Site marchand SkyLivra : catalogue, panier, paiement Stripe, e-mails Brevo et espace d’administration, hébergé sur Netlify.",
+            "Logiciel Windows SkyLivra Manager (Tauri) : installation et mise à jour des créations chez les clients, avec des installateurs Inno Setup.",
+            "Créations pour Microsoft Flight Simulator : livrées d’avions (textures et matériaux), add-on d’aurores boréales (effets visuels en C++ / WebAssembly) et outils de vues caméra.",
+            "Médias : clips de présentation des livrées, GIF animés, musiques composées avec Suno, visuels générés ou retouchés par IA.",
+            "Ce CV interactif : site publié sur GitHub Pages, parcours interactif, carte des liens et PDF relié par QR code.",
+            "Automatisations et documents : scripts Python et PowerShell, tableaux Excel, documents Word, PDF et présentations produits puis vérifiés avec l’IA."
+          ]
+        }
       ]
     },
     {
@@ -220,8 +249,7 @@ window.CV = {
       "detail": [
         "Encadrement direct d’agents de soins et de kinésithérapeutes aux Thermes de Balaruc-les-Bains, d’abord comme adjoint puis comme responsable soins.",
         "Planification de l’activité, coordination quotidienne des soins et accueil des curistes.",
-        "Conduite d’entretiens annuels d’évaluation et d’entretiens professionnels (EVA / EP), médiation entre collaborateurs.",
-        "Formations au management et à la gestion des conflits."
+        "Conduite d’entretiens annuels d’évaluation et d’entretiens professionnels (EVA / EP), médiation entre collaborateurs."
       ],
       "preuves": [
         "thermes-responsable",
@@ -291,26 +319,6 @@ window.CV = {
           "alt": "Tableau de bord Excel de suivi des candidatures",
           "legende": "Tableau de bord Excel de suivi des candidatures"
         }
-      ]
-    },
-    {
-      "id": "ia",
-      "titre": "Pilotage de projets avec l’IA",
-      "sousTitre": "Cadrage, consignes, contrôle, versions, documentation",
-      "resume": "Définir un besoin, rédiger des consignes précises, faire réaliser par des assistants IA et vérifier ce qui est livré.",
-      "detail": [
-        "Projets personnels menés avec ChatGPT, Codex, Claude et Claude Code : outil de suivi de recherche d’emploi, applications web, site marchand, logiciel Windows, contenus et outils pour la simulation aérienne.",
-        "Rôle tenu : cadrage fonctionnel, rédaction des consignes, retours d’usage, contrôle des livrables, suivi des versions et documentation.",
-        "Orchestration de plusieurs assistants IA en parallèle avec Orca : répartition des tâches, revues croisées et synchronisation par des fichiers de coordination communs.",
-        "Bibliothèque de compétences réutilisables (skills) et protocoles communs, pour que chaque assistant applique les mêmes règles d’un projet à l’autre.",
-        "Une méthode de travail fondée sur des objectifs précis, des corrections successives et la vérification du résultat.",
-        "Architecture fonctionnelle : découper les projets en modules, préciser leurs interfaces et dépendances, puis coordonner la fabrication, les essais et la documentation."
-      ],
-      "preuves": [
-        "knockin",
-        "skylivra",
-        "outils-ia",
-        "barysense"
       ]
     },
     {
@@ -573,7 +581,7 @@ window.CV = {
         "Claude Code",
         "Orca"
       ],
-      "competence": "ia"
+      "competence": "creations-ia"
     }
   ],
   "interets": [
@@ -1946,7 +1954,6 @@ window.CV = {
       ],
       "competences": [
         "creations-ia",
-        "ia",
         "gestion",
         "plateformes"
       ],
@@ -1994,7 +2001,6 @@ window.CV = {
       ],
       "competences": [
         "creations-ia",
-        "ia",
         "gestion",
         "plateformes"
       ],
@@ -2067,7 +2073,6 @@ window.CV = {
       ],
       "competences": [
         "creations-ia",
-        "ia",
         "gestion",
         "plateformes"
       ],
@@ -2174,7 +2179,6 @@ window.CV = {
       ],
       "competences": [
         "creations-ia",
-        "ia",
         "gestion",
         "plateformes"
       ],
@@ -2485,7 +2489,6 @@ window.CV = {
       "parent": "outils-ia",
       "competences": [
         "creations-ia",
-        "ia",
         "plateformes"
       ],
       "titre": "PoussePousse · Potager",
@@ -2521,7 +2524,6 @@ window.CV = {
       "parent": "outils-ia",
       "competences": [
         "creations-ia",
-        "ia",
         "plateformes"
       ],
       "titre": "CV interactif · Site et PDF",
@@ -2606,7 +2608,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne contient aucun formulaire : l’éditeur ne collecte aucune donnée. Le bouton « Proposer un entretien » ouvre simplement votre messagerie, sans aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "11 novembre 2026",
-    "version": "2.20.0"
+    "version": "2.21.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"
@@ -2615,5 +2617,8 @@ window.CV = {
     "enfance",
     "adolescence",
     "blockchain"
-  ]
+  ],
+  "aliasCompetences": {
+    "ia": "creations-ia"
+  }
 };
