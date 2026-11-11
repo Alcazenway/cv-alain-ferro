@@ -118,12 +118,16 @@
     return el("h1", { id: "fiche-titre", class: "visuellement-cache", tabindex: "-1", text: titre });
   }
   // Catalogue (v2.19) : chaque vignette est un grand bouton vers sa fiche complète ; pastille seulement si une image ou une icône est fournie.
+  // Image de fond d’une vignette : assets/vignettes/<famille>-<id>.webp.
+  function fondVignette(famille, id) { return "assets/vignettes/" + famille + "-" + id + ".webp"; }
   function catalogue(items, niveau) {
     return el("ul", { class: "co-catalogue" }, items.map(function (it) {
       var mini = it.visuel ? el("span", { class: "co-mini co-mini-image", "aria-hidden": "true" }, [image(it.visuel)])
         : it.icone ? el("span", { class: "co-mini" + (it.cls ? " " + it.cls : ""), "aria-hidden": "true" }, [it.icone]) : null;
       var corps = [mini, el("div", { class: "co-competence-nom" }, [el(niveau || "h3", { text: it.titre }), it.texte ? el("p", { text: it.texte }) : null])];
-      return el("li", { class: "co-competence" + (it.cls ? " " + it.cls : ""), id: it.id }, it.lien
+      // v2.20 : image de fond très atténuée sur toute la vignette ; retirée si le fichier manque.
+      if (it.fond) corps.unshift(image({ src: it.fond }, "co-tuile-fond"));
+      return el("li", { class: "co-competence" + (it.cls ? " " + it.cls : "") + (it.fond ? " avec-fond" : ""), id: it.id }, it.lien
         ? [el("a", { class: "co-tuile", href: it.lien, "aria-label": (it.nom || it.titre) + " : fiche complète" }, corps.concat(el("span", { class: "co-tuile-fleche", "aria-hidden": "true", text: "→" })))]
         : [el("div", { class: "co-tuile statique" }, corps)]);
     }));
@@ -248,7 +252,7 @@
       tetePage(SAVOIR, "toque"),
       catalogue(formations.slice().reverse().map(function (e) {
         return { id: "formation-" + e.id, cls: "formation" + (e.important ? " important" : ""), titre: e.titre,
-          texte: e.periode + (e.lieu ? " · " + e.lieu : ""), lien: "#/parcours/" + e.id };
+          texte: e.periode + (e.lieu ? " · " + e.lieu : ""), lien: "#/parcours/" + e.id, fond: fondVignette("formation", e.id) };
       }), "h2")
     ];
   }
@@ -350,7 +354,7 @@
     return [
       tetePage("Compétences", "reseau"),
       catalogue(D.competences.map(function (c) {
-        return { id: "competence-" + c.id, titre: c.titre, texte: c.sousTitre, lien: "#/competence/" + c.id };
+        return { id: "competence-" + c.id, titre: c.titre, texte: c.sousTitre, lien: "#/competence/" + c.id, fond: fondVignette("competence", c.id) };
       }), "h2")
     ];
   }
@@ -446,9 +450,10 @@
   function pageInterets() {
     return [
       tetePage("Intérêts", "planete"),
-      catalogue(D.interets.map(function (x) {
+      // v2.20 : ordre alphabétique, titre seul, image de fond.
+      catalogue(D.interets.slice().sort(function (a, b) { return a.nom.localeCompare(b.nom, "fr"); }).map(function (x) {
         var fiche = x.fiches.filter(function (id) { return parId[id]; })[0];
-        return { id: "interet-" + x.id, cls: "interet", titre: x.nom, texte: x.texte,
+        return { id: "interet-" + x.id, cls: "interet", titre: x.nom, fond: fondVignette("interet", x.id),
           lien: fiche ? "#/parcours/" + fiche : null };
       }), "h2")
     ];

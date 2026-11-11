@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.19.0",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.20.0",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -334,6 +334,20 @@ window.CV = {
       ]
     },
     {
+      "id": "informatique",
+      "titre": "Informatique et matériel",
+      "sousTitre": "Montage, configuration PC, réseau et périphériques",
+      "resume": "Assembler, configurer et mettre en réseau des postes de travail et leurs périphériques.",
+      "detail": [
+        "Assemblage de deux ordinateurs, dont un poste dédié à la simulation aérienne.",
+        "Configuration matérielle et logicielle, postes multi-écrans.",
+        "Mise en réseau et paramétrage des périphériques, dont les commandes de vol avec SPAD.neXt."
+      ],
+      "preuves": [
+        "pc"
+      ]
+    },
+    {
       "id": "manuel",
       "titre": "Travaux manuels",
       "sousTitre": "Bois, plomberie, électricité, préparation et chiffrage",
@@ -590,17 +604,16 @@ window.CV = {
     },
     {
       "id": "numerique",
-      "nom": "Technologie numérique",
-      "texte": "Montage de PC et outils conçus avec l’IA.",
+      "nom": "Intelligence artificielle",
+      "texte": "Projets menés en orchestrant des assistants IA.",
       "image": {
         "src": "assets/photos/selection/selection-054.webp",
         "alt": "Montage d’un ordinateur sur table"
       },
       "fiches": [
-        "pc",
+        "outils-ia",
         "knockin",
-        "barysense",
-        "outils-ia"
+        "barysense"
       ]
     },
     {
@@ -630,11 +643,23 @@ window.CV = {
     },
     {
       "id": "course",
-      "nom": "Course et marche",
-      "texte": "Course à pied en amateur, marche.",
+      "nom": "Course à pied",
+      "texte": "Course à pied en amateur.",
       "image": {
         "src": "assets/photos/selection/selection-002.webp",
         "alt": "Sortie à pied"
+      },
+      "fiches": [
+        "plein-air"
+      ]
+    },
+    {
+      "id": "velo",
+      "nom": "Vélo",
+      "texte": "Sorties à vélo en plein air.",
+      "image": {
+        "src": "assets/photos/selection/selection-003.webp",
+        "alt": "Sortie à vélo"
       },
       "fiches": [
         "plein-air"
@@ -1375,7 +1400,9 @@ window.CV = {
         "Configuration matérielle et logicielle.",
         "Mise en réseau et paramétrage des périphériques."
       ],
-      "competences": [],
+      "competences": [
+        "informatique"
+      ],
       "apports": [
         "Autonomie informatique",
         "Diagnostic"
@@ -2579,7 +2606,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne contient aucun formulaire : l’éditeur ne collecte aucune donnée. Le bouton « Proposer un entretien » ouvre simplement votre messagerie, sans aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "11 novembre 2026",
-    "version": "2.19.0"
+    "version": "2.20.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"
