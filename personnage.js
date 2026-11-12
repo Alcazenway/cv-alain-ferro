@@ -48,7 +48,7 @@
     commercial:  { haut: "#e3ecf5", bras: "#6f8196", vesteC: "#6f8196", bas: "#3a4656", chaussure: "#2b211b", manche: 1, pantalon: 1, chemise: 1, veste: 1, porteDoc: 1 },
     negociateur: { haut: "#e3ecf5", bras: "#6f8196", vesteC: "#6f8196", bas: "#3a4656", chaussure: "#2b211b", manche: 1, pantalon: 1, chemise: 1, veste: 1, cravate: 1, cravateC: "#3c6e9e", dossier: 1 },
     soignant:    { haut: "#f6fafa", bas: "#eef4f4", chaussure: "#ffffff", manche: .45, pantalon: 1, chemise: 0, blouse: 1, badge: 1, lisere: 1, badgeC: "#8fb3c9", lisereC: "#9fc3cf" },
-    responsable: { haut: "#f6fafa", bas: "#eef4f4", chaussure: "#ffffff", manche: .45, pantalon: 1, chemise: 0, blouse: 1, badge: 1, lisere: 1, badgeC: "#e0a526", lisereC: "#087e83" },
+    responsable: { haut: "#a8bfd4", bas: "#90abc3", chaussure: "#ffffff", manche: .45, pantalon: 1, chemise: 0, blouse: 1, badge: 1, lisere: 1, badgeC: "#e0a526", lisereC: "#6f8fae" }, // 2.35.3 : bleu de la tenue fourni par Alain
     informaticien: { haut: "#3d4a5c", manche: .55, chemise: 0, micro: 1 },
     jardinier:   { haut: "#7a9a52", bas: "#6b5a43", chaussure: "#5a3b2a", manche: .45, chemise: 0, chapeau: 1, arrosoir: 1 },
     bureau:      { haut: "#dfe9f3", bas: "#2e3a48", manche: .6, chemise: 1, lunettes: 1, dossier: 1 },
