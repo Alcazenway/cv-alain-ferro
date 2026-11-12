@@ -1,0 +1,9 @@
+/* Personnage animé du parcours (v2.27) : décoratif, jamais cliquable, sous les bulles. */
+.pe-calque, .pe-calque * { pointer-events: none; }
+.pe-trait { stroke: #1f474b; stroke-width: 1.1; stroke-linejoin: round; }
+.pe-ligne { fill: none; stroke: #1f474b; stroke-linecap: round; }
+.pe-membre, .pe-membre-contour { fill: none; stroke-linecap: round; }
+.pe-membre-contour { stroke: #1f474b; }
+.pe-ombre { fill: rgba(25, 56, 61, .14); }
+.pe-etiquette { font-size: 12px; font-weight: 600; fill: var(--discret, #526c68); paint-order: stroke; stroke: rgba(252, 252, 248, .9); stroke-width: 4px; stroke-linejoin: round; letter-spacing: .02em; }
+@media print { .pe-calque { display: none; } }

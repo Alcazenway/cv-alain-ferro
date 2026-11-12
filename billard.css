@@ -1,0 +1,98 @@
+/* Billard v2.27 : pages en bulles mobiles (Compétences, Formation, Intérêts, Postes visés). */
+
+/* La page tient dans la fenêtre : en-tête compact, zone de jeu sur toute la hauteur restante. */
+@media screen {
+  .lecture-flux:has(> .bi-zone) { min-height: 100%; display: flex; flex-direction: column; padding-bottom: 4px; max-width: 1600px; }
+  .lecture-flux:has(> .bi-zone) > .co-tete { flex: none; min-height: 0; padding: 2px 1% 8px; overflow: visible; }
+  .lecture-flux:has(> .bi-zone) > .co-tete h1 { font-size: 32px; }
+  .lecture-flux:has(> .bi-zone) > .co-tete .co-filigrane { width: 120px; height: 120px; top: -26px; right: 3%; }
+  .lecture-flux:has(> .bi-zone) > .co-pied { flex: none; margin-top: 6px; padding-top: 6px; }
+}
+
+.bi-zone { --bi-c: var(--experience); position: relative; flex: 1 1 auto; min-height: 340px; overflow: hidden; isolation: isolate;
+  border: 1px solid var(--filet); border-radius: 30px;
+  background: radial-gradient(120% 90% at 50% 0%, rgba(255, 255, 255, .92), rgba(237, 243, 236, .72));
+  box-shadow: inset 0 0 0 6px rgba(255, 255, 255, .55), inset 0 2px 14px rgba(25, 56, 61, .06); }
+.bi-liste { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
+.bi-place { position: absolute; left: 0; top: 0; margin: 0; padding: 0; will-change: transform; }
+.bi-place:has(.tenue), .bi-place:has(:focus-visible), .bi-place:has(.ouverte) { z-index: 3; }
+
+/* Familles : couleurs de la palette du site. */
+.bi-f-competence { --bi-c: var(--experience); --bi-pale: #e6f2f1; }
+.bi-f-orchestration { --bi-c: var(--personnel); --bi-pale: #f1ecf4; }
+.bi-f-formation { --bi-c: var(--formation-texte); --bi-pale: #f8eee8; }
+.bi-f-interet { --bi-c: var(--interet); --bi-pale: #eaf2e4; }
+.bi-f-poste { --bi-c: #2f5d8a; --bi-pale: #e8eff6; }
+.bi-f-numerique { --bi-c: var(--personnel); --bi-pale: #f1ecf4; }
+
+/* Bulle : une boule claire, liseré de la famille, reflet discret. */
+.bi-bulle { position: relative; display: grid; place-items: center; width: 90px; height: 90px; margin: 0; padding: 0; overflow: hidden; isolation: isolate;
+  border: 2px solid var(--bi-c); border-radius: 50%; background: radial-gradient(circle at 50% 45%, #fff 0%, #fff 55%, var(--bi-pale) 100%);
+  color: var(--encre); font: inherit; font-size: 14px; line-height: 1.18; text-align: center; text-decoration: none; cursor: grab;
+  box-shadow: 0 6px 16px rgba(25, 56, 61, .13), 0 1px 3px rgba(25, 56, 61, .12);
+  touch-action: none; user-select: none; -webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: transparent;
+  transition: box-shadow .2s ease, border-width .2s ease; }
+.bi-bulle::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle at 32% 24%, rgba(255, 255, 255, .85) 0, rgba(255, 255, 255, 0) 30%); }
+.bi-bulle:hover { box-shadow: 0 10px 24px rgba(25, 56, 61, .2), 0 0 0 4px color-mix(in srgb, var(--bi-c) 18%, transparent); color: var(--encre); }
+.bi-bulle.tenue { cursor: grabbing; box-shadow: 0 16px 34px rgba(25, 56, 61, .26), 0 0 0 5px color-mix(in srgb, var(--bi-c) 22%, transparent); }
+.bi-bulle:focus-visible { outline: 4px solid var(--focus); outline-offset: 3px; border-radius: 50%; }
+.bi-bulle.ouverte { border-width: 3px; }
+.bi-fond { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; object-fit: cover; opacity: .2; filter: grayscale(.3) saturate(.9); pointer-events: none; }
+.bi-bulle.avec-fond { background: #fff; }
+.bi-bulle.avec-fond::before { content: ""; position: absolute; inset: 0; z-index: 0; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, .78) 0, rgba(255, 255, 255, .5) 62%, color-mix(in srgb, var(--bi-pale) 70%, transparent) 100%); }
+.bi-texte { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: .2em; pointer-events: none; }
+.bi-titre { display: block; width: 100%; font-weight: 650; color: color-mix(in srgb, var(--bi-c) 55%, var(--encre)); text-wrap: balance; overflow-wrap: normal; }
+.bi-sous { display: block; font-size: .78em; font-weight: 500; color: var(--discret); }
+
+/* Bulle mise en valeur (Orchestration IA) : pleine, couleur de la famille, halo lent. */
+.bi-bulle.bi-vedette { border-width: 3px; background: radial-gradient(circle at 50% 45%, #fff 0%, #fbf8fd 45%, #e4d9ec 100%); }
+.bi-bulle.bi-vedette .bi-titre { font-weight: 750; }
+.bi-bulle.bi-vedette.avec-fond .bi-fond { opacity: .26; }
+.bi-bulle.bi-vedette { animation: bi-halo 3.2s ease-in-out infinite alternate; }
+@keyframes bi-halo { from { box-shadow: 0 6px 16px rgba(25, 56, 61, .14), 0 0 0 0 rgba(115, 83, 137, .28); } to { box-shadow: 0 8px 20px rgba(25, 56, 61, .16), 0 0 0 10px rgba(115, 83, 137, 0); } }
+
+/* Indications : astuce et légende, discrètes, sous les bulles. */
+.bi-astuce { position: absolute; left: 18px; bottom: 10px; z-index: 0; margin: 0; max-width: calc(100% - 36px); font-size: 12px; color: var(--discret); pointer-events: none; }
+.bi-legende { position: static; padding: 10px 18px 0; z-index: 0; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px 16px; margin: 0; list-style: none; font-size: 12px; color: var(--discret); pointer-events: none; }
+.bi-legende li { display: inline-flex; align-items: center; gap: 6px; }
+.bi-pastille { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--bi-c); border-radius: 50%; background: var(--bi-pale); }
+
+/* Petite carte d’un poste visé. */
+.bi-carte { position: absolute; z-index: 10; width: min(340px, calc(100% - 16px)); padding: 16px 18px 14px; border: 1px solid var(--filet); border-top: 4px solid var(--bi-c);
+  border-radius: 18px; background: var(--carte); color: var(--texte); box-shadow: 0 16px 40px rgba(25, 56, 61, .2); animation: bi-carte .18s ease both; }
+@keyframes bi-carte { from { opacity: 0; transform: translateY(6px) scale(.98); } to { opacity: 1; transform: none; } }
+.bi-carte-titre { margin: 0 30px 6px 0; font-size: 17px; line-height: 1.25; font-weight: 650; color: color-mix(in srgb, var(--bi-c) 55%, var(--encre)); }
+.bi-carte-titre:focus { outline: none; }
+.bi-carte-fermer { position: absolute; right: 8px; top: 8px; width: 34px; height: 34px; border: 0; border-radius: 50%; background: none; color: var(--discret); font-size: 22px; line-height: 1; cursor: pointer; }
+.bi-carte-fermer:hover { background: #e8f0ed; color: var(--encre); }
+.bi-carte p { margin: 0 0 10px; font-size: 14px; line-height: 1.45; }
+.bi-carte-preuves-titre { margin: 0 0 6px; font-size: 11px; font-weight: 650; letter-spacing: 1.5px; text-transform: uppercase; color: var(--discret); }
+.bi-carte ul { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.bi-carte li a { display: inline-flex; align-items: center; min-height: 32px; padding: 4px 11px; border: 1px solid var(--filet); border-radius: 16px; font-size: 13px; color: var(--encre); text-decoration: none; background: var(--fond); }
+.bi-carte li a:hover { border-color: var(--bi-c); color: var(--encre); background: var(--bi-pale); }
+.bi-carte li.experience a { border-left: 4px solid var(--experience); }
+.bi-carte li.personnel a { border-left: 4px solid var(--personnel); }
+.bi-carte li.formation a { border-left: 4px solid var(--formation); }
+.bi-carte li.competence a { border-left: 4px solid var(--encre); }
+
+@media (max-width: 740px) {
+  .bi-zone { min-height: 420px; border-radius: 22px; }
+  .lecture-flux:has(> .bi-zone) > .co-tete { padding: 0 2px 6px; }
+  .lecture-flux:has(> .bi-zone) > .co-tete h1 { font-size: 26px; }
+  .lecture-flux:has(> .bi-zone) > .co-tete .co-filigrane { width: 90px; height: 90px; top: -18px; right: 0; }
+  .bi-astuce { left: 12px; bottom: 6px; font-size: 11px; }
+  .bi-legende { justify-content: flex-start; padding: 8px 12px 0; font-size: 11px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bi-bulle.bi-vedette, .bi-carte { animation: none; }
+  .bi-bulle { transition: none; }
+}
+@media print {
+  .bi-zone { min-height: 0; border: 0; box-shadow: none; overflow: visible; }
+  .bi-liste { position: static; display: flex; flex-wrap: wrap; gap: 8px; }
+  .bi-place { position: static; transform: none !important; }
+  .bi-astuce, .bi-legende { display: none; }
+}
