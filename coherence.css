@@ -504,3 +504,5 @@ body[data-fond="orchestration"] .co-fond-image { background-image: url("assets/f
 @media (max-width: 1100px) { .co-une > .co-chiffres-une { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 800px) { .co-une > .co-chiffres-une { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } .co-chiffres-une li.fort { grid-column: 1 / -1; } .co-chiffres-une li > a, .co-chiffres-une li > div { padding: 16px 18px 30px; } .co-chiffres-une strong { font-size: 21px; } }
 @media (prefers-reduced-motion: reduce) { .co-chiffres-une li > a, .co-chiffre-fleche { transition: none; } .co-chiffres-une li > a:hover { transform: none; } }
+/* v2.35.0 : empreinte SHA-256 lisible et sécable dans les mentions. */
+.co-empreinte code { font-size: 12px; word-break: break-all; }
