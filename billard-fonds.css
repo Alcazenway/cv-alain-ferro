@@ -1,0 +1,44 @@
+/* Billard v2.28 : fond image de la zone de jeu, une ambiance par page.
+   Images teintées et assombries (assets/billard/, tirées de assets/fonds/) pour que les bulles photo claires ressortent. */
+
+.bi-zone-competences { --bi-fond: url("assets/billard/fond-competences.webp"); --bi-fond-p: url("assets/billard/fond-competences-portrait.webp"); --bi-nuit: #061c1f; --bi-pos: 50% 50%; }
+.bi-zone-formation { --bi-fond: url("assets/billard/fond-formation.webp"); --bi-fond-p: url("assets/billard/fond-formation-portrait.webp"); --bi-nuit: #1c0f0b; --bi-pos: 50% 50%; }
+.bi-zone-interets { --bi-fond: url("assets/billard/fond-interets.webp"); --bi-fond-p: url("assets/billard/fond-interets-portrait.webp"); --bi-nuit: #0b0a1a; --bi-pos: 50% 50%; }
+.bi-zone-metiers { --bi-fond: url("assets/billard/fond-metiers.webp"); --bi-fond-p: url("assets/billard/fond-metiers-portrait.webp"); --bi-nuit: #08131f; --bi-pos: 50% 60%; }
+
+:is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers) {
+  background: var(--bi-nuit);
+  border-color: color-mix(in srgb, var(--bi-nuit) 60%, var(--filet));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08), inset 0 0 60px rgba(0, 0, 0, .35), 0 6px 22px rgba(25, 56, 61, .12);
+}
+/* Image : sous les bulles, dérive très lente. */
+:is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers)::before {
+  content: ""; position: absolute; inset: -3%; z-index: -2; pointer-events: none;
+  background: var(--bi-fond) var(--bi-pos) / cover no-repeat;
+  animation: bi-fond-derive 70s ease-in-out infinite alternate;
+}
+/* Voile : centre légèrement éclairci, bords plus sombres, pour un fond calme. */
+:is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers)::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit;
+  background: radial-gradient(130% 100% at 50% 45%, rgba(0, 0, 0, 0) 45%, color-mix(in srgb, var(--bi-nuit) 55%, transparent) 100%);
+}
+@keyframes bi-fond-derive { from { transform: scale(1) translate(0, 0); } to { transform: scale(1.05) translate(-1.2%, -.8%); } }
+html.co-onglet-cache :is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers)::before { animation-play-state: paused; }
+
+/* Légende et astuce lisibles sur fond sombre. */
+:is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers) .bi-legende { position: relative; z-index: 0; color: rgba(255, 255, 255, .92); text-shadow: 0 1px 3px rgba(0, 0, 0, .6); }
+:is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers) .bi-legende li { padding: 2px 9px 2px 5px; border-radius: 12px; background: rgba(0, 0, 0, .32); }
+:is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers) .bi-pastille { box-shadow: 0 0 0 1px rgba(255, 255, 255, .7); }
+:is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers) .bi-astuce { color: rgba(255, 255, 255, .85); text-shadow: 0 1px 3px rgba(0, 0, 0, .7); }
+
+@media (max-width: 740px), (orientation: portrait) and (max-width: 900px) {
+  :is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers)::before { background-image: var(--bi-fond-p); background-position: 50% 50%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers)::before { animation: none; }
+}
+@media print {
+  :is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers) { background: none; }
+  :is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers)::before,
+  :is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers)::after { display: none; }
+}

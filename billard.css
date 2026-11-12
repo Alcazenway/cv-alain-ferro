@@ -1,4 +1,6 @@
-/* Billard v2.27 : pages en bulles mobiles (Compétences, Formation, Intérêts, Postes visés). */
+/* Billard v2.28 : pages en bulles mobiles (Compétences, Formation, Intérêts, Postes visés).
+   v2.28 : image pleine dans chaque bulle, titre sur bandeau plein de la couleur de la famille (contraste AA),
+   familles des postes très marquées, bulles vedettes. Le fond de zone (.bi-zone-<page>) est stylé par billard-fonds.css. */
 
 /* La page tient dans la fenêtre : en-tête compact, zone de jeu sur toute la hauteur restante. */
 @media screen {
@@ -9,61 +11,85 @@
   .lecture-flux:has(> .bi-zone) > .co-pied { flex: none; margin-top: 6px; padding-top: 6px; }
 }
 
+/* Zone de jeu : fond clair par défaut, surchargeable (pas de !important) ; un éventuel ::before reste sous les bulles. */
 .bi-zone { --bi-c: var(--experience); position: relative; flex: 1 1 auto; min-height: 340px; overflow: hidden; isolation: isolate;
   border: 1px solid var(--filet); border-radius: 30px;
   background: radial-gradient(120% 90% at 50% 0%, rgba(255, 255, 255, .92), rgba(237, 243, 236, .72));
   box-shadow: inset 0 0 0 6px rgba(255, 255, 255, .55), inset 0 2px 14px rgba(25, 56, 61, .06); }
-.bi-liste { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
+.bi-liste { position: absolute; inset: 0; z-index: 2; margin: 0; padding: 0; list-style: none; }
 .bi-place { position: absolute; left: 0; top: 0; margin: 0; padding: 0; will-change: transform; }
+.bi-place:has(.bi-vedette) { z-index: 1; }
 .bi-place:has(.tenue), .bi-place:has(:focus-visible), .bi-place:has(.ouverte) { z-index: 3; }
 
-/* Familles : couleurs de la palette du site. */
-.bi-f-competence { --bi-c: var(--experience); --bi-pale: #e6f2f1; }
-.bi-f-orchestration { --bi-c: var(--personnel); --bi-pale: #f1ecf4; }
-.bi-f-formation { --bi-c: var(--formation-texte); --bi-pale: #f8eee8; }
-.bi-f-interet { --bi-c: var(--interet); --bi-pale: #eaf2e4; }
-.bi-f-poste { --bi-c: #2f5d8a; --bi-pale: #e8eff6; }
-.bi-f-numerique { --bi-c: var(--personnel); --bi-pale: #f1ecf4; }
+/* Familles : --bi-c = anneau (vif), --bi-fort = bandeau du titre (foncé, texte blanc ≥ 4,5:1), --bi-pale = repli sans image. */
+.bi-f-competence { --bi-c: #087e83; --bi-fort: #05595d; --bi-pale: #e6f2f1; }
+.bi-f-orchestration { --bi-c: #7a55a0; --bi-fort: #4f3466; --bi-pale: #f1ecf4; }
+.bi-f-formation { --bi-c: #c0693f; --bi-fort: #84401f; --bi-pale: #f8eee8; }
+.bi-f-interet { --bi-c: #4e8a3a; --bi-fort: #335b26; --bi-pale: #eaf2e4; }
+/* Postes visés : quatre familles de métiers, couleurs franches. */
+.bi-f-numerique { --bi-c: #8a4fd0; --bi-fort: #55288c; --bi-pale: #f0e8fa; }
+.bi-f-gestion { --bi-c: #2a7fd4; --bi-fort: #17518f; --bi-pale: #e6f0fa; }
+.bi-f-commerce { --bi-c: #e0662e; --bi-fort: #9e3815; --bi-pale: #fcece4; }
+.bi-f-coordination { --bi-c: #14a07c; --bi-fort: #0b5f4a; --bi-pale: #e2f5ef; }
+.bi-f-poste { --bi-c: #2f5d8a; --bi-fort: #23476b; --bi-pale: #e8eff6; }
 
-/* Bulle : une boule claire, liseré de la famille, reflet discret. */
-.bi-bulle { position: relative; display: grid; place-items: center; width: 90px; height: 90px; margin: 0; padding: 0; overflow: hidden; isolation: isolate;
-  border: 2px solid var(--bi-c); border-radius: 50%; background: radial-gradient(circle at 50% 45%, #fff 0%, #fff 55%, var(--bi-pale) 100%);
-  color: var(--encre); font: inherit; font-size: 14px; line-height: 1.18; text-align: center; text-decoration: none; cursor: grab;
-  box-shadow: 0 6px 16px rgba(25, 56, 61, .13), 0 1px 3px rgba(25, 56, 61, .12);
+/* Bulle : l’image remplit le cercle, anneau épais de la famille. */
+.bi-bulle { position: relative; display: block; width: 90px; height: 90px; margin: 0; padding: 0; overflow: hidden; isolation: isolate;
+  border: 4px solid var(--bi-c); border-radius: 50%; background: radial-gradient(circle at 50% 40%, #fff 0%, #fff 50%, var(--bi-pale) 100%);
+  color: #fff; font: inherit; font-size: 14px; line-height: 1.14; text-align: center; text-decoration: none; cursor: grab;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, .85), 0 8px 20px rgba(25, 56, 61, .22), 0 2px 4px rgba(25, 56, 61, .16);
   touch-action: none; user-select: none; -webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: transparent;
-  transition: box-shadow .2s ease, border-width .2s ease; }
-.bi-bulle::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: 50%; pointer-events: none;
-  background: radial-gradient(circle at 32% 24%, rgba(255, 255, 255, .85) 0, rgba(255, 255, 255, 0) 30%); }
-.bi-bulle:hover { box-shadow: 0 10px 24px rgba(25, 56, 61, .2), 0 0 0 4px color-mix(in srgb, var(--bi-c) 18%, transparent); color: var(--encre); }
-.bi-bulle.tenue { cursor: grabbing; box-shadow: 0 16px 34px rgba(25, 56, 61, .26), 0 0 0 5px color-mix(in srgb, var(--bi-c) 22%, transparent); }
+  transition: box-shadow .2s ease; }
+.bi-bulle::after { content: ""; position: absolute; inset: 0; z-index: 3; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, .5) 0, rgba(255, 255, 255, 0) 24%); }
+.bi-bulle:hover { color: #fff; box-shadow: 0 0 0 2px rgba(255, 255, 255, .9), 0 12px 28px rgba(25, 56, 61, .28), 0 0 0 7px color-mix(in srgb, var(--bi-c) 30%, transparent); }
+.bi-bulle.tenue { cursor: grabbing; box-shadow: 0 0 0 2px #fff, 0 18px 36px rgba(25, 56, 61, .32), 0 0 0 8px color-mix(in srgb, var(--bi-c) 32%, transparent); }
 .bi-bulle:focus-visible { outline: 4px solid var(--focus); outline-offset: 3px; border-radius: 50%; }
-.bi-bulle.ouverte { border-width: 3px; }
-.bi-fond { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; object-fit: cover; opacity: .2; filter: grayscale(.3) saturate(.9); pointer-events: none; }
-.bi-bulle.avec-fond { background: #fff; }
-.bi-bulle.avec-fond::before { content: ""; position: absolute; inset: 0; z-index: 0; border-radius: 50%; pointer-events: none;
-  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, .78) 0, rgba(255, 255, 255, .5) 62%, color-mix(in srgb, var(--bi-pale) 70%, transparent) 100%); }
-.bi-texte { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: .2em; pointer-events: none; }
-.bi-titre { display: block; width: 100%; font-weight: 650; color: color-mix(in srgb, var(--bi-c) 55%, var(--encre)); text-wrap: balance; overflow-wrap: normal; }
-.bi-sous { display: block; font-size: .78em; font-weight: 500; color: var(--discret); }
+.bi-bulle.ouverte { border-width: 5px; }
 
-/* Bulle mise en valeur (Orchestration IA) : pleine, couleur de la famille, halo lent. */
-.bi-bulle.bi-vedette { border-width: 3px; background: radial-gradient(circle at 50% 45%, #fff 0%, #fbf8fd 45%, #e4d9ec 100%); }
-.bi-bulle.bi-vedette .bi-titre { font-weight: 750; }
-.bi-bulle.bi-vedette.avec-fond .bi-fond { opacity: .26; }
-.bi-bulle.bi-vedette { animation: bi-halo 3.2s ease-in-out infinite alternate; }
-@keyframes bi-halo { from { box-shadow: 0 6px 16px rgba(25, 56, 61, .14), 0 0 0 0 rgba(115, 83, 137, .28); } to { box-shadow: 0 8px 20px rgba(25, 56, 61, .16), 0 0 0 10px rgba(115, 83, 137, 0); } }
+/* Image : opacité pleine, légèrement relevée (le sujet reste au-dessus du bandeau), zoom doux au survol. */
+.bi-fond { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;
+  transform: translateY(-13%) scale(1.3); filter: saturate(1.15) contrast(1.05); transition: transform .6s ease; }
+.bi-bulle:hover .bi-fond, .bi-bulle:focus-visible .bi-fond { transform: translateY(-13%) scale(1.4); }
+.bi-bulle.avec-fond { background: var(--bi-pale); }
+/* Léger modelé sur le pourtour, pour la profondeur de la boule. */
+.bi-bulle.avec-fond::before { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle at 50% 42%, rgba(0, 0, 0, 0) 58%, rgba(10, 20, 25, .2) 100%); }
 
-/* Indications : astuce et légende, discrètes, sous les bulles. */
-.bi-astuce { position: absolute; left: 18px; bottom: 10px; z-index: 0; margin: 0; max-width: calc(100% - 36px); font-size: 12px; color: var(--discret); pointer-events: none; }
-.bi-legende { position: static; padding: 10px 18px 0; z-index: 0; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px 16px; margin: 0; list-style: none; font-size: 12px; color: var(--discret); pointer-events: none; }
-.bi-legende li { display: inline-flex; align-items: center; gap: 6px; }
-.bi-pastille { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--bi-c); border-radius: 50%; background: var(--bi-pale); }
+/* Bandeau du titre : pleine largeur, rogné par le cercle, couleur foncée de la famille ; position verticale posée par billard.js. */
+.bi-texte { position: absolute; left: 0; right: 0; top: 56%; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: .14em;
+  padding: .42em 0 .46em; pointer-events: none;
+  background: color-mix(in srgb, var(--bi-fort) 92%, transparent); /* sans backdrop-filter : Chrome ne le rognerait pas au cercle */
+  box-shadow: 0 -1px 0 rgba(255, 255, 255, .4), 0 1px 0 rgba(255, 255, 255, .4), 0 4px 14px rgba(0, 0, 0, .18); }
+.bi-titre { display: block; width: 100%; font-weight: 700; color: #fff; letter-spacing: .005em; text-wrap: balance; overflow-wrap: normal;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .35); }
+.bi-sous { display: block; font-size: max(.78em, 10px); font-weight: 500; color: rgba(255, 255, 255, .92); text-shadow: 0 1px 2px rgba(0, 0, 0, .3); }
+
+/* Bulles vedettes : plus grandes, anneau plus épais, halo lent de la couleur de la famille, titre en avant. */
+.bi-bulle.bi-vedette { border-width: 6px; animation: bi-halo 3.6s ease-in-out infinite alternate; }
+.bi-bulle.bi-vedette .bi-titre { font-weight: 800; letter-spacing: .01em; }
+.bi-bulle.bi-vedette .bi-texte { padding-top: .5em; box-shadow: 0 -2px 0 color-mix(in srgb, var(--bi-c) 70%, #fff), 0 2px 0 color-mix(in srgb, var(--bi-c) 70%, #fff), 0 6px 18px rgba(0, 0, 0, .22); }
+.bi-bulle.bi-vedette .bi-texte::before { content: "★"; display: block; margin-bottom: .05em; font-size: .72em; line-height: 1; color: #ffd76a; text-shadow: 0 1px 2px rgba(0, 0, 0, .4); }
+@keyframes bi-halo {
+  from { box-shadow: 0 0 0 2px rgba(255, 255, 255, .9), 0 8px 22px rgba(25, 56, 61, .24), 0 0 0 0 color-mix(in srgb, var(--bi-c) 55%, transparent); }
+  to { box-shadow: 0 0 0 2px rgba(255, 255, 255, .9), 0 10px 26px rgba(25, 56, 61, .26), 0 0 0 14px color-mix(in srgb, var(--bi-c) 0%, transparent); }
+}
+
+/* Indications : astuce et légende, sur pastilles claires pour rester lisibles sur un fond de zone illustré. */
+.bi-astuce { position: absolute; left: 18px; bottom: 9px; z-index: 1; margin: 0; max-width: calc(100% - 36px);
+  font-size: 12px; color: var(--discret); pointer-events: none; }
+.bi-legende { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px 8px; margin: 0; padding: 10px 14px 0;
+  list-style: none; font-size: 12.5px; font-weight: 600; color: var(--encre); pointer-events: none; }
+.bi-legende li { display: inline-flex; align-items: center; gap: 7px; padding: 3px 11px 3px 4px; border: 2px solid var(--bi-c); border-radius: 16px;
+  background: rgba(255, 255, 255, .9); box-shadow: 0 2px 6px rgba(25, 56, 61, .1); }
+.bi-leg-court { display: none; }
+.bi-pastille { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: var(--bi-fort); box-shadow: 0 0 0 2px var(--bi-c); }
 
 /* Petite carte d’un poste visé. */
-.bi-carte { position: absolute; z-index: 10; width: min(340px, calc(100% - 16px)); padding: 16px 18px 14px; border: 1px solid var(--filet); border-top: 4px solid var(--bi-c);
+.bi-carte { position: absolute; z-index: 10; width: min(340px, calc(100% - 16px)); padding: 16px 18px 14px; border: 1px solid var(--filet); border-top: 5px solid var(--bi-c);
   border-radius: 18px; background: var(--carte); color: var(--texte); box-shadow: 0 16px 40px rgba(25, 56, 61, .2); animation: bi-carte .18s ease both; }
 @keyframes bi-carte { from { opacity: 0; transform: translateY(6px) scale(.98); } to { opacity: 1; transform: none; } }
-.bi-carte-titre { margin: 0 30px 6px 0; font-size: 17px; line-height: 1.25; font-weight: 650; color: color-mix(in srgb, var(--bi-c) 55%, var(--encre)); }
+.bi-carte-titre { margin: 0 30px 6px 0; font-size: 17px; line-height: 1.25; font-weight: 650; color: var(--bi-fort); }
 .bi-carte-titre:focus { outline: none; }
 .bi-carte-fermer { position: absolute; right: 8px; top: 8px; width: 34px; height: 34px; border: 0; border-radius: 50%; background: none; color: var(--discret); font-size: 22px; line-height: 1; cursor: pointer; }
 .bi-carte-fermer:hover { background: #e8f0ed; color: var(--encre); }
@@ -82,13 +108,23 @@
   .lecture-flux:has(> .bi-zone) > .co-tete { padding: 0 2px 6px; }
   .lecture-flux:has(> .bi-zone) > .co-tete h1 { font-size: 26px; }
   .lecture-flux:has(> .bi-zone) > .co-tete .co-filigrane { width: 90px; height: 90px; top: -18px; right: 0; }
-  .bi-astuce { left: 12px; bottom: 6px; font-size: 11px; }
-  .bi-legende { justify-content: flex-start; padding: 8px 12px 0; font-size: 11px; }
+  .bi-bulle { border-width: 3px; }
+  .bi-bulle.bi-vedette { border-width: 4px; }
+  .bi-texte { padding: .3em 0 .34em; }
+  .bi-bulle { line-height: 1.1; }
+  .bi-astuce { left: 8px; bottom: 6px; font-size: 11px; }
+  .bi-legende { justify-content: flex-start; gap: 4px 5px; padding: 8px 8px 0; font-size: 11px; }
+  .bi-legende li { padding: 2px 8px 2px 3px; gap: 5px; }
+  .bi-leg-long { display: none; }
+  .bi-leg-court { display: inline; }
+  .bi-pastille { width: 11px; height: 11px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .bi-bulle.bi-vedette, .bi-carte { animation: none; }
-  .bi-bulle { transition: none; }
+  .bi-bulle.bi-vedette { box-shadow: 0 0 0 2px rgba(255, 255, 255, .9), 0 8px 22px rgba(25, 56, 61, .24), 0 0 0 6px color-mix(in srgb, var(--bi-c) 35%, transparent); }
+  .bi-bulle, .bi-fond { transition: none; }
+  .bi-bulle:hover .bi-fond, .bi-bulle:focus-visible .bi-fond { transform: translateY(-13%) scale(1.3); }
 }
 @media print {
   .bi-zone { min-height: 0; border: 0; box-shadow: none; overflow: visible; }

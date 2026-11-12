@@ -375,11 +375,14 @@
   // v2.18 : même organisation que Compétences, de la plus récente à la plus ancienne.
   function pageSavoir() {
     // v2.27 : formations en bulles mobiles (jeu de billard), de la plus récente à la plus ancienne.
+    // v2.28 : vedettes (plus grandes, halo) choisies par Alain.
+    var vedettes = ["bts", "tosa", "keyce", "ged-gmao"];
     return [
       tetePage(SAVOIR, "toque"),
-      window.Billard.creer({ libelle: "Formations", bulles: formations.slice().reverse().map(function (e) {
-        return { id: "formation-" + e.id, famille: "formation", titre: bulle(e), sous: e.periode, lien: "#/parcours/" + e.id,
-          fond: fondVignette("formation", e.id), poids: e.important ? 1.12 : 1, aria: e.titre + ", " + e.periode + " : fiche complète" };
+      window.Billard.creer({ page: "formation", libelle: "Formations", bulles: formations.slice().reverse().map(function (e) {
+        var vedette = vedettes.indexOf(e.id) !== -1;
+        return { id: "formation-" + e.id, famille: "formation", titre: bulle(e), sous: e.periode, lien: "#/parcours/" + e.id, vedette: vedette,
+          fond: fondVignette("formation", e.id), poids: vedette ? 1.32 : 1, aria: e.titre + ", " + e.periode + " : fiche complète" };
       }) })
     ];
   }
@@ -552,13 +555,15 @@
   }
 
   // v2.27 : compétences en bulles mobiles ; Orchestration IA, plus grande, mène à sa rubrique dédiée.
+  // v2.28 : vedettes Orchestration IA (la plus grande), Encadrement d’équipes, Relation clients et commerce.
   function pageCompetences() {
+    var vedettes = { "creations-ia": 1.55, encadrement: 1.3, relation: 1.3 };
     return [
       tetePage("Compétences", "reseau"),
-      window.Billard.creer({ libelle: "Compétences", bulles: D.competences.map(function (c) {
-        return { id: "competence-" + c.id, famille: c.rubrique ? "orchestration" : "competence", cls: c.rubrique ? "bi-vedette" : "",
+      window.Billard.creer({ page: "competences", libelle: "Compétences", bulles: D.competences.map(function (c) {
+        return { id: "competence-" + c.id, famille: c.rubrique ? "orchestration" : "competence", vedette: !!vedettes[c.id],
           titre: c.titre, lien: c.rubrique ? "#/" + c.rubrique : "#/competence/" + c.id, fond: fondVignette("competence", c.id),
-          poids: c.rubrique ? 1.5 : 1, aria: c.titre + " : fiche complète" };
+          poids: vedettes[c.id] || 1, aria: c.titre + " : fiche complète" };
       }) })
     ];
   }
@@ -676,14 +681,46 @@
     }).length;
     return ia * 2 >= m.preuves.length;
   }
+  // v2.28 : quatre familles de métiers (couleurs franches, légende) ; tous les postes numériques sont en vedette.
+  var FAMILLES_POSTES = [
+    { famille: "numerique", texte: "Numérique et développement", court: "Numérique" },
+    { famille: "gestion", texte: "Administration, gestion, comptabilité", court: "Gestion, comptabilité" },
+    { famille: "commerce", texte: "Commerce et relation clients", court: "Commerce, clients" },
+    { famille: "coordination", texte: "Coordination et RH", court: "Coordination, RH" }
+  ];
+  // Poste → [famille, image de fond]. Images déjà publiques (vignettes du site, photos publiées), choisies pour le sens du métier.
+  var POSTES = {
+    "developpeur-web-ia": ["numerique", "vignettes/competence-creations-ia.webp"],        // écrans de développement
+    "integrateur-web": ["numerique", "vignettes/competence-plateformes.webp"],            // serveur dans le nuage, services web
+    "assistant-chef-projet-numerique": ["numerique", "photos/aurora-apercu-studio.webp"], // studio SkyLivra, projet numérique mené
+    "testeur-recetteur": ["numerique", "vignettes/competence-informatique.webp"],         // carte mère, composants testés
+    "charge-automatisation": ["numerique", "vignettes/interet-numerique.webp"],           // puce et flux de données
+    "support-utilisateurs": ["numerique", "photos/selection/selection-055.webp"],         // intervention sur un PC
+    "assistant-administratif": ["gestion", "vignettes/competence-gestion.webp"],          // classeurs, calculatrice
+    "assistant-gestion": ["gestion", "vignettes/competence-excel.webp"],                  // tableaux de bord
+    "assistant-comptable": ["gestion", "vignettes/formation-titre-comptable.webp"],       // registre comptable
+    "gestionnaire-dossiers": ["gestion", "vignettes/formation-bac.webp"],                 // piles de dossiers
+    "assistant-gestion-documentaire": ["gestion", "vignettes/formation-ged-gmao.webp"],   // dossier numérique (GED)
+    "assistant-commercial-adv": ["commerce", "vignettes/competence-relation.webp"],       // poignée de main
+    "charge-relation-clients": ["commerce", "vignettes/formation-comtel.webp"],           // entretien en face à face
+    "assistant-approvisionnement": ["commerce", "vignettes/formation-tosa.webp"],         // tableau de suivi des stocks
+    "coordinateur-administratif": ["coordination", "vignettes/formation-keyce.webp"],     // réunion animée
+    "coordinateur-planning": ["coordination", "vignettes/competence-ia.webp"],            // tableau de planning
+    "assistant-rh": ["coordination", "vignettes/competence-encadrement.webp"]             // équipe
+  };
+  function famillePoste(m) { return POSTES[m.id] ? POSTES[m.id][0] : posteNumerique(m) ? "numerique" : "gestion"; }
   function pageMetiers() {
-    var P = D.pistes;
+    var P = D.pistes, ordre = FAMILLES_POSTES.map(function (f) { return f.famille; });
+    // Bulles triées par famille : placement initial et attraction les regroupent.
+    var metiers = P.metiers.slice().sort(function (a, b) { return ordre.indexOf(famillePoste(a)) - ordre.indexOf(famillePoste(b)); });
     return [
       tetePage(P.titre, "compas"),
-      window.Billard.creer({ libelle: P.titre, astuce: "Attrapez une bulle et lancez-la ; un simple clic affiche ses justificatifs.",
-        legende: [{ famille: "poste", texte: "Administration, gestion, relation clients" }, { famille: "numerique", texte: "Numérique et IA" }],
-        bulles: P.metiers.map(function (m) {
-          return { id: "poste-" + m.id, famille: posteNumerique(m) ? "numerique" : "poste", titre: m.titre, aria: m.titre + " : justification et preuves",
+      window.Billard.creer({ page: "metiers", libelle: P.titre, regrouper: true, astuce: "Attrapez une bulle et lancez-la ; un simple clic affiche ses justificatifs.",
+        legende: FAMILLES_POSTES,
+        bulles: metiers.map(function (m) {
+          var famille = famillePoste(m), vedette = famille === "numerique";
+          return { id: "poste-" + m.id, famille: famille, vedette: vedette, poids: vedette ? 1.4 : 1, fond: POSTES[m.id] ? "assets/" + POSTES[m.id][1] : null,
+            titre: m.titre, aria: m.titre + " : justification et preuves",
             carte: function () {
               var liens = (m.preuves || []).map(lienPreuve).filter(Boolean);
               return el("div", null, [
@@ -698,11 +735,14 @@
 
   /* ---------- Intérêts ---------- */
   // v2.27 : intérêts en bulles mobiles, chacune vers sa page (ou la rubrique liée).
+  // v2.28 : vedettes Intelligence artificielle, Pilotage virtuel, Sciences et astronomie.
   function pageInterets() {
+    var vedettes = ["numerique", "vol", "sciences"];
     return [
       tetePage("Intérêts", "planete"),
-      window.Billard.creer({ libelle: "Intérêts", bulles: D.interets.map(function (x) {
-        return { id: "interet-" + x.id, famille: "interet", titre: x.nom, fond: fondVignette("interet", x.id),
+      window.Billard.creer({ page: "interets", libelle: "Intérêts", bulles: D.interets.map(function (x) {
+        var vedette = vedettes.indexOf(x.id) !== -1;
+        return { id: "interet-" + x.id, famille: "interet", titre: x.nom, fond: fondVignette("interet", x.id), vedette: vedette, poids: vedette ? 1.32 : 1,
           lien: x.lien || "#/interet/" + x.id, aria: x.nom + " : page dédiée" };
       }) })
     ];
