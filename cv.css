@@ -18,3 +18,5 @@ html, body { margin: 0; background: var(--fond); color: var(--encre); font-famil
 .cvl-lien:active { background: rgba(8, 126, 131, .28); }
 @media (max-width: 520px) { .cvl-nom { font-size: 16px; } .cvl-bouton { padding: 7px 12px; font-size: 13px; } .cvl-scene { padding: 10px 0 30px; } .cvl-page { box-shadow: none; } }
 @media (prefers-reduced-motion: reduce) { .cvl-lien { transition: none; } }
+/* 2.35.2 (Alain) : sur téléphone, le bandeau ne garde que le nom et « Télécharger le PDF ». */
+@media (max-width: 600px) { .cvl-site { display: none; } }
