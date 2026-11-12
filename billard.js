@@ -88,12 +88,18 @@
     function rayons(echelle) {
       var petit = Math.min(W, H) < 520 || W < 600;
       // Sur petit écran, l’écart de taille des vedettes est atténué pour laisser de la place aux titres des autres bulles.
-      bulles.forEach(function (b) { b.pe = petit && b.poids > 1 ? 1 + (b.poids - 1) * 0.55 : b.poids; });
+      bulles.forEach(function (b) { b.pe = petit && b.poids > 1 ? 1 + (b.poids - 1) * 0.8 : b.poids; });
       var somme = bulles.reduce(function (s, b) { return s + b.pe * b.pe; }, 0) || 1;
       var remplissage = petit ? 0.6 : 0.44;
       var r0 = Math.sqrt(remplissage * W * (H - Y0) / (Math.PI * somme)) * (echelle || 1);
       r0 = borne(r0, petit ? 40 : 44, petit ? 82 : 108);
       bulles.forEach(function (b) { b.r = Math.min(r0 * b.pe * (b.ajust || 1), Math.min(W, H - Y0) / 2 - 4); });
+      // v2.29 : une vedette reste toujours nettement plus grande que les autres bulles, même agrandies pour leur titre.
+      var vedettes = bulles.filter(function (b) { return b.d.vedette; });
+      if (vedettes.length && vedettes.length < bulles.length) {
+        var plafond = Math.min.apply(null, vedettes.map(function (b) { return b.r; })) / (petit ? 1.12 : 1.18);
+        bulles.forEach(function (b) { if (!b.d.vedette && b.r > plafond) b.r = plafond; });
+      }
     }
     function chevauche(b, liste) {
       for (var j = 0; j < liste.length; j++) {
@@ -159,10 +165,10 @@
     // Taille du texte : proportionnelle au rayon, réduite si un mot ou le bloc ne tient pas dans le cercle.
     // Le titre est posé sur un bandeau horizontal (pleine largeur, rogné par le cercle), un peu sous le centre :
     // l’image reste visible au-dessus. Largeur utile du texte : corde du cercle au bord le plus éloigné du bandeau.
-    function plancher() { return W < 600 ? 10 : 11.5; }
+    function plancher() { return W < 600 ? 12.5 : 15; } // v2.29 : titres en gros
     // Décalage du bandeau sous le centre : 22 % du rayon pour un bandeau bas, recentré à mesure qu’il s’épaissit
     // (un bandeau centré dispose de la corde la plus large).
-    function decalage(b, h) { return borne(b.r * 0.22 - (h - b.r * 0.6) * 0.5, 0, b.r * 0.22); }
+    function decalage() { return 0; } // v2.29 : titre centré, sans bandeau
     function poserBandeau(b) {
       var h = b.texte.offsetHeight;
       b.texte.style.top = Math.round(b.n.clientHeight / 2 + decalage(b, h) - h / 2) + "px";
@@ -170,7 +176,7 @@
     function ajuster(b, depart) {
       var d = Math.round(b.r * 2), min = plancher();
       b.n.style.width = d + "px"; b.n.style.height = d + "px";
-      var taille = Math.max(min, depart || borne(b.r * 0.2, min, b.d.vedette ? 24 : 20));
+      var taille = Math.max(min, depart || borne(b.r * 0.3, min, b.d.vedette ? 36 : 30));
       // Le texte tient si chaque ligne reste dans la corde du cercle au bord le plus éloigné du bandeau.
       function tient() {
         var interieur = b.n.clientWidth, rayon = interieur / 2, tw = rayon * 1.8;
