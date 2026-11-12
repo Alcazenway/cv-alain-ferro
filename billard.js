@@ -1,7 +1,11 @@
-/* Billard v2.27 : bulles en mouvement qu’on attrape, fait glisser et lance (sans trous).
+/* Billard v2.28 : bulles en mouvement qu’on attrape, fait glisser et lance (sans trous).
    window.Billard.creer(options) renvoie la zone de jeu (élément DOM) à insérer dans la page.
-   options : { libelle, astuce, legende: [{famille, texte}], bulles: [{ id, titre, sous, lien, fond, famille, poids, cls, aria, carte: function () -> Node }] }
-   Une bulle avec lien est un vrai <a> ; sans lien, un <button> qui ouvre sa petite carte (popover). */
+   options : { page, libelle, astuce, regrouper, legende: [{famille, texte}],
+               bulles: [{ id, titre, sous, lien, fond, famille, poids, vedette, cls, aria, carte: function () -> Node }] }
+   page (competences | formation | interets | metiers) → classe bi-zone-<page> : fond de zone surchargeable (billard-fonds.css).
+   vedette : bulle plus grande, halo lent, titre en avant. regrouper : légère attraction entre bulles d’une même famille.
+   Une bulle avec lien est un vrai <a> ; sans lien, un <button> qui ouvre sa petite carte (popover).
+   v2.28 : l’image occupe toute la bulle ; le titre est posé sur un bandeau plein de la couleur de la famille. */
 (function () {
   "use strict";
   var SEUIL = 6;            // px : au-delà, c’est un glisser, jamais un clic
@@ -32,7 +36,7 @@
   function ongletCache() { return document.hidden || document.documentElement.classList.contains("co-onglet-cache"); }
 
   function creer(options) {
-    var zone = el("div", "bi-zone");
+    var zone = el("div", "bi-zone" + (options.page ? " bi-zone-" + options.page : ""));
     var liste = el("ul", "bi-liste");
     liste.setAttribute("aria-label", options.libelle || "Bulles");
     zone.appendChild(liste);
@@ -41,7 +45,10 @@
       var leg = legende = el("ul", "bi-legende");
       options.legende.forEach(function (l) {
         var li = el("li", "bi-f-" + l.famille);
-        li.appendChild(el("span", "bi-pastille")); li.appendChild(document.createTextNode(l.texte));
+        li.appendChild(el("span", "bi-pastille"));
+        // Libellé court facultatif, affiché sur petit écran à la place du libellé complet.
+        if (l.court) { li.appendChild(el("span", "bi-leg-long", l.texte)); li.appendChild(el("span", "bi-leg-court", l.court)); }
+        else li.appendChild(document.createTextNode(l.texte));
         leg.appendChild(li);
       });
       zone.appendChild(leg);
@@ -52,11 +59,11 @@
 
     var W = 0, H = 0, Y0 = 0, place = false, raf = 0, dernier = 0, carteOuverte = null;
     var bulles = (options.bulles || []).map(function (d, i) {
-      var b = { d: d, i: i, x: 0, y: 0, vx: 0, vy: 0, r: 40, poids: d.poids || 1, survol: false, prise: null, ignorerClic: false, fige: false };
+      var b = { d: d, i: i, x: 0, y: 0, vx: 0, vy: 0, r: 40, poids: d.poids || (d.vedette ? 1.35 : 1), survol: false, prise: null, ignorerClic: false, fige: false };
       var n = d.lien ? el("a", "bi-bulle") : el("button", "bi-bulle");
       if (d.lien) n.href = d.lien;
       else { n.type = "button"; if (d.carte) { n.setAttribute("aria-haspopup", "dialog"); n.setAttribute("aria-expanded", "false"); } }
-      n.className = "bi-bulle bi-f-" + (d.famille || "defaut") + (d.cls ? " " + d.cls : "") + (d.fond ? " avec-fond" : "");
+      n.className = "bi-bulle bi-f-" + (d.famille || "defaut") + (d.vedette ? " bi-vedette" : "") + (d.cls ? " " + d.cls : "") + (d.fond ? " avec-fond" : "");
       n.setAttribute("draggable", "false");
       if (d.aria) n.setAttribute("aria-label", d.aria);
       if (d.id) n.id = d.id;
@@ -79,12 +86,14 @@
 
     /* ---------- Dimensions et placement ---------- */
     function rayons(echelle) {
-      var somme = bulles.reduce(function (s, b) { return s + b.poids * b.poids; }, 0) || 1;
       var petit = Math.min(W, H) < 520 || W < 600;
-      var remplissage = petit ? 0.56 : 0.44;
+      // Sur petit écran, l’écart de taille des vedettes est atténué pour laisser de la place aux titres des autres bulles.
+      bulles.forEach(function (b) { b.pe = petit && b.poids > 1 ? 1 + (b.poids - 1) * 0.55 : b.poids; });
+      var somme = bulles.reduce(function (s, b) { return s + b.pe * b.pe; }, 0) || 1;
+      var remplissage = petit ? 0.6 : 0.44;
       var r0 = Math.sqrt(remplissage * W * (H - Y0) / (Math.PI * somme)) * (echelle || 1);
       r0 = borne(r0, petit ? 40 : 44, petit ? 82 : 108);
-      bulles.forEach(function (b) { b.r = Math.min(r0 * b.poids * (b.ajust || 1), Math.min(W, H - Y0) / 2 - 4); });
+      bulles.forEach(function (b) { b.r = Math.min(r0 * b.pe * (b.ajust || 1), Math.min(W, H - Y0) / 2 - 4); });
     }
     function chevauche(b, liste) {
       for (var j = 0; j < liste.length; j++) {
@@ -96,20 +105,49 @@
     function placer() {
       // Les plus grandes d’abord ; si l’espace manque, toutes les bulles rétrécissent un peu puis on recommence.
       var ordre = bulles.slice().sort(function (a, b) { return b.r - a.r; });
+      // Regroupement : chaque famille part d’une bande verticale qui lui est propre.
+      var familles = [];
+      if (options.regrouper) bulles.forEach(function (b) { if (familles.indexOf(b.d.famille) === -1) familles.push(b.d.famille); });
+      // v2.28 : une bulle sans place libre prend la position la moins recouvrante, puis on écarte toutes les bulles
+      // (relaxation) ; on ne rétrécit que si des recouvrements subsistent.
+      function recouvrement(b, liste) {
+        var pire = 0;
+        for (var j = 0; j < liste.length; j++) {
+          var o = liste[j], m = o.r + b.r + 6 - Math.sqrt((o.x - b.x) * (o.x - b.x) + (o.y - b.y) * (o.y - b.y));
+          if (m > pire) pire = m;
+        }
+        return pire;
+      }
+      function pireRecouvrement() {
+        var pire = 0;
+        for (var i = 0; i < bulles.length; i++) for (var j = i + 1; j < bulles.length; j++) {
+          var a = bulles[i], c = bulles[j], m = a.r + c.r - Math.sqrt((a.x - c.x) * (a.x - c.x) + (a.y - c.y) * (a.y - c.y));
+          if (m > pire) pire = m;
+        }
+        return pire;
+      }
       for (var essai = 0; essai < 14; essai++) {
         var poses = [], ok = true;
-        for (var k = 0; k < ordre.length && ok; k++) {
-          var b = ordre[k], trouve = false;
+        for (var k = 0; k < ordre.length; k++) {
+          var b = ordre[k], trouve = false, meilleur = null;
           for (var t = 0; t < 400; t++) {
             b.x = b.r + Math.random() * Math.max(1, W - 2 * b.r);
             b.y = Y0 + b.r + Math.random() * Math.max(1, H - Y0 - 2 * b.r);
-            if (k === 0 && b.poids > 1) { b.x = W * (0.35 + Math.random() * 0.3); b.y = Y0 + (H - Y0) * (0.35 + Math.random() * 0.3); }
+            if (familles.length > 1 && t < 260) {
+              var fi = familles.indexOf(b.d.famille), bande = W / familles.length;
+              b.x = borne(bande * (fi + 0.5) + (Math.random() - 0.5) * bande * 1.1, b.r, W - b.r);
+            } else if (k === 0 && b.poids > 1) { b.x = W * (0.35 + Math.random() * 0.3); b.y = Y0 + (H - Y0) * (0.35 + Math.random() * 0.3); }
             if (!chevauche(b, poses)) { trouve = true; break; }
+            var rec = recouvrement(b, poses);
+            if (!meilleur || rec < meilleur.rec) meilleur = { x: b.x, y: b.y, rec: rec };
           }
-          if (trouve) poses.push(b); else ok = false;
+          if (!trouve) { b.x = meilleur.x; b.y = meilleur.y; }
+          poses.push(b);
         }
+        for (var it = 0; it < 300; it++) if (!separer()) break;
+        ok = pireRecouvrement() <= 1;
         if (ok) break;
-        bulles.forEach(function (b) { b.r *= 0.93; });
+        bulles.forEach(function (b) { b.r *= 0.95; });
       }
       var v0 = vitesseDerive();
       bulles.forEach(function (b) {
@@ -119,50 +157,74 @@
     }
     function vitesseDerive() { return mouvementReduit.matches ? 0 : borne(Math.min(W, H) * 0.03, 10, 22); }
     // Taille du texte : proportionnelle au rayon, réduite si un mot ou le bloc ne tient pas dans le cercle.
+    // Le titre est posé sur un bandeau horizontal (pleine largeur, rogné par le cercle), un peu sous le centre :
+    // l’image reste visible au-dessus. Largeur utile du texte : corde du cercle au bord le plus éloigné du bandeau.
+    function plancher() { return W < 600 ? 10 : 11.5; }
+    // Décalage du bandeau sous le centre : 22 % du rayon pour un bandeau bas, recentré à mesure qu’il s’épaissit
+    // (un bandeau centré dispose de la corde la plus large).
+    function decalage(b, h) { return borne(b.r * 0.22 - (h - b.r * 0.6) * 0.5, 0, b.r * 0.22); }
+    function poserBandeau(b) {
+      var h = b.texte.offsetHeight;
+      b.texte.style.top = Math.round(b.n.clientHeight / 2 + decalage(b, h) - h / 2) + "px";
+    }
     function ajuster(b, depart) {
-      var d = Math.round(b.r * 2);
+      var d = Math.round(b.r * 2), min = plancher();
       b.n.style.width = d + "px"; b.n.style.height = d + "px";
-      var taille = depart || borne(b.r * 0.235, 11, 20), hauteur = b.r * 1.36;
-      b.texte.style.width = Math.round(b.r * 1.56) + "px";
-      function tient() { return b.titre.scrollWidth <= b.titre.clientWidth + 1 && b.texte.offsetHeight <= hauteur; }
+      var taille = Math.max(min, depart || borne(b.r * 0.2, min, b.d.vedette ? 24 : 20));
+      // Le texte tient si chaque ligne reste dans la corde du cercle au bord le plus éloigné du bandeau.
+      function tient() {
+        var interieur = b.n.clientWidth, rayon = interieur / 2, tw = rayon * 1.8;
+        for (var j = 0; j < 5; j++) {
+          b.texte.style.paddingLeft = b.texte.style.paddingRight = Math.max(3, (interieur - tw) / 2).toFixed(1) + "px";
+          var h = b.texte.offsetHeight;
+          if (h > rayon * 1.5) return false;
+          var e = Math.min(1, (decalage(b, h) + h / 2) / rayon), permis = 2 * Math.sqrt(1 - e * e) * rayon * 0.94;
+          if (tw <= permis + 1) return b.titre.scrollWidth <= b.titre.clientWidth + 1;
+          tw = permis;
+        }
+        return false;
+      }
       // D’abord sans couper les mots (texte un peu plus petit), puis avec césures si nécessaire.
-      var debut = taille, plancher = Math.max(9.5, debut * 0.8);
+      var debut = taille, bas = Math.max(min, debut * 0.8);
+      b.ok = true;
       b.titre.textContent = b.d.titre;
       for (var k = 0; k < 30; k++) {
         b.n.style.fontSize = taille.toFixed(1) + "px";
-        if (tient()) return taille;
-        taille -= 0.4; if (taille < plancher) break;
+        if (tient()) { poserBandeau(b); return taille; }
+        taille -= 0.4; if (taille < bas) break;
       }
       b.titre.textContent = b.cesure; taille = debut;
-      for (k = 0; k < 30; k++) {
+      for (k = 0; k < 40; k++) {
         b.n.style.fontSize = taille.toFixed(1) + "px";
         if (tient()) break;
-        taille -= 0.4; if (taille < 9) { taille = 9; b.n.style.fontSize = "9px"; break; }
+        taille -= 0.4; if (taille < min) { taille = min; b.n.style.fontSize = min + "px"; b.ok = false; break; }
       }
+      poserBandeau(b);
       return taille;
     }
     // Même taille de texte pour toutes les bulles de même rayon ; une bulle au titre long grossit un peu plutôt que d’écrire petit.
-    function dimensionnerTout(agrandir) {
-      var tailles = bulles.map(function (b) { return ajuster(b) / (b.poids * (b.ajust || 1)); });
+    function dimensionnerTout(agrandir, tour) {
+      var tailles = bulles.map(function (b) { return ajuster(b) / (b.pe * (b.ajust || 1)); });
       var tri = tailles.slice().sort(function (a, b) { return a - b; }), mediane = tri[Math.floor(tri.length / 2)];
-      if (agrandir) {
+      if (agrandir && (tour || 0) < 8) {
         var change = false;
         bulles.forEach(function (b, i) {
-          if (tailles[i] < mediane * 0.92) { b.ajust = Math.min(1.18, (b.ajust || 1) * mediane / tailles[i]); change = true; }
+          if (!b.ok && (b.ajust || 1) < 1.6) { b.ajust = Math.min(1.6, (b.ajust || 1) * 1.1); change = true; }
+          else if (b.ok && tailles[i] < mediane * 0.92 && (b.ajust || 1) < 1.18) { b.ajust = Math.min(1.18, (b.ajust || 1) * mediane / tailles[i]); change = true; }
         });
-        if (change) { rayons(); return dimensionnerTout(false); }
+        if (change) { rayons(); return dimensionnerTout(true, (tour || 0) + 1); }
       }
-      bulles.forEach(function (b, i) { ajuster(b, Math.min(tailles[i], mediane) * b.poids * (b.ajust || 1)); });
+      bulles.forEach(function (b, i) { ajuster(b, Math.min(tailles[i], mediane) * b.pe * (b.ajust || 1)); });
     }
     function mesurer() {
       if (place && !zone.isConnected) { arreter(); return; }
       var w = zone.clientWidth, h = zone.clientHeight;
       if (!w || !h) return;
-      if (place && Math.abs(w - W) < 1 && Math.abs(h - H) < 1) return;
-      var ancienW = W, ancienH = H;
-      W = w; H = h;
       // Sur petit écran, la légende occupe le haut de la zone : les bulles restent dessous.
-      Y0 = legende && getComputedStyle(legende).position === "static" ? legende.offsetHeight : 0;
+      var y0 = legende && !/absolute|fixed/.test(getComputedStyle(legende).position) ? legende.offsetHeight : 0;
+      if (place && Math.abs(w - W) < 1 && Math.abs(h - H) < 1 && Math.abs(y0 - Y0) < 1) return;
+      var ancienW = W, ancienH = H;
+      W = w; H = h; Y0 = y0;
       bulles.forEach(function (b) { b.ajust = 1; });
       rayons();
       dimensionnerTout(true);
@@ -229,9 +291,26 @@
         b.x += b.vx * dt; b.y += b.vy * dt;
         if (v > 1) actif = true;
       });
+      if (options.regrouper && vmin) regrouper(dt);
       for (var it = 0; it < 3; it++) collisions();
       bulles.forEach(murs);
       return actif || vmin > 0;
+    }
+    // Attraction douce vers le centre de sa famille : les bulles d’une même famille se rapprochent sans gêner le jeu.
+    function regrouper(dt) {
+      var centres = {};
+      bulles.forEach(function (b) {
+        var c = centres[b.d.famille] || (centres[b.d.famille] = { x: 0, y: 0, n: 0 });
+        c.x += b.x; c.y += b.y; c.n++;
+      });
+      bulles.forEach(function (b) {
+        var c = centres[b.d.famille];
+        if (immobile(b) || b.survol || c.n < 2) return;
+        var dx = c.x / c.n - b.x, dy = c.y / c.n - b.y, d = Math.sqrt(dx * dx + dy * dy);
+        if (d < b.r * 1.6) return;
+        var a = Math.min(40, d * 0.12);
+        b.vx += dx / d * a * dt; b.vy += dy / d * a * dt;
+      });
     }
     function dessiner(b) { b.n.parentNode.style.transform = "translate3d(" + (b.x - b.r).toFixed(1) + "px," + (b.y - b.r).toFixed(1) + "px,0)"; }
 
@@ -249,7 +328,7 @@
     function demarrer() { if (!raf && place && zone.isConnected && !ongletCache()) { dernier = 0; raf = requestAnimationFrame(boucle); } }
     function visibilite() { if (!zone.isConnected) arreter(); else if (!ongletCache()) demarrer(); }
     var ro = window.ResizeObserver ? new ResizeObserver(mesurer) : null;
-    if (ro) ro.observe(zone);
+    if (ro) { ro.observe(zone); if (legende) ro.observe(legende); }
     window.addEventListener("resize", mesurer);
     document.addEventListener("visibilitychange", visibilite);
     if (mouvementReduit.addEventListener) mouvementReduit.addEventListener("change", demarrer);
