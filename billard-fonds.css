@@ -22,6 +22,11 @@
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit;
   background: radial-gradient(130% 100% at 50% 45%, rgba(0, 0, 0, 0) 45%, color-mix(in srgb, var(--bi-nuit) 55%, transparent) 100%);
 }
+/* 2.34 : repli sans color-mix() (Safari < 16.2, Firefox < 113) : bordure et voile sombres équivalents. Inactif dans Chrome. */
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+  :is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers) { border-color: var(--bi-nuit); }
+  :is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers)::after { background: radial-gradient(130% 100% at 50% 45%, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, .5) 100%); }
+}
 @keyframes bi-fond-derive { from { transform: scale(1) translate(0, 0); } to { transform: scale(1.05) translate(-1.2%, -.8%); } }
 html.co-onglet-cache :is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers)::before { animation-play-state: paused; }
 

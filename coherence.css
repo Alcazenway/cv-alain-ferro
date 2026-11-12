@@ -21,7 +21,9 @@ summary::-webkit-details-marker { display: none; }
 .co-onglets { display: flex; gap: 4px; }
 .co-onglets a, .co-plus-bouton { display: inline-flex; align-items: center; min-height: 38px; padding: 8px 12px; border: 0; border-radius: 24px; background: none; color: var(--encre); font: inherit; font-size: 14px; text-decoration: none; cursor: pointer; white-space: nowrap; }
 .co-onglets a:hover, .co-plus-bouton:hover, .co-plus-liste a:hover { background: #e8f0ed; color: var(--encre); }
-.co-onglets a[aria-current="page"], .co-plus-liste a[aria-current="page"], .co-plus:has([aria-current="page"]) .co-plus-bouton { background: #e5efeb; font-weight: 700; text-decoration: underline 2px var(--experience); text-underline-offset: 6px; }
+/* 2.34 : :has() isolé dans sa propre règle, pour que l’onglet actif reste marqué dans les navigateurs sans :has(). */
+.co-onglets a[aria-current="page"], .co-plus-liste a[aria-current="page"] { background: #e5efeb; font-weight: 700; text-decoration: underline 2px var(--experience); text-underline-offset: 6px; }
+.co-plus:has([aria-current="page"]) .co-plus-bouton { background: #e5efeb; font-weight: 700; text-decoration: underline 2px var(--experience); text-underline-offset: 6px; }
 .co-plus { position: relative; }
 .co-plus-bouton::after { content: "▾"; margin-left: 6px; font-size: 11px; }
 .co-plus-liste { display: none; position: absolute; right: 0; top: calc(100% + 8px); min-width: 210px; padding: 8px; background: var(--fond); border: 1px solid var(--filet); border-radius: 18px; box-shadow: 0 10px 26px rgba(25, 56, 61, .12); z-index: 30; }
@@ -298,7 +300,7 @@ body[data-fond="interets"] .co-fond-image { background-image: url("assets/fonds/
   .co-menu-libelle { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .co-entretien { max-width: 118px; padding: 6px 12px; white-space: normal; text-align: center; line-height: 1.2; }
   .co-onglets { grid-template-columns: 1fr 1fr; }
-  p, li { hyphens: auto; }
+  p, li { -webkit-hyphens: auto; hyphens: auto; }
 }
 /* ---------- v2.18 : bandeau à deux actions, repères temporels, catalogues uniformes ---------- */
 .co-actions-bandeau { display: flex; flex-wrap: nowrap; justify-content: flex-end; gap: 8px; }
@@ -347,6 +349,7 @@ body[data-fond="interets"] .co-fond-image { background-image: url("assets/fonds/
 /* ---------- v2.19 : vignettes en grands boutons, légère animation de toutes les pages ---------- */
 .co-catalogue { display: grid; gap: 12px; }
 .co-competence:has(> .co-tuile) { display: block; padding: 0; border-bottom: 0; }
+@supports not selector(:has(*)) { .co-competence { display: block; padding: 0; border-bottom: 0; } } /* 2.34 : toute .co-competence contient une .co-tuile (app.js) */
 .co-tuile { display: flex; align-items: center; gap: 20px; min-height: 84px; padding: 18px 26px; border: 1px solid var(--filet); border-radius: 28px; background: rgba(255, 255, 255, .72); color: var(--encre); text-decoration: none; transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease, background .35s ease; }
 a.co-tuile:hover, a.co-tuile:focus-visible { transform: translateY(-3px); border-color: var(--experience); background: #fff; box-shadow: 0 12px 28px rgba(25, 56, 61, .12); color: var(--encre); }
 .co-tuile-fleche { flex: none; margin-left: auto; font-size: 22px; color: var(--experience); transition: transform .35s ease; }
