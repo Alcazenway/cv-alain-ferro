@@ -37,17 +37,20 @@
 
   // Chemin libre et stable, au format paysage de l’écran : premier pas en bas à gauche, dernier en haut à droite.
   // Trois passages avec montées et descentes ; les hauteurs sont une métaphore graphique, jamais un classement des expériences.
-  // v2.18 : calculé pour n’importe quel nombre d’étapes ; les repères Naissance et Aujourd’hui sont posés hors du chemin (marges gauche et droite).
-  var RANGEES = [628, 372, 116], X0 = 250, X1 = 1150;
-  function chemin(nombre) {
+  // v2.27 : le trajet complet part de la naissance, en haut de la marge gauche, descend jusqu’à la première étape
+  // (le BAC), suit les trois rangées puis finit sur « Aujourd’hui », en haut à droite. Il sert aussi au personnage animé.
+  // « annexe » : index d’une étape sous laquelle une bulle hors chemin est suspendue (le BTS sous Apprenti courtier).
+  var RANGEES = [572, 374, 176], X0 = 250, X1 = 1150;
+  function chemin(nombre, annexe) {
     if (nombre < 6) return null;
     var p = [], tailles = [Math.ceil(nombre / 3), Math.ceil((nombre - Math.ceil(nombre / 3)) / 2)];
     tailles.push(nombre - tailles[0] - tailles[1]);
     tailles.forEach(function (n, r) {
       for (var j = 0; j < n; j++) {
         var x = n > 1 ? X0 + j * (X1 - X0) / (n - 1) : (X0 + X1) / 2;
-        // Rangée du milieu parcourue de droite à gauche ; légère ondulation.
-        p.push({ x: Math.round(r === 1 ? X0 + X1 - x : x), y: RANGEES[r] + (j % 2 ? -22 : 18) });
+        // Rangée du milieu parcourue de droite à gauche ; légère ondulation, en phase d’une rangée à l’autre (écart constant).
+        var colonne = r === 1 ? n - 1 - j : j;
+        p.push({ x: Math.round(r === 1 ? X0 + X1 - x : x), y: RANGEES[r] + (colonne % 2 ? 18 : -22) });
       }
     });
     var arrondi = function (n) { return Math.round(n * 10) / 10; };
@@ -56,8 +59,15 @@
       var a = p[Math.max(0, i - 1)], b = p[i], c = p[i + 1], d = p[Math.min(p.length - 1, i + 2)];
       route += " C" + arrondi(b.x + (c.x - a.x) / 6) + "," + arrondi(b.y + (c.y - a.y) / 6) + " " + arrondi(c.x - (d.x - b.x) / 6) + "," + arrondi(c.y - (d.y - b.y) / 6) + " " + c.x + "," + c.y;
     }
-    return { positions: p, route: route, viewBox: "0 0 1400 740", rayon: 64,
-      debut: { x: 90, y: 660 }, fin: { x: 1310, y: 84 } };
+    var rayon = 64, debut = { x: 118, y: 104 }, coude = p[0].y - 70, der = p[p.length - 1], fin = { x: 1292, y: der.y + 12 };
+    // Descente verticale dans la marge gauche, puis arrivée à l’horizontale sur la première bulle.
+    var depart = "M" + debut.x + "," + debut.y + " L" + debut.x + "," + coude +
+      " C" + debut.x + "," + (p[0].y - 20) + " " + (debut.x + 50) + "," + p[0].y + " " + p[0].x + "," + p[0].y;
+    var arrivee = " C" + (der.x + 50) + "," + der.y + " " + (fin.x - 60) + "," + fin.y + " " + fin.x + "," + fin.y;
+    var geo = { positions: p, route: route, trajet: depart + route.replace(/^M[^ ]+/, "") + arrivee, viewBox: "0 0 1400 818", rayon: rayon,
+      debut: debut, fin: fin, coude: { x: debut.x, y: coude } };
+    if (annexe >= 0 && annexe < p.length) geo.annexe = { x: p[annexe].x, y: p[annexe].y + 2 * rayon + 30 };
+    return geo;
   }
 
   /* ---------- Bandeau : menu mobile et menu complémentaire ---------- */

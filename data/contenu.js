@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.26.0",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.27.0",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -149,14 +149,57 @@ window.CV = {
         ]
       },
       {
-        "id": "assistant-projets-numeriques",
-        "titre": "Assistant projets numériques",
-        "justification": "Cadrage des besoins, suivi des essais et contrôle des évolutions.",
+        "id": "developpeur-web-ia",
+        "titre": "Développeur web junior assisté par IA",
+        "justification": "Applications web conçues et pilotées avec des assistants IA : React, Next.js, Supabase.",
+        "preuves": [
+          "knockin",
+          "barysense",
+          "poussepousse",
+          "creations-ia"
+        ]
+      },
+      {
+        "id": "integrateur-web",
+        "titre": "Intégrateur web / no-code",
+        "justification": "Sites publiés et services reliés : GitHub Pages, Netlify, paiement Stripe, e-mails Brevo.",
+        "preuves": [
+          "cv-interactif",
+          "skylivra",
+          "plateformes"
+        ]
+      },
+      {
+        "id": "assistant-chef-projet-numerique",
+        "titre": "Assistant chef de projet numérique",
+        "justification": "Cadrage des besoins, critères d’acceptation, suivi des versions et coordination de plusieurs assistants IA.",
         "preuves": [
           "skylivra",
-          "knockin",
           "outils-ia",
+          "knockin",
           "barysense"
+        ]
+      },
+      {
+        "id": "testeur-recetteur",
+        "titre": "Testeur / recetteur logiciel",
+        "justification": "Essais de chaque évolution, retours d’usage, tests en vol dans MSFS et contrôles avant publication.",
+        "preuves": [
+          "cv-interactif",
+          "knockin",
+          "skylivra",
+          "poussepousse"
+        ]
+      },
+      {
+        "id": "charge-automatisation",
+        "titre": "Chargé d’automatisation IA / Excel",
+        "justification": "Outils Excel (Power Query, VBA) et scripts Python ou PowerShell produits puis vérifiés avec l’IA.",
+        "preuves": [
+          "excel",
+          "tosa",
+          "outils-ia",
+          "creations-ia"
         ]
       },
       {
@@ -174,19 +217,29 @@ window.CV = {
   "chiffres": [
     {
       "valeur": "30 à 40",
-      "libelle": "agents et kinés encadrés aux Thermes"
+      "libelle": "agents et kinés encadrés aux Thermes",
+      "lien": "#/parcours/thermes-responsable"
     },
     {
       "valeur": "10 ans",
-      "libelle": "d’encadrement d’équipes"
+      "libelle": "d’encadrement d’équipes",
+      "lien": "#/parcours/thermes-responsable"
     },
     {
       "valeur": "7 ans",
-      "libelle": "à la tête d’une activité de négoce"
+      "libelle": "à la tête d’une activité de négoce",
+      "lien": "#/parcours/negoce"
+    },
+    {
+      "valeur": "Orchestration IA",
+      "libelle": "5 projets livrés en pilotant des assistants IA",
+      "lien": "#/orchestration-ia",
+      "fort": true
     },
     {
       "valeur": "850 / 1000",
-      "libelle": "Tosa Excel avancé"
+      "libelle": "Tosa Excel avancé",
+      "lien": "#/parcours/tosa"
     }
   ],
   "competences": [
@@ -1420,7 +1473,7 @@ window.CV = {
       "bulle": [
         "Simulation de vol"
       ],
-      "periode": "1998–aujourd’hui",
+      "periode": "2003–aujourd’hui",
       "important": true
     },
     {
@@ -2909,7 +2962,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne contient aucun formulaire : l’éditeur ne collecte aucune donnée. Le bouton « Proposer un entretien » ouvre simplement votre messagerie, sans aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "11 novembre 2026",
-    "version": "2.26.0"
+    "version": "2.27.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"
