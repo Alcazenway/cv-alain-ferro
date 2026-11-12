@@ -351,7 +351,7 @@
       // Personnage animé : son âge suit les années de début des bulles, utilisées comme jalons du trajet.
       if (window.Personnage) {
         var jalons = [{ x: geo.debut.x, y: geo.debut.y, annee: y0 }, { x: enfance.x, y: enfance.y, annee: ye }]
-          .concat(etapesChemin.map(function (e, i) { return { x: geo.positions[i].x, y: geo.positions[i].y, annee: anneeDebut(e), bulle: true }; }))
+          .concat(etapesChemin.map(function (e, i) { return { x: geo.positions[i].x, y: geo.positions[i].y, annee: anneeDebut(e), bulle: true, id: e.id }; }))
           .concat([{ x: geo.fin.x, y: geo.fin.y, annee: +REPERES.fin.annee }]);
         window.Personnage.animer(svgChemin, { trajet: trajet, calque: calque, etiquettes: etiquettes, jalons: jalons, rayon: geo.rayon, naissance: y0 });
       }

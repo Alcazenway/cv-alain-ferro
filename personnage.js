@@ -33,6 +33,34 @@
     cheveux:   ["#c47a45", "#b97342", "#a3653b", "#8e5634", "#7d4a2f", "#744530", "#6f4430", "#6c432f", "#6a4330"]
   };
 
+  /* v2.31 : tenues selon l’activité de la bulle parcourue. Couleurs (haut, bas, chaussure, bras = manches), couvertures
+     (manche, pantalon, chemise = col et boutons) et accessoires (poids 0 → 1, fondus entre deux tenues). */
+  var TENUES = {
+    enfant: {}, actuelle: {},
+    ecolier:     { haut: "#34558b", bas: "#4a5463", chaussure: "#f2f2f2", manche: 1, pantalon: 1, chemise: .9, cartable: 1 },
+    vigneron:    { haut: "#efe6cf", bas: "#3f6aa0", chaussure: "#6b4a2f", manche: .45, pantalon: 1, chemise: 0, salopette: 1, gants: 1, panier: 1 },
+    skiman:      { haut: "#d4473c", bas: "#2c3e50", chaussure: "#3d3d3d", manche: 1, pantalon: 1, chemise: 0, bonnet: 1, gants: 1 },
+    vendeur:     { haut: "#f4f6f8", bas: "#2f3a4a", chaussure: "#2b211b", manche: 1, pantalon: 1, chemise: 1, cravate: 1, porteDoc: 1 },
+    serveur:     { haut: "#fbfbfb", bas: "#1f2024", chaussure: "#1b1b1b", manche: 1, pantalon: 1, chemise: 1, gilet: 1, noeud: 1, plateau: 1 },
+    bricoleur:   { haut: "#efe6cf", bas: "#3f6aa0", chaussure: "#6b4a2f", manche: .45, pantalon: 1, chemise: 0, salopette: 1, marteau: 1, gants: .6 },
+    gerant:      { haut: "#eef1f4", bras: "#3a4a5e", bas: "#2e3a48", chaussure: "#2b211b", manche: 1, pantalon: 1, chemise: 1, veste: 1, porteDoc: 1, cravate: .0 },
+    pilote:      { haut: "#3e6c8c", manche: .55, casque: 1 },
+    commercial:  { haut: "#e3ecf5", bras: "#6f8196", vesteC: "#6f8196", bas: "#3a4656", chaussure: "#2b211b", manche: 1, pantalon: 1, chemise: 1, veste: 1, porteDoc: 1 },
+    negociateur: { haut: "#e3ecf5", bras: "#6f8196", vesteC: "#6f8196", bas: "#3a4656", chaussure: "#2b211b", manche: 1, pantalon: 1, chemise: 1, veste: 1, cravate: 1, cravateC: "#3c6e9e", dossier: 1 },
+    soignant:    { haut: "#f6fafa", bas: "#eef4f4", chaussure: "#ffffff", manche: .45, pantalon: 1, chemise: 0, blouse: 1, badge: 1, lisere: 1, badgeC: "#8fb3c9", lisereC: "#9fc3cf" },
+    responsable: { haut: "#f6fafa", bas: "#eef4f4", chaussure: "#ffffff", manche: .45, pantalon: 1, chemise: 0, blouse: 1, badge: 1, lisere: 1, badgeC: "#e0a526", lisereC: "#087e83" },
+    informaticien: { haut: "#3d4a5c", manche: .55, chemise: 0, micro: 1 },
+    jardinier:   { haut: "#7a9a52", bas: "#6b5a43", chaussure: "#5a3b2a", manche: .45, chemise: 0, chapeau: 1, arrosoir: 1 },
+    bureau:      { haut: "#dfe9f3", bas: "#2e3a48", manche: .6, chemise: 1, lunettes: 1, dossier: 1 },
+    numerique:   { laptop: 1 }
+  };
+  var TENUE_ID = { bac: "ecolier", vendanges: "vigneron", skiman: "skiman", courtier: "vendeur", londres: "serveur", bateau: "bricoleur",
+    negoce: "gerant", simulation: "pilote", pailletrice: "commercial", immobilier: "negociateur", "thermes-agent": "soignant",
+    "thermes-responsable": "responsable", pc: "informaticien", maison: "bricoleur", "plein-air": "jardinier", "stage-audit": "bureau",
+    "stage-cecosud": "bureau", "outils-ia": "numerique" };
+  var ACCESSOIRES = ["cartable", "salopette", "gants", "bonnet", "cravate", "porteDoc", "gilet", "noeud", "plateau", "marteau", "veste",
+    "casque", "micro", "blouse", "badge", "lisere", "chapeau", "arrosoir", "lunettes", "dossier", "laptop", "panier"];
+
   function lisse(a, b, x) { var t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
   function segment(a) {
     var i = 0;
@@ -103,6 +131,7 @@
     E.pivot = cree(g, "g");            // miroir (profil gauche) et demi-tour simulé
     E.corps = cree(E.pivot, "g");      // bond de la marche, balancement du nourrisson
     // Ordre de profondeur pour le profil : bras arrière, jambe arrière, jambe avant, torse, bras avant.
+    E.cartableArr = cree(E.corps, "path", { class: "pe-trait", fill: "#b5562e" });
     E.brasG = membre(E.corps); E.mainG = cree(E.corps, "circle", { class: "pe-trait", fill: PEAU });
     E.jambeG = membre(E.corps); E.chausG = cree(E.corps, "ellipse", { class: "pe-trait" });
     E.jambeD = membre(E.corps); E.chausD = cree(E.corps, "ellipse", { class: "pe-trait" });
@@ -111,7 +140,31 @@
     E.encolure = cree(E.chemise, "path", { class: "pe-trait", fill: PEAU });
     E.colG = cree(E.chemise, "path", { class: "pe-trait" }); E.colD = cree(E.chemise, "path", { class: "pe-trait" });
     E.bouton1 = cree(E.chemise, "circle", { fill: TRAIT }); E.bouton2 = cree(E.chemise, "circle", { fill: TRAIT });
+    // Habits des tenues, par-dessus le torse.
+    E.salopette = cree(E.corps, "path", { class: "pe-trait" });
+    E.gilet = cree(E.corps, "path", { class: "pe-trait", fill: "#25282d" });
+    E.veste = cree(E.corps, "path", { class: "pe-trait" });
+    E.lisere = cree(E.corps, "path", { class: "pe-ligne" });
+    E.cravate = cree(E.corps, "path", { class: "pe-trait" });
+    E.noeud = cree(E.corps, "path", { class: "pe-trait", fill: "#1d1e22" });
+    E.badge = cree(E.corps, "path", { class: "pe-trait" });
+    E.bretelles = cree(E.corps, "path", { class: "pe-ligne", stroke: "#7a3a1f" });
+    E.cartableDos = cree(E.corps, "path", { class: "pe-trait", fill: "#b5562e" });
     E.brasD = membre(E.corps); E.mainD = cree(E.corps, "circle", { class: "pe-trait", fill: PEAU });
+    // Objets tenus dans la main avant.
+    E.objet = cree(E.corps, "g");
+    E.porteDoc = cree(E.objet, "path", { class: "pe-trait", fill: "#6b4a2f" });
+    E.dossier = cree(E.objet, "path", { class: "pe-trait", fill: "#4f7fb5" });
+    E.laptop = cree(E.objet, "path", { class: "pe-trait", fill: "#9aa3ad" });
+    E.laptopLogo = cree(E.objet, "circle", { fill: "#eef1f3" });
+    E.marteauManche = cree(E.objet, "path", { class: "pe-trait", fill: "#a8743f" });
+    E.marteauTete = cree(E.objet, "path", { class: "pe-trait", fill: "#7d8790" });
+    E.arrosoirAnse = cree(E.objet, "path", { class: "pe-ligne", stroke: "#3f7657" });
+    E.arrosoir = cree(E.objet, "path", { class: "pe-trait", fill: "#4e8f6a" });
+    E.panier = cree(E.objet, "path", { class: "pe-trait", fill: "#b5824e" });
+    E.raisin = cree(E.objet, "path", { class: "pe-trait", fill: "#7b3f8c" });
+    E.verre = cree(E.objet, "path", { class: "pe-trait", fill: "#f3d6dc" });
+    E.plateau = cree(E.objet, "path", { class: "pe-trait", fill: "#cfd6dc" });
     // Lange du nourrisson : cocon et bande croisée, qui s’effacent quand l’enfant commence à marcher.
     var defs = cree(g, "defs"), clip = cree(defs, "clipPath", { id: id });
     E.clipLange = cree(clip, "ellipse");
@@ -131,14 +184,36 @@
     E.bouche = cree(E.corps, "path", { class: "pe-ligne" });
     E.cheveux = cree(E.corps, "path", { class: "pe-trait" });
     E.meche = cree(E.corps, "path", { class: "pe-ligne", fill: "none" });
+    // Accessoires de tête.
+    E.lunettes = cree(E.corps, "path", { class: "pe-ligne", fill: "rgba(255,255,255,.28)" });
+    E.bonnet = cree(E.corps, "path", { class: "pe-trait", fill: "#2f6fb0" });
+    E.pompon = cree(E.corps, "circle", { class: "pe-trait", fill: "#f4f4f4" });
+    E.bord = cree(E.corps, "path", { class: "pe-trait", fill: "#e8cd7e" });
+    E.calotteChapeau = cree(E.corps, "path", { class: "pe-trait", fill: "#e8cd7e" });
+    E.ruban = cree(E.corps, "path", { fill: "#8a5a2b" });
+    E.arceau = cree(E.corps, "path", { class: "pe-ligne", stroke: "#2b2f36" });
+    E.ecouteurs = cree(E.corps, "path", { class: "pe-trait", fill: "#2b2f36" });
+    E.micro = cree(E.corps, "path", { class: "pe-ligne", stroke: "#2b2f36" });
+    E.microBout = cree(E.corps, "circle", { fill: "#2b2f36" });
     E.etiquette = cree(calqueHaut || calque, "text", { class: "pe-etiquette" });
     this.g = g; this.E = E;
   }
 
   /* Dessine le personnage à l’âge a (années), pieds au point (x, y).
      phase = cycle de marche, mouv = 0 (arrêt) → 1 (marche), vue = face | dos | droite | gauche, sx = largeur apparente (demi-tour). */
-  Figure.prototype.dessiner = function (a, x, y, phase, annee, mouv, vue, sx) {
+  Figure.prototype.dessiner = function (a, x, y, phase, annee, mouv, vue, sx, tenue) {
     var E = this.E, P = parametres(a);
+    // Tenue : mélange de la tenue a vers la tenue b (t), couleurs et accessoires interpolés.
+    var TA = TENUES[tenue && tenue.a] || {}, TB = TENUES[tenue && tenue.b] || {}, tt = tenue ? tenue.t : 0;
+    function mixC(cle, def) { var ca = TA[cle] ? rgb(TA[cle]) : def, cb = TB[cle] ? rgb(TB[cle]) : def; return ca.map(function (v, i) { return v + (cb[i] - v) * tt; }); }
+    function mixN(cle, def) { var va = TA[cle] != null ? TA[cle] : def, vb = TB[cle] != null ? TB[cle] : def; return va + (vb - va) * tt; }
+    P.haut = mixC("haut", P.haut); P.bas = mixC("bas", P.bas); P.chaussure = mixC("chaussure", P.chaussure);
+    var brasC = mixC("bras", P.haut);
+    P.manche = mixN("manche", P.manche); P.pantalon = mixN("pantalon", P.pantalon);
+    var X = {}; ACCESSOIRES.forEach(function (k) { X[k] = mixN(k, 0); });
+    var colTenue = mixN("chemise", lisse(17, 23, a));
+    this.g.setAttribute("data-tenue", tt < .5 ? (tenue && tenue.a) || "" : tenue.b);
+    this.g.setAttribute("data-fondu", tt > .02 && tt < .98 && TA !== TB ? "1" : "0");
     var profil = vue === "droite" || vue === "gauche", dos = vue === "dos", face = !profil && !dos;
     var H = P.taille, hh = P.tete * H, hw = hh * P.ratio, cou = P.cou * H, th = P.torse * H;
     var lange = 1 - lisse(.6, 1.8, a), marche = 1 - lange;
@@ -194,7 +269,7 @@
     });
 
     /* ---- Bras : balancement opposé à la jambe du même côté ---- */
-    var bras = th * (.9 + .12 * lisse(3, 16, a)), Lb = bras * .5, d = profil ? sw * .56 + P.ventre * H * .02 : sw;
+    var mains = {}, bras = th * (.9 + .12 * lisse(3, 16, a)), Lb = bras * .5, d = profil ? sw * .56 + P.ventre * H * .02 : sw;
     [-1, 1].forEach(function (k) {
       var B = E[k < 0 ? "brasG" : "brasD"], ph = phase + (k < 0 ? 0 : Math.PI), av = Math.sin(ph) * amp, pts;
       if (profil) {
@@ -206,17 +281,24 @@
         // Bras qui part vers l’avant : l’avant-bras se raccourcit et la main remonte un peu.
         pts = [[sx0, sy0], coude, [coude[0] + k * bras * .04 - k * Math.max(0, av) * bras * .05, coude[1] + Lb * (1 - .5 * Math.max(0, av))]];
       }
+      if (k > 0 && X.plateau > .01) { // serveur : avant-bras relevé qui porte le plateau
+        var s0 = pts[0], pose = profil ? [s0, [s0[0] + Lb * .12, s0[1] + Lb * .95], [s0[0] + Lb * .98, s0[1] + Lb * .72]]
+          : [s0, [s0[0] + bras * .1, s0[1] + Lb * .92], [s0[0] + bras * .32, s0[1] + Lb * .5]];
+        pts = pts.map(function (q, i) { return [q[0] + (pose[i][0] - q[0]) * X.plateau, q[1] + (pose[i][1] - q[1]) * X.plateau]; });
+      }
+      mains[k] = pts[2];
       var arriere = profil && k < 0, c = coupe(pts, P.manche);
       poly(B.contour, pts); B.contour.setAttribute("stroke-width", f(aw + 2.2));
-      poly(B.tissu, c[0]); B.tissu.setAttribute("stroke", teint(P.haut, arriere ? .82 : 1)); B.tissu.setAttribute("stroke-width", f(aw));
+      poly(B.tissu, c[0]); B.tissu.setAttribute("stroke", teint(brasC, arriere ? .82 : 1)); B.tissu.setAttribute("stroke-width", f(aw));
       poly(B.peau, c[1]); B.peau.setAttribute("stroke-width", f(aw)); B.peau.setAttribute("opacity", P.manche > .98 ? 0 : 1);
       B.peau.setAttribute("stroke", arriere ? "#e6c3a6" : PEAU);
       var M = E[k < 0 ? "mainG" : "mainD"], m = pts[2]; attrs(M, { cx: m[0], cy: m[1], r: aw * .62 });
-      M.setAttribute("fill", arriere ? "#e6c3a6" : PEAU);
+      var gant = rgb(PEAU).map(function (v, i) { return v + ([201, 138, 58][i] - v) * Math.min(1, X.gants); });
+      M.setAttribute("fill", teint(gant, arriere ? .92 : 1));
     });
 
     /* ---- Torse : trapèze arrondi ; de profil, plus étroit avec le ventre vers l’avant ---- */
-    var r = Math.min(d * .55, th * .35), v = P.ventre * H * .07, bas = hanche + lw * .3, hb = profil ? d * .9 : hw2;
+    var r = Math.min(d * .55, th * .35), v = P.ventre * H * .07, bas = hanche + lw * .3 + X.blouse * jambe * .3, hb = (profil ? d * .9 : hw2) * (1 + .12 * X.blouse);
     var vg = profil ? v * .2 : v, vd = v;
     E.torse.setAttribute("d", "M" + f(-d) + "," + f(epaule + r) + "Q" + f(-d) + "," + f(epaule) + " " + f(-d + r) + "," + f(epaule) +
       "L" + f(d - r) + "," + f(epaule) + "Q" + f(d) + "," + f(epaule) + " " + f(d) + "," + f(epaule + r) +
@@ -225,10 +307,10 @@
     E.torse.setAttribute("fill", haut);
 
     /* ---- Chemise de l’adulte : col et boutons en fondu, adaptés à la vue ---- */
-    var nw = hw * .2, col = lisse(17, 23, a), bR = Math.max(.6, hh * .045);
+    var nw = hw * .2, col = Math.max(0, Math.min(1, colTenue)), bR = Math.max(.6, hh * .045);
     E.chemise.setAttribute("opacity", f(col)); voir(E.chemise, col > .01);
     E.colG.setAttribute("fill", haut); E.colD.setAttribute("fill", haut);
-    voir(E.encolure, face); voir(E.colD, face); voir(E.bouton1, !dos); voir(E.bouton2, !dos);
+    voir(E.encolure, face); voir(E.colD, face); E.encolure.setAttribute("opacity", f(1 - Math.max(X.cravate, X.noeud))); voir(E.bouton1, !dos); voir(E.bouton2, !dos);
     if (face) {
       E.encolure.setAttribute("d", "M" + f(-nw * 1.2) + "," + f(epaule) + "L0," + f(epaule + hh * .26) + "L" + f(nw * 1.2) + "," + f(epaule) + "Z");
       E.colG.setAttribute("d", "M" + f(-nw * 1.25) + "," + f(epaule - .4) + "L" + f(-nw * 2.3) + "," + f(epaule + hh * .14) + "L" + f(-hh * .03) + "," + f(epaule + hh * .25) + "Z");
@@ -328,6 +410,100 @@
     E.meche.setAttribute("d", "M" + f(-hw * .08) + "," + f(hautT + hh * .16) + "Q" + f(hw * .02) + "," + f(hautT - hh * .02) + " " + f(hw * .16) + "," + f(hautT + hh * .06) +
       "Q" + f(hw * .06) + "," + f(hautT + hh * .1) + " " + f(hw * .02) + "," + f(hautT + hh * .2));
 
+    /* ---- Tenues : habits et accessoires en fondu, dessinés pour chaque vue ---- */
+    var u = lw, sb = lw * .22, yb0 = epaule + th * .36;
+    function Z(pts) { return ptsD(pts) + "Z"; }
+    function rect(x0, y0, x1, y1) { return Z([[x0, y0], [x1, y0], [x1, y1], [x0, y1]]); }
+    function ell(cx, cy, rx, ry) { return "M" + f(cx - rx) + "," + f(cy) + "A" + f(rx) + "," + f(ry) + " 0 1 0 " + f(cx + rx) + "," + f(cy) + "A" + f(rx) + "," + f(ry) + " 0 1 0 " + f(cx - rx) + "," + f(cy) + "Z"; }
+    function op(n, w, ok, dessin) {
+      var on = w > .01 && ok !== false; voir(n, on);
+      if (on) { n.setAttribute("opacity", f(Math.min(1, w))); if (dessin != null) n.setAttribute("d", dessin); }
+    }
+    // Salopette : bavette et bretelles (croisées de dos).
+    E.salopette.setAttribute("fill", teint(P.bas));
+    op(E.salopette, X.salopette, true, face
+      ? Z([[-d * .55, yb0], [d * .55, yb0], [hb, bas], [-hb, bas]]) + Z([[-d * .64, epaule + .5], [-d * .64 + sb * 2, epaule + .5], [-d * .5 + sb * 2, yb0], [-d * .5, yb0]]) +
+        Z([[d * .64, epaule + .5], [d * .64 - sb * 2, epaule + .5], [d * .5 - sb * 2, yb0], [d * .5, yb0]])
+      : dos ? Z([[-d * .62, epaule + .5], [-d * .62 + sb * 2, epaule + .5], [d * .6, hanche - th * .2], [d * .6 - sb * 2, hanche - th * .2]]) +
+        Z([[d * .62, epaule + .5], [d * .62 - sb * 2, epaule + .5], [-d * .6, hanche - th * .2], [-d * .6 + sb * 2, hanche - th * .2]]) +
+        Z([[-hb * 1.06, hanche - th * .22], [hb * 1.06, hanche - th * .22], [hb, bas], [-hb, bas]])
+      : Z([[-d * .05, yb0], [d * .98 + vd * .5, yb0], [hb + vd * .4, bas], [-hb, bas], [-hb, hanche - th * .2], [-d * .05, hanche - th * .2]]) +
+        Z([[-d * .05, yb0], [-d * .05 + sb * 2, yb0], [-d * .3 + sb * 2, epaule + .5], [-d * .3, epaule + .5]]));
+    // Gilet sans manches du serveur.
+    op(E.gilet, X.gilet, true, face
+      ? Z([[-d * .96, epaule + th * .1], [-nw * 1.15, epaule + .4], [0, epaule + th * .5], [nw * 1.15, epaule + .4], [d * .96, epaule + th * .1], [hb + vd * .3, bas], [0, bas + lw * .5], [-hb - vd * .3, bas]])
+      : dos ? Z([[-d * .96, epaule + th * .08], [d * .96, epaule + th * .08], [hb + vd * .3, bas], [-hb - vd * .3, bas]])
+      : Z([[-d * .96, epaule + th * .08], [d * .25, epaule + .4], [d * .95 + vd * .5, epaule + th * .5], [hb + vd * .4, bas + lw * .4], [-hb, bas]]));
+    // Veste ouverte (gérant, commercial) : pans de part et d’autre de la chemise ; manches de la même couleur.
+    E.veste.setAttribute("fill", teint(mixC("vesteC", [58, 74, 94])));
+    var vb = bas + lw * .6;
+    op(E.veste, X.veste, true, face
+      ? Z([[-d - .3, epaule + r * .4], [-d + r, epaule - .3], [-nw * 1.25, epaule - .3], [-nw * .55, epaule + th * .45], [-hb * .42, vb], [-hb - vd * .6 - .3, vb], [-d - vd - .3, epaule + th * .55]]) +
+        Z([[d + .3, epaule + r * .4], [d - r, epaule - .3], [nw * 1.25, epaule - .3], [nw * .55, epaule + th * .45], [hb * .42, vb], [hb + vd * .6 + .3, vb], [d + vd + .3, epaule + th * .55]])
+      : dos ? Z([[-d - .3, epaule + r * .4], [-d + r, epaule - .3], [d - r, epaule - .3], [d + .3, epaule + r * .4], [d + vd + .3, epaule + th * .55], [hb + vd * .6 + .3, vb], [-hb - vd * .6 - .3, vb], [-d - vd - .3, epaule + th * .55]])
+      : Z([[-d - .3, epaule + r * .4], [-d + r, epaule - .3], [d * .4, epaule - .3], [d * .62 + vd * .3, epaule + th * .45], [hb * .75 + vd * .4, vb], [-hb - .3, vb], [-d - vg - .3, epaule + th * .55]]));
+    // Liseré d’encolure de la tunique de soignant.
+    E.lisere.setAttribute("stroke", teint(mixC("lisereC", [159, 195, 207]))); E.lisere.setAttribute("stroke-width", f(lw * .34));
+    op(E.lisere, X.lisere, true, face ? ptsD([[-nw * 1.45, epaule + .3], [0, epaule + hh * .4], [nw * 1.45, epaule + .3]])
+      : dos ? ptsD([[-nw * 1.6, epaule + .5], [0, epaule + hh * .07], [nw * 1.6, epaule + .5]]) : ptsD([[d * .1, epaule + .3], [d * .85, epaule + hh * .34]]));
+    // Cravate, nœud papillon, badge : vus de face ou de profil seulement.
+    E.cravate.setAttribute("fill", teint(mixC("cravateC", [168, 61, 61])));
+    op(E.cravate, X.cravate, !dos, face
+      ? Z([[-nw * .4, epaule + .3], [nw * .4, epaule + .3], [nw * .22, epaule + hh * .13], [nw * .55, epaule + th * .6], [0, epaule + th * .72], [-nw * .55, epaule + th * .6], [-nw * .22, epaule + hh * .13]])
+      : Z([[d * .5, epaule + .3], [d * .8, epaule + .3], [d * 1.0 + vd * .4, epaule + th * .6], [d * .8 + vd * .4, epaule + th * .7]]));
+    var yn0 = epaule + hh * .05;
+    op(E.noeud, X.noeud, !dos, face
+      ? Z([[0, yn0], [-nw * 1.15, yn0 - hh * .075], [-nw * 1.15, yn0 + hh * .075]]) + Z([[0, yn0], [nw * 1.15, yn0 - hh * .075], [nw * 1.15, yn0 + hh * .075]])
+      : Z([[d * .5, yn0], [d * .98, yn0 - hh * .08], [d * .98, yn0 + hh * .08]]));
+    E.badge.setAttribute("fill", teint(mixC("badgeC", [143, 179, 201])));
+    var by = epaule + th * .24;
+    op(E.badge, X.badge, !dos, face ? rect(d * .22, by, d * .22 + hh * .26, by + hh * .17) : rect(d * .3, by, d * .3 + hh * .15, by + hh * .17));
+    // Cartable de l’écolier : sur le dos, bretelles visibles de face et de profil.
+    op(E.cartableDos, X.cartable, dos, rect(-d * .72, epaule + th * .1, d * .72, epaule + th * .84) + rect(-d * .72, epaule + th * .1, d * .72, epaule + th * .36));
+    op(E.cartableArr, X.cartable, profil, rect(-d - th * .38, epaule + th * .08, -d + 1, epaule + th * .82));
+    E.bretelles.setAttribute("stroke-width", f(lw * .38));
+    op(E.bretelles, X.cartable, !dos, face ? ptsD([[-d * .62, epaule + .5], [-d * .56, epaule + th * .62]]) + ptsD([[d * .62, epaule + .5], [d * .56, epaule + th * .62]])
+      : ptsD([[-d * .2, epaule + .3], [d * .55, epaule + th * .32], [d * .25, epaule + th * .58]]));
+    // Objets tenus dans la main avant (vus de chant quand le personnage est de face ou de dos).
+    var mn = mains[1] || [0, 0], wf = profil ? 1 : .42;
+    E.objet.setAttribute("transform", "translate(" + f(mn[0]) + "," + f(mn[1]) + ")");
+    op(E.porteDoc, X.porteDoc, true, rect(-1.35 * u * wf, .45 * u, 1.35 * u * wf, 2.3 * u));
+    op(E.dossier, X.dossier, true, rect(-1.05 * u * wf, .3 * u, 1.05 * u * wf, 2.45 * u) + rect(-.8 * u * wf, .3 * u, .9 * u * wf, .7 * u));
+    op(E.laptop, X.laptop, true, rect(-1.5 * u * wf, .3 * u, 1.5 * u * wf, 2.2 * u));
+    op(E.laptopLogo, X.laptop, profil); attrs(E.laptopLogo, { cx: 0, cy: 1.25 * u, r: .28 * u });
+    op(E.marteauManche, X.marteau, true, rect(-.22 * u, -.1 * u, .22 * u, 2.3 * u));
+    op(E.marteauTete, X.marteau, true, rect(-(profil ? .95 : .35) * u, 2.15 * u, (profil ? .7 : .35) * u, 2.8 * u));
+    var wa = profil ? 1 : .7;
+    op(E.arrosoir, X.arrosoir, true, rect(-1 * u * wa, 1 * u, 1 * u * wa, 2.6 * u) + Z([[1 * u * wa, 2.25 * u], [2.4 * u * wa, .85 * u], [2.7 * u * wa, 1 * u], [1 * u * wa, 1.8 * u]]));
+    E.arrosoirAnse.setAttribute("stroke-width", f(.35 * u));
+    op(E.arrosoirAnse, X.arrosoir, true, "M" + f(-.8 * u * wa) + "," + f(1 * u) + "Q0," + f(-.4 * u) + " " + f(.8 * u * wa) + "," + f(1 * u));
+    // Cagette de vendange : raisins violets qui dépassent.
+    var wp = profil ? 1 : .6;
+    op(E.raisin, X.panier, true, ell(-.6 * u * wp, .55 * u, .5 * u * wp, .45 * u) + ell(.1 * u * wp, .4 * u, .5 * u * wp, .45 * u) + ell(.75 * u * wp, .6 * u, .45 * u * wp, .42 * u));
+    op(E.panier, X.panier, true, rect(-1.5 * u * wp, .75 * u, 1.5 * u * wp, 2.1 * u) + "M" + f(-1.5 * u * wp) + "," + f(1.4 * u) + "L" + f(1.5 * u * wp) + "," + f(1.4 * u));
+    op(E.plateau, X.plateau, true, ell(0, -.35 * u, 2 * u, .34 * u));
+    op(E.verre, X.plateau, true, Z([[.1 * u, -2.2 * u], [1 * u, -2.2 * u], [.8 * u, -1.35 * u], [.3 * u, -1.35 * u]]) + rect(.48 * u, -1.35 * u, .62 * u, -.55 * u));
+    // Tête : lunettes, bonnet, chapeau de paille, casque audio (micro de l’informaticien).
+    var ox2 = -hw * .07, xL = tx + hw * .27, rL = hw * .125;
+    E.lunettes.setAttribute("stroke-width", f(lt * .85));
+    op(E.lunettes, X.lunettes, !dos, face ? ell(-hw * .2, ey, rL, rL * .85) + ell(hw * .2, ey, rL, rL * .85) + "M" + f(-hw * .2 + rL) + "," + f(ey) + "L" + f(hw * .2 - rL) + "," + f(ey)
+      : ell(xL, ey, rL * .9, rL * .85) + "M" + f(xL - rL * .9) + "," + f(ey) + "L" + f(ox2 + hh * .05) + "," + f(ey - hh * .03));
+    op(E.bonnet, X.bonnet, true, "M" + f(tx - hw * .57) + "," + f(teteY - hh * .1) + "A" + f(hw * .57) + "," + f(hh * .58) + " 0 0 1 " + f(tx + hw * .57) + "," + f(teteY - hh * .1) + "Z" +
+      rect(tx - hw * .6, teteY - hh * .22, tx + hw * .6, teteY - hh * .06));
+    op(E.pompon, X.bonnet); attrs(E.pompon, { cx: tx, cy: teteY - hh * .7, r: hh * .1 });
+    var cxh = tx + (profil ? hw * .08 : 0), yBord = teteY - hh * .3;
+    op(E.bord, X.chapeau, true, ell(cxh, yBord, hw * .98, hh * .1));
+    op(E.calotteChapeau, X.chapeau, true, "M" + f(tx - hw * .42) + "," + f(yBord) + "L" + f(tx - hw * .37) + "," + f(teteY - hh * .66) + "Q" + f(tx) + "," + f(teteY - hh * .76) + " " + f(tx + hw * .37) + "," + f(teteY - hh * .66) + "L" + f(tx + hw * .42) + "," + f(yBord) + "Z");
+    op(E.ruban, X.chapeau, true, rect(tx - hw * .41, teteY - hh * .43, tx + hw * .41, teteY - hh * .33));
+    var cq = Math.min(1, X.casque + X.micro);
+    E.arceau.setAttribute("stroke-width", f(hh * .08)); E.micro.setAttribute("stroke-width", f(hh * .045));
+    op(E.arceau, cq, true, profil ? "M" + f(ox2) + "," + f(teteY - hh * .06) + "Q" + f(ox2 - hw * .04) + "," + f(hautT - hh * .1) + " " + f(tx + hw * .12) + "," + f(hautT - hh * .06)
+      : "M" + f(-hw * .54) + "," + f(teteY - hh * .02) + "A" + f(hw * .56) + "," + f(hh * .6) + " 0 0 1 " + f(hw * .54) + "," + f(teteY - hh * .02));
+    op(E.ecouteurs, cq, true, profil ? ell(ox2 - hw * .01, teteY + hh * .05, hh * .12, hh * .16) : ell(-hw * .54, teteY + hh * .04, hh * .09, hh * .15) + ell(hw * .54, teteY + hh * .04, hh * .09, hh * .15));
+    var mic = profil ? [ox2, teteY + hh * .16, ox2 + hw * .1, teteY + hh * .44, tx + hw * .36, teteY + hh * .37] : [hw * .54, teteY + hh * .14, hw * .46, teteY + hh * .42, hw * .14, teteY + hh * .36];
+    op(E.micro, X.micro, !dos, "M" + f(mic[0]) + "," + f(mic[1]) + "Q" + f(mic[2]) + "," + f(mic[3]) + " " + f(mic[4]) + "," + f(mic[5]));
+    op(E.microBout, X.micro, !dos); attrs(E.microBout, { cx: mic[4], cy: mic[5], r: hh * .055 });
+
     // Étiquette discrète : année et âge, à droite de la tête (hors miroir).
     var age = Math.floor(a + 1e-6);
     E.etiquette.textContent = annee + " · " + (age < 1 ? "naissance" : age + (age > 1 ? " ans" : " an"));
@@ -348,7 +524,7 @@
       }
       if (n === o.jalons.length - 1) best = N - 1;
       var annee = Math.max(J.length ? J[J.length - 1].annee : j.annee, j.annee || 0);
-      J.push({ i: best, annee: annee, bulle: !!j.bulle });
+      J.push({ i: best, annee: annee, bulle: !!j.bulle, id: j.id });
       depuis = best;
     });
     var annees = new Float32Array(N), leve = new Float32Array(N), poids = new Float32Array(N);
@@ -363,11 +539,38 @@
       bulles.forEach(function (bb) { var u = Math.abs(k3 - bb.i) / W; if (u < 1) l = Math.max(l, Hb * Math.pow(Math.cos(u * Math.PI / 2), 2)); });
       leve[k3] = l;
       // Enfance plus lente (la descente avant le BAC) : plus de temps pour voir grandir l’enfant.
-      poids[k3] = k3 < J[2].i ? 1.9 : 1;
+      // v2.31 : ralenti au passage de chaque bulle, le temps de voir la tenue.
+      poids[k3] = (k3 < J[2].i ? 1.9 : 1) * (1 + .9 * l / Hb);
     }
     var cumul = new Float32Array(N);
     for (var k4 = 1; k4 < N; k4++) cumul[k4] = cumul[k4 - 1] + poids[k4];
-    return { N: N, X: X, Y: Y, annees: annees, leve: leve, cumul: cumul, pas: pas, vues: orientations(X, Y, N) };
+    var T = { N: N, X: X, Y: Y, annees: annees, leve: leve, cumul: cumul, pas: pas, vues: orientations(X, Y, N) };
+    tenues(T, bulles, W);
+    return T;
+  }
+
+  /* Tenue par zone : enfant jusqu’à l’approche de la première bulle, puis tenue de chaque bulle jusqu’au début de la
+     montée sur la suivante (il « enfile » la nouvelle tenue en y arrivant), tenue actuelle après la dernière ;
+     fondu court sur FT points de part et d’autre de chaque frontière. W = demi-largeur de la bosse au-dessus d’une bulle. */
+  function tenues(T, bulles, W) {
+    var N = T.N, bornes = [], noms = ["enfant"], FT = 10;
+    if (bulles.length) {
+      bornes.push(Math.max(0, bulles[0].i - 45));
+      bulles.forEach(function (bb, n) {
+        noms.push(TENUE_ID[bb.id] || "actuelle");
+        var suiv = bulles[n + 1];
+        bornes.push(suiv ? Math.max((bb.i + suiv.i) / 2, suiv.i - W * .45) : bb.i + (N - 1 - bb.i) * .5);
+      });
+    }
+    noms.push("actuelle");
+    T.tA = new Array(N); T.tB = new Array(N); T.tT = new Float32Array(N);
+    for (var k = 0, z = 0; k < N; k++) {
+      while (z < bornes.length && k >= bornes[z]) z++;
+      var a = noms[z], b = noms[z], t = 0;
+      if (z < bornes.length && bornes[z] - k < FT) { b = noms[z + 1]; t = lisse(-FT, FT, k - bornes[z]); }
+      else if (z > 0 && k - bornes[z - 1] < FT) { a = noms[z - 1]; t = lisse(-FT, FT, k - bornes[z - 1]); }
+      T.tA[k] = a; T.tB[k] = b; T.tT[k] = t;
+    }
   }
 
   /* Orientation selon la tangente du tracé (sans la bosse au-dessus des bulles) : descente = face, montée = dos,
@@ -396,7 +599,7 @@
     return V;
   }
 
-  var FONDU = .8, ATTENTE_DEBUT = 1.4, MARCHE = 37, ATTENTE_FIN = 2.6, DEMI_TOUR = .32;
+  var FONDU = .8, ATTENTE_DEBUT = 1.4, MARCHE = 60, ATTENTE_FIN = 2.6, DEMI_TOUR = .32;
   var CYCLE = FONDU + ATTENTE_DEBUT + MARCHE + ATTENTE_FIN + FONDU;
   var actifs = [];
 
@@ -413,9 +616,9 @@
     return !reduitSysteme();
   }
 
+  // v2.31 : bouton placé dans l’en-tête du Parcours, après la légende (repli : coin bas droit du cadre du chemin).
   function bascule(cadre, etat) {
     if (!cadre || !cadre.appendChild) return null;
-    cadre.classList.add("pe-cadre");
     var b = document.createElement("button");
     b.type = "button"; b.className = "pe-bascule";
     var ic = document.createElementNS(NS, "svg");
@@ -437,8 +640,13 @@
       maj();
     });
     maj();
-    cadre.appendChild(b);
     etat.majBouton = maj;
+    etat.placer = function () {
+      if (b.isConnected) return;
+      var tete = cadre.parentNode && cadre.parentNode.querySelector(".co-tete-parcours");
+      if (tete) tete.appendChild(b);
+      else { cadre.classList.add("pe-cadre"); cadre.appendChild(b); }
+    };
     return b;
   }
 
@@ -469,8 +677,11 @@
       var T = etat.T, i = Math.max(0, Math.min(T.N - 1, Math.floor(k))), j = Math.min(T.N - 1, i + 1), t = k - i;
       var x = T.X[i] + (T.X[j] - T.X[i]) * t, y = T.Y[i] + (T.Y[j] - T.Y[i]) * t - (T.leve[i] + (T.leve[j] - T.leve[i]) * t);
       var annee = T.annees[i] + (T.annees[j] - T.annees[i]) * t, age = Math.max(0, annee - o.naissance);
+      // Rangée du haut : la tête (et un éventuel chapeau) reste dans le cadre ; les pieds passent alors sous la bulle.
+      y = Math.max(y, parametres(age).taille * 1.2 + 6);
       var or = orienter(vue || T.vues[i], dt);
-      etat.figure.dessiner(age, x, y, etat.phase, Math.floor(annee + 1e-6), etat.mouv, or.vue, or.sx);
+      var ii = Math.round(k) >= T.N ? T.N - 1 : Math.round(k);
+      etat.figure.dessiner(age, x, y, etat.phase, Math.floor(annee + 1e-6), etat.mouv, or.vue, or.sx, { a: T.tA[ii], b: T.tB[ii], t: T.tT[ii] });
       o.calque.setAttribute("opacity", opacite.toFixed(3));
       if (o.etiquettes) o.etiquettes.setAttribute("opacity", opacite.toFixed(3));
       return age;
@@ -505,6 +716,7 @@
     function boucle(maintenant) {
       if (etat.arret) return;
       if (!svg.isConnected) { arreter(); return; }
+      if (etat.placer) etat.placer();
       if (document.hidden) return; // reprise par visibilitychange
       // Chemin masqué (vue liste) : vérification espacée, sans faire avancer le temps.
       if (!svg.getBoundingClientRect().width) { etat.prec = null; etat.attente = setTimeout(function () { etat.rafId = requestAnimationFrame(boucle); }, 500); return; }
