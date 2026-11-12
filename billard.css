@@ -10,6 +10,32 @@
   .lecture-flux:has(> .bi-zone) > .co-tete .co-filigrane { width: 120px; height: 120px; top: -26px; right: 3%; }
   .lecture-flux:has(> .bi-zone) > .co-pied { flex: none; margin-top: 6px; padding-top: 6px; }
 }
+/* 2.34 : repli sans :has() (Safari < 15.4, Firefox < 121) : mêmes règles sur la classe posée par billard.js. Inactif dans Chrome. */
+@supports not selector(:has(*)) {
+  @media screen {
+    .lecture-flux.bi-flux { min-height: 100%; display: flex; flex-direction: column; padding-bottom: 4px; max-width: 1600px; }
+    .lecture-flux.bi-flux > .co-tete { flex: none; min-height: 0; padding: 2px 1% 8px; overflow: visible; }
+    .lecture-flux.bi-flux > .co-tete h1 { font-size: 32px; }
+    .lecture-flux.bi-flux > .co-tete .co-filigrane { width: 120px; height: 120px; top: -26px; right: 3%; }
+    .lecture-flux.bi-flux > .co-pied { flex: none; margin-top: 6px; padding-top: 6px; }
+  }
+  @media screen and (max-width: 740px) {
+    .lecture-flux.bi-flux > .co-tete { padding: 0 2px 6px; }
+    .lecture-flux.bi-flux > .co-tete h1 { font-size: 26px; }
+    .lecture-flux.bi-flux > .co-tete .co-filigrane { width: 90px; height: 90px; top: -18px; right: 0; }
+  }
+}
+/* 2.34 : repli sans color-mix() (Safari < 16.2, Firefox < 113, Chrome < 111) : halos en blanc translucide au lieu de disparaître. */
+@supports not (color: color-mix(in srgb, red 50%, blue)) {
+  .bi-bulle:hover { box-shadow: 0 0 0 2px rgba(255, 255, 255, .9), 0 12px 28px rgba(25, 56, 61, .28), 0 0 0 7px rgba(255, 255, 255, .3); }
+  .bi-bulle.tenue { box-shadow: 0 0 0 2px #fff, 0 18px 36px rgba(25, 56, 61, .32), 0 0 0 8px rgba(255, 255, 255, .32); }
+  .bi-bulle.bi-vedette { animation: none; box-shadow: 0 0 0 2px rgba(255, 255, 255, .9), 0 8px 22px rgba(25, 56, 61, .24), 0 0 0 6px rgba(255, 255, 255, .35); }
+}
+/* 2.34 : sans paint-order sur le texte HTML (Chrome < 123, Samsung Internet < 27), le contour mangerait les lettres :
+   contour fin, l'ombre portée assure le contraste. light-dark() est arrivé dans Chrome avec paint-order HTML (123). Inactif dans Chrome récent. */
+@supports not (color: light-dark(#000, #fff)) {
+  .bi-titre, .bi-sous { -webkit-text-stroke-width: .03em; }
+}
 
 /* Zone de jeu : fond clair par défaut, surchargeable (pas de !important) ; un éventuel ::before reste sous les bulles. */
 .bi-zone { --bi-c: var(--experience); position: relative; flex: 1 1 auto; min-height: 340px; overflow: hidden; isolation: isolate;

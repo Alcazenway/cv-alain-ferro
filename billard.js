@@ -224,6 +224,8 @@
     }
     function mesurer() {
       if (place && !zone.isConnected) { arreter(); return; }
+      // 2.34 : repère du conteneur pour les navigateurs sans :has() (Safari < 15.4, Firefox < 121) ; voir billard.css.
+      if (zone.parentNode && zone.parentNode.classList && !zone.parentNode.classList.contains("bi-flux")) zone.parentNode.classList.add("bi-flux");
       var w = zone.clientWidth, h = zone.clientHeight;
       if (!w || !h) return;
       // Sur petit écran, la légende occupe le haut de la zone : les bulles restent dessous.

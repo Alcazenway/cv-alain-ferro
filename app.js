@@ -788,7 +788,7 @@
     }
     if (h === "/savoir-formations") return { rubrique: "savoir", titre: SAVOIR, rendu: pageSavoir(), liste: true };
     if (h === "/competences") return { rubrique: "competences", titre: "Compétences", rendu: pageCompetences(), liste: true };
-    if ((m = h.match(/^\/competence\/([\w-]+)$/)) && !compId[m[1]] && (D.aliasCompetences || {})[m[1]]) { history.replaceState(null, "", "#/competence/" + D.aliasCompetences[m[1]]); return resoudre("/competence/" + D.aliasCompetences[m[1]]); }
+    if ((m = h.match(/^\/competence\/([\w-]+)$/)) && !compId[m[1]] && Object.prototype.hasOwnProperty.call(D.aliasCompetences || {}, m[1])) { history.replaceState(null, "", "#/competence/" + D.aliasCompetences[m[1]]); return resoudre("/competence/" + D.aliasCompetences[m[1]]); }
     if ((m = h.match(/^\/competence\/([\w-]+)$/)) && compId[m[1]]) return { rubrique: "competences", titre: compId[m[1]].titre, rendu: ficheCompetence(compId[m[1]]), liste: true, detail: true };
     if (h === "/interets") return { rubrique: "interets", titre: "Intérêts", rendu: pageInterets(), liste: true };
     if ((m = h.match(/^\/interet\/([\w-]+)$/))) {

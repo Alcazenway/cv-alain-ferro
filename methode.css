@@ -21,7 +21,7 @@
 .co-graphe-filtre[aria-pressed="true"] { background: var(--personnel); color: #fff; }
 .co-graphe-filtre:focus-visible { outline: 3px solid var(--experience); outline-offset: 2px; }
 .co-graphe { position: relative; height: max(560px, calc(100vh - var(--bandeau, 70px) - 190px)); border: 1px solid var(--filet); border-radius: 28px; background: rgba(255, 255, 255, .78); overflow: hidden; }
-.co-graphe-svg { display: block; width: 100%; height: 100%; user-select: none; }
+.co-graphe-svg { display: block; width: 100%; height: 100%; -webkit-user-select: none; user-select: none; }
 .co-ilot { fill: #edf3ec; opacity: .7; transition: opacity .3s; }
 .co-ilot.assistant { fill: #e3ecec; } .co-ilot.dev { fill: #e8eff6; } .co-ilot.creation { fill: #f8eee8; } .co-ilot.projet { fill: #efe9f3; }
 .co-ilot-titre { font-size: 12px; font-weight: 700; letter-spacing: .14em; fill: var(--discret); }
