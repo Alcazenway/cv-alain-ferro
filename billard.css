@@ -49,27 +49,26 @@
 
 /* Image : opacité pleine, légèrement relevée (le sujet reste au-dessus du bandeau), zoom doux au survol. */
 .bi-fond { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;
-  transform: translateY(-13%) scale(1.3); filter: saturate(1.15) contrast(1.05); transition: transform .6s ease; }
-.bi-bulle:hover .bi-fond, .bi-bulle:focus-visible .bi-fond { transform: translateY(-13%) scale(1.4); }
+  transform: scale(1.08); filter: saturate(1.15) contrast(1.05); transition: transform .6s ease; }
+.bi-bulle:hover .bi-fond, .bi-bulle:focus-visible .bi-fond { transform: scale(1.16); }
 .bi-bulle.avec-fond { background: var(--bi-pale); }
 /* Léger modelé sur le pourtour, pour la profondeur de la boule. */
 .bi-bulle.avec-fond::before { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: 50%; pointer-events: none;
-  background: radial-gradient(circle at 50% 42%, rgba(0, 0, 0, 0) 58%, rgba(10, 20, 25, .2) 100%); }
+  background: radial-gradient(circle at 50% 50%, rgba(8, 14, 18, .26) 0%, rgba(8, 14, 18, .12) 55%, rgba(10, 20, 25, .24) 100%); } /* v2.29 : léger voile central pour le titre */
 
 /* Bandeau du titre : pleine largeur, rogné par le cercle, couleur foncée de la famille ; position verticale posée par billard.js. */
-.bi-texte { position: absolute; left: 0; right: 0; top: 56%; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: .14em;
-  padding: .42em 0 .46em; pointer-events: none;
-  background: color-mix(in srgb, var(--bi-fort) 92%, transparent); /* sans backdrop-filter : Chrome ne le rognerait pas au cercle */
-  box-shadow: 0 -1px 0 rgba(255, 255, 255, .4), 0 1px 0 rgba(255, 255, 255, .4), 0 4px 14px rgba(0, 0, 0, .18); }
+.bi-texte { position: absolute; left: 0; right: 0; top: 50%; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: .14em;
+  padding: 0; pointer-events: none;
+  background: none; box-shadow: none; } /* v2.29 : plus de bandeau coloré */
 .bi-titre { display: block; width: 100%; font-weight: 700; color: #fff; letter-spacing: .005em; text-wrap: balance; overflow-wrap: normal;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, .35); }
-.bi-sous { display: block; font-size: max(.78em, 10px); font-weight: 500; color: rgba(255, 255, 255, .92); text-shadow: 0 1px 2px rgba(0, 0, 0, .3); }
+  font-weight: 800; paint-order: stroke fill; -webkit-text-stroke: .14em rgba(8, 14, 18, .82);
+  text-shadow: 0 0 2px rgba(0, 0, 0, .9), 0 1px 3px rgba(0, 0, 0, .9), 0 0 10px rgba(0, 0, 0, .75), 0 0 22px rgba(0, 0, 0, .45); }
+.bi-sous { display: block; font-size: max(.62em, 12px); font-weight: 700; color: #fff; paint-order: stroke fill; -webkit-text-stroke: .12em rgba(8, 14, 18, .8); text-shadow: 0 0 3px rgba(0, 0, 0, .9), 0 0 10px rgba(0, 0, 0, .7); }
 
 /* Bulles vedettes : plus grandes, anneau plus épais, halo lent de la couleur de la famille, titre en avant. */
 .bi-bulle.bi-vedette { border-width: 6px; animation: bi-halo 3.6s ease-in-out infinite alternate; }
 .bi-bulle.bi-vedette .bi-titre { font-weight: 800; letter-spacing: .01em; }
-.bi-bulle.bi-vedette .bi-texte { padding-top: .5em; box-shadow: 0 -2px 0 color-mix(in srgb, var(--bi-c) 70%, #fff), 0 2px 0 color-mix(in srgb, var(--bi-c) 70%, #fff), 0 6px 18px rgba(0, 0, 0, .22); }
-.bi-bulle.bi-vedette .bi-texte::before { content: "★"; display: block; margin-bottom: .05em; font-size: .72em; line-height: 1; color: #ffd76a; text-shadow: 0 1px 2px rgba(0, 0, 0, .4); }
+/* v2.29 : vedettes sans étoile ni bandeau ; mises en valeur par la taille, l'anneau et le halo. */
 @keyframes bi-halo {
   from { box-shadow: 0 0 0 2px rgba(255, 255, 255, .9), 0 8px 22px rgba(25, 56, 61, .24), 0 0 0 0 color-mix(in srgb, var(--bi-c) 55%, transparent); }
   to { box-shadow: 0 0 0 2px rgba(255, 255, 255, .9), 0 10px 26px rgba(25, 56, 61, .26), 0 0 0 14px color-mix(in srgb, var(--bi-c) 0%, transparent); }
@@ -110,7 +109,7 @@
   .lecture-flux:has(> .bi-zone) > .co-tete .co-filigrane { width: 90px; height: 90px; top: -18px; right: 0; }
   .bi-bulle { border-width: 3px; }
   .bi-bulle.bi-vedette { border-width: 4px; }
-  .bi-texte { padding: .3em 0 .34em; }
+  .bi-texte { padding: 0; }
   .bi-bulle { line-height: 1.1; }
   .bi-astuce { left: 8px; bottom: 6px; font-size: 11px; }
   .bi-legende { justify-content: flex-start; gap: 4px 5px; padding: 8px 8px 0; font-size: 11px; }
@@ -124,7 +123,7 @@
   .bi-bulle.bi-vedette, .bi-carte { animation: none; }
   .bi-bulle.bi-vedette { box-shadow: 0 0 0 2px rgba(255, 255, 255, .9), 0 8px 22px rgba(25, 56, 61, .24), 0 0 0 6px color-mix(in srgb, var(--bi-c) 35%, transparent); }
   .bi-bulle, .bi-fond { transition: none; }
-  .bi-bulle:hover .bi-fond, .bi-bulle:focus-visible .bi-fond { transform: translateY(-13%) scale(1.3); }
+  .bi-bulle:hover .bi-fond, .bi-bulle:focus-visible .bi-fond { transform: scale(1.08); }
 }
 @media print {
   .bi-zone { min-height: 0; border: 0; box-shadow: none; overflow: visible; }
