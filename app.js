@@ -690,7 +690,7 @@
   ];
   // Poste → [famille, image de fond]. Images déjà publiques (vignettes du site, photos publiées), choisies pour le sens du métier.
   var POSTES = {
-    "developpeur-web-ia": ["numerique", "vignettes/competence-creations-ia.webp"],        // écrans de développement
+    "developpeur-web-ia": ["numerique", "vignettes/poste-developpeur.webp"],        // écrans de développement
     "integrateur-web": ["numerique", "vignettes/competence-plateformes.webp"],            // serveur dans le nuage, services web
     "assistant-chef-projet-numerique": ["numerique", "photos/aurora-apercu-studio.webp"], // studio SkyLivra, projet numérique mené
     "testeur-recetteur": ["numerique", "vignettes/competence-informatique.webp"],         // carte mère, composants testés
@@ -742,7 +742,7 @@
       tetePage("Intérêts", "planete"),
       window.Billard.creer({ page: "interets", libelle: "Intérêts", bulles: D.interets.map(function (x) {
         var vedette = vedettes.indexOf(x.id) !== -1;
-        return { id: "interet-" + x.id, famille: "interet", titre: x.nom, fond: fondVignette("interet", x.id), vedette: vedette, poids: vedette ? 1.32 : 1,
+        return { id: "interet-" + x.id, famille: "interet", titre: x.nom, fond: fondVignette("interet", x.id), vedette: vedette, poids: x.id === "sciences" ? 1.18 : vedette ? 1.32 : 1, // v2.30 : Sciences un peu réduite (Alain)
           lien: x.lien || "#/interet/" + x.id, aria: x.nom + " : page dédiée" };
       }) })
     ];

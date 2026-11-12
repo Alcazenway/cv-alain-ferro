@@ -1,9 +1,25 @@
-/* Personnage animé du parcours (v2.27) : décoratif, jamais cliquable, sous les bulles. */
+/* Personnage animé du parcours (v2.30) : décoratif, jamais cliquable, sous les bulles. */
 .pe-calque, .pe-calque * { pointer-events: none; }
 .pe-trait { stroke: #1f474b; stroke-width: 1.1; stroke-linejoin: round; }
 .pe-ligne { fill: none; stroke: #1f474b; stroke-linecap: round; }
-.pe-membre, .pe-membre-contour { fill: none; stroke-linecap: round; }
+.pe-membre, .pe-membre-contour { fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .pe-membre-contour { stroke: #1f474b; }
 .pe-ombre { fill: rgba(25, 56, 61, .14); }
 .pe-etiquette { font-size: 12px; font-weight: 600; fill: var(--discret, #526c68); paint-order: stroke; stroke: rgba(252, 252, 248, .9); stroke-width: 4px; stroke-linejoin: round; letter-spacing: .02em; }
-@media print { .pe-calque { display: none; } }
+
+/* Bouton « Animation : activée / désactivée », en bas à droite de la zone du parcours. */
+.pe-cadre { position: relative; }
+.pe-bascule {
+  position: absolute; right: 10px; bottom: 8px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 12px 5px 10px; font: inherit; font-size: .8rem; line-height: 1.3;
+  color: var(--discret, #526c68); background: rgba(252, 252, 248, .9);
+  border: 1px solid var(--filet, #dbe4dc); border-radius: 999px; cursor: pointer;
+  transition: color .15s, border-color .15s, background-color .15s;
+}
+.pe-bascule:hover { color: var(--encre, #19383d); border-color: #b9cbc3; background: var(--carte, #fff); }
+.pe-bascule:focus-visible { outline: 2px solid var(--focus, #735389); outline-offset: 2px; color: var(--encre, #19383d); }
+.pe-bascule[aria-pressed="false"] { color: var(--encre, #19383d); }
+.pe-bascule-icone { width: 11px; height: 11px; fill: currentColor; flex: none; }
+@media (prefers-reduced-motion: reduce) { .pe-bascule { transition: none; } }
+@media print { .pe-calque, .pe-bascule { display: none; } }
