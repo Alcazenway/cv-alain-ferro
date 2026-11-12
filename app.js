@@ -749,6 +749,26 @@
   }
 
   /* ---------- Mentions ---------- */
+  // v2.35.0 : vérification du PDF (aucun contenu actif, empreinte SHA-256, analyse antivirus publique).
+  function securitePdf() {
+    var corps = el("div", null, [
+      el("p", { text: "Le CV en PDF ne contient aucun programme ni contenu actif : seulement du texte, des images et des liens vers ce site. Il est servi en HTTPS depuis GitHub Pages." }),
+      el("p", { class: "co-empreinte", text: "Empreinte SHA-256 du PDF : vérification en cours…" })
+    ]);
+    if (window.fetch) fetch("version.json?controle=" + Date.now(), { cache: "no-store", credentials: "omit" })
+      .then(function (r) { return r.json(); })
+      .then(function (m) {
+        var h = m && m.pdf && m.pdf.sha256;
+        if (!h || !/^[0-9a-f]{64}$/.test(h)) return;
+        var p = corps.querySelector(".co-empreinte");
+        p.textContent = "";
+        p.appendChild(document.createTextNode("Empreinte SHA-256 du PDF (version " + m.version + ") : "));
+        p.appendChild(el("code", { text: h }));
+        corps.appendChild(el("p", null, [el("a", { href: "https://www.virustotal.com/gui/file/" + h, target: "_blank", rel: "noopener noreferrer", text: "Voir l’analyse antivirus publique (VirusTotal) ↗" })]));
+      })
+      .catch(function () { /* hors ligne : texte général conservé */ });
+    return section("Sécurité du CV", corps);
+  }
   function pageMentions() {
     var M = D.mentions;
     return [
@@ -757,7 +777,8 @@
       section("Éditeur", el("p", { text: M.editeur })),
       section("Hébergement", el("p", { text: M.hebergeur })),
       section("Données personnelles", el("p", { text: M.donnees })),
-      section("Contenu", el("p", { text: "Les informations présentées décrivent le parcours d’Alain Ferro. Les photographies personnelles ne peuvent pas être réutilisées sans accord. Les fonds de rubrique sont des illustrations générées. Les logos appartiennent à leurs éditeurs respectifs et ne figurent qu’à titre d’identification." }))
+      section("Contenu", el("p", { text: "Les informations présentées décrivent le parcours d’Alain Ferro. Les photographies personnelles ne peuvent pas être réutilisées sans accord. Les fonds de rubrique sont des illustrations générées. Les logos appartiennent à leurs éditeurs respectifs et ne figurent qu’à titre d’identification." })),
+      securitePdf()
     ];
   }
 
