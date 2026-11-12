@@ -749,7 +749,7 @@
   }
 
   /* ---------- Mentions ---------- */
-  // v2.35.0 : vérification du PDF (aucun contenu actif, empreinte SHA-256, analyse antivirus publique).
+  // v2.35.1 : vérification du PDF (aucun contenu actif, empreinte SHA-256, analyse antivirus avant publication).
   function securitePdf() {
     var corps = el("div", null, [
       el("p", { text: "Le CV en PDF ne contient aucun programme ni contenu actif : seulement du texte, des images et des liens vers ce site. Il est servi en HTTPS depuis GitHub Pages." }),
@@ -764,7 +764,11 @@
         p.textContent = "";
         p.appendChild(document.createTextNode("Empreinte SHA-256 du PDF (version " + m.version + ") : "));
         p.appendChild(el("code", { text: h }));
-        corps.appendChild(el("p", null, [el("a", { href: "https://www.virustotal.com/gui/file/" + h, target: "_blank", rel: "noopener noreferrer", text: "Voir l’analyse antivirus publique (VirusTotal) ↗" })]));
+        var an = m.pdf.analyse;
+        if (an && an.resultat === "aucune menace" && /^\d{4}-\d{2}-\d{2}$/.test(an.date)) {
+          var j = an.date.split("-");
+          corps.appendChild(el("p", { text: "Analyse antivirus avant publication : " + an.outil + " (signatures " + String(an.signatures || "").replace(/[^\d.]/g, "") + ") le " + j[2] + "/" + j[1] + "/" + j[0] + " — aucune menace détectée." }));
+        }
       })
       .catch(function () { /* hors ligne : texte général conservé */ });
     return section("Sécurité du CV", corps);
