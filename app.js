@@ -417,11 +417,12 @@
         var porteur = geo.positions[iAnnexe];
         enfants.push(C.svg("path", { d: "M" + porteur.x + "," + (porteur.y + geo.rayon) + " L" + geo.annexe.x + "," + (geo.annexe.y - geo.rayon), class: "co-route-annexe" }));
       }
-      // Le personnage passe sous les bulles : il ne masque jamais leur lecture.
       enfants.push(repereTemps(REPERES.debut, geo.debut, "gauche"), repereTemps(REPERES.enfance, enfance, "gauche"),
-        repereTemps(REPERES.fin, geo.fin, "dessous"), calque);
+        repereTemps(REPERES.fin, geo.fin, "dessous"));
       enfants = enfants.concat(etapesChemin.map(function (e, i) { return noeudChemin(e, geo.positions[i], geo.rayon); }));
       if (geo.annexe) enfants.push(noeudChemin(annexe, { x: geo.annexe.x, y: geo.annexe.y, periodeACote: true }, geo.rayon));
+      // 2.42 : le personnage passe au-dessus des sphères (il marche sur leur dessus, jamais masqué).
+      enfants.push(calque);
       // Seule la petite étiquette d’âge passe au-dessus des bulles, pour rester lisible.
       var etiquettes = C.svg("g", { class: "pe-calque pe-calque-haut", "aria-hidden": "true" });
       enfants.push(etiquettes);
@@ -431,9 +432,11 @@
       // Personnage animé : son âge suit les années de début des bulles, utilisées comme jalons du trajet.
       if (window.Personnage) {
         var jalons = [{ x: geo.debut.x, y: geo.debut.y, annee: y0 }, { x: enfance.x, y: enfance.y, annee: ye }]
-          .concat(etapesChemin.map(function (e, i) { return { x: geo.positions[i].x, y: geo.positions[i].y, annee: anneeDebut(e), bulle: true, id: e.id }; }))
+          .concat(etapesChemin.map(function (e, i) { var q = geo.sommets ? geo.sommets[i] : geo.positions[i]; return { x: q.x, y: q.y, annee: anneeDebut(e), bulle: true, id: e.id }; }))
           .concat([{ x: geo.fin.x, y: geo.fin.y, annee: +REPERES.fin.annee }]);
-        window.Personnage.animer(svgChemin, { trajet: trajet, calque: calque, etiquettes: etiquettes, jalons: jalons, rayon: geo.rayon, naissance: y0 });
+        var marche = geo.marche ? C.svg("path", { d: geo.marche, class: "co-marche", "aria-hidden": "true" }) : null;
+        if (marche) svgChemin.insertBefore(marche, svgChemin.firstChild.nextSibling);
+        window.Personnage.animer(svgChemin, { trajet: marche || trajet, surSpheres: !!marche, calque: calque, etiquettes: etiquettes, jalons: jalons, rayon: geo.rayon, naissance: y0 });
       }
     }
     // Écran étroit ou bas : liste accessible, aujourd’hui en haut, repères temporels non interactifs.

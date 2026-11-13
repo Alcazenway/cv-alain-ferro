@@ -675,9 +675,10 @@
     // Position à l’indice fractionnaire k.
     function poser(k, opacite, vue, dt) {
       var T = etat.T, i = Math.max(0, Math.min(T.N - 1, Math.floor(k))), j = Math.min(T.N - 1, i + 1), t = k - i;
-      var x = T.X[i] + (T.X[j] - T.X[i]) * t, y = T.Y[i] + (T.Y[j] - T.Y[i]) * t - (T.leve[i] + (T.leve[j] - T.leve[i]) * t);
+      var x = T.X[i] + (T.X[j] - T.X[i]) * t, y = T.Y[i] + (T.Y[j] - T.Y[i]) * t - (o.surSpheres ? 0 : T.leve[i] + (T.leve[j] - T.leve[i]) * t);
       var annee = T.annees[i] + (T.annees[j] - T.annees[i]) * t, age = Math.max(0, annee - o.naissance);
-      // Rangée du haut : la tête (et un éventuel chapeau) reste dans le cadre ; les pieds passent alors sous la bulle.
+      // Rangée du haut : la tête (et un éventuel chapeau) reste dans le cadre. 2.42 : avec surSpheres (chemin posé sur
+      // le dessus des sphères, app.js/coherence.js), la bosse « leve » ne sert plus qu’au ralenti sur chaque bulle.
       y = Math.max(y, parametres(age).taille * 1.2 + 6);
       var or = orienter(vue || T.vues[i], dt);
       var ii = Math.round(k) >= T.N ? T.N - 1 : Math.round(k);
