@@ -94,6 +94,11 @@ export function creer(calque, calqueHaut) {
   const tronc = mesh(G.tronc, M.haut, corps), ventre = mesh(G.boule, M.haut, corps), bassin = mesh(G.boule, M.bas, corps);
   const cou = mesh(G.cyl, M.peau, corps);
   const tete = grp(corps), crane = mesh(G.boule, M.peau, tete), cheveuxG = grp(tete), cheveux = mesh(G.calotte, M.cheveux, cheveuxG), meche = mesh(G.boule, M.cheveux, tete);
+  // 2.48 : coupe adulte (après l'adolescence) d'après la photo d'Alain : dessus court texturé avec du volume, côtés en dégradé.
+  M.degrade = mat(0x6a4330, 0.9);
+  const coupeG = grp(tete), dessus = mesh(G.boule, M.cheveux, coupeG);
+  const boucles = [[-0.28, 0.1, 0.3], [0, 0.14, 0.36], [0.28, 0.1, 0.3], [-0.16, 0.2, 0.1], [0.16, 0.2, 0.12], [-0.3, 0.12, -0.1], [0.3, 0.12, -0.08], [0, 0.22, -0.12], [-0.12, 0.15, -0.32], [0.14, 0.15, -0.3]]
+    .map(([x, y, z]) => { const b = mesh(G.boule, M.cheveux, coupeG); b.userData.p = [x, y, z]; return b; });
   const yeux = [mesh(G.boule, M.oeil, tete), mesh(G.boule, M.oeil, tete)], joues = [mesh(G.boule, M.joue, tete), mesh(G.boule, M.joue, tete)];
   const nez = mesh(G.boule, M.joue, tete), oreilles = [mesh(G.boule, M.peau, tete), mesh(G.boule, M.peau, tete)];
   // 2.45 : plus de collerette (tore « col ») au cou. Visage : sourcils, bouche souriante, barbe et moustache.
@@ -230,7 +235,16 @@ export function creer(calque, calqueHaut) {
     cheveuxG.scale.set(hw * 1.07, hh * 1.04, hw * 1.03); cheveuxG.position.set(0, hh * 0.02, -hw * 0.02);
     cheveux.rotation.x = -0.42 + s.calotte * 0.2 - 0.36 * adulteC; // front dégagé de l’adulte (sourcils visibles)
     cheveux.visible = s.calotte > 0.05;
-    meche.visible = s.meche > 0.1 && (s.age || 0) < 22; meche.scale.set(hw * 0.5, hh * 0.16, hw * 0.3); meche.position.set(hw * 0.12, hh * 0.36, hw * 0.34); meche.rotation.z = -0.3;
+    // 2.48 : coupe adulte, progressive de 17 à 20 ans ; la calotte devient le dégradé (couleur mêlée à la peau, plus courte).
+    const coupe = Math.max(0, Math.min(1, ((s.age || 0) - 17) / 3));
+    M.degrade.color.copy(M.cheveux.color).lerp(M.peau.color, 0.14);
+    cheveux.material = coupe > 0.5 ? M.degrade : M.cheveux;
+    if (coupe > 0) cheveux.rotation.x += 0.12 * coupe;   // dégradé dégageant un peu plus les tempes
+    coupeG.visible = coupe > 0.02 && s.calotte > 0.05;
+    coupeG.position.set(0, hh * 0.25, hw * 0.03); coupeG.scale.set(hw, hh, hw);
+    dessus.scale.set(1.04, 0.3 + 0.06 * coupe, 1.02); dessus.position.set(0, 0, 0.01);
+    boucles.forEach((b) => { const [x, y, z] = b.userData.p; b.position.set(x * 0.95, 0.1 + y * 0.4 * coupe, z * 0.95); b.scale.set(0.17 * coupe, 0.11 * coupe, 0.17 * coupe); });
+    meche.visible = s.meche > 0.1 && (s.age || 0) < 22 && coupe < 0.4; meche.scale.set(hw * 0.5, hh * 0.16, hw * 0.3); meche.position.set(hw * 0.12, hh * 0.36, hw * 0.34); meche.rotation.z = -0.3;
     // 2.45 : visage inspiré du portrait d’Alain : yeux rieurs plissés, sourcils épais, nez marqué, grand sourire, barbe.
     const zs = (y) => hw * 0.48 * Math.sqrt(Math.max(0, 1 - Math.pow(y / (hh * 0.5), 2))); // surface avant du visage à la hauteur y
     yeux.forEach((e, n) => { e.scale.set(hh * 0.1, hh * 0.055, hh * 0.06); e.position.set((n ? 1 : -1) * hw * 0.19, hh * 0.04, zs(hh * 0.04) * 0.97); });
@@ -310,6 +324,7 @@ export function creer(calque, calqueHaut) {
     A.chapeau.scale.set(hw * 0.62, hh * 0.62, hw * 0.62); A.chapeau.position.set(0, hh * 0.42, 0); vis(A.chapeau, X.chapeau);
     A.casquette.scale.setScalar(hw); A.casquette.position.set(0, hh * 0.05, 0); vis(A.casquette, X.casquette);
     meche.visible = meche.visible && X.casquette < 0.6;
+    coupeG.visible = coupeG.visible && Math.max(X.casquette, X.bonnet, X.chapeau) < 0.5;   // coiffe portée : la coupe est dessous
     A.casque.scale.setScalar(hw * 0.95); A.casque.position.set(0, hh * 0.05, 0); vis(A.casque, Math.max(X.casque, X.micro));
     micro.visible = X.micro > 0.05 || X.casque > 0.05;
     A.lunettes.scale.setScalar(hw); A.lunettes.position.set(0, hh * 0.04, hw * 0.5); vis(A.lunettes, X.lunettes);
