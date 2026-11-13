@@ -1,15 +1,17 @@
-/* Billard v2.28 : fond image de la zone de jeu, une ambiance par page.
-   Images teintées et assombries (assets/billard/, tirées de assets/fonds/) pour que les bulles photo claires ressortent. */
+/* Billard : fond de la zone de jeu, une ambiance par page (refait le 13/11/2026 pour les sphères métal).
+   Plaque de métal brossé sombre teintée dans le métal de base de la page (Compétences acier bleuté, Formation cuivre,
+   Intérêts chrome/graphite, Postes visés ardoise neutre), thème de la page en filigrane, lampe douce en haut,
+   halo central et vignettage. Recette : spheres-20261113/fonds/fabriquer.py (assets/billard/). */
 
-.bi-zone-competences { --bi-fond: url("assets/billard/fond-competences.webp"); --bi-fond-p: url("assets/billard/fond-competences-portrait.webp"); --bi-nuit: #061c1f; --bi-pos: 50% 50%; }
-.bi-zone-formation { --bi-fond: url("assets/billard/fond-formation.webp"); --bi-fond-p: url("assets/billard/fond-formation-portrait.webp"); --bi-nuit: #1c0f0b; --bi-pos: 50% 50%; }
-.bi-zone-interets { --bi-fond: url("assets/billard/fond-interets.webp"); --bi-fond-p: url("assets/billard/fond-interets-portrait.webp"); --bi-nuit: #0b0a1a; --bi-pos: 50% 50%; }
-.bi-zone-metiers { --bi-fond: url("assets/billard/fond-metiers.webp"); --bi-fond-p: url("assets/billard/fond-metiers-portrait.webp"); --bi-nuit: #08131f; --bi-pos: 50% 60%; }
+.bi-zone-competences { --bi-fond: url("assets/billard/fond-competences.webp"); --bi-fond-p: url("assets/billard/fond-competences-portrait.webp"); --bi-nuit: #070b12; --bi-lisere: rgba(170, 196, 228, .22); --bi-pos: 50% 50%; }
+.bi-zone-formation { --bi-fond: url("assets/billard/fond-formation.webp"); --bi-fond-p: url("assets/billard/fond-formation-portrait.webp"); --bi-nuit: #0e0906; --bi-lisere: rgba(214, 170, 140, .22); --bi-pos: 50% 50%; }
+.bi-zone-interets { --bi-fond: url("assets/billard/fond-interets.webp"); --bi-fond-p: url("assets/billard/fond-interets-portrait.webp"); --bi-nuit: #08090b; --bi-lisere: rgba(220, 228, 236, .24); --bi-pos: 50% 50%; }
+.bi-zone-metiers { --bi-fond: url("assets/billard/fond-metiers.webp"); --bi-fond-p: url("assets/billard/fond-metiers-portrait.webp"); --bi-nuit: #090b0e; --bi-lisere: rgba(200, 208, 218, .22); --bi-pos: 50% 50%; }
 
 :is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers) {
   background: var(--bi-nuit);
   border-color: color-mix(in srgb, var(--bi-nuit) 60%, var(--filet));
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08), inset 0 0 60px rgba(0, 0, 0, .35), 0 6px 22px rgba(25, 56, 61, .12);
+  box-shadow: inset 0 1px 0 var(--bi-lisere), inset 0 0 0 1px rgba(255, 255, 255, .06), inset 0 -2px 0 rgba(0, 0, 0, .35), inset 0 0 50px rgba(0, 0, 0, .28), 0 6px 22px rgba(20, 28, 38, .16);
 }
 /* Image : sous les bulles, dérive très lente. */
 :is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers)::before {
@@ -17,15 +19,15 @@
   background: var(--bi-fond) var(--bi-pos) / cover no-repeat;
   animation: bi-fond-derive 70s ease-in-out infinite alternate;
 }
-/* Voile : centre légèrement éclairci, bords plus sombres, pour un fond calme. */
+/* Voile : bords un peu plus sombres (l'image porte déjà halo et vignettage). */
 :is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers)::after {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit;
-  background: radial-gradient(130% 100% at 50% 45%, rgba(0, 0, 0, 0) 45%, color-mix(in srgb, var(--bi-nuit) 55%, transparent) 100%);
+  background: radial-gradient(130% 100% at 50% 45%, rgba(0, 0, 0, 0) 55%, color-mix(in srgb, var(--bi-nuit) 45%, transparent) 100%);
 }
 /* 2.34 : repli sans color-mix() (Safari < 16.2, Firefox < 113) : bordure et voile sombres équivalents. Inactif dans Chrome. */
 @supports not (color: color-mix(in srgb, red 50%, blue)) {
   :is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers) { border-color: var(--bi-nuit); }
-  :is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers)::after { background: radial-gradient(130% 100% at 50% 45%, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, .5) 100%); }
+  :is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers)::after { background: radial-gradient(130% 100% at 50% 45%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .4) 100%); }
 }
 @keyframes bi-fond-derive { from { transform: scale(1) translate(0, 0); } to { transform: scale(1.05) translate(-1.2%, -.8%); } }
 html.co-onglet-cache :is(.bi-zone-competences, .bi-zone-formation, .bi-zone-interets, .bi-zone-metiers)::before { animation-play-state: paused; }
