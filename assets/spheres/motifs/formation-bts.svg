@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-<!-- mdi-store (Material Design Icons, Apache-2.0) -->
-<g fill="#1b1f24"><path d="M12,18H6V14H12M21,14V12L20,7H4L3,12V14H4V20H14V14H18V20H20V14M20,4H4V6H20V4Z"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28.6">
+<!-- mdi-bank + mdi-school (Material Design Icons, Apache-2.0) -->
+<g fill="#1b1f24"><path transform="translate(0 4.6) scale(1)" d="M11.5,1L2,6V8H21V6M16,10V17H19V10M2,22H21V19H2M10,10V17H13V10M4,10V17H7V10H4Z"/><path transform="translate(7.4 0) scale(.38)" d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z"/></g>
 </svg>
