@@ -6,12 +6,13 @@ const V = new URL(import.meta.url).searchParams.get("v");
 const THREE = await import("./lib/three.module.min.js" + (V ? "?v=" + V : ""));
 
 const NS = "http://www.w3.org/2000/svg", XH = "http://www.w3.org/1999/xhtml";
-const PEAU = 0xf6d8bd, TRAIT = 0x1f474b;
+const PEAU = 0xefc7a6, TRAIT = 0x1f474b;
 // Cadre du canevas autour des pieds (unités du viewBox) : assez large pour un plateau, un chapeau ou un bras tendu.
 const LARG = 190, HAUT = 210, BAS = 34;
 const INCL = 0.2; // caméra légèrement plongeante : on voit le dessus des épaules et des pieds
 
-function couleur(c) { return new THREE.Color(c[0] / 255, c[1] / 255, c[2] / 255); }
+// 2.45 : couleurs des tenues lues comme sRGB (teintes fidèles aux codes hexadécimaux, ex. bleu #a8bfd4 d’Alain).
+function couleur(c) { return THREE.SRGBColorSpace ? new THREE.Color().setRGB(c[0] / 255, c[1] / 255, c[2] / 255, THREE.SRGBColorSpace) : new THREE.Color(c[0] / 255, c[1] / 255, c[2] / 255); }
 
 export function creer(calque, calqueHaut) {
   const fo = document.createElementNS(NS, "foreignObject");
@@ -50,6 +51,10 @@ export function creer(calque, calqueHaut) {
     salop: mat(0x3f6aa0)
   };
   M.gant = mat(0xc98a3a, 0.6);
+  // 2.45 : visage d’Alain (barbe, sourcils, sourire), commandant de bord, stéthoscope, mallette, col en V.
+  Object.assign(M, { barbe: mat(0x4a3a30, 0.95), sourcil: mat(0x2f231c, 0.9), dents: mat(0xfbfaf6, 0.4), levre: mat(0xa4524a, 0.6),
+    nez: mat(PEAU, 0.55), marine: mat(0x1f2b45, 0.6), or: mat(0xd9a92b, 0.3, 0.75), stetho: mat(0x3a3f45, 0.35), mallette: mat(0x2a211c, 0.45),
+    vcol: mat(0x6f8fae, 0.7), colC: mat(0xffffff, 0.7), patte: mat(0xffffff, 0.7) });
 
   // Géométries unitaires (mises à l’échelle à chaque image).
   const G = {
@@ -62,7 +67,13 @@ export function creer(calque, calqueHaut) {
     boite: new THREE.BoxGeometry(1, 1, 1),
     tore: new THREE.TorusGeometry(0.5, 0.08, 8, 24),
     arceau: new THREE.TorusGeometry(0.5, 0.06, 8, 24, Math.PI),
-    disque: new THREE.CircleGeometry(0.5, 32)
+    disque: new THREE.CircleGeometry(0.5, 32),
+    // 2.45 : pans de blouse (de la taille aux genoux, légèrement évasés, ouverts devant), barbe (bas du visage),
+    // bouche en D (moitié basse d’une sphère), visière (demi-disque).
+    jupe: new THREE.CylinderGeometry(0.5, 0.6, 1, 28, 1, true, Math.PI * 0.22, Math.PI * 1.56),
+    menton: new THREE.SphereGeometry(0.5, 28, 14, -Math.PI * 0.14, Math.PI * 1.28, Math.PI * 0.6, Math.PI * 0.4),
+    bol: new THREE.SphereGeometry(0.5, 20, 10, 0, Math.PI * 2, Math.PI * 0.5, Math.PI * 0.5),
+    visiere: new THREE.CylinderGeometry(0.5, 0.5, 1, 24, 1, false, -Math.PI / 2, Math.PI)
   };
   const mesh = (g, m, parent) => { const o = new THREE.Mesh(g, m); parent.add(o); return o; };
   const grp = (parent) => { const o = new THREE.Group(); parent.add(o); return o; };
@@ -80,15 +91,20 @@ export function creer(calque, calqueHaut) {
   bras.forEach((b) => { b.main = mesh(G.boule, M.peau, b.bout); });
   const tronc = mesh(G.tronc, M.haut, corps), ventre = mesh(G.boule, M.haut, corps), bassin = mesh(G.boule, M.bas, corps);
   const cou = mesh(G.cyl, M.peau, corps);
-  const tete = grp(corps), crane = mesh(G.boule, M.peau, tete), cheveux = mesh(G.calotte, M.cheveux, tete), meche = mesh(G.boule, M.cheveux, tete);
+  const tete = grp(corps), crane = mesh(G.boule, M.peau, tete), cheveuxG = grp(tete), cheveux = mesh(G.calotte, M.cheveux, cheveuxG), meche = mesh(G.boule, M.cheveux, tete);
   const yeux = [mesh(G.boule, M.oeil, tete), mesh(G.boule, M.oeil, tete)], joues = [mesh(G.boule, M.joue, tete), mesh(G.boule, M.joue, tete)];
   const nez = mesh(G.boule, M.joue, tete), oreilles = [mesh(G.boule, M.peau, tete), mesh(G.boule, M.peau, tete)];
-  const col = mesh(G.tore, M.haut, corps); col.rotation.x = Math.PI / 2;
+  // 2.45 : plus de collerette (tore « col ») au cou. Visage : sourcils, bouche souriante, barbe et moustache.
+  const sourcils = [mesh(G.boite, M.sourcil, tete), mesh(G.boite, M.sourcil, tete)];
+  const levre = mesh(G.bol, M.levre, tete), dents = mesh(G.bol, M.dents, tete);
+  const barbe = mesh(G.menton, M.barbe, tete), moustache = mesh(G.boule, M.barbe, tete);
+  nez.material = M.nez;
   // Nourrisson : lange (cocon) et bande.
   const cocon = mesh(G.gelule, M.lange, corps), bande = mesh(G.tore, M.bande, corps); bande.rotation.x = Math.PI / 2;
   // Vêtements et accessoires.
   const A = {
     veste: mesh(G.coque, M.veste, corps), gilet: mesh(G.coque, M.gilet, corps), blouse: mesh(G.coque, M.blouse, corps),
+    jupe: mesh(G.jupe, M.blouse, corps), vcol: grp(corps), colChemise: grp(corps), stetho: grp(corps), casquette: grp(tete), epaulettes: grp(corps), ailes: grp(corps),
     lisere: mesh(G.tore, M.lisere, corps), salopette: mesh(G.boite, M.salop, corps), cravate: mesh(G.boite, M.cravate, corps),
     noeud: grp(corps), badge: mesh(G.boite, M.badge, corps), cartable: mesh(G.boite, M.cartable, corps),
     bonnet: grp(tete), chapeau: grp(tete), casque: grp(tete), lunettes: grp(tete)
@@ -103,12 +119,37 @@ export function creer(calque, calqueHaut) {
   const micro = mesh(G.cyl, M.noir, A.casque); micro.scale.set(0.035, 0.5, 0.035); micro.position.set(0.42, -0.3, 0.32); micro.rotation.set(0.9, 0, 0.7);
   [-1, 1].forEach((k) => { const l = mesh(G.tore, M.noir, A.lunettes); l.position.x = k * 0.21; l.scale.setScalar(0.32); });
   const pontL = mesh(G.boite, M.noir, A.lunettes); pontL.scale.set(0.12, 0.02, 0.02);
+  // Col en V (tunique de soins, revers de la blouse) : deux bandes en V.
+  [-1, 1].forEach((k) => { const b = mesh(G.boite, M.vcol, A.vcol); b.userData.k = k; });
+  // Col de chemise : deux pointes de col et une patte de boutonnage (remplace l’ancienne collerette en anneau).
+  [-1, 1].forEach((k) => { const b = mesh(G.boite, M.colC, A.colChemise); b.userData.k = k; });
+  const patte = mesh(G.boite, M.patte, A.colChemise); patte.userData.k = 0;
+  // Stéthoscope : tubulure en U autour du cou, embout métallique (unités = demi-largeur du U).
+  { const u = mesh(G.arceau, M.stetho, A.stetho); u.rotation.z = Math.PI; u.scale.set(1, 1.25, 1);
+    const t = mesh(G.cyl, M.stetho, A.stetho); t.scale.set(0.09, 0.5, 0.09); t.position.set(0.45, -0.85, 0.02);
+    const p = mesh(G.cyl, M.metal, A.stetho); p.scale.set(0.42, 0.12, 0.42); p.rotation.x = Math.PI / 2; p.position.set(0.45, -1.12, 0.05); }
+  // Casquette de commandant (unités = largeur de tête) : bandeau, calotte évasée, visière noire, insigne doré.
+  { const c = A.casquette, ba = mesh(G.cyl, M.noir, c); ba.scale.set(1.08, 0.16, 1.06); ba.position.y = 0.4;
+    const ca = mesh(new THREE.CylinderGeometry(0.62, 0.53, 1, 28), M.marine, c); ca.scale.set(1.04, 0.22, 1.02); ca.position.y = 0.58;
+    const vi = mesh(G.visiere, M.noir, c); vi.scale.set(1.0, 0.035, 0.62); vi.position.set(0, 0.34, 0.3); vi.rotation.x = 0.28;
+    const ins = mesh(G.boite, M.or, c); ins.scale.set(0.2, 0.12, 0.05); ins.position.set(0, 0.6, 0.54);
+    const cor = mesh(G.boite, M.or, c); cor.scale.set(0.8, 0.03, 0.04); cor.position.set(0, 0.41, 0.56); }
+  // Épaulettes marine à 4 galons dorés (unités = demi-largeur d’épaules), ailes dorées sur la poitrine.
+  [-1, 1].forEach((k) => {
+    const e = mesh(G.boite, M.marine, A.epaulettes); e.scale.set(0.5, 0.06, 0.34); e.position.set(k * 0.66, 0, 0);
+    for (let n = 0; n < 4; n++) { const g = mesh(G.boite, M.or, A.epaulettes); g.scale.set(0.035, 0.07, 0.36); g.position.set(k * (0.8 - n * 0.08), 0, 0); }
+    const a = mesh(G.boite, M.or, A.ailes); a.scale.set(0.9, 0.16, 0.12); a.position.set(k * 0.45, 0, 0); a.rotation.z = k * -0.25;
+  });
+  mesh(G.boule, M.or, A.ailes).scale.set(0.32, 0.32, 0.2);
   // Objets tenus : dans la main gauche (k = -1) ou droite (k = 1).
   const tenus = {
     porteDoc: [mesh(G.boite, M.cuir, bras[0].bout), -1], dossier: [mesh(G.boite, M.dossier, bras[0].bout), -1],
     panier: [mesh(G.cyl, M.paille, bras[0].bout), -1], arrosoir: [grp(bras[0].bout), -1], laptop: [grp(bras[0].bout), -1],
-    marteau: [grp(bras[1].bout), 1], plateau: [grp(bras[1].bout), 1]
+    marteau: [grp(bras[1].bout), 1], plateau: [grp(bras[1].bout), 1], mallette: [grp(bras[0].bout), -1]
   };
+  { const ml = tenus.mallette[0], b = mesh(G.boite, M.mallette, ml); b.scale.set(0.45, 1.5, 2.1); b.position.y = -1.0;
+    const an = mesh(G.arceau, M.mallette, ml); an.rotation.y = Math.PI / 2; an.scale.set(0.7, 0.55, 0.7); an.position.y = -0.25;
+    const fe = mesh(G.boite, M.or, ml); fe.scale.set(0.5, 0.14, 0.3); fe.position.set(0, -0.45, 0); }
   const arro = tenus.arrosoir[0]; mesh(G.cyl, M.vert, arro).scale.set(1, 0.9, 1);
   const bec = mesh(G.cyl, M.vert, arro); bec.scale.set(0.14, 1.1, 0.14); bec.position.set(0, 0.2, 0.75); bec.rotation.x = 0.95;
   const lap = tenus.laptop[0]; mesh(G.boite, M.noir, lap).scale.set(1, 0.06, 0.7); const ecran = mesh(G.boite, M.metal, lap); ecran.scale.set(1, 0.7, 0.04); ecran.position.set(0, 0.34, -0.36); ecran.rotation.x = -0.25;
@@ -133,6 +174,7 @@ export function creer(calque, calqueHaut) {
     fo.setAttribute("transform", "translate(" + s.x.toFixed(2) + "," + s.y.toFixed(2) + ")");
     dimensionner();
     // Orientation : rotation douce au plus court chemin (demi-tour réel, plus de silhouette aplatie).
+    if (window.PERSO3D_LACET != null) { s = Object.assign({}, s, { lacet: window.PERSO3D_LACET, dt: null }); } // outil de contrôle (planches face / profil / dos)
     let d = s.lacet - lacet; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI;
     lacet = s.dt == null ? s.lacet : lacet + d * Math.min(1, s.dt * 9);
     racine.rotation.y = lacet;
@@ -141,8 +183,13 @@ export function creer(calque, calqueHaut) {
     M.haut.color.copy(couleur(s.haut)); M.bas.color.copy(couleur(s.bas)); M.bras.color.copy(couleur(s.bras));
     M.chaus.color.copy(couleur(s.chaussure)); M.cheveux.color.copy(couleur(s.cheveux));
     M.salop.color.copy(couleur(s.bas)); M.veste.color.copy(couleur(s.vesteC || s.bras));
-    M.blouse.color.copy(couleur(s.haut)); // 2.45 : blouse de la couleur de la tenue (bleu #a8bfd4 pour Responsable d’équipe soignant, blanc pour Agent de soins)
-    if (s.badgeC) M.badge.color.copy(couleur(s.badgeC)); if (s.lisereC) M.lisere.color.copy(couleur(s.lisereC));
+    M.blouse.color.copy(couleur(s.blouseC || s.haut)); // 2.45 : blouse de médecin bleue #a8bfd4 (Responsable d’équipe soignant)
+    if (s.badgeC) M.badge.color.copy(couleur(s.badgeC)); if (s.lisereC) { M.lisere.color.copy(couleur(s.lisereC)); M.vcol.color.copy(couleur(s.lisereC)); }
+    // 2.45 : barbe qui pousse (teinte de la peau vers le brun foncé, puis volume).
+    const pousse = Math.max(0, Math.min(1, s.barbe || 0));
+    M.barbe.color.setHex(PEAU).lerp(new THREE.Color(0x4a3a30), Math.min(1, 0.25 + 0.75 * Math.pow(pousse, 0.7)));
+    M.nez.color.setHex(PEAU).multiplyScalar(0.94);
+    M.colC.color.copy(M.haut.color).multiplyScalar(0.97); M.patte.color.copy(M.haut.color).multiplyScalar(0.82);
     if (s.cravateC) M.cravate.color.copy(couleur(s.cravateC)); else M.cravate.color.setHex(0x7a2e35);
     M.gant.color.copy(couleur(s.gant));
 
@@ -171,16 +218,28 @@ export function creer(calque, calqueHaut) {
     ventre.scale.set(s.hw2 * 1.9, th * 0.7, prof * 1.5 + s.ventre * H * 0.12); ventre.position.set(0, hanche + th * 0.32, s.ventre * H * 0.03);
     bassin.scale.set(s.hw2 * 1.95, lw * 2, prof * 1.35); bassin.position.y = hanche;
     cou.scale.set(hw * 0.38, s.cou + hh * 0.2, hw * 0.38); cou.position.y = epaule + s.cou / 2;
-    col.visible = s.colTenue > 0.4 && !bebe; col.scale.set(hw * 0.95, hw * 0.95, hw * 1.6); col.position.y = epaule + lw * 0.1;
     // Tête : crâne, calotte de cheveux, mèche, visage.
     tete.position.y = epaule + s.cou + hh * 0.46;
     crane.scale.set(hw, hh, hw * 0.96);
-    cheveux.scale.set(hw * 1.07, hh * 1.04, hw * 1.04); cheveux.position.set(0, hh * 0.04, -hw * 0.03); cheveux.rotation.x = -0.42 + s.calotte * 0.2;
+    const adulteC = Math.max(0, Math.min(1, ((s.age || 0) - 16) / 12));
+    // 2.45 : calotte tournée dans l’espace de la sphère unité puis mise à l’échelle du crâne (elle épouse la tête même très inclinée).
+    cheveuxG.scale.set(hw * 1.07, hh * 1.04, hw * 1.03); cheveuxG.position.set(0, hh * 0.02, -hw * 0.02);
+    cheveux.rotation.x = -0.42 + s.calotte * 0.2 - 0.36 * adulteC; // front dégagé de l’adulte (sourcils visibles)
     cheveux.visible = s.calotte > 0.05;
-    meche.visible = s.meche > 0.1; meche.scale.set(hw * 0.5, hh * 0.16, hw * 0.3); meche.position.set(hw * 0.12, hh * 0.36, hw * 0.34); meche.rotation.z = -0.3;
-    yeux.forEach((e, n) => { e.scale.setScalar(hh * 0.1); e.position.set((n ? 1 : -1) * hw * 0.19, hh * 0.04, hw * 0.45); });
-    joues.forEach((e, n) => { e.scale.set(hh * 0.13, hh * 0.08, hh * 0.05); e.position.set((n ? 1 : -1) * hw * 0.28, -hh * 0.12, hw * 0.4); });
-    nez.scale.set(hh * 0.09, hh * 0.1, hh * 0.1); nez.position.set(0, -hh * 0.05, hw * 0.5);
+    meche.visible = s.meche > 0.1 && (s.age || 0) < 22; meche.scale.set(hw * 0.5, hh * 0.16, hw * 0.3); meche.position.set(hw * 0.12, hh * 0.36, hw * 0.34); meche.rotation.z = -0.3;
+    // 2.45 : visage inspiré du portrait d’Alain : yeux rieurs plissés, sourcils épais, nez marqué, grand sourire, barbe.
+    const zs = (y) => hw * 0.48 * Math.sqrt(Math.max(0, 1 - Math.pow(y / (hh * 0.5), 2))); // surface avant du visage à la hauteur y
+    yeux.forEach((e, n) => { e.scale.set(hh * 0.1, hh * 0.055, hh * 0.06); e.position.set((n ? 1 : -1) * hw * 0.19, hh * 0.04, zs(hh * 0.04) * 0.97); });
+    const adulteV = Math.max(0, Math.min(1, ((s.age || 0) - 10) / 10));
+    sourcils.forEach((e, n) => { e.scale.set(hh * 0.17, hh * (0.025 + 0.02 * adulteV), hh * 0.04); e.position.set((n ? 1 : -1) * hw * 0.2, hh * 0.15, zs(hh * 0.15) * 0.99); e.rotation.set(-0.25, (n ? 1 : -1) * 0.3, (n ? -1 : 1) * 0.1); });
+    joues.forEach((e, n) => { e.scale.set(hh * 0.13, hh * 0.08, hh * 0.05); e.position.set((n ? 1 : -1) * hw * 0.28, -hh * 0.1, hw * 0.4); e.visible = pousse < 0.4; });
+    nez.scale.set(hh * (0.1 + 0.02 * adulteV), hh * (0.12 + 0.05 * adulteV), hh * 0.13); nez.position.set(0, -hh * 0.06, zs(-hh * 0.06) * 0.98);
+    const yb = -hh * 0.235, zb = zs(yb) + (pousse > 0.02 ? hw * 0.07 * pousse : 0) + hw * 0.01;
+    levre.scale.set(hh * 0.32, hh * 0.19, hh * 0.08); levre.position.set(0, yb + hh * 0.004, zb - hh * 0.015); levre.rotation.x = 0.2;
+    dents.scale.set(hh * 0.27, hh * 0.13, hh * 0.08); dents.position.set(0, yb, zb); dents.rotation.x = 0.2;
+    barbe.visible = moustache.visible = pousse > 0.02;
+    barbe.scale.set(hw * (1.02 + 0.06 * pousse), hh * (1.0 + 0.1 * pousse), hw * 0.96 * (1.02 + 0.07 * pousse)); barbe.position.set(0, -hh * (0.02 + 0.04 * pousse), 0);
+    moustache.scale.set(hh * 0.3, hh * 0.06, hh * 0.08); moustache.position.set(0, yb + hh * 0.08, zs(yb + hh * 0.08) + hw * 0.02 * pousse);
     oreilles.forEach((e, n) => { e.scale.set(hh * 0.08, hh * 0.18, hh * 0.12); e.position.set((n ? 1 : -1) * hw * 0.5, 0, 0); });
 
     // Bras : balancement opposé aux jambes ; le serveur porte le plateau avant-bras relevé.
@@ -188,13 +247,14 @@ export function creer(calque, calqueHaut) {
       const ph = phase + (b.cote < 0 ? 0 : Math.PI), av = Math.sin(ph) * amp;
       let ga = 0.55 * av, fl = 0.22 + 0.35 * Math.max(0, av), ouv = 0.08;
       if (b.cote > 0 && X.plateau > 0.01) { ga += (0.15 - ga) * X.plateau; fl += (1.45 - fl) * X.plateau; }
-      if (b.cote < 0 && (X.porteDoc + X.panier + X.arrosoir + X.dossier) > 0.3) { ga *= 0.5; fl *= 0.5; }
+      if (b.cote < 0 && (X.porteDoc + X.panier + X.arrosoir + X.dossier + X.mallette) > 0.3) { ga *= 0.5; fl *= 0.5; }
       if (b.cote < 0 && X.laptop > 0.3) { ga += (0.2 - ga) * X.laptop; fl += (1.3 - fl) * X.laptop; ouv = 0.3; }
       b.r.position.set(b.cote * (sw - aw * 0.2), epaule - aw * 0.55, 0);
       b.r.rotation.set(-ga, 0, b.cote * ouv);
       b.art.position.y = -Lb; b.art.rotation.x = -fl; b.bout.position.y = -Lb;
       b.haut.material = s.manche > 0.25 ? M.bras : M.peau; b.bas.material = s.manche > 0.75 ? M.bras : M.peau;
-      seg(b.haut, aw, Lb); seg(b.bas, aw * 0.9, Lb);
+      const am = 1 + 0.14 * Math.max(X.blouse, X.veste); // manches de blouse et de veste un peu plus amples
+      seg(b.haut, aw * am, Lb); seg(b.bas, aw * 0.9 * am, Lb);
       b.main.scale.setScalar(aw * 1.25); b.main.material = X.gants > 0.3 ? M.gant : M.peau;
       b.r.visible = !bebe;
     });
@@ -212,10 +272,24 @@ export function creer(calque, calqueHaut) {
 
     // Couches de vêtement (coques ouvertes devant) et accessoires du torse.
     const coque = (o, ech, long) => { o.scale.set(sw * 2 * 0.98 * ech, long, prof * 1.6 * ech); o.position.y = epaule - long / 2 + lw * 0.1; };
-    coque(A.veste, 1.06, th * 1.06); vis(A.veste, X.veste);
+    coque(A.veste, 1.06, th * 1.16); vis(A.veste, X.veste);
     coque(A.gilet, 1.04, th * 0.9); vis(A.gilet, X.gilet);
-    coque(A.blouse, 1.08, th * 1.55); vis(A.blouse, X.blouse);
-    A.lisere.scale.set(hw * 1.05, hw * 1.05, hw * 1.8); A.lisere.position.y = epaule + lw * 0.15; vis(A.lisere, X.lisere);
+    // 2.45 : blouse de médecin = buste ajusté + pans de la taille aux genoux (plus de coque qui flotte comme une cape).
+    coque(A.blouse, 1.07, th * 1.02); vis(A.blouse, X.blouse);
+    { const lj = L2 * 1.15 + th * 0.12, rx = Math.max(s.hw2 * 2.05, sw * 1.55);
+      A.jupe.scale.set(rx, lj, prof * 1.75); A.jupe.position.y = hanche + th * 0.1 - lj / 2; vis(A.jupe, X.blouse); }
+    A.lisere.visible = false; // ancien liseré d’encolure en anneau retiré (2.45)
+    { const pv = th * (X.blouse > 0.5 ? 0.62 : 0.42), lv = Math.hypot(pv, sw * 0.32);
+      A.vcol.children.forEach((b) => { const k = b.userData.k;
+        b.scale.set(lw * 0.3, lv, lw * 0.12); b.position.set(k * sw * 0.16, epaule - pv / 2 - lw * 0.05, prof * 0.79); b.rotation.set(-0.1, 0, k * Math.atan2(sw * 0.32, pv)); });
+      A.vcol.scale.set(1, 1, 1); vis(A.vcol, X.vcol); }
+    A.colChemise.children.forEach((b) => { const k = b.userData.k;
+      if (k) { b.scale.set(sw * 0.34, lw * 0.75, lw * 0.14); b.position.set(k * sw * 0.17, epaule - lw * 0.22, prof * 0.8); b.rotation.set(-0.15, 0, k * -0.55); }
+      else { b.scale.set(lw * 0.14, th * 0.8, lw * 0.1); b.position.set(0, epaule - th * 0.45, prof * 0.78 + s.ventre * H * 0.02); b.visible = X.cravate < 0.5; } });
+    A.colChemise.scale.set(1, 1, 1); vis(A.colChemise, s.colTenue > 0.5 && !bebe ? s.colTenue : 0);
+    A.stetho.scale.setScalar(sw * 0.42); A.stetho.position.set(0, epaule + lw * 0.1, prof * 0.83); vis(A.stetho, X.stetho);
+    A.epaulettes.scale.set(sw, sw, prof * 1.6); A.epaulettes.position.y = epaule + lw * 0.05; vis(A.epaulettes, X.epaulettes);
+    A.ailes.scale.setScalar(lw * 1.2); A.ailes.position.set(sw * 0.42, epaule - th * 0.24, prof * 0.8); vis(A.ailes, X.ailes);
     A.salopette.scale.set(sw * 1.1, th * 0.5, prof * 0.2); A.salopette.position.set(0, hanche + th * 0.32, prof * 0.74); vis(A.salopette, X.salopette);
     A.salopette.userData.bretelles.forEach((o, n) => { o.scale.set(lw * 0.5, th * 0.75, prof * 0.16); o.position.set((n ? 1 : -1) * sw * 0.45, hanche + th * 0.62, prof * 0.72); o.visible = A.salopette.visible; });
     A.cravate.scale.set(lw * 0.7, th * 0.62, lw * 0.25); A.cravate.position.set(0, epaule - th * 0.34, prof * 0.78); A.cravate.rotation.x = -0.12; vis(A.cravate, X.cravate);
@@ -225,6 +299,8 @@ export function creer(calque, calqueHaut) {
     // Tête : bonnet, chapeau, casque, lunettes.
     A.bonnet.scale.setScalar(hw * 1.02); A.bonnet.position.set(0, hh * 0.08, 0); vis(A.bonnet, X.bonnet);
     A.chapeau.scale.set(hw * 0.62, hh * 0.62, hw * 0.62); A.chapeau.position.set(0, hh * 0.42, 0); vis(A.chapeau, X.chapeau);
+    A.casquette.scale.setScalar(hw); A.casquette.position.set(0, hh * 0.05, 0); vis(A.casquette, X.casquette);
+    meche.visible = meche.visible && X.casquette < 0.6;
     A.casque.scale.setScalar(hw * 0.95); A.casque.position.set(0, hh * 0.05, 0); vis(A.casque, Math.max(X.casque, X.micro));
     micro.visible = X.micro > 0.05 || X.casque > 0.05;
     A.lunettes.scale.setScalar(hw); A.lunettes.position.set(0, hh * 0.04, hw * 0.5); vis(A.lunettes, X.lunettes);
@@ -232,7 +308,8 @@ export function creer(calque, calqueHaut) {
     const u = aw * 1.4;
     for (const k in tenus) {
       const o = tenus[k][0]; o.scale.setScalar(u); o.position.set(0, 0, 0); o.rotation.set(0, 0, 0);
-      if (k === "porteDoc") { o.scale.set(u * 0.5, u * 2.2, u * 2.9); o.position.y = -u * 1.1; }
+      if (k === "mallette") { o.scale.setScalar(u * 1.3); }
+      else if (k === "porteDoc") { o.scale.set(u * 0.5, u * 2.2, u * 2.9); o.position.y = -u * 1.1; }
       else if (k === "dossier") { o.scale.set(u * 0.25, u * 2.6, u * 2); o.position.set(0, -u * 0.2, u * 0.3); }
       else if (k === "panier") { o.scale.set(u * 2.2, u * 1.4, u * 2.2); o.position.y = -u * 0.9; }
       else if (k === "arrosoir") { o.scale.setScalar(u * 1.6); o.position.y = -u * 1.2; }

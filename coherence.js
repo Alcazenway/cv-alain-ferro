@@ -167,6 +167,18 @@
     if (large.addEventListener) large.addEventListener("change", fermer); else if (large.addListener) large.addListener(fermer);
   }
 
+  // 2.46 : largeur réelle de la barre de défilement de .lecture-fenetre (gouttière stable), pour aligner la rangée
+  // des plaques du bandeau sur la zone .bi-zone (bandeau.css, --co-barre). Remesurée au zoom / redimensionnement.
+  function mesurerBarre() {
+    var sonde = document.createElement("div");
+    sonde.style.cssText = "position:absolute;top:-200px;left:0;width:100px;height:50px;overflow-y:auto;scrollbar-gutter:stable;scrollbar-color:#ccc transparent;opacity:0;pointer-events:none";
+    document.body.appendChild(sonde);
+    document.documentElement.style.setProperty("--co-barre", (sonde.offsetWidth - sonde.clientWidth) + "px");
+    sonde.remove();
+  }
+  mesurerBarre();
+  window.addEventListener("resize", mesurerBarre);
+
   // Le mouvement lent des fonds s’arrête quand l’onglet est caché.
   document.addEventListener("visibilitychange", function () { document.documentElement.classList.toggle("co-onglet-cache", document.hidden); });
 

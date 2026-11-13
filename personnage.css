@@ -29,3 +29,20 @@
 @media (max-width: 1099px), (max-height: 719px) { .pe-bascule { display: none; } }
 @media (prefers-reduced-motion: reduce) { .pe-bascule { transition: none; } }
 @media print { .pe-calque, .pe-bascule { display: none; } }
+
+/* 2.45 : saisie du personnage (personnage-glisser.js). Rectangle transparent qui suit le personnage, au-dessus des
+   sphères ; curseur main, pas de défilement au doigt pendant l’appui, contour visible seulement au clavier. */
+.pe-prise-zone {
+  fill: transparent; stroke: none; pointer-events: all; cursor: grab; outline: none;
+  touch-action: none; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none;
+}
+.pe-saisi .pe-prise-zone, .pe-glisse, .pe-glisse * { cursor: grabbing !important; }
+.pe-glisse { -webkit-user-select: none; user-select: none; }
+.pe-prise-zone:focus-visible { stroke: var(--focus, #735389); stroke-width: 2; stroke-dasharray: 5 4; fill: rgba(115, 83, 137, .05); }
+.pe-indice {
+  font-size: 12px; font-weight: 600; fill: var(--encre, #19383d); paint-order: stroke; stroke: rgba(252, 252, 248, .92);
+  stroke-width: 4px; stroke-linejoin: round; letter-spacing: .02em; pointer-events: none; opacity: 0; transition: opacity .3s;
+}
+.pe-indice-visible .pe-indice { opacity: .9; }
+@media (prefers-reduced-motion: reduce) { .pe-indice { transition: none; } }
+@media print { .pe-prise { display: none; } }
