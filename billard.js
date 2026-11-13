@@ -39,6 +39,12 @@
 
   function creer(options) {
     var zone = el("div", "bi-zone" + (options.page ? " bi-zone-" + options.page : ""));
+    // 2.41 : si les sphères 3D peuvent s’afficher, bulles 2D masquées pendant leur chargement (spheres.js lève l’attente) ;
+    // garde-fou : au bout de 6 s, ou sans WebGL, les bulles 2D réapparaissent.
+    if (window.WebGLRenderingContext && !window.matchMedia("print").matches) {
+      zone.classList.add("bi-spheres-attente");
+      setTimeout(function () { zone.classList.remove("bi-spheres-attente"); }, 6000);
+    }
     var liste = el("ul", "bi-liste");
     liste.setAttribute("aria-label", options.libelle || "Bulles");
     zone.appendChild(liste);

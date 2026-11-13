@@ -338,6 +338,17 @@
     ]);
   }
 
+  // 2.41 : définitions des bulles sphériques du Parcours (une fois par SVG).
+  // Lentille : assets/parcours/lentille.png (parcours-spheres-20261113/lentille.py), image plane enroulée sur une sphère.
+  function defsSphere() {
+    var stop = function (o, c, a) { return C.svg("stop", { offset: o, "stop-color": c, "stop-opacity": a }); };
+    var ombre = C.svg("radialGradient", { id: "co-sph-ombre", cx: 0.46, cy: 0.42, r: 0.58 }, [
+      stop(0, "#000", 0), stop(0.62, "#000", 0), stop(0.86, "#0b1a1c", 0.12), stop(1, "#0b1a1c", 0.34)]);
+    var reflet = C.svg("radialGradient", { id: "co-sph-reflet", cx: 0.34, cy: 0.28, r: 0.42, fx: 0.32, fy: 0.24 }, [
+      stop(0, "#fff", 0.78), stop(0.22, "#fff", 0.32), stop(0.6, "#fff", 0.06), stop(1, "#fff", 0)]);
+    return C.svg("defs", {}, [ombre, reflet]);
+  }
+
   // Titres lisibles : 18 unités (environ 14 px à 1280×800), 16 si le libellé demande quatre lignes.
   // v2.27 : fond photographique très discret, découpé dans le cercle ; retiré si le fichier manque.
   function noeudChemin(e, pos, r) {
@@ -352,9 +363,26 @@
       contenu.push(C.svg("clipPath", { id: clip }, [C.svg("circle", { cx: x, cy: y, r: r - 1 })]), img,
         C.svg("circle", { cx: x, cy: y, r: r, class: "co-noeud-contour" }));
     }
+    // 2.41 : titre bombé en vectoriel (net) : chaque ligne est élargie au centre et resserrée vers les pôles,
+    // comme imprimée sur la sphère (projection orthographique), sans changer police, couleur ni découpe.
+    var titre = C.svg("g", { class: "co-noeud-titre" }, lignes.map(function (l, i) {
+      var ly = y + (i - (lignes.length - 1) / 2) * pas, t = Math.min(0.92, Math.abs(ly - y) / r);
+      var sx = 1.07 * Math.sqrt(1 - t * t * 0.85), sy = 1.04 * Math.sqrt(1 - t * t * 0.55);
+      var my = y + (ly - y) * (0.94 + 0.06 * sy);
+      return C.svg("text", { x: x, y: my, "text-anchor": "middle", "dominant-baseline": "middle", class: "co-noeud-texte", "font-size": taille,
+        transform: "translate(" + x + " " + my.toFixed(1) + ") scale(" + sx.toFixed(3) + " " + sy.toFixed(3) + ") translate(" + (-x) + " " + (-my).toFixed(1) + ")" }, [l]);
+    }));
+    // 2.41 : bulle rendue en sphère — couleurs et image inchangées, enroulées par la lentille ; titre bombé au-dessus de l’ombre, sous le reflet (filtre co-lentille-<id>, un par bulle en coordonnées absolues),
+    // puis modelé : ombre propre vers le bord et reflet en haut à gauche (dégradés de defsSphere). Période hors sphère.
+    var idL = "co-lentille-" + (e.id || "r" + Math.round(x) + "-" + Math.round(y)), m = 1.08 * r;   // = MARGE de lentille.py
+    var lentille = C.svg("filter", { id: idL, filterUnits: "userSpaceOnUse", primitiveUnits: "userSpaceOnUse", x: x - m, y: y - m, width: 2 * m, height: 2 * m, "color-interpolation-filters": "sRGB" }, [
+      C.svg("feImage", { href: "assets/parcours/lentille.png", x: x - m, y: y - m, width: 2 * m, height: 2 * m, preserveAspectRatio: "none", result: "carte" }),
+      C.svg("feDisplacementMap", { in: "SourceGraphic", in2: "carte", scale: (0.3 * 2 * m).toFixed(2), xChannelSelector: "R", yChannelSelector: "G" })
+    ]);
+    contenu = [lentille, C.svg("g", { class: "co-sphere", filter: "url(#" + idL + ")" }, contenu),
+      C.svg("circle", { cx: x, cy: y, r: r, class: "co-sph-ombre", fill: "url(#co-sph-ombre)", "aria-hidden": "true" }), titre,
+      C.svg("circle", { cx: x, cy: y, r: r, class: "co-sph-reflet", fill: "url(#co-sph-reflet)", "aria-hidden": "true" })];
     contenu.push(
-      C.svg("text", { x: x, y: y - (lignes.length - 1) * pas / 2, "text-anchor": "middle", "dominant-baseline": "middle", class: "co-noeud-texte", "font-size": taille },
-        lignes.map(function (l, i) { return C.svg("tspan", { x: x, dy: i ? pas : 0 }, [l]); })),
       pos.periodeACote
         ? C.svg("text", { x: x + r + 12, y: y + 5, "text-anchor": "start", class: "co-noeud-periode" }, [e.periode])
         : C.svg("text", { x: x, y: y + r + 18, "text-anchor": "middle", class: "co-noeud-periode" }, [e.periode]));
@@ -397,6 +425,7 @@
       // Seule la petite étiquette d’âge passe au-dessus des bulles, pour rester lisible.
       var etiquettes = C.svg("g", { class: "pe-calque pe-calque-haut", "aria-hidden": "true" });
       enfants.push(etiquettes);
+      enfants.unshift(defsSphere());
       var svgChemin = C.svg("svg", { class: "co-chemin" + filtre, viewBox: geo.viewBox, preserveAspectRatio: "xMidYMid meet", role: "group", "aria-label": "Parcours de la naissance, en haut à gauche, à aujourd’hui, en haut à droite" }, enfants);
       vueChemin = el("div", { class: "co-chemin-cadre" }, [svgChemin]);
       // Personnage animé : son âge suit les années de début des bulles, utilisées comme jalons du trajet.

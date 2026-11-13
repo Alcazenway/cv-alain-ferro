@@ -120,9 +120,11 @@ class Couche {
     this.geo = geometrie();
     this.etat = "actif";
     const grand = !petit();
+    this.attendues = 0;
     this.api.bulles.forEach((b, i) => {
       const m = manifeste[b.d.id];
       if (!m || m.titre !== b.d.titre || (m.sous || "") !== (b.d.sous || "")) return;   // carte périmée : bulle 2D
+      this.attendues++;
       const N = grand && b.d.vedette && m.tailles.indexOf(1024) !== -1 ? 1024 : 512;
       cartes("assets/spheres/" + b.d.id + "-" + N + ".webp" + Q).then((t) => {
         if (this.etat !== "actif") { Object.values(t).forEach((x) => x.dispose()); return; }
@@ -134,8 +136,16 @@ class Couche {
         const mesh = new THREE.Mesh(this.geo, mat); mesh.visible = false; this.scene.add(mesh);
         this.spheres.set(b, { mesh, mat, t, rx: 0, ry: 0, phase: i * 1.7, marquee: false });
         this.rendu();
-      }).catch(() => { /* carte illisible : bulle 2D */ });
+      }).catch(() => { this.attendues--; this.verifierAttente(); /* carte illisible : bulle 2D */ });
     });
+    this.verifierAttente();
+  }
+  // 2.41 : les bulles 2D restent invisibles pendant le chargement des sphères (plus de flash) ;
+  // l’attente cesse quand toutes les sphères attendues sont dessinées, ou en cas d’échec (bulles 2D de repli).
+  verifierAttente() {
+    if (!this.zone.classList.contains("bi-spheres-attente")) return;
+    let marquees = 0; for (const s of this.spheres.values()) if (s.marquee) marquees++;
+    if (marquees >= this.attendues) finAttente(this.zone);
   }
   rendu() {
     if (this.etat === "attente") {
@@ -173,12 +183,14 @@ class Couche {
     }
     // Bulle 2D masquée seulement après le premier dessin réussi de sa sphère.
     nouvelles.forEach(([b, s]) => { s.marquee = true; b.n.classList.add("bi-sphere"); });
+    if (nouvelles.length) this.verifierAttente();
   }
   demarquer() { this.api.bulles.forEach((b) => b.n.classList.remove("bi-sphere")); }
   echec() {
     if (this.etat === "mort") return;
     this.etat = "mort";
     this.demarquer();
+    finAttente(this.zone);
     this.liberer();
   }
   detruire() { this.etat = "mort"; this.liberer(); couches.delete(this); if (this.api.rendu === this.peindre) this.api.rendu = null; }
@@ -193,20 +205,24 @@ class Couche {
   }
 }
 
+function finAttente(zone) { zone.classList.remove("bi-spheres-attente"); }
+
 // Zones quittées (changement de page) : contexte WebGL libéré, pour ne jamais en accumuler.
 function balayer() { for (const c of couches) if (!c.zone.isConnected && c.etat === "actif") c.detruire(); }
 function attacher(api) {
-  if (!api || api.biSpheres || horsService) return;
+  if (!api || api.biSpheres) return;
+  if (horsService) { finAttente(api.zone); return; }
   const c = new Couche(api);
   api.biSpheres = c;
   c.peindre = () => c.rendu();
   api.rendu = c.peindre;
   couches.add(c);
   balayer();
-  preparer().then(() => { if (horsService) { api.rendu = null; couches.delete(c); return; } c.rendu(); api.relancer(); });
+  preparer().then(() => { if (horsService) { api.rendu = null; couches.delete(c); finAttente(api.zone); return; } c.rendu(); api.relancer(); });
 }
 
-if (webglPossible()) {
+if (!webglPossible()) document.querySelectorAll(".bi-zone").forEach(finAttente);
+else {
   document.addEventListener("billard:zone", (e) => attacher(e.detail));
   document.querySelectorAll(".bi-zone").forEach((z) => attacher(z.biApi));
   window.addEventListener("hashchange", () => setTimeout(balayer, 50));

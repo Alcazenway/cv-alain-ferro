@@ -539,3 +539,12 @@ body[data-fond="metiers"] .co-fond-image {
   background: radial-gradient(40% 45% at 18% 28%, rgba(201, 176, 46, .30), transparent 70%), radial-gradient(35% 40% at 82% 24%, rgba(150, 160, 172, .30), transparent 70%),
     radial-gradient(42% 45% at 62% 86%, rgba(199, 123, 85, .24), transparent 70%), radial-gradient(38% 42% at 30% 80%, rgba(93, 117, 144, .26), transparent 70%);
 }
+
+/* 2.41 : bulles du Parcours en sphères (lentille + modelé, voir defsSphere dans app.js). */
+.co-sph-ombre, .co-sph-reflet { pointer-events: none; stroke: none !important; }
+.co-noeud circle.co-sph-ombre { fill: url(#co-sph-ombre) !important; }
+.co-noeud circle.co-sph-reflet { fill: url(#co-sph-reflet) !important; } /* l’emportent sur .co-noeud circle (fill de la bulle) */
+a.co-noeud, g.co-noeud:not(.co-repere-temps) { filter: drop-shadow(0 5px 5px rgba(11, 26, 28, .22)); }
+.co-noeud .co-sphere circle:not(.co-noeud-contour) { stroke-width: 1.2; }
+a.co-noeud:hover .co-sph-reflet { opacity: 1.15; }
+@media print { .co-sph-ombre, .co-sph-reflet { display: none; } .co-sphere { filter: none; } }
