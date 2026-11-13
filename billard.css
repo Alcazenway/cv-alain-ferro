@@ -175,3 +175,9 @@
 .bi-f-commerce { --bi-c: #c77b55; --bi-fort: #7a3d22; --bi-pale: #f8ece5; --bi-metal: radial-gradient(circle at 35% 30%, #ffd9c2, #c47a52 45%, #5c2a16); }
 .bi-f-coordination { --bi-c: #7d95b0; --bi-fort: #2c3c50; --bi-pale: #e8edf3; --bi-metal: radial-gradient(circle at 35% 30%, #dce8f5, #6f88a4 45%, #1d2836); }
 .bi-legende li:is(.bi-f-numerique, .bi-f-gestion, .bi-f-commerce, .bi-f-coordination) .bi-pastille { background: var(--bi-metal); }
+
+/* 2.41 : pendant le chargement des sphères, bulles 2D invisibles (restent cliquables et lisibles par les lecteurs d’écran). */
+.bi-spheres-attente .bi-bulle:not(.bi-sphere) { background: transparent; border-color: transparent; box-shadow: none; animation: none; }
+.bi-spheres-attente .bi-bulle:not(.bi-sphere)::before, .bi-spheres-attente .bi-bulle:not(.bi-sphere)::after, .bi-spheres-attente .bi-bulle:not(.bi-sphere) .bi-fond { display: none; }
+.bi-spheres-attente .bi-bulle:not(.bi-sphere) .bi-texte { opacity: 0; }
+@media print { .bi-spheres-attente .bi-bulle .bi-texte { opacity: 1; } }
