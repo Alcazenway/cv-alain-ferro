@@ -74,6 +74,57 @@
   $("lien-cv-logo").setAttribute("href", I.cvPdf);
   // Courriel prêt à envoyer, ouvert dans la messagerie du visiteur.
   $("entretien-bandeau").setAttribute("href", mailto);
+  // v2.36 : sur ordinateur, mailto: reste sans effet quand aucune messagerie
+  // n’est installée (cas Gmail dans le navigateur). Petit menu de choix.
+  (function () {
+    var bouton = $("entretien-bandeau");
+    var mobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) ||
+      (window.matchMedia && matchMedia("(pointer: coarse)").matches && !matchMedia("(pointer: fine)").matches);
+    if (mobile) return;
+    var q = encodeURIComponent, corps = I.mail.corps.replace(/\n/g, "\r\n");
+    var choix = [
+      ["Gmail", "https://mail.google.com/mail/?view=cm&fs=1&to=" + q(I.email) + "&su=" + q(I.mail.objet) + "&body=" + q(corps)],
+      ["Outlook.com", "https://outlook.live.com/mail/0/deeplink/compose?to=" + q(I.email) + "&subject=" + q(I.mail.objet) + "&body=" + q(corps)],
+      ["Outlook professionnel (Microsoft 365)", "https://outlook.office.com/mail/deeplink/compose?to=" + q(I.email) + "&subject=" + q(I.mail.objet) + "&body=" + q(corps)],
+      ["Messagerie de l’ordinateur", mailto]
+    ];
+    var menu = el("div", { class: "co-courriel", id: "menu-courriel", role: "menu", hidden: "" });
+    menu.appendChild(el("p", { class: "co-courriel-titre", text: "Écrire avec :" }));
+    choix.forEach(function (c) {
+      var a = el("a", { role: "menuitem", href: c[1], text: c[0] });
+      if (c[1].indexOf("https:") === 0) { a.target = "_blank"; a.rel = "noopener"; }
+      a.addEventListener("click", fermer);
+      menu.appendChild(a);
+    });
+    var copier = el("button", { type: "button", role: "menuitem", text: "Copier l’adresse " + I.email });
+    copier.addEventListener("click", function () {
+      var ok = function () { copier.textContent = "Adresse copiée ✓"; setTimeout(fermer, 1200); };
+      if (navigator.clipboard) navigator.clipboard.writeText(I.email).then(ok, function () { window.prompt("Adresse :", I.email); });
+      else window.prompt("Adresse :", I.email);
+    });
+    menu.appendChild(copier);
+    bouton.parentNode.appendChild(menu);
+    bouton.setAttribute("aria-haspopup", "menu");
+    bouton.setAttribute("aria-expanded", "false");
+    bouton.setAttribute("aria-controls", "menu-courriel");
+    function fermer() {
+      menu.hidden = true; bouton.setAttribute("aria-expanded", "false");
+      copier.textContent = "Copier l’adresse " + I.email;
+    }
+    bouton.addEventListener("click", function (e) {
+      if (e.ctrlKey || e.shiftKey || e.metaKey) return;
+      e.preventDefault();
+      if (!menu.hidden) { fermer(); return; }
+      menu.hidden = false; bouton.setAttribute("aria-expanded", "true");
+      menu.querySelector("a").focus();
+    });
+    document.addEventListener("click", function (e) {
+      if (!menu.hidden && !menu.contains(e.target) && e.target !== bouton) fermer();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !menu.hidden) { fermer(); bouton.focus(); }
+    });
+  })();
   // Jamais d’emplacement vide : sans portrait, l’identité garde son texte.
   var portrait = $("portrait");
   function sansPortrait() { portrait.hidden = true; $("haut").classList.add("sans-portrait"); }
