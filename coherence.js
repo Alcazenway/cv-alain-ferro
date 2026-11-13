@@ -40,7 +40,8 @@
   // v2.27 : le trajet complet part de la naissance, en haut de la marge gauche, descend jusqu’à la première étape
   // (le BAC), suit les trois rangées puis finit sur « Aujourd’hui », en haut à droite. Il sert aussi au personnage animé.
   // « annexe » : index d’une étape sous laquelle une bulle hors chemin est suspendue (le BTS sous Apprenti courtier).
-  var RANGEES = [572, 374, 176], X0 = 250, X1 = 1150;
+  // 2.42 : rangées plus espacées (le personnage marche sur le dessus des sphères sans toucher la rangée au-dessus).
+  var RANGEES = [800, 510, 220], X0 = 250, X1 = 1150, HAUT = 1070;
   function chemin(nombre, annexe) {
     if (nombre < 6) return null;
     var p = [], tailles = [Math.ceil(nombre / 3), Math.ceil((nombre - Math.ceil(nombre / 3)) / 2)];
@@ -64,10 +65,51 @@
     var depart = "M" + debut.x + "," + debut.y + " L" + debut.x + "," + coude +
       " C" + debut.x + "," + (p[0].y - 20) + " " + (debut.x + 50) + "," + p[0].y + " " + p[0].x + "," + p[0].y;
     var arrivee = " C" + (der.x + 50) + "," + der.y + " " + (fin.x - 60) + "," + fin.y + " " + fin.x + "," + fin.y;
-    var geo = { positions: p, route: route, trajet: depart + route.replace(/^M[^ ]+/, "") + arrivee, viewBox: "0 0 1400 818", rayon: rayon,
+    var geo = { positions: p, route: route, trajet: depart + route.replace(/^M[^ ]+/, "") + arrivee, viewBox: "0 0 1400 " + HAUT, rayon: rayon,
       debut: debut, fin: fin, coude: { x: debut.x, y: coude } };
+    marche(geo, tailles);
     if (annexe >= 0 && annexe < p.length) geo.annexe = { x: p[annexe].x, y: p[annexe].y + 2 * rayon + 30 };
     return geo;
+  }
+
+  // 2.42 : chemin de marche du personnage, jamais caché par une sphère : il marche sur le dessus des sphères
+  // (arcs de rayon R, ponts tangents entre deux sphères voisines) et change de rangée en montant le long du côté
+  // extérieur (vers le bord de la fenêtre) de la sphère du dessus. geo.sommets : point haut de chaque sphère (jalons).
+  function marche(geo, tailles) {
+    var p = geo.positions, R = geo.rayon + 7, a1 = function (n) { return Math.round(n * 10) / 10; };
+    var pt = function (c, t) { return { x: c.x + R * Math.cos(t), y: c.y + R * Math.sin(t) }; };
+    var ang = function (c, q) { return Math.atan2(q.y - c.y, q.x - c.x); };
+    var arc = function (q, sens) { return " A" + R + "," + R + " 0 0 " + sens + " " + a1(q.x) + "," + a1(q.y); };
+    var lig = function (q) { return " L" + a1(q.x) + "," + a1(q.y); };
+    // Tangente extérieure haute entre deux sphères de même rayon.
+    var tangente = function (a, b) {
+      var dx = b.x - a.x, dy = b.y - a.y, l = Math.hypot(dx, dy), nx = dy / l, ny = -dx / l;
+      if (ny > 0) { nx = -nx; ny = -ny; }
+      return [{ x: a.x + R * nx, y: a.y + R * ny }, { x: b.x + R * nx, y: b.y + R * ny }];
+    };
+    var d = "M" + geo.debut.x + "," + geo.debut.y + " L" + geo.debut.x + "," + geo.coude.y, debutRangee = 0;
+    // Arrivée à gauche de la première sphère, à hauteur de son centre.
+    var c0 = p[0], e0 = pt(c0, Math.PI);
+    d += " C" + geo.debut.x + "," + a1(e0.y - 20) + " " + a1((geo.debut.x + e0.x) / 2) + "," + a1(e0.y) + " " + a1(e0.x) + "," + a1(e0.y);
+    tailles.forEach(function (n, r) {
+      var sens = r % 2 ? 0 : 1, fin = debutRangee + n - 1;     // rangées paires : vers la droite (sens horaire)
+      for (var i = debutRangee; i < fin; i++) {
+        var t = tangente(p[i], p[i + 1]);
+        d += arc(t[0], sens) + lig(t[1]);
+      }
+      var cf = p[fin];
+      if (r < tailles.length - 1) {
+        // Côté extérieur : à droite pour une rangée qui va vers la droite, à gauche sinon ; montée verticale.
+        var cote = sens ? 0 : Math.PI, s1 = pt(cf, cote), u = p[fin + 1], s2 = pt(u, cote);
+        d += arc(s1, sens) + lig(s2);
+      } else {
+        var sx = pt(cf, 0);
+        d += arc(sx, sens) + " C" + a1(sx.x + 40) + "," + a1(sx.y) + " " + a1(geo.fin.x - 40) + "," + geo.fin.y + " " + geo.fin.x + "," + geo.fin.y;
+      }
+      debutRangee = fin + 1;
+    });
+    geo.marche = d;
+    geo.sommets = p.map(function (c) { return { x: c.x, y: c.y - R }; });
   }
 
   /* ---------- Bandeau : menu mobile et menu complémentaire ---------- */

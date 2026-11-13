@@ -548,3 +548,5 @@ a.co-noeud, g.co-noeud:not(.co-repere-temps) { filter: drop-shadow(0 5px 5px rgb
 .co-noeud .co-sphere circle:not(.co-noeud-contour) { stroke-width: 1.2; }
 a.co-noeud:hover .co-sph-reflet { opacity: 1.15; }
 @media print { .co-sph-ombre, .co-sph-reflet { display: none; } .co-sphere { filter: none; } }
+/* 2.42 : chemin de marche du personnage (invisible, sert de guide). */
+.co-marche { fill: none; stroke: none; pointer-events: none; }
