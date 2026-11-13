@@ -91,12 +91,38 @@
     // Arrivée à gauche de la première sphère, à hauteur de son centre.
     var c0 = p[0], e0 = pt(c0, Math.PI);
     d += " C" + geo.debut.x + "," + a1(e0.y - 20) + " " + a1((geo.debut.x + e0.x) / 2) + "," + a1(e0.y) + " " + a1(e0.x) + "," + a1(e0.y);
+    // 2.44 : sur une sphère plus basse que ses deux voisines (« creux » de l'ondulation), le point de contact de sortie
+    // est en arrière du point d'entrée : l'arc faisait reculer le personnage (aller-retour). On passe alors au-dessus
+    // du creux, à l'intersection des deux ponts tangents (quelques pixels au-dessus de la sphère), sans reculer.
+    var croise = function (a, b, c, e) {
+      var r1x = b.x - a.x, r1y = b.y - a.y, r2x = e.x - c.x, r2y = e.y - c.y, den = r1x * r2y - r1y * r2x;
+      if (Math.abs(den) < 1e-9) return b;
+      var u = ((c.x - a.x) * r2y - (c.y - a.y) * r2x) / den;
+      return { x: a.x + u * r1x, y: a.y + u * r1y };
+    };
+    var recule = function (c, q0, q1, sens) {
+      var dt = ang(c, q1) - ang(c, q0);
+      while (dt > Math.PI) dt -= 2 * Math.PI;
+      while (dt <= -Math.PI) dt += 2 * Math.PI;
+      return sens ? dt < 0 : dt > 0;
+    };
     tailles.forEach(function (n, r) {
       var sens = r % 2 ? 0 : 1, fin = debutRangee + n - 1;     // rangées paires : vers la droite (sens horaire)
-      for (var i = debutRangee; i < fin; i++) {
-        var t = tangente(p[i], p[i + 1]);
-        d += arc(t[0], sens) + lig(t[1]);
+      // Ponts tangents entre sphères voisines de la rangée.
+      var ponts = [];
+      for (var i = debutRangee; i < fin; i++) ponts.push(tangente(p[i], p[i + 1]));
+      var entree = debutRangee === 0 ? e0 : pt(p[debutRangee], sens ? Math.PI : 0);   // arrivée latérale
+      for (var k = 0; k < ponts.length; k++) {
+        var sortie = ponts[k][0];
+        if (k > 0 && recule(p[debutRangee + k], entree, sortie, sens)) {
+          d += lig(croise(ponts[k - 1][0], ponts[k - 1][1], ponts[k][0], ponts[k][1]));
+        } else {
+          if (k > 0) d += lig(entree);
+          d += arc(sortie, sens);
+        }
+        entree = ponts[k][1];
       }
+      if (ponts.length) d += lig(entree);
       var cf = p[fin];
       if (r < tailles.length - 1) {
         // Côté extérieur : à droite pour une rangée qui va vers la droite, à gauche sinon ; montée verticale.
