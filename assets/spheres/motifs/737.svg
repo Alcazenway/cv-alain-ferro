@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 -20 1360 760" width="1360" height="760">
+  <!-- Boeing 737 en montée, vu de profil légèrement de dessous : silhouette pour la gravure de la sphère Pilotage virtuel (dessin original, 2.39.0). -->
+  <rect x="-100" y="-100" width="1500" height="1000" fill="#ffffff"/>
+  <g transform="rotate(-8 620 300) translate(10 40)" fill="#1b1f24" stroke="#ffffff" stroke-linejoin="round">
+    <path d="M300,262 L150,336 L116,336 L210,252 Z" stroke-width="0"/>
+    <path d="M455,206 C392,198 352,182 326,160 L178,22 L106,22 L88,218 Z" stroke-width="0"/>
+    <path d="M160,204 L1000,196 C1070,196 1122,208 1152,234 C1170,250 1168,272 1144,284 C1110,300 1058,304 996,304 L320,304 C236,304 160,292 80,252 L62,228 C96,212 128,204 160,204 Z" stroke-width="0"/>
+    <path d="M300,262 L150,336 L116,336 L210,252 Z" stroke-width="8"/>
+    <path d="M800,268 L452,440 L392,440 L548,284 Z" stroke-width="9"/>
+    <path d="M396,440 L372,392 L392,392 L430,434 Z" stroke-width="6"/>
+    <path d="M708,290 L800,290 L782,322 L716,322 Z" stroke-width="7"/>
+    <path d="M664,312 L846,312 C870,312 880,328 880,344 C880,364 864,374 836,374 L690,374 C664,374 648,360 648,344 C648,326 652,312 664,312 Z" stroke-width="9"/>
+    <path d="M648,344 L606,340 L612,354 L652,356 Z" stroke-width="6"/>
+  </g>
+  <g transform="rotate(-8 620 300) translate(10 40)" fill="#ffffff">
+    <ellipse cx="874" cy="344" rx="8" ry="24"/>
+    <circle cx="330" cy="238.0" r="8"/><circle cx="358" cy="237.7" r="8"/><circle cx="386" cy="237.4" r="8"/><circle cx="414" cy="237.1" r="8"/><circle cx="442" cy="236.8" r="8"/><circle cx="470" cy="236.5" r="8"/><circle cx="498" cy="236.2" r="8"/><circle cx="526" cy="235.9" r="8"/><circle cx="554" cy="235.6" r="8"/><circle cx="582" cy="235.3" r="8"/><circle cx="610" cy="235.0" r="8"/><circle cx="638" cy="234.7" r="8"/><circle cx="666" cy="234.4" r="8"/><circle cx="694" cy="234.1" r="8"/><circle cx="722" cy="233.8" r="8"/><circle cx="750" cy="233.5" r="8"/><circle cx="778" cy="233.2" r="8"/><circle cx="806" cy="232.9" r="8"/><circle cx="834" cy="232.6" r="8"/><circle cx="862" cy="232.3" r="8"/><circle cx="890" cy="232.0" r="8"/><circle cx="918" cy="231.7" r="8"/><circle cx="946" cy="231.4" r="8"/><circle cx="974" cy="231.1" r="8"/>
+    <rect x="1014" y="214" width="22" height="50" rx="6"/>
+    <rect x="262" y="222" width="20" height="46" rx="6"/>
+    <path d="M1090,220 L1128,225 L1140,242 L1094,240 Z"/>
+    <path d="M1066,220 L1086,220 L1090,240 L1068,240 Z"/>
+  </g>
+</svg>
