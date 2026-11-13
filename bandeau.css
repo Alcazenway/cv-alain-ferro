@@ -5,7 +5,12 @@
    (Présentation Caterium, Parcours nickel chaud, Compétences acier bleuté, Formation cuivre,
    Intérêts chrome, Postes visés ardoise + quatre métaux). L'onglet actif est une plaque pleine
    en relief, avec reflet, liseré et ergot pointant vers la page.
-   À charger APRÈS coherence.css (dernière feuille, ou fin de coherence.css). Aucun JS requis.
+   À charger APRÈS coherence.css (dernière feuille, ou fin de coherence.css).
+   2.46 (bandeau-perso-20261113) : rangée des plaques exactement aussi large que la zone .bi-zone des pages billard
+   (même calcul que #vue 100rem / 1,25rem, fenêtre .5rem + barre, flux 1200px ; --co-barre mesurée par coherence.js),
+   logo et actions sur une ligne fine au-dessus ; chaque plaque reprend la texture du fond de sa rubrique
+   (assets/bandeau/plaque-<rubrique>.webp, recette bandeau-perso-20261113/bandeau/fabriquer_plaques.py) avec un effet
+   métal façon sphères (reflet net, biseau, liseré, éclat) ; petites sphères devant les libellés supprimées.
    ========================================================================== */
 
 /* ---------- 1. Palette métal par rubrique ----------
@@ -14,29 +19,32 @@
    --m-bord : liseré. */
 .co-onglets a, .co-menu, .co-bandeau {
   --m-clair: #f4f5f6; --m-moyen: #c9ced4; --m-sombre: #8a939d; --m-teinte: #eef0f2; --m-bord: #9aa3ad; --m-encre: #17222b; --m-ombre-texte: rgba(255, 255, 255, .55);
+  --m-tex: url("assets/bandeau/plaque-metiers.webp"); --m-texte: #ffffff;
 }
 .co-onglets a[data-rubrique="presentation"], body[data-fond="presentation"] :is(.co-menu, .co-bandeau) {
   --m-clair: #fff3c4; --m-moyen: #e2bd45; --m-sombre: #a07a12; --m-teinte: #faf1cf; --m-bord: #b8901f; --m-encre: #2a1d00; --m-ombre-texte: rgba(255, 246, 200, .7);
+  --m-tex: url("assets/bandeau/plaque-presentation.webp"); --m-texte: #fff1c2; --m-spec: .3; --m-voile: .36;
 }
 .co-onglets a[data-rubrique="parcours"], body[data-fond="parcours"] :is(.co-menu, .co-bandeau) {
   --m-clair: #f6f1e7; --m-moyen: #cdbfa5; --m-sombre: #94856a; --m-teinte: #f3eee4; --m-bord: #a8997d; --m-encre: #2a2317; --m-ombre-texte: rgba(255, 250, 240, .7);
+  --m-tex: url("assets/bandeau/plaque-parcours.webp"); --m-texte: #fbf4e6; --m-voile: .36;
 }
 .co-onglets a[data-rubrique="competences"], body:is([data-fond="competences"], [data-fond="orchestration"]) :is(.co-menu, .co-bandeau) {
   --m-clair: #8eabd0; --m-moyen: #4d6d96; --m-sombre: #263c5a; --m-teinte: #e6edf6; --m-bord: #5b7aa3; --m-encre: #ffffff; --m-ombre-texte: rgba(10, 22, 40, .55);
+  --m-tex: url("assets/bandeau/plaque-competences.webp"); --m-texte: #ffffff;
 }
 .co-onglets a[data-rubrique="savoir"], body[data-fond="savoir"] :is(.co-menu, .co-bandeau) {
   --m-clair: #e9a67c; --m-moyen: #a65a31; --m-sombre: #6a3016; --m-teinte: #f8e8dd; --m-bord: #b46a40; --m-encre: #ffffff; --m-ombre-texte: rgba(50, 18, 4, .55);
+  --m-tex: url("assets/bandeau/plaque-savoir.webp"); --m-texte: #fff4ec;
 }
 .co-onglets a[data-rubrique="interets"], body[data-fond="interets"] :is(.co-menu, .co-bandeau) {
   --m-clair: #ffffff; --m-moyen: #cdd4dc; --m-sombre: #828d9a; --m-teinte: #f2f4f7; --m-bord: #8e99a6; --m-encre: #18212b; --m-ombre-texte: rgba(255, 255, 255, .8);
+  --m-tex: url("assets/bandeau/plaque-interets.webp"); --m-texte: #ffffff; --m-spec: .36; --m-voile: .32;
 }
 .co-onglets a[data-rubrique="metiers"], body[data-fond="metiers"] :is(.co-menu, .co-bandeau) {
   --m-clair: #8d97a3; --m-moyen: #535d69; --m-sombre: #2b3139; --m-teinte: #e7e9ec; --m-bord: #616b77; --m-encre: #ffffff; --m-ombre-texte: rgba(0, 0, 0, .5);
+  --m-tex: url("assets/bandeau/plaque-metiers.webp"); --m-texte: #ffffff;
 }
-
-/* Plaques sombres à texte blanc : reflet plus discret sous les lettres (contraste AA conservé). */
-.co-onglets a:is([data-rubrique="competences"], [data-rubrique="savoir"], [data-rubrique="metiers"]),
-body:is([data-fond="competences"], [data-fond="orchestration"], [data-fond="savoir"], [data-fond="metiers"]) .co-menu { --m-reflet: .38; --m-reflet-bas: .05; }
 
 /* ---------- 2. Titres de rubrique masqués visuellement (h1 conservé) ---------- */
 .lecture-flux:has(> .bi-zone) > .co-tete,
@@ -50,9 +58,9 @@ body:is([data-fond="competences"], [data-fond="orchestration"], [data-fond="savo
 .lecture-flux:has(> .bi-zone), .lecture-flux.bi-flux { padding-top: 14px; }
 .co-tete-parcours { padding-top: 12px; }
 
+
 /* ---------- 3. Bandeau : plaque satinée claire, liseré dans le métal de la rubrique ---------- */
 .co-bandeau {
-  gap: 20px; padding: 12px 3%; min-height: 86px;
   background:
     repeating-linear-gradient(90deg, rgba(40, 50, 60, .018) 0 1px, rgba(255, 255, 255, 0) 1px 3px),
     linear-gradient(180deg, #ffffff 0%, #f6f6f3 62%, #ecedea 100%);
@@ -64,116 +72,160 @@ body:is([data-fond="competences"], [data-fond="orchestration"], [data-fond="savo
   background: linear-gradient(90deg, transparent, var(--m-bord) 18%, var(--m-moyen) 50%, var(--m-bord) 82%, transparent);
   opacity: .85;
 }
-.co-marque { font-size: 21px; letter-spacing: .2px; }
-.co-marque b { letter-spacing: .5px; }
-.co-marque small { font-size: 9.5px; letter-spacing: 3.4px; color: #4d6360; }
 
-/* ---------- 4. Onglets en plaques ---------- */
-.co-nav { flex: 1 1 auto; min-width: 0; justify-content: center; margin: 0; }
-.co-onglets { flex: 1 1 auto; justify-content: center; gap: 10px; margin: 0; padding: 0; list-style: none; max-width: 1380px; }
-.co-onglets li { flex: 1 1 0; min-width: 0; max-width: 228px; }
+/* ---------- 4. Grand écran (>= 1101 px) : ligne fine logo + actions, rangée de plaques dessous ----------
+   La colonne du bandeau = la colonne de la zone .bi-zone : #vue (max 100rem, marges 1,25rem),
+   .lecture-fenetre (marge droite .5rem + gouttière de barre --co-barre), .lecture-flux (max 1200px, centré). */
+@media (min-width: 1101px) {
+  .co-bandeau {
+    --co-vue: min(100vw, 100rem);
+    --co-dispo: calc(var(--co-vue) - 2.5rem - .5rem - var(--co-barre, 15px));
+    --co-largeur: min(1200px, var(--co-dispo));
+    --co-gauche: calc((100vw - var(--co-vue)) / 2 + 1.25rem + (var(--co-dispo) - var(--co-largeur)) / 2);
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "marque actions" "nav nav";
+    align-items: center; column-gap: 16px; row-gap: 6px; min-height: 0;
+    padding: 6px calc(100vw - var(--co-gauche) - var(--co-largeur)) 12px var(--co-gauche);
+  }
+  .co-marque { grid-area: marque; justify-self: start; display: inline-flex; align-items: baseline; gap: 12px; font-size: 19px; line-height: 1.15; letter-spacing: .2px; }
+  .co-marque b { letter-spacing: .5px; }
+  .co-marque small { display: inline-block; margin: 0; padding-left: 12px; border-left: 1px solid #c9d0cd; font-size: 9.5px; letter-spacing: 3.4px; color: #4d6360; }
+  .co-actions-bandeau { grid-area: actions; flex-direction: row; align-items: center; gap: 8px; flex: none; margin: 0; }
+  .co-actions-bandeau .co-entretien { justify-content: center; min-height: 30px; padding: 5px 15px; font-size: 12.5px; }
+  .co-nav { grid-area: nav; display: block; width: 100%; min-width: 0; margin: 0; }
+  .co-onglets { display: flex; width: 100%; max-width: none; justify-content: stretch; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .co-onglets li { flex: 1 1 0; min-width: 0; max-width: none; }
+}
+
+/* ---------- 5. Plaques texturées, effet métal façon sphères ----------
+   Couches : reflet spéculaire net (bord franc à mi-hauteur, comme le reflet des sphères), ombre basse,
+   texture de la rubrique (métal brossé teinté + filigrane). Biseau et liseré par box-shadow ;
+   ::before = éclat (point de lumière en haut à gauche, liseré lumineux, balayage au survol). Texte clair ombré : AA. */
 .co-onglets a {
-  position: relative; isolation: isolate; width: 100%; justify-content: center; gap: 10px;
-  min-height: 60px; padding: 8px 14px; border-radius: 14px;
-  border: 1px solid color-mix(in srgb, var(--m-bord) 55%, #ffffff);
+  position: relative; isolation: isolate; overflow: visible; width: 100%; justify-content: center; gap: 0;
+  min-height: 56px; padding: 8px 14px; border-radius: 13px;
+  border: 1px solid color-mix(in srgb, var(--m-clair) 55%, rgba(0, 0, 0, .6));
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, .85) 0%, rgba(255, 255, 255, 0) 55%),
-    repeating-linear-gradient(90deg, rgba(0, 0, 0, .022) 0 1px, rgba(255, 255, 255, 0) 1px 4px),
-    color-mix(in srgb, var(--m-teinte) 82%, var(--m-moyen));
-  box-shadow: 0 1px 0 rgba(255, 255, 255, .95) inset, 0 -3px 0 color-mix(in srgb, var(--m-moyen) 75%, transparent) inset, 0 1px 3px rgba(25, 40, 50, .1);
-  color: #1d2f33; font-size: clamp(15px, 1.2vw, 20px); font-weight: 600; letter-spacing: .15px; line-height: 1.1;
-  text-decoration: none; text-align: center;
-  transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease, border-color .18s ease;
+    linear-gradient(180deg, rgba(255, 255, 255, var(--m-spec, .26)) 0%, rgba(255, 255, 255, calc(var(--m-spec, .26) * .45)) 27%, rgba(255, 255, 255, 0) 28%, rgba(0, 0, 0, 0) 72%, rgba(0, 0, 0, .3) 100%),
+    radial-gradient(62% 58% at 50% 55%, rgba(0, 0, 0, var(--m-voile, .22)) 0%, rgba(0, 0, 0, 0) 100%),
+    var(--m-tex) 50% 50% / cover no-repeat,
+    var(--m-sombre);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--m-clair) 70%, #ffffff) inset,
+    0 0 0 1px rgba(255, 255, 255, .07) inset,
+    0 -2px 0 rgba(0, 0, 0, .4) inset,
+    0 2px 4px rgba(20, 30, 40, .22), 0 1px 0 rgba(255, 255, 255, .8);
+  color: var(--m-texte); font-size: clamp(15px, 1.2vw, 20px); font-weight: 650; letter-spacing: .2px; line-height: 1.1;
+  text-decoration: none; text-align: center; text-shadow: 0 1px 2px rgba(0, 0, 0, .85), 0 0 8px rgba(0, 0, 0, .35);
+  filter: saturate(.9) brightness(.94);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease, border-color .18s ease;
 }
-/* Petite sphère du métal de la rubrique, comme les bulles des pages. */
 .co-onglets a::before {
-  content: ""; flex: none; width: .82em; height: .82em; border-radius: 50%;
-  background: radial-gradient(circle at 34% 30%, #ffffff 0 9%, var(--m-clair) 24%, var(--m-moyen) 58%, var(--m-sombre) 100%);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 0 0 1px rgba(0, 0, 0, .08);
-}
-/* Postes visés : sphère des quatre métaux (Caterium, acier, cuivre, chrome). */
-.co-onglets a[data-rubrique="metiers"]::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
   background:
-    radial-gradient(circle at 34% 30%, rgba(255, 255, 255, .95) 0 10%, rgba(255, 255, 255, 0) 32%),
-    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, .35) 100%),
-    conic-gradient(from 200deg, #d9b23a 0 25%, #5f7fa8 0 50%, #b5683c 0 75%, #c9d0d8 0);
+    radial-gradient(28px 9px at 18% 16%, rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, .18) 55%, rgba(255, 255, 255, 0) 100%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0) 8%, color-mix(in srgb, var(--m-clair) 80%, #ffffff) 50%, rgba(255, 255, 255, 0) 92%) 50% 0 / 100% 1px no-repeat,
+    linear-gradient(105deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, .16) 45%, rgba(255, 255, 255, 0) 60%) -160% 0 / 60% 100% no-repeat;
+  transition: background-position .6s ease;
 }
 .co-onglets a:hover {
-  transform: translateY(-2px); border-color: var(--m-bord); color: #102226;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, 0) 60%),
-    repeating-linear-gradient(90deg, rgba(0, 0, 0, .03) 0 1px, rgba(255, 255, 255, 0) 1px 4px),
-    color-mix(in srgb, var(--m-teinte) 70%, var(--m-moyen));
-  box-shadow: 0 1px 0 rgba(255, 255, 255, .9) inset, 0 -3px 0 var(--m-moyen) inset, 0 6px 14px rgba(25, 40, 50, .14);
+  transform: translateY(-2px); filter: none; color: var(--m-texte);
+  border-color: color-mix(in srgb, var(--m-clair) 80%, #ffffff);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--m-clair) 70%, #ffffff) inset, 0 0 0 1px rgba(255, 255, 255, .1) inset, 0 -2px 0 rgba(0, 0, 0, .4) inset,
+    0 7px 16px color-mix(in srgb, var(--m-sombre) 40%, rgba(20, 30, 40, .3)), 0 1px 0 rgba(255, 255, 255, .8);
 }
+.co-onglets a:hover::before { background-position: 0 0, 50% 0, 260% 0; }
 .co-onglets a:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 
-/* Onglet actif : plaque de métal pleine, brossée, en relief, reflet et ergot vers la page. */
+/* Onglet actif : plaque pleinement éclairée (texture plus vive, reflet plus franc), double liseré
+   blanc + métal, halo dans le métal de la rubrique, ergot de métal pointant vers la page. */
 .co-onglets a[aria-current="page"] {
-  z-index: 1; transform: translateY(-1px);
-  border: 1px solid var(--m-sombre);
+  z-index: 1; transform: translateY(-2px); filter: saturate(1.2);
+  border-color: color-mix(in srgb, var(--m-clair) 85%, #ffffff);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, var(--m-reflet, .55)) 0%, rgba(255, 255, 255, var(--m-reflet-bas, .12)) 44%, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, .1) 100%),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, .07) 0 1px, rgba(0, 0, 0, .05) 1px 2px, rgba(255, 255, 255, 0) 2px 5px),
-    linear-gradient(180deg, var(--m-clair) 0%, var(--m-moyen) 52%, var(--m-sombre) 100%);
+    linear-gradient(180deg, rgba(255, 255, 255, calc(var(--m-spec, .26) + .14)) 0%, rgba(255, 255, 255, calc(var(--m-spec, .26) * .6)) 27%, rgba(255, 255, 255, 0) 28%, rgba(0, 0, 0, 0) 72%, rgba(0, 0, 0, .32) 100%),
+    radial-gradient(62% 58% at 50% 55%, rgba(0, 0, 0, calc(var(--m-voile, .22) + .06)) 0%, rgba(0, 0, 0, 0) 100%),
+    linear-gradient(180deg, color-mix(in srgb, var(--m-clair) 26%, transparent) 0%, rgba(0, 0, 0, 0) 26%),
+    var(--m-tex) 50% 50% / cover no-repeat,
+    var(--m-sombre);
   box-shadow:
     0 0 0 2px #ffffff, 0 0 0 4px var(--m-bord),
-    0 1px 0 rgba(255, 255, 255, .7) inset, 0 -2px 0 rgba(0, 0, 0, .22) inset,
-    0 10px 22px color-mix(in srgb, var(--m-sombre) 45%, transparent);
-  color: var(--m-encre); font-weight: 750; text-decoration: none;
-  text-shadow: 0 1px 1px var(--m-ombre-texte);
+    0 1px 0 rgba(255, 255, 255, .7) inset, 0 -2px 0 rgba(0, 0, 0, .4) inset,
+    0 10px 22px color-mix(in srgb, var(--m-sombre) 55%, transparent),
+    0 0 18px color-mix(in srgb, var(--m-clair) 45%, transparent);
+  color: var(--m-texte); font-weight: 780; text-decoration: none;
 }
-.co-onglets a[aria-current="page"]::before { width: .95em; height: .95em; box-shadow: 0 0 0 2px rgba(255, 255, 255, .85), 0 2px 4px rgba(0, 0, 0, .4); }
-/* Ergot : petite pointe de métal sous la plaque. */
+.co-onglets a[aria-current="page"]::before {
+  background:
+    radial-gradient(34px 10px at 18% 16%, rgba(255, 255, 255, .9) 0%, rgba(255, 255, 255, .25) 55%, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(10px 4px at 82% 84%, rgba(255, 255, 255, .45) 0%, rgba(255, 255, 255, 0) 100%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0) 4%, #ffffff 50%, rgba(255, 255, 255, 0) 96%) 50% 0 / 100% 1px no-repeat;
+}
 .co-onglets a[aria-current="page"]::after {
-  content: ""; position: absolute; left: 50%; bottom: -12px; z-index: -1; width: 14px; height: 14px;
+  content: ""; position: absolute; left: 50%; bottom: -11px; z-index: -2; width: 14px; height: 14px;
   transform: translateX(-50%) rotate(45deg); border-radius: 3px;
   background: linear-gradient(135deg, var(--m-moyen), var(--m-sombre));
   box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--m-bord);
 }
-.co-onglets a[aria-current="page"]:hover { transform: translateY(-1px); }
+.co-onglets a[aria-current="page"]:hover { transform: translateY(-2px); }
 
-/* ---------- 5. Actions : deux boutons empilés, compacts, à droite ---------- */
-.co-actions-bandeau { flex-direction: column; align-items: stretch; gap: 6px; flex: none; }
-.co-actions-bandeau .co-entretien { justify-content: center; min-height: 32px; padding: 6px 16px; font-size: 13px; }
+/* Postes visés : filet des quatre métaux (Caterium, acier, cuivre, chrome) au bas de la plaque. */
+.co-onglets a[data-rubrique="metiers"]::before {
+  background:
+    radial-gradient(28px 9px at 18% 16%, rgba(255, 255, 255, .7) 0%, rgba(255, 255, 255, .18) 55%, rgba(255, 255, 255, 0) 100%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0) 8%, color-mix(in srgb, var(--m-clair) 80%, #ffffff) 50%, rgba(255, 255, 255, 0) 92%) 50% 0 / 100% 1px no-repeat,
+    linear-gradient(90deg, #d9b23a 0 25%, #6f8fb8 0 50%, #c27548 0 75%, #d4dae1 0) 50% calc(100% - 4px) / 56% 2px no-repeat,
+    linear-gradient(105deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, .16) 45%, rgba(255, 255, 255, 0) 60%) -160% 0 / 60% 100% no-repeat;
+}
+.co-onglets a[data-rubrique="metiers"]:hover::before { background-position: 0 0, 50% 0, 50% calc(100% - 4px), 260% 0; }
+.co-onglets a[data-rubrique="metiers"][aria-current="page"]::before {
+  background:
+    radial-gradient(34px 10px at 18% 16%, rgba(255, 255, 255, .9) 0%, rgba(255, 255, 255, .25) 55%, rgba(255, 255, 255, 0) 100%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0) 4%, #ffffff 50%, rgba(255, 255, 255, 0) 96%) 50% 0 / 100% 1px no-repeat,
+    linear-gradient(90deg, #e6c04a 0 25%, #7d9dc6 0 50%, #d0835a 0 75%, #e4e9ee 0) 50% calc(100% - 4px) / 64% 2px no-repeat;
+}
+/* Postes visés : halo aux métaux voisins (Caterium à gauche, cuivre à droite) sur la plaque active. */
+.co-onglets a[data-rubrique="metiers"][aria-current="page"] {
+  box-shadow:
+    0 0 0 2px #ffffff, 0 0 0 4px var(--m-bord),
+    0 1px 0 rgba(255, 255, 255, .7) inset, 0 -2px 0 rgba(0, 0, 0, .4) inset,
+    0 10px 22px rgba(30, 36, 44, .4), -10px 0 16px -6px rgba(217, 178, 58, .5), 10px 0 16px -6px rgba(181, 104, 60, .5);
+}
 
 /* ---------- 6. Grands écrans ---------- */
 @media (min-width: 1800px) {
-  .co-bandeau { min-height: 100px; padding: 14px 4%; gap: 32px; }
-  .co-marque { font-size: 25px; }
-  .co-marque small { font-size: 11px; }
-  .co-onglets { gap: 14px; max-width: 1900px; }
-  .co-onglets li { max-width: 300px; }
-  .co-onglets a { min-height: 74px; border-radius: 17px; font-size: 23px; }
-  .co-onglets a[aria-current="page"]::after { width: 16px; height: 16px; bottom: -13px; }
-  .co-actions-bandeau .co-entretien { min-height: 36px; font-size: 14px; padding: 7px 20px; }
+  .co-bandeau { row-gap: 9px; padding-top: 9px; padding-bottom: 15px; }
+  .co-marque { font-size: 23px; }
+  .co-marque small { font-size: 10.5px; }
+  .co-onglets { gap: 12px; }
+  .co-onglets a { min-height: 66px; border-radius: 15px; font-size: 22px; }
+  .co-onglets a[aria-current="page"]::after { width: 16px; height: 16px; bottom: -12px; }
+  .co-actions-bandeau .co-entretien { min-height: 34px; font-size: 13.5px; padding: 6px 18px; }
 }
 /* Ordinateur portable : plaques resserrées, toujours grandes. */
 @media (min-width: 1101px) and (max-width: 1359px) {
-  .co-bandeau { gap: 12px; padding-left: 2%; padding-right: 2%; }
   .co-marque { font-size: 18px; }
-  .co-onglets { gap: 6px; }
-  .co-onglets a { gap: 7px; min-height: 54px; padding: 6px 8px; font-size: 15px; border-radius: 12px; }
-  .co-onglets a::before { width: .7em; height: .7em; }
-  .co-actions-bandeau .co-entretien { padding: 5px 12px; font-size: 12px; }
+  .co-onglets { gap: 8px; }
+  .co-onglets a { min-height: 52px; padding: 6px 8px; font-size: 15.5px; border-radius: 12px; }
 }
-@media (min-width: 1101px) and (max-width: 1199px) { .co-onglets a::before { display: none; } }
 
-/* ---------- 7. Tablette et mobile (menu ☰, seuil existant 1100 px) ----------
-   Le bouton Menu devient une plaque du métal de la rubrique courante et affiche son nom :
-   le visiteur sait où il est même menu fermé. */
+/* ---------- 7. Tablette et mobile (menu, seuil existant 1100 px) ----------
+   Le bouton Menu devient une plaque texturée de la rubrique courante et affiche son nom :
+   le visiteur sait où il est même menu fermé. Les plaques du menu ouvert gardent textures et effet métal. */
 @media (max-width: 1100px) {
   .co-bandeau { min-height: 0; padding: 10px 16px 12px; gap: 10px; }
   .co-actions-bandeau { flex-direction: row; }
   .co-actions-bandeau .co-entretien { min-height: 40px; }
   .co-menu {
     gap: 9px; min-height: 46px; padding: 6px 16px 6px 12px; border-radius: 13px; font-size: 15px; font-weight: 700;
-    border: 1px solid var(--m-sombre); color: var(--m-encre); text-shadow: 0 1px 1px var(--m-ombre-texte);
+    border: 1px solid color-mix(in srgb, var(--m-clair) 80%, #ffffff); color: var(--m-texte);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .85);
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, .5) 0%, rgba(255, 255, 255, .1) 46%, rgba(0, 0, 0, 0) 47%, rgba(0, 0, 0, .1) 100%),
-      repeating-linear-gradient(90deg, rgba(255, 255, 255, .07) 0 1px, rgba(0, 0, 0, .05) 1px 2px, rgba(255, 255, 255, 0) 2px 5px),
-      linear-gradient(180deg, var(--m-clair) 0%, var(--m-moyen) 52%, var(--m-sombre) 100%);
-    box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px var(--m-bord), 0 1px 0 rgba(255, 255, 255, .6) inset, 0 6px 14px rgba(25, 40, 50, .16);
+      radial-gradient(26px 8px at 20% 16%, rgba(255, 255, 255, .6) 0%, rgba(255, 255, 255, 0) 100%),
+      linear-gradient(180deg, rgba(255, 255, 255, .3) 0%, rgba(255, 255, 255, .12) 46%, rgba(255, 255, 255, 0) 47%, rgba(0, 0, 0, .28) 100%),
+      var(--m-tex) 50% 50% / cover no-repeat,
+      var(--m-sombre);
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px var(--m-bord), 0 1px 0 rgba(255, 255, 255, .6) inset, 0 -2px 0 rgba(0, 0, 0, .35) inset, 0 6px 14px rgba(25, 40, 50, .2);
   }
   .co-menu > span[aria-hidden] { font-size: 18px; }
   .co-menu-libelle { font-size: 0; }
@@ -184,15 +236,22 @@ body:is([data-fond="competences"], [data-fond="orchestration"], [data-fond="savo
   body[data-fond="savoir"] .co-menu-libelle::before { content: "Formation" / "Formation, page actuelle."; }
   body[data-fond="interets"] .co-menu-libelle::before { content: "Intérêts" / "Intérêts, page actuelle."; }
   body[data-fond="metiers"] .co-menu-libelle::before { content: "Postes visés" / "Postes visés, page actuelle."; }
-  .co-menu-libelle::after { content: "▾" / ""; margin-left: 8px; font-size: 12px; opacity: .8; }
+  .co-menu-libelle::after { content: "▾" / ""; margin-left: 8px; font-size: 12px; opacity: .85; }
   .co-menu[aria-expanded="true"] .co-menu-libelle::after { content: "▴" / ""; }
 
   .co-nav.ouvert { padding: 8px 0 4px; }
   .co-onglets { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; max-width: none; }
   .co-onglets li { max-width: none; }
-  .co-onglets a { min-height: 56px; justify-content: flex-start; padding: 8px 14px; font-size: 16px; border-radius: 13px; }
-  .co-onglets a[aria-current="page"]::after { display: none; }
-  .co-onglets a[aria-current="page"] { box-shadow: 0 0 0 2px #ffffff, 0 0 0 3.5px var(--m-bord), 0 1px 0 rgba(255, 255, 255, .7) inset, 0 -2px 0 rgba(0, 0, 0, .22) inset, 0 6px 14px rgba(25, 40, 50, .18); }
+  .co-onglets a { min-height: 56px; justify-content: flex-start; padding: 8px 16px; font-size: 16px; border-radius: 13px; }
+  .co-onglets a[aria-current="page"] {
+    transform: none;
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 3.5px var(--m-bord), 0 1px 0 rgba(255, 255, 255, .7) inset, 0 -2px 0 rgba(0, 0, 0, .4) inset, 0 6px 14px rgba(25, 40, 50, .22), 0 0 14px color-mix(in srgb, var(--m-clair) 40%, transparent);
+  }
+  /* Repère de la page actuelle dans le menu ouvert : point lumineux à droite (l'ergot disparaît). */
+  .co-onglets a[aria-current="page"]::after {
+    content: "\25CF" / ""; position: static; z-index: auto; width: auto; height: auto; margin-left: auto; padding-left: 10px;
+    transform: none; border-radius: 0; background: none; box-shadow: none; font-size: 10px; color: var(--m-clair); text-shadow: 0 0 6px var(--m-clair);
+  }
 }
 @media (max-width: 740px) {
   .co-onglets { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -207,10 +266,12 @@ body:is([data-fond="competences"], [data-fond="orchestration"], [data-fond="savo
 }
 
 /* Mouvement réduit, impression, repli sans color-mix(). */
-@media (prefers-reduced-motion: reduce) { .co-onglets a { transition: none; } .co-onglets a:hover, .co-onglets a[aria-current="page"] { transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .co-onglets a, .co-onglets a::before { transition: none; }
+  .co-onglets a:hover, .co-onglets a[aria-current="page"] { transform: none; }
+}
 @supports not (color: color-mix(in srgb, red 50%, blue)) {
-  .co-onglets a { border-color: var(--m-bord); }
-  .co-onglets a:hover { background: var(--m-teinte); }
-  .co-onglets a[aria-current="page"] { box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--m-bord), 0 8px 18px rgba(25, 40, 50, .25); }
+  .co-onglets a, .co-onglets a:hover, .co-menu { border-color: var(--m-bord); }
+  .co-onglets a[aria-current="page"] { border-color: var(--m-clair); box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--m-bord), 0 8px 18px rgba(25, 40, 50, .3); }
 }
 @media print { .co-bandeau::after { display: none; } }

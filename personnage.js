@@ -6,7 +6,7 @@
 (function () {
   "use strict";
   var NS = "http://www.w3.org/2000/svg";
-  var TRAIT = "#1f474b", PEAU = "#f6d8bd", JOUES = "#f0a08a", NEZ = "#cf7448";
+  var TRAIT = "#1f474b", PEAU = "#efc7a6", JOUES = "#ec9a82", NEZ = "#c9704a"; // 2.45 : teint un peu plus chaud (portrait d’Alain)
   var LANGE = "#f5eee2", BANDE = "#b7a1cb";
   var ECHELLE = 1.5;
   var SRC_PERSO = (document.currentScript && document.currentScript.src) || "";
@@ -31,7 +31,7 @@
     haut:      ["#f5eee2", "#f3d77a", "#f1b65a", "#e27c55", "#4f80ad", "#68747f", "#3e8c88", "#4a9599", "#5d9ea4"],
     bas:       ["#f5eee2", "#f3d77a", "#4a6fa5", "#3f5f8e", "#34507a", "#2f3e55", "#2f3a4a", "#33404f", "#2e3a48"],
     chaussure: ["#f5eee2", "#ffffff", "#e2574c", "#f4f4f4", "#3d3d3d", "#f0f0f0", "#5a3b2a", "#4a3427", "#3d2b20"],
-    cheveux:   ["#c47a45", "#b97342", "#a3653b", "#8e5634", "#7d4a2f", "#744530", "#6f4430", "#6c432f", "#6a4330"]
+    cheveux:   ["#8a5a3a", "#7a4f34", "#68442e", "#573a28", "#483124", "#3d2a20", "#35261d", "#32241c", "#2f231c"] // 2.45 : brun foncé d’Alain
   };
 
   /* v2.31 : tenues selon l’activité de la bulle parcourue. Couleurs (haut, bas, chaussure, bras = manches), couvertures
@@ -44,15 +44,19 @@
     vendeur:     { haut: "#f4f6f8", bas: "#2f3a4a", chaussure: "#2b211b", manche: 1, pantalon: 1, chemise: 1, cravate: 1, porteDoc: 1 },
     serveur:     { haut: "#fbfbfb", bas: "#1f2024", chaussure: "#1b1b1b", manche: 1, pantalon: 1, chemise: 1, gilet: 1, noeud: 1, plateau: 1 },
     bricoleur:   { haut: "#efe6cf", bas: "#3f6aa0", chaussure: "#6b4a2f", manche: .45, pantalon: 1, chemise: 0, salopette: 1, marteau: 1, gants: .6 },
-    gerant:      { haut: "#eef1f4", bras: "#3a4a5e", bas: "#2e3a48", chaussure: "#2b211b", manche: 1, pantalon: 1, chemise: 1, veste: 1, porteDoc: 1, cravate: .0 },
-    pilote:      { haut: "#3e6c8c", manche: .55, casque: 1 },
-    commercial:  { haut: "#e3ecf5", bras: "#6f8196", vesteC: "#6f8196", bas: "#3a4656", chaussure: "#2b211b", manche: 1, pantalon: 1, chemise: 1, veste: 1, porteDoc: 1 },
-    negociateur: { haut: "#e3ecf5", bras: "#6f8196", vesteC: "#6f8196", bas: "#3a4656", chaussure: "#2b211b", manche: 1, pantalon: 1, chemise: 1, veste: 1, cravate: 1, cravateC: "#3c6e9e", dossier: 1 },
-    soignant:    { haut: "#f6fafa", bas: "#eef4f4", chaussure: "#ffffff", manche: .45, pantalon: 1, chemise: 0, blouse: 1, badge: 1, lisere: 1, badgeC: "#8fb3c9", lisereC: "#9fc3cf" },
-    responsable: { haut: "#a8bfd4", bas: "#90abc3", chaussure: "#ffffff", manche: .45, pantalon: 1, chemise: 0, blouse: 1, badge: 1, lisere: 1, badgeC: "#e0a526", lisereC: "#6f8fae" }, // 2.35.3 : bleu de la tenue fourni par Alain
+    // 2.45 : costumes d’homme d’affaires (veste et pantalon assortis, chemise, cravate, chaussures de ville, porte-documents).
+    gerant:      { haut: "#f3f5f8", bras: "#2c3a52", vesteC: "#2c3a52", bas: "#2c3a52", chaussure: "#16120f", manche: 1, pantalon: 1, chemise: 1, veste: 1, cravate: 1, cravateC: "#8a2b35", porteDoc: 1 },
+    // 2.45 : commandant de bord (chemise blanche à épaulettes 4 galons, cravate noire, pantalon marine, casquette, ailes).
+    pilote:      { haut: "#f7f8fa", bas: "#1f2b45", chaussure: "#121212", manche: 1, pantalon: 1, chemise: 1, cravate: 1, cravateC: "#151515", casquette: 1, epaulettes: 1, ailes: 1 },
+    commercial:  { haut: "#eef3f8", bras: "#3b4048", vesteC: "#3b4048", bas: "#3b4048", chaussure: "#16120f", manche: 1, pantalon: 1, chemise: 1, veste: 1, cravate: 1, cravateC: "#3c6e9e", porteDoc: 1 },
+    negociateur: { haut: "#f3f5f8", bras: "#4b5a6e", vesteC: "#4b5a6e", bas: "#4b5a6e", chaussure: "#16120f", manche: 1, pantalon: 1, chemise: 1, veste: 1, cravate: 1, cravateC: "#6b3a5a", porteDoc: 1 },
+    // 2.45 : infirmier en tunique et pantalon de soins (col en V, couleur claire, badge).
+    soignant:    { haut: "#cfe9e6", bas: "#cfe9e6", chaussure: "#ffffff", manche: .45, pantalon: 1, chemise: 0, badge: 1, vcol: 1, badgeC: "#3c6e9e", lisereC: "#8fbfba" },
+    // 2.45 : médecin en blouse longue bleue (échantillon d’Alain #a8bfd4, pantalon #90abc3, liseré #6f8fae), stéthoscope.
+    responsable: { haut: "#90abc3", bras: "#a8bfd4", blouseC: "#a8bfd4", bas: "#90abc3", chaussure: "#ffffff", manche: 1, pantalon: 1, chemise: 0, blouse: 1, badge: 1, vcol: 1, stetho: 1, badgeC: "#e0a526", lisereC: "#6f8fae" },
     informaticien: { haut: "#3d4a5c", manche: .55, chemise: 0, micro: 1 },
     jardinier:   { haut: "#7a9a52", bas: "#6b5a43", chaussure: "#5a3b2a", manche: .45, chemise: 0, chapeau: 1, arrosoir: 1 },
-    bureau:      { haut: "#dfe9f3", bas: "#2e3a48", manche: .6, chemise: 1, lunettes: 1, dossier: 1 },
+    bureau:      { haut: "#dbe8f5", bas: "#353c47", chaussure: "#2b211b", manche: 1, pantalon: 1, chemise: 1, lunettes: 1, mallette: 1 }, // 2.45 : stagiaire habillé, chemise, mallette, lunettes
     numerique:   { laptop: 1 }
   };
   var TENUE_ID = { bac: "ecolier", vendanges: "vigneron", skiman: "skiman", courtier: "vendeur", londres: "serveur", bateau: "bricoleur",
@@ -60,7 +64,8 @@
     "thermes-responsable": "responsable", pc: "informaticien", maison: "bricoleur", "plein-air": "jardinier", "stage-audit": "bureau",
     "stage-cecosud": "bureau", "outils-ia": "numerique" };
   var ACCESSOIRES = ["cartable", "salopette", "gants", "bonnet", "cravate", "porteDoc", "gilet", "noeud", "plateau", "marteau", "veste",
-    "casque", "micro", "blouse", "badge", "lisere", "chapeau", "arrosoir", "lunettes", "dossier", "laptop", "panier"];
+    "casque", "micro", "blouse", "badge", "lisere", "chapeau", "arrosoir", "lunettes", "dossier", "laptop", "panier",
+    "mallette", "casquette", "epaulettes", "ailes", "stetho", "vcol"]; // 2.45
 
   function lisse(a, b, x) { var t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); }
   function segment(a) {
@@ -344,7 +349,8 @@
     E.oreilleP.setAttribute("d", "M" + f(ox + orx * .6) + "," + f(oy - ory) + "C" + f(ox - orx * 1.4) + "," + f(oy - ory * 1.2) + " " + f(ox - orx * 1.4) + "," + f(oy + ory * 1.2) + " " + f(ox + orx * .6) + "," + f(oy + ory) + "Z");
 
     // Barbe courte : apparaît entre 17 et 25 ans, s’épaissit légèrement ensuite ; jamais visible de dos.
-    var barbe = lisse(17, 25, a) * (.85 + .15 * lisse(28, 44, a)), xb = hw / 2 + .4, yb = teteY + hh * .15;
+    // 2.45 : la barbe pousse au passage sur la bulle du bateau (tenue.barbe, calculé sur le trajet) ; repli selon l’âge.
+    var barbe = (tenue && tenue.barbe != null ? tenue.barbe : lisse(20, 22, a)) * lisse(14, 18, a) * (.85 + .15 * lisse(28, 44, a)), xb = hw / 2 + .4, yb = teteY + hh * .15;
     E.barbe.setAttribute("opacity", f(barbe)); voir(E.barbe, barbe > .01 && !dos);
     E.barbe.setAttribute("fill", cheveux);
     if (profil) {
@@ -445,7 +451,7 @@
       : Z([[-d - .3, epaule + r * .4], [-d + r, epaule - .3], [d * .4, epaule - .3], [d * .62 + vd * .3, epaule + th * .45], [hb * .75 + vd * .4, vb], [-hb - .3, vb], [-d - vg - .3, epaule + th * .55]]));
     // Liseré d’encolure de la tunique de soignant.
     E.lisere.setAttribute("stroke", teint(mixC("lisereC", [159, 195, 207]))); E.lisere.setAttribute("stroke-width", f(lw * .34));
-    op(E.lisere, X.lisere, true, face ? ptsD([[-nw * 1.45, epaule + .3], [0, epaule + hh * .4], [nw * 1.45, epaule + .3]])
+    op(E.lisere, Math.max(X.lisere, X.vcol), true, face ? ptsD([[-nw * 1.45, epaule + .3], [0, epaule + hh * .4], [nw * 1.45, epaule + .3]])
       : dos ? ptsD([[-nw * 1.6, epaule + .5], [0, epaule + hh * .07], [nw * 1.6, epaule + .5]]) : ptsD([[d * .1, epaule + .3], [d * .85, epaule + hh * .34]]));
     // Cravate, nœud papillon, badge : vus de face ou de profil seulement.
     E.cravate.setAttribute("fill", teint(mixC("cravateC", [168, 61, 61])));
@@ -469,6 +475,7 @@
     var mn = mains[1] || [0, 0], wf = profil ? 1 : .42;
     E.objet.setAttribute("transform", "translate(" + f(mn[0]) + "," + f(mn[1]) + ")");
     op(E.porteDoc, X.porteDoc, true, rect(-1.35 * u * wf, .45 * u, 1.35 * u * wf, 2.3 * u));
+    if (X.mallette > .01 && X.porteDoc < .01) op(E.porteDoc, X.mallette, true, rect(-1 * u * wf, .45 * u, 1 * u * wf, 1.75 * u)); // 2.45 : petite mallette
     op(E.dossier, X.dossier, true, rect(-1.05 * u * wf, .3 * u, 1.05 * u * wf, 2.45 * u) + rect(-.8 * u * wf, .3 * u, .9 * u * wf, .7 * u));
     op(E.laptop, X.laptop, true, rect(-1.5 * u * wf, .3 * u, 1.5 * u * wf, 2.2 * u));
     op(E.laptopLogo, X.laptop, profil); attrs(E.laptopLogo, { cx: 0, cy: 1.25 * u, r: .28 * u });
@@ -496,6 +503,12 @@
     op(E.bord, X.chapeau, true, ell(cxh, yBord, hw * .98, hh * .1));
     op(E.calotteChapeau, X.chapeau, true, "M" + f(tx - hw * .42) + "," + f(yBord) + "L" + f(tx - hw * .37) + "," + f(teteY - hh * .66) + "Q" + f(tx) + "," + f(teteY - hh * .76) + " " + f(tx + hw * .37) + "," + f(teteY - hh * .66) + "L" + f(tx + hw * .42) + "," + f(yBord) + "Z");
     op(E.ruban, X.chapeau, true, rect(tx - hw * .41, teteY - hh * .43, tx + hw * .41, teteY - hh * .33));
+    // 2.45 : casquette de commandant (calotte marine, visière noire) dessinée avec les éléments du bonnet et du ruban.
+    E.bonnet.setAttribute("fill", X.casquette > X.bonnet ? "#1f2b45" : "#2f6fb0"); E.ruban.setAttribute("fill", X.casquette > X.chapeau ? "#151515" : "#8a5a2b");
+    if (X.casquette > .01) {
+      op(E.bonnet, X.casquette, true, Z([[tx - hw * .55, teteY - hh * .22], [tx - hw * .62, teteY - hh * .56], [tx + hw * .62, teteY - hh * .56], [tx + hw * .55, teteY - hh * .22]]));
+      op(E.ruban, X.casquette, true, profil ? Z([[tx + hw * .3, teteY - hh * .22], [tx + hw * .8, teteY - hh * .16], [tx + hw * .3, teteY - hh * .14]]) : rect(tx - hw * .5, teteY - hh * .24, tx + hw * .5, teteY - hh * .17));
+    }
     var cq = Math.min(1, X.casque + X.micro);
     E.arceau.setAttribute("stroke-width", f(hh * .08)); E.micro.setAttribute("stroke-width", f(hh * .045));
     op(E.arceau, cq, true, profil ? "M" + f(ox2) + "," + f(teteY - hh * .06) + "Q" + f(ox2 - hw * .04) + "," + f(hautT - hh * .1) + " " + f(tx + hw * .12) + "," + f(hautT - hh * .06)
@@ -547,6 +560,7 @@
       calotte: P.calotte, meche: P.meche, lange: lange, mouv: mouv,
       amp: (1 - lange) * mouv * (.55 + .45 * lisse(2, 7, a)), phase: phase,
       haut: haut, bas: mixC("bas", P.bas), chaussure: mixC("chaussure", P.chaussure), bras: mixC("bras", haut), cheveux: P.cheveux,
+      age: a, barbe: (tenue && tenue.barbe != null ? tenue.barbe : lisse(20, 22, a)) * lisse(14, 18, a), blouseC: mixC("blouseC", haut), // 2.45
       vesteC: mixC("vesteC", null), badgeC: mixC("badgeC", null), lisereC: mixC("lisereC", null), cravateC: mixC("cravateC", null),
       gant: rgb(PEAU).map(function (v, i) { return v + ([201, 138, 58][i] - v) * Math.min(1, X.gants); }),
       manche: mixN("manche", P.manche), pantalon: mixN("pantalon", P.pantalon), colTenue: mixN("chemise", lisse(17, 23, a)), X: X,
@@ -603,10 +617,15 @@
       bulles.forEach(function (bb, n) {
         noms.push(TENUE_ID[bb.id] || "actuelle");
         var suiv = bulles[n + 1];
-        bornes.push(suiv ? Math.max((bb.i + suiv.i) / 2, suiv.i - W * .45) : bb.i + (N - 1 - bb.i) * .5);
+        // 2.45 : la tenue est complète dès l’entrée sur la sphère suivante (début de la bosse, fondu terminé avant).
+        bornes.push(suiv ? Math.max((bb.i + suiv.i) / 2, suiv.i - W - FT) : bb.i + (N - 1 - bb.i) * .5);
       });
     }
     noms.push("actuelle");
+    // 2.45 : barbe qui pousse pendant le passage sur la bulle Rénovation du bateau, gardée ensuite jusqu’à aujourd’hui.
+    var bat = bulles.filter(function (bb) { return bb.id === "bateau"; })[0];
+    T.barbe = new Float32Array(N);
+    for (var kb = 0; kb < N; kb++) T.barbe[kb] = bat ? lisse(bat.i - W, bat.i + W * .5, kb) : 1;
     T.tA = new Array(N); T.tB = new Array(N); T.tT = new Float32Array(N);
     for (var k = 0, z = 0; k < N; k++) {
       while (z < bornes.length && k >= bornes[z]) z++;
@@ -731,7 +750,8 @@
       y = Math.max(y, parametres(age).taille * 1.2 + 6);
       var or = orienter(vue || T.vues[i], dt);
       var ii = Math.round(k) >= T.N ? T.N - 1 : Math.round(k);
-      etat.figure.dessiner(age, x, y, etat.phase, Math.floor(annee + 1e-6), etat.mouv, or.vue, or.sx, { a: T.tA[ii], b: T.tB[ii], t: T.tT[ii] }, vue || T.vues[i], dt);
+      etat.figure.dessiner(age, x, y, etat.phase, Math.floor(annee + 1e-6), etat.mouv, or.vue, or.sx, { a: T.tA[ii], b: T.tB[ii], t: T.tT[ii], barbe: T.barbe ? T.barbe[ii] : null }, vue || T.vues[i], dt);
+      etat.pos = { k: k, x: x, y: y, age: age, annee: annee, taille: parametres(age).taille, opacite: opacite }; // 2.45 : zone de saisie
       o.calque.setAttribute("opacity", opacite.toFixed(3));
       if (o.etiquettes) o.etiquettes.setAttribute("opacity", opacite.toFixed(3));
       return age;
@@ -759,9 +779,43 @@
       etat.dernier = k;
       poser(k, Math.max(0, Math.min(1, op)), vue, dt);
     }
-    function immobile() { // animation désactivée : adulte de face, immobile à « Aujourd’hui »
+    function immobile() { // animation désactivée : adulte de face, immobile à « Aujourd’hui » (ou là où on l’a déposé, 2.45)
       etat.phase = 0; etat.mouv = 0; etat.vue = etat.vuePrec = "face"; etat.tour = 1;
-      poser(etat.T.N - 1, 1, "face", null);
+      poser(etat.kManuel != null ? etat.kManuel : etat.T.N - 1, 1, "face", null);
+    }
+    /* 2.45 : déplacement manuel (personnage-glisser.js). Pendant la saisie, le temps du cycle n’avance plus : le
+       personnage marche vers l’indice visé (jambes, sens, âge, tenue et étiquette suivent). Au relâché, il reste là un
+       moment puis l’animation reprend depuis cette position ; animation désactivée : il reste immobile à cet endroit. */
+    var INVERSE = { droite: "gauche", gauche: "droite", face: "dos", dos: "face" };
+    function horlogePour(k) { // inverse de image() pendant la marche : instant du cycle qui place le personnage en k
+      var T = etat.T, i = Math.max(0, Math.min(T.N - 1, Math.floor(k))), j = Math.min(T.N - 1, i + 1);
+      var c = (T.cumul[i] + (T.cumul[j] - T.cumul[i]) * (k - i)) / T.cumul[T.N - 1], lo = 0, hi = 1;
+      for (var n = 0; n < 32; n++) { var u = (lo + hi) / 2; if (u * u * (3 - 2 * u) * .04 + u * .96 < c) lo = u; else hi = u; }
+      return FONDU + ATTENTE_DEBUT + (lo + hi) / 2 * MARCHE;
+    }
+    function manuelImage(maintenant) {
+      var s = etat.saisie, T = etat.T, k = etat.kManuel;
+      var dt = etat.prec != null ? Math.min(.1, (maintenant - etat.prec) / 1000) : 1 / 60;
+      etat.prec = maintenant;
+      // Suit la cible en douceur, vitesse plafonnée (aucun saut), allure de marche au clavier.
+      var dk = (s.cible - k) * Math.min(1, dt * (s.clavier ? 7 : 16)), max = (s.clavier ? 110 : 420) * dt;
+      if (Math.abs(dk) > max) dk = dk > 0 ? max : -max;
+      if (Math.abs(s.cible - k) < .02) dk = s.cible - k;
+      k = Math.max(0, Math.min(T.N - 1, k + dk));
+      var bouge = Math.abs(dk) > .015;
+      if (bouge) { s.sens = dk > 0 ? 1 : -1; s.calme = maintenant; }
+      var i = Math.min(T.N - 1, Math.floor(k)), age = Math.max(0, T.annees[i] - o.naissance);
+      etat.phase += Math.abs(dk) * T.pas * 2 * Math.PI / (1.7 * longueurJambe(age));
+      etat.mouv += ((bouge ? 1 : 0) - etat.mouv) * .18;
+      etat.kManuel = k; etat.dernier = k;
+      // Sens de marche : vue du trajet à l’aller, vue opposée au retour ; de face après un court arrêt une fois relâché.
+      var vue = s.relache && maintenant - (s.calme || 0) > 450 ? "face" : (s.sens < 0 ? INVERSE[T.vues[i]] : T.vues[i]);
+      poser(k, 1, vue, dt);
+      if (s.relache && maintenant >= s.reprise && Math.abs(s.cible - k) < .05) {
+        etat.saisie = null;
+        if (etat.actif) { etat.horloge = horlogePour(k); etat.kManuel = null; etat.prec = null; }
+      }
+      etat.rafId = requestAnimationFrame(boucle);
     }
     function boucle(maintenant) {
       if (etat.arret) return;
@@ -771,6 +825,7 @@
       // Chemin masqué (vue liste) : vérification espacée, sans faire avancer le temps.
       if (!svg.getBoundingClientRect().width) { etat.prec = null; etat.attente = setTimeout(function () { etat.rafId = requestAnimationFrame(boucle); }, 500); return; }
       if (!pret()) { etat.attente = setTimeout(function () { etat.rafId = requestAnimationFrame(boucle); }, 300); return; }
+      if (etat.saisie) { manuelImage(maintenant); return; }
       if (!etat.actif) { immobile(); return; }
       var dt = etat.prec != null ? Math.min(.1, (maintenant - etat.prec) / 1000) : 0;
       if (!etat.fige) etat.horloge += dt;
@@ -785,7 +840,7 @@
     }
     document.addEventListener("visibilitychange", visibilite);
     etat.basculer = function (on) {
-      etat.actif = !!on; etat.fige = false;
+      etat.actif = !!on; etat.fige = false; etat.saisie = null; etat.kManuel = null;
       cancelAnimationFrame(etat.rafId); clearTimeout(etat.attente); etat.prec = null;
       // Relance : départ presque immédiat de la marche (pas de fondu d’entrée).
       if (on) { etat.horloge = FONDU + ATTENTE_DEBUT - .4; etat.dernier = -1; etat.mouv = 0; etat.vue = etat.vuePrec = "face"; etat.tour = 1; }
@@ -795,10 +850,35 @@
     etat.rafId = requestAnimationFrame(boucle);
     // Outil de contrôle : instant t du cycle ; fige = pose arrêtée sur une phase de marche lisible.
     etat.aller = function (t, fige, phase) {
-      var c = t % CYCLE; etat.horloge = t; etat.dernier = -1;
+      var c = t % CYCLE; etat.horloge = t; etat.dernier = -1; etat.saisie = null; etat.kManuel = null;
       etat.mouv = c > FONDU + ATTENTE_DEBUT && c < FONDU + ATTENTE_DEBUT + MARCHE ? 1 : 0;
       etat.phase = phase != null ? phase : (fige ? 1.1 : etat.phase); etat.fige = !!fige;
       if (pret()) image(t, null);
+    };
+    // 2.45 : commandes du déplacement manuel, utilisées par personnage-glisser.js (indices de la table T).
+    etat.manuel = {
+      svg: svg,
+      table: function () { return etat.T; },
+      position: function () { return etat.T && etat.pos ? etat.pos : null; },
+      actif: function () { return etat.actif; },
+      saisi: function () { return !!etat.saisie; },
+      viser: function (k, clavier) {
+        if (!etat.T) return false;
+        var T = etat.T;
+        if (!etat.saisie) {
+          etat.kManuel = etat.kManuel != null ? etat.kManuel : (etat.pos ? etat.pos.k : T.N - 1);
+          etat.saisie = { cible: etat.kManuel, sens: 1, calme: 0 }; etat.fige = false;
+          cancelAnimationFrame(etat.rafId); clearTimeout(etat.attente); etat.prec = null;
+          etat.rafId = requestAnimationFrame(boucle);
+        }
+        var s = etat.saisie;
+        s.cible = Math.max(0, Math.min(T.N - 1, k == null ? etat.kManuel : k)); s.clavier = !!clavier; s.relache = false;
+        return true;
+      },
+      relacher: function (pause) {
+        var s = etat.saisie; if (!s) return;
+        s.relache = true; s.reprise = performance.now() + (etat.actif ? (pause == null ? 2500 : pause) : 600);
+      }
     };
     return arreter;
   }
@@ -811,6 +891,8 @@
     etat: function () { return actifs.map(function (e) { return { vue: e.vue, actif: e.actif, rendu: e.figure ? (e.figure.m ? "3d" : "svg") : null }; }); },
     cycle: CYCLE,
     // Outil de contrôle : planche de poses (âge, vue, phase) dans un groupe SVG donné.
-    Figure: Figure
+    Figure: Figure,
+    // 2.45 : commandes de déplacement manuel du personnage animé dans ce SVG (personnage-glisser.js).
+    manuel: function (svg) { for (var n = 0; n < actifs.length; n++) if (!svg || actifs[n].svg === svg) return actifs[n].manuel; return null; }
   };
 })();
