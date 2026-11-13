@@ -1,3 +1,4 @@
 Motifs des sphères (publication/assets/spheres/motifs/) :
 - Icônes Material Design Icons (Pictogrammers), licence Apache-2.0 (texte : publication/assets/icones/Apache-2.0.txt), paquet @mdi/svg 7.4.47. Nom de l'icône en commentaire dans chaque SVG.
 - interet-vol.svg : silhouette de Boeing 737 dessinée par Néo pour ce site (2.39.0).
+- 2.43.0 : logos Claude, OpenAI, Google Gemini, Hugging Face (competence-creations-ia.svg, interet-numerique.svg) issus de Simple Icons 13.21.0 (CC0-1.0, texte : publication/assets/icones/CC0-1.0.txt) ; ce sont des marques de leurs propriétaires respectifs, citées pour désigner les outils utilisés. interet-piano.svg : piano à queue dessiné pour ce site.
