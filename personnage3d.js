@@ -141,6 +141,7 @@ export function creer(calque, calqueHaut) {
     M.haut.color.copy(couleur(s.haut)); M.bas.color.copy(couleur(s.bas)); M.bras.color.copy(couleur(s.bras));
     M.chaus.color.copy(couleur(s.chaussure)); M.cheveux.color.copy(couleur(s.cheveux));
     M.salop.color.copy(couleur(s.bas)); M.veste.color.copy(couleur(s.vesteC || s.bras));
+    M.blouse.color.copy(couleur(s.haut)); // 2.45 : blouse de la couleur de la tenue (bleu #a8bfd4 pour Responsable d’équipe soignant, blanc pour Agent de soins)
     if (s.badgeC) M.badge.color.copy(couleur(s.badgeC)); if (s.lisereC) M.lisere.color.copy(couleur(s.lisereC));
     if (s.cravateC) M.cravate.color.copy(couleur(s.cravateC)); else M.cravate.color.setHex(0x7a2e35);
     M.gant.color.copy(couleur(s.gant));
