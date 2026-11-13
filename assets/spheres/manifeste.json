@@ -1,0 +1,309 @@
+{
+ "genere": "2026-11-13T08:29:39.919Z",
+ "format": "3N×N gris : hauteur | patine sRGB | rugosité",
+ "bulles": {
+  "competence-creations-ia": {
+   "titre": "Orchestration IA",
+   "sous": "",
+   "tailles": [
+    512,
+    1024
+   ]
+  },
+  "competence-encadrement": {
+   "titre": "Encadrement d’équipes",
+   "sous": "",
+   "tailles": [
+    512,
+    1024
+   ]
+  },
+  "competence-gestion": {
+   "titre": "Gestion administrative et comptable",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "competence-relation": {
+   "titre": "Relation clients et commerce",
+   "sous": "",
+   "tailles": [
+    512,
+    1024
+   ]
+  },
+  "competence-excel": {
+   "titre": "Excel avancé et automatisation",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "competence-plateformes": {
+   "titre": "Git / GitHub et services web",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "competence-informatique": {
+   "titre": "Informatique et matériel",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "competence-manuel": {
+   "titre": "Travaux manuels",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "formation-tosa": {
+   "titre": "Tosa Excel avancé",
+   "sous": "2025",
+   "tailles": [
+    512,
+    1024
+   ]
+  },
+  "formation-titre-comptable": {
+   "titre": "Titre Comptable assistant",
+   "sous": "2025",
+   "tailles": [
+    512
+   ]
+  },
+  "formation-comtel": {
+   "titre": "Gestion des conflits",
+   "sous": "2023",
+   "tailles": [
+    512
+   ]
+  },
+  "formation-keyce": {
+   "titre": "Management",
+   "sous": "2023",
+   "tailles": [
+    512,
+    1024
+   ]
+  },
+  "formation-sst": {
+   "titre": "Sauveteur secouriste",
+   "sous": "2021–2023",
+   "tailles": [
+    512
+   ]
+  },
+  "formation-ged-gmao": {
+   "titre": "GED · GMAO",
+   "sous": "2019",
+   "tailles": [
+    512,
+    1024
+   ]
+  },
+  "formation-bts": {
+   "titre": "BTS commercial",
+   "sous": "2000–2002",
+   "tailles": [
+    512,
+    1024
+   ]
+  },
+  "formation-bac": {
+   "titre": "Baccalauréat STT",
+   "sous": "1997–2000",
+   "tailles": [
+    512
+   ]
+  },
+  "interet-vol": {
+   "titre": "Pilotage virtuel",
+   "sous": "",
+   "tailles": [
+    512,
+    1024
+   ]
+  },
+  "interet-piano": {
+   "titre": "Piano",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "interet-numerique": {
+   "titre": "Intelligence artificielle",
+   "sous": "",
+   "tailles": [
+    512,
+    1024
+   ]
+  },
+  "interet-sciences": {
+   "titre": "Sciences et astronomie",
+   "sous": "",
+   "tailles": [
+    512,
+    1024
+   ]
+  },
+  "interet-jardinage": {
+   "titre": "Jardinage",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "interet-course": {
+   "titre": "Course à pied",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "interet-velo": {
+   "titre": "Vélo",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "interet-randonnee": {
+   "titre": "Randonnée",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "poste-developpeur-web-ia": {
+   "titre": "Développeur web junior assisté par IA",
+   "sous": "",
+   "tailles": [
+    512,
+    1024
+   ]
+  },
+  "poste-integrateur-web": {
+   "titre": "Intégrateur web / no-code",
+   "sous": "",
+   "tailles": [
+    512,
+    1024
+   ]
+  },
+  "poste-assistant-chef-projet-numerique": {
+   "titre": "Assistant chef de projet numérique",
+   "sous": "",
+   "tailles": [
+    512,
+    1024
+   ]
+  },
+  "poste-testeur-recetteur": {
+   "titre": "Testeur / recetteur logiciel",
+   "sous": "",
+   "tailles": [
+    512,
+    1024
+   ]
+  },
+  "poste-charge-automatisation": {
+   "titre": "Chargé d’automatisation IA / Excel",
+   "sous": "",
+   "tailles": [
+    512,
+    1024
+   ]
+  },
+  "poste-support-utilisateurs": {
+   "titre": "Support utilisateurs fonctionnel",
+   "sous": "",
+   "tailles": [
+    512,
+    1024
+   ]
+  },
+  "poste-assistant-administratif": {
+   "titre": "Assistant administratif",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "poste-assistant-gestion": {
+   "titre": "Assistant de gestion",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "poste-assistant-comptable": {
+   "titre": "Assistant comptable (junior)",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "poste-gestionnaire-dossiers": {
+   "titre": "Gestionnaire de dossiers",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "poste-assistant-gestion-documentaire": {
+   "titre": "Assistant gestion documentaire",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "poste-assistant-commercial-adv": {
+   "titre": "Assistant commercial / ADV",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "poste-charge-relation-clients": {
+   "titre": "Chargé de relation clients",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "poste-assistant-approvisionnement": {
+   "titre": "Assistant achats et approvisionnement",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "poste-coordinateur-administratif": {
+   "titre": "Coordinateur administratif",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "poste-coordinateur-planning": {
+   "titre": "Coordinateur planning",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "poste-assistant-rh": {
+   "titre": "Assistant RH (appui administratif)",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  }
+ }
+}

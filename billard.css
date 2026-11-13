@@ -157,3 +157,21 @@
   .bi-place { position: static; transform: none !important; }
   .bi-astuce, .bi-legende { display: none; }
 }
+
+/* 2.37 : sphères métal (spheres.js). Le canevas WebGL est sous les bulles ; une bulle dont la sphère est dessinée
+   devient transparente (classe bi-sphere) : elle reste l’élément cliquable, déplaçable et lisible par les lecteurs d’écran. */
+.bi-spheres { position: absolute; inset: 0; z-index: 1; display: block; width: 100%; height: 100%; pointer-events: none; }
+.bi-bulle.bi-sphere, .bi-bulle.bi-sphere.avec-fond, .bi-bulle.bi-sphere.bi-vedette { background: transparent; border-color: transparent; animation: none;
+  box-shadow: 0 16px 24px -12px rgba(0, 0, 0, .65); }
+.bi-bulle.bi-sphere::before, .bi-bulle.bi-sphere::after, .bi-bulle.bi-sphere .bi-fond { display: none; }
+.bi-bulle.bi-sphere .bi-texte { opacity: 0; } /* titre gravé sur la sphère ; texte HTML conservé pour l’accessibilité */
+.bi-bulle.bi-sphere:hover { box-shadow: 0 0 0 3px rgba(255, 255, 255, .7), 0 0 22px 4px rgba(255, 255, 255, .22), 0 16px 24px -12px rgba(0, 0, 0, .65); }
+.bi-bulle.bi-sphere.tenue { box-shadow: 0 0 0 3px #fff, 0 24px 32px -14px rgba(0, 0, 0, .7); }
+@media print { .bi-spheres { display: none; } .bi-bulle.bi-sphere .bi-texte { opacity: 1; } }
+
+/* 2.37 : familles de postes aux couleurs des métaux des sphères (Caterium, Chrome, Cuivre, Acier au carbone). */
+.bi-f-numerique { --bi-c: #c9b02e; --bi-fort: #6e5f10; --bi-pale: #f7f2d8; --bi-metal: radial-gradient(circle at 35% 30%, #fff6b0, #d4bd3a 45%, #5e510c); }
+.bi-f-gestion { --bi-c: #b9c0c8; --bi-fort: #4c545d; --bi-pale: #eef0f2; --bi-metal: radial-gradient(circle at 35% 30%, #ffffff, #b8bfc7 45%, #4a5058); }
+.bi-f-commerce { --bi-c: #c77b55; --bi-fort: #7a3d22; --bi-pale: #f8ece5; --bi-metal: radial-gradient(circle at 35% 30%, #ffd9c2, #c47a52 45%, #5c2a16); }
+.bi-f-coordination { --bi-c: #7d95b0; --bi-fort: #2c3c50; --bi-pale: #e8edf3; --bi-metal: radial-gradient(circle at 35% 30%, #dce8f5, #6f88a4 45%, #1d2836); }
+.bi-legende li:is(.bi-f-numerique, .bi-f-gestion, .bi-f-commerce, .bi-f-coordination) .bi-pastille { background: var(--bi-metal); }

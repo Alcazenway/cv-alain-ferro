@@ -5,7 +5,9 @@
    page (competences | formation | interets | metiers) → classe bi-zone-<page> : fond de zone surchargeable (billard-fonds.css).
    vedette : bulle plus grande, halo lent, titre en avant. regrouper : légère attraction entre bulles d’une même famille.
    Une bulle avec lien est un vrai <a> ; sans lien, un <button> qui ouvre sa petite carte (popover).
-   v2.28 : l’image occupe toute la bulle ; le titre est posé sur un bandeau plein de la couleur de la famille. */
+   v2.28 : l’image occupe toute la bulle ; le titre est posé sur un bandeau plein de la couleur de la famille.
+   2.37 : point d’accroche pour les sphères métal (spheres.js) : zone.biApi expose les bulles (lecture seule) et
+   un rappel « rendu » appelé après chaque dessin ; la physique est inchangée. Événement document « billard:zone ». */
 (function () {
   "use strict";
   var SEUIL = 6;            // px : au-delà, c’est un glisser, jamais un clic
@@ -83,6 +85,11 @@
       brancher(b);
       return b;
     });
+
+    // 2.37 : accroche pour un rendu superposé (sphères WebGL). Lecture seule : ne modifie ni positions ni vitesses.
+    var api = { zone: zone, page: options.page || "", bulles: bulles, rendu: null, relancer: function () { demarrer(); } };
+    zone.biApi = api;
+    function peindre() { if (api.rendu) api.rendu(); }
 
     /* ---------- Dimensions et placement ---------- */
     function rayons(echelle) {
@@ -243,6 +250,7 @@
         for (var it = 0; it < 60; it++) if (!separer()) break;
       }
       bulles.forEach(function (b) { murs(b); dessiner(b); });
+      peindre();
       if (carteOuverte) positionnerCarte();
       demarrer();
     }
@@ -330,6 +338,7 @@
       dernier = t;
       var continuer = pas(dt);
       bulles.forEach(dessiner);
+      peindre();
       if (carteOuverte) positionnerCarte();
       if (continuer) raf = requestAnimationFrame(boucle);
     }
@@ -464,8 +473,9 @@
       fermerCarte(true);
     }
 
+    try { document.dispatchEvent(new CustomEvent("billard:zone", { detail: api })); } catch (_) { /* navigateur ancien */ }
     return zone;
   }
 
-  window.Billard = { creer: creer };
+  window.Billard = { creer: creer, cesures: cesures };
 })();
