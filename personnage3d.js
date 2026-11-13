@@ -72,6 +72,8 @@ export function creer(calque, calqueHaut) {
     // bouche en D (moitié basse d’une sphère), visière (demi-disque).
     jupe: new THREE.CylinderGeometry(0.5, 0.6, 1, 28, 1, true, Math.PI * 0.22, Math.PI * 1.56),
     menton: new THREE.SphereGeometry(0.5, 28, 14, -Math.PI * 0.14, Math.PI * 1.28, Math.PI * 0.6, Math.PI * 0.4),
+    // 2.47 : barbe collier — fine bande le long de la mâchoire (d'une oreille à l'autre), inclinée pour remonter vers les oreilles.
+    collier: new THREE.SphereGeometry(0.5, 40, 6, -Math.PI * 0.16, Math.PI * 1.32, Math.PI * 0.68, Math.PI * 0.17),
     bol: new THREE.SphereGeometry(0.5, 20, 10, 0, Math.PI * 2, Math.PI * 0.5, Math.PI * 0.5),
     visiere: new THREE.CylinderGeometry(0.5, 0.5, 1, 24, 1, false, -Math.PI / 2, Math.PI)
   };
@@ -97,7 +99,9 @@ export function creer(calque, calqueHaut) {
   // 2.45 : plus de collerette (tore « col ») au cou. Visage : sourcils, bouche souriante, barbe et moustache.
   const sourcils = [mesh(G.boite, M.sourcil, tete), mesh(G.boite, M.sourcil, tete)];
   const levre = mesh(G.bol, M.levre, tete), dents = mesh(G.bol, M.dents, tete);
-  const barbe = mesh(G.menton, M.barbe, tete), moustache = mesh(G.boule, M.barbe, tete);
+  const barbe = mesh(G.collier, M.barbe, tete), moustache = mesh(G.boule, M.barbe, tete);
+  // 2.47 : bouc au menton et deux traits reliant la moustache au bouc (cercle autour de la bouche), joues rasées.
+  const bouc = mesh(G.boule, M.barbe, tete), coins = [-1, 1].map(() => mesh(G.gelule, M.barbe, tete));
   nez.material = M.nez;
   // Nourrisson : lange (cocon) et bande.
   const cocon = mesh(G.gelule, M.lange, corps), bande = mesh(G.tore, M.bande, corps); bande.rotation.x = Math.PI / 2;
@@ -237,8 +241,13 @@ export function creer(calque, calqueHaut) {
     const yb = -hh * 0.235, zb = zs(yb) + (pousse > 0.02 ? hw * 0.07 * pousse : 0) + hw * 0.01;
     levre.scale.set(hh * 0.32, hh * 0.19, hh * 0.08); levre.position.set(0, yb + hh * 0.004, zb - hh * 0.015); levre.rotation.x = 0.2;
     dents.scale.set(hh * 0.27, hh * 0.13, hh * 0.08); dents.position.set(0, yb, zb); dents.rotation.x = 0.2;
-    barbe.visible = moustache.visible = pousse > 0.02;
-    barbe.scale.set(hw * (1.02 + 0.06 * pousse), hh * (1.0 + 0.1 * pousse), hw * 0.96 * (1.02 + 0.07 * pousse)); barbe.position.set(0, -hh * (0.02 + 0.04 * pousse), 0);
+    barbe.visible = moustache.visible = bouc.visible = pousse > 0.02; coins.forEach((c) => { c.visible = pousse > 0.02; });
+    // Collier : bande fine sur la mâchoire, avant abaissé (menton) et côtés relevés vers les oreilles.
+    barbe.scale.set(hw * (1.04 + 0.04 * pousse), hh * 1.03, hw * 0.98 * (1.05 + 0.05 * pousse)); barbe.position.set(0, -hh * 0.04, 0); barbe.rotation.x = 0.38;
+    const yc = -hh * 0.4;
+    bouc.scale.set(hh * 0.24, hh * (0.1 + 0.05 * pousse), hh * 0.11); bouc.position.set(0, yc, zs(yc) * 0.94 + hw * 0.02 * pousse);
+    coins.forEach((c, n) => { const x = (n ? 1 : -1) * hh * 0.17, y = (yb + yc) / 2 + hh * 0.02;
+      c.scale.set(hh * 0.045, hh * 0.075, hh * 0.045); c.position.set(x, y, zs(y) * 0.97); c.rotation.z = (n ? 1 : -1) * 0.25; });
     moustache.scale.set(hh * 0.3, hh * 0.06, hh * 0.08); moustache.position.set(0, yb + hh * 0.08, zs(yb + hh * 0.08) + hw * 0.02 * pousse);
     oreilles.forEach((e, n) => { e.scale.set(hh * 0.08, hh * 0.18, hh * 0.12); e.position.set((n ? 1 : -1) * hw * 0.5, 0, 0); });
 
