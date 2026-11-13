@@ -9,6 +9,7 @@
   var TRAIT = "#1f474b", PEAU = "#f6d8bd", JOUES = "#f0a08a", NEZ = "#cf7448";
   var LANGE = "#f5eee2", BANDE = "#b7a1cb";
   var ECHELLE = 1.5;
+  var SRC_PERSO = (document.currentScript && document.currentScript.src) || "";
 
   // Clés d’interpolation par âge (années). Les proportions sont rapportées à la taille du personnage.
   var AGES = [0, 1, 3, 7, 12, 16, 22, 30, 44];
@@ -510,6 +511,49 @@
     attrs(E.etiquette, { x: x + Math.max(sw, hw / 2) + 9, y: y + teteY + 4 });
   };
 
+  /* ---------- 2.44 : personnage en 3D (personnage3d.js, Three.js), même interface que Figure ----------
+     Les proportions, couleurs et accessoires sont calculés ici, comme pour le dessin SVG ; le module 3D ne fait que
+     les mettre en volume. Chargé à la demande ; s’il échoue (pas de WebGL, module bloqué), la Figure SVG est utilisée. */
+  var LACETS = { face: 0, dos: Math.PI, droite: 1.15, gauche: -1.15 };
+  var Moteur3D = null, etat3D = "attente", debut3D = 0;
+  function charger3D() {
+    if (etat3D !== "attente") return;
+    etat3D = "chargement"; debut3D = Date.now();
+    try {
+      var c = document.createElement("canvas");
+      if (!window.WebGLRenderingContext || !(c.getContext("webgl2") || c.getContext("webgl"))) { etat3D = "indisponible"; return; }
+      var v = (SRC_PERSO.match(/[?&]v=([^&]+)/) || [])[1];
+      import("./personnage3d.js" + (v ? "?v=" + v : ""))
+        .then(function (m) { Moteur3D = m; etat3D = "pret"; }, function () { etat3D = "indisponible"; });
+    } catch (e) { etat3D = "indisponible"; }
+  }
+  function Figure3D(calque, calqueHaut) { this.m = Moteur3D.creer(calque, calqueHaut); this.g = this.m.canvas; }
+  Figure3D.prototype.dessiner = function (a, x, y, phase, annee, mouv, vue, sx, tenue, cible, dt) {
+    var P = parametres(a);
+    var TA = TENUES[tenue && tenue.a] || {}, TB = TENUES[tenue && tenue.b] || {}, tt = tenue ? tenue.t : 0;
+    function mixC(cle, def) { var ca = TA[cle] ? rgb(TA[cle]) : def, cb = TB[cle] ? rgb(TB[cle]) : def; if (!ca || !cb) return ca || cb || null; return ca.map(function (v, i) { return v + (cb[i] - v) * tt; }); }
+    function mixN(cle, def) { var va = TA[cle] != null ? TA[cle] : def, vb = TB[cle] != null ? TB[cle] : def; return va + (vb - va) * tt; }
+    var X = {}; ACCESSOIRES.forEach(function (k) { X[k] = mixN(k, 0); });
+    var H = P.taille, hh = P.tete * H, th = P.torse * H, cou = P.cou * H, lw = Math.max(3, P.jambe * H);
+    var lange = 1 - lisse(.6, 1.8, a), sw = P.epaules * H / 2, haut = mixC("haut", P.haut);
+    var age = Math.floor(a + 1e-6);
+    this.m.canvas.parentNode.setAttribute("data-tenue", tt < .5 ? (tenue && tenue.a) || "" : tenue.b);
+    this.m.canvas.parentNode.setAttribute("data-vue", vue);
+    this.m.canvas.parentNode.setAttribute("data-fondu", tt > .02 && tt < .98 && TA !== TB ? "1" : "0");
+    this.m.dessiner({
+      x: x, y: y, lacet: LACETS[cible || vue] != null ? LACETS[cible || vue] : 0, dt: dt,
+      H: H, hh: hh, hw: hh * P.ratio, cou: cou, th: th, sw: sw, hw2: sw * .74 + P.ventre * H * .04, ventre: P.ventre,
+      jambe: Math.max(0, H - hh * .94 - cou - th), lw: lw, aw: lw * .86, lbras: th * (.9 + .12 * lisse(3, 16, a)),
+      calotte: P.calotte, meche: P.meche, lange: lange, mouv: mouv,
+      amp: (1 - lange) * mouv * (.55 + .45 * lisse(2, 7, a)), phase: phase,
+      haut: haut, bas: mixC("bas", P.bas), chaussure: mixC("chaussure", P.chaussure), bras: mixC("bras", haut), cheveux: P.cheveux,
+      vesteC: mixC("vesteC", null), badgeC: mixC("badgeC", null), lisereC: mixC("lisereC", null), cravateC: mixC("cravateC", null),
+      gant: rgb(PEAU).map(function (v, i) { return v + ([201, 138, 58][i] - v) * Math.min(1, X.gants); }),
+      manche: mixN("manche", P.manche), pantalon: mixN("pantalon", P.pantalon), colTenue: mixN("chemise", lisse(17, 23, a)), X: X,
+      texte: annee + " · " + (age < 1 ? "naissance" : age + (age > 1 ? " ans" : " an"))
+    });
+  };
+
   /* ---------- Trajet : table des positions, de l’âge, de l’orientation et du soulèvement au-dessus des bulles ---------- */
   function table(o) {
     var L = o.trajet.getTotalLength(), pas = 3, N = Math.ceil(L / pas) + 1, X = [], Y = [];
@@ -658,11 +702,16 @@
       etat.arret = true; cancelAnimationFrame(etat.rafId); clearTimeout(etat.attente);
       document.removeEventListener("visibilitychange", visibilite);
       var i = actifs.indexOf(etat); if (i >= 0) actifs.splice(i, 1);
+      if (etat.figure && etat.figure.m) etat.figure.m.detruire();
     }
     function pret() {
       if (etat.T) return true;
+      charger3D();
+      if (etat3D === "chargement" && Date.now() - debut3D < 4000) return false; // module 3D en route
       try { etat.T = table(o); } catch (err) { return false; }
-      etat.figure = new Figure(o.calque, o.etiquettes);
+      etat.figure = null;
+      if (etat3D === "pret") { try { etat.figure = new Figure3D(o.calque, o.etiquettes); } catch (e) { etat.figure = null; } }
+      if (!etat.figure) etat.figure = new Figure(o.calque, o.etiquettes);
       return true;
     }
     // Demi-tour simulé : la silhouette s’amincit, change de vue à mi-course, puis reprend sa largeur.
@@ -682,7 +731,7 @@
       y = Math.max(y, parametres(age).taille * 1.2 + 6);
       var or = orienter(vue || T.vues[i], dt);
       var ii = Math.round(k) >= T.N ? T.N - 1 : Math.round(k);
-      etat.figure.dessiner(age, x, y, etat.phase, Math.floor(annee + 1e-6), etat.mouv, or.vue, or.sx, { a: T.tA[ii], b: T.tB[ii], t: T.tT[ii] });
+      etat.figure.dessiner(age, x, y, etat.phase, Math.floor(annee + 1e-6), etat.mouv, or.vue, or.sx, { a: T.tA[ii], b: T.tB[ii], t: T.tT[ii] }, vue || T.vues[i], dt);
       o.calque.setAttribute("opacity", opacite.toFixed(3));
       if (o.etiquettes) o.etiquettes.setAttribute("opacity", opacite.toFixed(3));
       return age;
@@ -759,7 +808,7 @@
     // Outil de contrôle : place les personnages actifs à l’instant t (secondes du cycle).
     instant: function (t, fige, phase) { actifs.forEach(function (e) { e.aller(t, fige, phase); }); return actifs.length; },
     // Outil de contrôle : vue affichée et état de l’animation.
-    etat: function () { return actifs.map(function (e) { return { vue: e.vue, actif: e.actif }; }); },
+    etat: function () { return actifs.map(function (e) { return { vue: e.vue, actif: e.actif, rendu: e.figure ? (e.figure.m ? "3d" : "svg") : null }; }); },
     cycle: CYCLE,
     // Outil de contrôle : planche de poses (âge, vue, phase) dans un groupe SVG donné.
     Figure: Figure
