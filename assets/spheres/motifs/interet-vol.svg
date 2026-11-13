@@ -1,6 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 -20 1360 760" width="1360" height="760">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="50 95 1160 455" width="1160" height="455">
   <!-- Boeing 737 en montée, vu de profil légèrement de dessous : silhouette pour la gravure de la sphère Pilotage virtuel (dessin original, 2.39.0). -->
-  <rect x="-100" y="-100" width="1500" height="1000" fill="#ffffff"/>
   <g transform="rotate(-8 620 300) translate(10 40)" fill="#1b1f24" stroke="#ffffff" stroke-linejoin="round">
     <path d="M300,262 L150,336 L116,336 L210,252 Z" stroke-width="0"/>
     <path d="M455,206 C392,198 352,182 326,160 L178,22 L106,22 L88,218 Z" stroke-width="0"/>

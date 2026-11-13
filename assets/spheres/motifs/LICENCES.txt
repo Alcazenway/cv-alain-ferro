@@ -1,0 +1,3 @@
+Motifs des sphères (publication/assets/spheres/motifs/) :
+- Icônes Material Design Icons (Pictogrammers), licence Apache-2.0 (texte : publication/assets/icones/Apache-2.0.txt), paquet @mdi/svg 7.4.47. Nom de l'icône en commentaire dans chaque SVG.
+- interet-vol.svg : silhouette de Boeing 737 dessinée par Néo pour ce site (2.39.0).
