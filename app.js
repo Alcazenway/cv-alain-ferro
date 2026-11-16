@@ -502,25 +502,19 @@
   }
   function pageRealisations() {
     var R = D.realisations;
-    var raccourcis = el("nav", {class: "re-acces", "aria-label": "Domaines de réalisations"});
     var groupes = R.groupes.map(function(g) {
       var cible = "realisation-" + g.id;
-      var bouton = el("button", {type: "button", text: g.titre, "aria-controls": cible});
-      bouton.addEventListener("click", function() { var titre = document.getElementById(cible); titre.scrollIntoView({block: "start", behavior: "instant"}); titre.focus({preventScroll:true}); });
-      raccourcis.appendChild(bouton);
       var cartes = g.ids.filter(function(id) { return parId[id]; }).map(function(id) {
         var e = parId[id], numerique = g.id === "numerique-ia";
-        var visuel = numerique ? {src: "assets/applis/" + id + ".webp"} : vignette(e);
+        var visuel = numerique ? {src: "assets/applis/" + id + ".webp"} : id === "spadnext" ? null : vignette(e);
         var sphere = el("span", {class: "re-visuel" + (visuel ? " avec-image" : ""), "aria-hidden": "true"}, visuel ? [image(visuel)] : [
           el("i", {class: "re-icone " + (id === "spadnext" ? "configuration" : "aviation")})
         ]);
-        var comp = (e.competences || []).filter(function(c) { return compId[c]; }).slice(0, 3);
         return el("li", null, [el("a", {class: "re-carte", href: "#/parcours/" + id}, [
           sphere,
           el("div", {class: "re-description"}, [
             el("h3", {text: e.titreCourt || e.titre}),
-            el("p", {text: e.apportCourt || e.resume}),
-            comp.length ? el("p", {class: "re-competences", text: comp.map(function(c){return compId[c].titre;}).join(" · ")}) : null,
+            el("p", {text: e.resume || e.apportCourt}),
             el("span", {class: "re-ouvrir", text: "Découvrir →"})
           ])
         ])]);
@@ -531,8 +525,7 @@
       ]);
     });
     return [el("div", {class: "re-page"}, [
-      entete(R.titre, R.intro), raccourcis,
-      el("p", {class: "re-reperes", text: "Les compétences expliquent mon savoir-faire. Ces réalisations en montrent l’application dans mes projets personnels."})
+      entete(R.titre)
     ].concat(groupes))];
   }
 

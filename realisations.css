@@ -4,12 +4,7 @@ body[data-fond="realisations"] #fond { display: none; }
 .re-page { max-width: 1160px; margin: 0 auto; padding: 12px 8px 24px; color: var(--ch-texte); }
 .re-page .page-tete { margin: 0 0 18px; padding: 0; }
 .re-page h1 { color: var(--ch-encre); font: 700 26px/1.3 var(--ch-police); text-transform: uppercase; letter-spacing: 1.6px; }
-.re-page .chapo { max-width: 850px; font-size: 16px; }
-.re-acces { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 12px; }
-.re-acces button { min-height: 44px; padding: 10px 18px; border: 1px solid var(--ch-essentiel); border-radius: 999px; background: #fff; color: var(--ch-essentiel); font: 700 14px/1.3 var(--ch-police); cursor: pointer; }
-.re-acces button:hover { background: var(--ch-comp-pale); }
 .re-page :focus-visible, .re-toutes a:focus-visible { outline: 3px solid var(--ch-essentiel); outline-offset: 4px; }
-.re-reperes { font-size: 14px; color: var(--ch-discret); }
 .re-groupe { margin: 28px 0; padding: 22px; border-radius: 24px; background: var(--ch-comp-pale); }
 .re-groupe.simulation { background: var(--ch-poste-pale); }
 .re-groupe.bateau { background: var(--ch-int-pale); }
@@ -27,7 +22,6 @@ body[data-fond="realisations"] #fond { display: none; }
 .re-description { min-width: 0; }
 .re-description h3 { margin: 0 0 7px; font: 700 17px/1.3 var(--ch-police); color: var(--ch-essentiel); }
 .re-description p { margin: 0 0 8px; font-size: 14px; line-height: 1.45; }
-.re-description .re-competences { font-size: 12px; color: var(--ch-discret); }
 .re-ouvrir, .re-toutes a { color: var(--ch-essentiel); font-weight: 700; font-size: 14px; }
 @media (max-width: 850px) { .re-cartes { grid-template-columns: minmax(0, 1fr); } }
-@media (max-width: 420px) { .re-page { padding: 8px 0 20px; }.re-groupe { padding: 16px 12px; }.re-carte { align-items: flex-start; flex-direction: column; padding: 16px; gap: 14px; }.re-visuel { width: 132px; height: 132px; align-self: center; }.re-page h1 { font-size: 23px; }.re-acces button { flex: 1 1 100%; } }
+@media (max-width: 420px) { .re-page { padding: 8px 0 20px; }.re-groupe { padding: 16px 12px; }.re-carte { align-items: flex-start; flex-direction: column; padding: 16px; gap: 14px; }.re-visuel { width: 132px; height: 132px; align-self: center; }.re-page h1 { font-size: 23px; } }

@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.57.1",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.58.0",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -1573,7 +1573,27 @@ window.CV = {
         "Profils SPAD.neXt"
       ],
       "periode": "Projet personnel",
-      "parent": "simulation"
+      "parent": "simulation",
+      "galerie": [
+        {
+          "src": "assets/spadnext/programmation-bouton.webp",
+          "alt": "Programmation d’un bouton : conditions et enchaînement d’actions dans un profil SPAD.neXt.",
+          "legende": "Programmation d’un bouton : conditions et enchaînement d’actions dans un profil SPAD.neXt.",
+          "entier": true
+        },
+        {
+          "src": "assets/spadnext/panneaux-commandes.webp",
+          "alt": "Panneaux de commandes et radio représentés dans SPAD.neXt.",
+          "legende": "Panneaux de commandes et radio représentés dans SPAD.neXt.",
+          "entier": true
+        },
+        {
+          "src": "assets/spadnext/variables-simulateur.webp",
+          "alt": "Suivi de variables du simulateur pour adapter les commandes du profil.",
+          "legende": "Suivi de variables du simulateur pour adapter les commandes du profil.",
+          "entier": true
+        }
+      ]
     },
     {
       "id": "pailletrice",
@@ -2476,13 +2496,13 @@ window.CV = {
       "id": "skylivra",
       "essentiel": true,
       "type": "personnel",
-      "titre": "SkyLivra · Créations / Simulation aérienne",
-      "titreCourt": "SkyLivra · Créations / Simulation aérienne",
+      "titre": "SkyLivra · Livrées et add-ons",
+      "titreCourt": "SkyLivra · Livrées et add-ons",
       "important": true,
       "lieu": "",
-      "resume": "Direction artistique, cadrage et pilotage avec l’IA de créations et d’outils pour la simulation de vol.",
-      "apportCourt": "Cadrage du projet, coordination des intervenants et contrôle des livrables.",
-      "contexte": "Définition des besoins, fourniture des références, pilotage des assistants IA et contrôle dans le simulateur. Les IA produisent le code technique ; la direction fonctionnelle et artistique reste assurée par Alain Ferro.",
+      "resume": "Projet de site destiné à vendre mes livrées d’avions et mes add-ons pour Microsoft Flight Simulator 2020. Je crée ces contenus avec l’appui de l’IA et réalise des montages vidéo pour les présenter sur ma chaîne YouTube.",
+      "apportCourt": "Concevoir, créer, présenter et distribuer mes propres contenus pour la simulation de vol.",
+      "contexte": "Les livrées concernent des avions proposés par différents éditeurs. Le projet vise d’abord Microsoft Flight Simulator 2020 ; une extension à MSFS 2024, puis éventuellement à d’autres simulateurs de vol, est envisagée à plus long terme.",
       "missions": [
         "Définir les besoins, les contraintes techniques et les critères d’acceptation de chaque création.",
         "Structurer l’architecture : rôle des modules, interfaces, dépendances et circulation des données.",
@@ -2572,7 +2592,7 @@ window.CV = {
             "Briefs visuels, maquettes et retouches : motifs, couleurs et continuité entre les différentes pièces de l’avion.",
             "Préparation et contrôle des textures DDS, de leurs alignements et de leur intégration dans les paquets MSFS.",
             "Suivi des variantes, assemblage des paquets et préparation des installateurs Windows.",
-            "Contrôle visuel dans le simulateur et réalisation de clips de présentation avec OBS Studio."
+            "Contrôle visuel dans le simulateur, puis montage de vidéos pour présenter les livrées et add-ons sur ma chaîne YouTube."
           ]
         },
         {
@@ -3067,7 +3087,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne contient aucun formulaire : l’éditeur ne collecte aucune donnée. Le bouton « Proposer un entretien » ouvre simplement votre messagerie, sans aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "11 novembre 2026",
-    "version": "2.57.1"
+    "version": "2.58.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"
