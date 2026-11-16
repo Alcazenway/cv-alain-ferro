@@ -24,7 +24,7 @@
     terre.appendChild(svg("image", { href: "assets/presentation/portrait-detoure-440.png", x: 150, y: 34, width: 180, height: 180, role: "img", "aria-label": I.portrait.alt }));
     var textes = svg("g", { "text-anchor": "middle", fill: "#fff", filter: "url(#pr-detourage)", "font-family": "Segoe UI, Arial, sans-serif" });
     function ligne(y, taille, texte, couleur, gras, lien, label) {
-      var n = svg("text", { x: 240, y: y, "font-size": taille, "font-weight": gras || 400, fill: couleur || "#fff" }, [texte]);
+      var n = svg("text", { x: 240, y: y, "font-size": taille, "font-weight": gras || 700, fill: couleur || "#FFFFFF" }, [texte]);
       if (lien) {
         // Zone tactile élargie et invisible ; texte sans soulignement.
         var a = svg("a", { href: lien, "aria-label": label || texte, class: "pr-contact" });
@@ -36,11 +36,11 @@
     // Accroche retirée de la Présentation (demande d'Alain, 16/11/2026) ; donnée conservée dans contenu.js.
     ligne(258, 28, nom.join(" "), null, 700);
     ligne(308, 26, I.telephone, null, 700, "tel:" + I.telephoneLien, "Téléphoner à " + I.nom + " : " + I.telephone);
-    ligne(336, 18, I.email, "#CFE7FF", 600, "mailto:" + I.email, "Écrire à " + I.nom + " : " + I.email);
+    ligne(336, 18, I.email, null, 700, "mailto:" + I.email, "Écrire à " + I.nom + " : " + I.email);
     var permis = I.permis.split(" · ");
-    ligne(362, 14, I.ville.replace(/[()]/g, "") + " · " + permis[0].replace(" et véhicule", " · Véhicule"), "#E6EEF6");
-    ligne(381, 14, (permis[1] || "") + " · " + I.langues.replace(" courant", "").replace(" · Anglais", ", anglais"), "#E6EEF6");
-    if (!options.sansEntretien) ligne(418, 19, "Proposer un entretien", "#FFD27A", 700, options.entretien || "entretien.html");
+    ligne(362, 14, I.ville.replace(/[()]/g, "") + " · " + permis[0].replace(" et véhicule", " · Véhicule"), null, 700);
+    ligne(381, 14, (permis[1] || "") + " · " + I.langues.replace(" courant", "").replace(" · Anglais", ", anglais"), null, 700);
+    if (!options.sansEntretien) ligne(418, 19, "Proposer un entretien", null, 700, options.entretien || "entretien.html");
     terre.appendChild(textes);
     return terre;
   }};
