@@ -63,93 +63,87 @@
   /* ---------- Accueil ---------- */
   var I = D.identite;
   var C = window.Coherence;
-  var mailto = "mailto:" + I.email + "?subject=" + encodeURIComponent(I.mail.objet) +
-    "&body=" + encodeURIComponent(I.mail.corps.replace(/\n/g, "\r\n"));
   var nomPdf = I.cvPdf.split("/").pop().split("?")[0];
-  // Présentation en paragraphes (un par ligne de la source).
-  I.promesse.split("\n").forEach(function (t) { $("promesse").appendChild(el("p", { text: t })); });
-  $("ville").textContent = I.ville;
-  $("accroche").textContent = I.accroche;
-  ["lien-cv"].forEach(function (id) { $(id).setAttribute("href", I.cvPdf); $(id).setAttribute("download", nomPdf); });
+  // Mission 8 : la page Entretien couvre aussi les visiteurs sans messagerie locale.
+  $("entretien-bandeau").setAttribute("href", "entretien.html");
+  $("lien-cv").setAttribute("href", I.cvPdf);
+  $("lien-cv").setAttribute("download", nomPdf);
   $("lien-cv-logo").setAttribute("href", I.cvPdf);
-  // Courriel prêt à envoyer, ouvert dans la messagerie du visiteur.
-  $("entretien-bandeau").setAttribute("href", mailto);
-  // v2.36 : sur ordinateur, mailto: reste sans effet quand aucune messagerie
-  // n’est installée (cas Gmail dans le navigateur). Petit menu de choix.
-  (function () {
-    var bouton = $("entretien-bandeau");
-    var mobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) ||
-      (window.matchMedia && matchMedia("(pointer: coarse)").matches && !matchMedia("(pointer: fine)").matches);
-    if (mobile) return;
-    var q = encodeURIComponent, corps = I.mail.corps.replace(/\n/g, "\r\n");
-    var choix = [
-      ["Gmail", "https://mail.google.com/mail/?view=cm&fs=1&to=" + q(I.email) + "&su=" + q(I.mail.objet) + "&body=" + q(corps)],
-      ["Outlook.com", "https://outlook.live.com/mail/0/deeplink/compose?to=" + q(I.email) + "&subject=" + q(I.mail.objet) + "&body=" + q(corps)],
-      ["Outlook professionnel (Microsoft 365)", "https://outlook.office.com/mail/deeplink/compose?to=" + q(I.email) + "&subject=" + q(I.mail.objet) + "&body=" + q(corps)],
-      ["Messagerie de l’ordinateur", mailto]
-    ];
-    var menu = el("div", { class: "co-courriel", id: "menu-courriel", role: "menu", hidden: "" });
-    menu.appendChild(el("p", { class: "co-courriel-titre", text: "Écrire avec :" }));
-    choix.forEach(function (c) {
-      var a = el("a", { role: "menuitem", href: c[1], text: c[0] });
-      if (c[1].indexOf("https:") === 0) { a.target = "_blank"; a.rel = "noopener"; }
-      a.addEventListener("click", fermer);
-      menu.appendChild(a);
-    });
-    var copier = el("button", { type: "button", role: "menuitem", text: "Copier l’adresse " + I.email });
-    copier.addEventListener("click", function () {
-      var ok = function () { copier.textContent = "Adresse copiée ✓"; setTimeout(fermer, 1200); };
-      if (navigator.clipboard) navigator.clipboard.writeText(I.email).then(ok, function () { window.prompt("Adresse :", I.email); });
-      else window.prompt("Adresse :", I.email);
-    });
-    menu.appendChild(copier);
-    bouton.parentNode.appendChild(menu);
-    bouton.setAttribute("aria-haspopup", "menu");
-    bouton.setAttribute("aria-expanded", "false");
-    bouton.setAttribute("aria-controls", "menu-courriel");
-    function fermer() {
-      menu.hidden = true; bouton.setAttribute("aria-expanded", "false");
-      copier.textContent = "Copier l’adresse " + I.email;
-    }
-    bouton.addEventListener("click", function (e) {
-      if (e.ctrlKey || e.shiftKey || e.metaKey) return;
-      e.preventDefault();
-      if (!menu.hidden) { fermer(); return; }
-      menu.hidden = false; bouton.setAttribute("aria-expanded", "true");
-      menu.querySelector("a").focus();
-    });
-    document.addEventListener("click", function (e) {
-      if (!menu.hidden && !menu.contains(e.target) && e.target !== bouton) fermer();
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && !menu.hidden) { fermer(); bouton.focus(); }
-    });
-  })();
-  // Jamais d’emplacement vide : sans portrait, l’identité garde son texte.
-  var portrait = $("portrait");
-  function sansPortrait() { portrait.hidden = true; $("haut").classList.add("sans-portrait"); }
-  if (portrait.complete && portrait.naturalWidth === 0) sansPortrait();
-  else portrait.addEventListener("error", sansPortrait);
-  // Avion et planète à anneaux : symboles de passions au trait, en fond discret.
-  $("marques-une").setAttribute("aria-hidden", "true");
-  $("marques-une").appendChild(C.symbole("avion", "co-avion"));
-  $("marques-une").appendChild(C.symbole("planete", "co-orbite"));
-
-  var coord = $("coordonnees");
-  coord.appendChild(el("li", null, [el("a", { href: "tel:" + I.telephoneLien, text: I.telephone })]));
-  coord.appendChild(el("li", null, [el("a", { href: "mailto:" + I.email, text: I.email })]));
-  coord.appendChild(el("li", { class: "co-petit", text: I.permis }));
-  coord.appendChild(el("li", { class: "co-petit", text: I.langues }));
-
-  // Pied de page : numéro de version seul ; mentions légales accessibles.
   var VERSION = "Version " + D.mentions.version;
-  $("maj").textContent = VERSION;
-  // v2.22 : chiffres clés repris de l’ancienne page Réalisations.
-  // v2.27 : rangée pleine largeur sous le portrait et le texte ; chaque repère ouvre sa fiche (ou la page parente).
-  $("haut").appendChild(el("ul", { class: "co-chiffres co-chiffres-une", "aria-label": "Repères" }, D.chiffres.map(function (c) {
-    var corps = [el("strong", { text: c.valeur }), el("span", { text: c.libelle }), el("i", { class: "co-chiffre-fleche", "aria-hidden": "true", text: "→" })];
-    return el("li", c.fort ? { class: "fort" } : null, [c.lien ? el("a", { href: c.lien, "aria-label": c.valeur + " " + c.libelle + " : voir la fiche" }, corps) : el("div", null, corps)]);
-  })));
+
+  function construirePresentation() {
+    var svg = C.svg;
+    var terre = svg("svg", { class: "pr-terre", viewBox: "0 0 480 480", role: "group", "aria-labelledby": "pr-terre-titre" });
+    // Géométrie, voile et reflet de la maquette validée. Aucune donnée personnelle en HTML interpolé.
+    terre.innerHTML = '<title id="pr-terre-titre"></title><defs>' +
+      '<clipPath id="pr-terre-clip"><circle cx="240" cy="240" r="226"/></clipPath>' +
+      '<linearGradient id="pr-voile" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#04142C" stop-opacity=".12"/><stop offset=".42" stop-color="#04142C" stop-opacity=".5"/><stop offset="1" stop-color="#04142C" stop-opacity=".76"/></linearGradient>' +
+      '<radialGradient id="pr-bord" cx=".42" cy=".38" r=".62"><stop offset=".7" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#01060F" stop-opacity=".55"/></radialGradient>' +
+      '<radialGradient id="pr-reflet"><stop offset="0" stop-color="#fff" stop-opacity=".72"/><stop offset=".55" stop-color="#fff" stop-opacity=".18"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>' +
+      '<filter id="pr-detourage" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="1" stdDeviation="1.2" flood-color="#03122A" flood-opacity=".9"/></filter></defs>' +
+      '<g clip-path="url(#pr-terre-clip)" aria-hidden="true"><image href="assets/presentation/terre-apollo17-640.jpg" x="14" y="14" width="452" height="452"/><rect x="14" y="14" width="452" height="452" fill="url(#pr-voile)"/><circle cx="240" cy="240" r="226" fill="url(#pr-bord)"/></g>' +
+      '<ellipse cx="160" cy="112" rx="104" ry="56" fill="url(#pr-reflet)" opacity=".5" transform="rotate(-24 160 112)" aria-hidden="true"/>' +
+      '<circle cx="240" cy="240" r="226" fill="none" stroke="#8FC3F0" stroke-width="4" opacity=".9" aria-hidden="true"/>';
+    terre.querySelector("title").textContent = I.nom + ", coordonnées et proposition d’entretien";
+    terre.appendChild(svg("image", { href: "assets/presentation/portrait-detoure-440.png", x: 150, y: 34, width: 180, height: 180, role: "img", "aria-label": I.portrait.alt }));
+    var textes = svg("g", { "text-anchor": "middle", fill: "#fff", filter: "url(#pr-detourage)", "font-family": "Segoe UI, Arial, sans-serif" });
+    function ligne(y, taille, texte, couleur, gras, lien, label) {
+      var n = svg("text", { x: 240, y: y, "font-size": taille, "font-weight": gras || 400, fill: couleur || "#fff" }, [texte]);
+      if (lien) {
+        // Zone tactile élargie et invisible ; texte sans soulignement.
+        var a = svg("a", { href: lien, "aria-label": label || texte, class: "pr-contact" });
+        a.appendChild(svg("rect", { x: 80, y: y - taille - 5, width: 320, height: taille + 14, rx: 5, fill: "transparent", "aria-hidden": "true" }));
+        a.appendChild(n); textes.appendChild(a);
+      } else textes.appendChild(n);
+    }
+    var nom = I.nom.split(" "); nom[nom.length - 1] = nom[nom.length - 1].toUpperCase();
+    // Accroche retirée de la Présentation (demande d'Alain, 16/11/2026) ; donnée conservée dans contenu.js.
+    ligne(258, 28, nom.join(" "), null, 700);
+    ligne(308, 26, I.telephone, null, 700, "tel:" + I.telephoneLien, "Téléphoner à " + I.nom + " : " + I.telephone);
+    ligne(336, 18, I.email, "#CFE7FF", 600, "mailto:" + I.email, "Écrire à " + I.nom + " : " + I.email);
+    var permis = I.permis.split(" · ");
+    ligne(362, 14, I.ville.replace(/[()]/g, "") + " · " + permis[0].replace(" et véhicule", " · Véhicule"), "#E6EEF6");
+    ligne(381, 14, (permis[1] || "") + " · " + I.langues.replace(" courant", "").replace(" · Anglais", ", anglais"), "#E6EEF6");
+    ligne(418, 19, "Proposer un entretien", "#FFD27A", 700, "entretien.html");
+    terre.appendChild(textes);
+
+    var profil = el("section", { class: "pr-profil", "aria-labelledby": "pr-titre" }, [el("h2", { id: "pr-titre", text: "Présentation" })]);
+    I.promesse.split("\n").filter(Boolean).forEach(function (t) { profil.appendChild(el("p", { text: t })); });
+    $("haut").replaceChildren(el("h1", { id: "titre-nom", class: "visuellement-cache", tabindex: "-1", text: I.nom }), terre, profil);
+
+    function debut(e) { return +(e.periode.match(/\d{4}/) || [0])[0]; }
+    function periode(e) {
+      var annees = e.periode.match(/\d{4}/g) || [], depuis = /aujourd/i.test(e.periode);
+      var duree = (depuis ? +REPERES.fin.annee : +annees[1]) - +annees[0];
+      // Les activités en cours gardent le recul de la maquette : 20 ans de simulation,
+      // et simplement « Depuis 2024 » pour l’orchestration, encore récente.
+      if (depuis && duree >= 20) duree = Math.floor(duree / 10) * 10;
+      var texte = depuis ? "Depuis " + annees[0] : e.periode;
+      if (duree > 0 && (!depuis || duree > 2)) texte += " · " + duree + (duree === 1 ? " an" : " ans");
+      return texte;
+    }
+    var essentielles = D.parcours.filter(function (e) { return e.essentiel && e.type !== "formation" && !e.parent; });
+    essentielles.sort(function (a, b) {
+      if (a.id === "outils-ia") return -1;
+      if (b.id === "outils-ia") return 1;
+      return debut(b) - debut(a) || (b.type === "experience") - (a.type === "experience") || D.parcours.indexOf(b) - D.parcours.indexOf(a);
+    });
+    var bulles = el("ul", { class: "pr-essentielles", "aria-label": "Expériences essentielles" }, essentielles.map(function (e) {
+      return el("li", null, [el("a", { class: "ch-sphere essentiel pr-sphere", href: "#/parcours/" + e.id, "aria-label": texteBulle(e) + " · " + periode(e) + " · Essentiel" }, [
+        // Insécables : « 11 m » et le point médian restent avec le mot précédent.
+        el("b", { text: texteBulle(e).replace(/ ·/g, " ·").replace(/(\d) m\b/g, "$1 m") }), el("span", { class: "pr-periode", text: periode(e) })
+      ])]);
+    }));
+    $("haut").after(bulles);
+    var cle = legende(); cle.className = "ch-legende pr-legende"; cle.setAttribute("aria-label", "Légende Essentiel et Complément");
+    // Une ligne par notion sur petit écran ; aucun mot coupé dans « Complément ».
+    var principal = cle.firstElementChild;
+    var explication = document.createElement("span"); explication.className = "pr-legende-explication";
+    explication.appendChild(document.createTextNode("expérience ou appétence forte"));
+    principal.lastChild.textContent = " · "; principal.appendChild(explication);
+    $("pied").appendChild(cle);
+    $("maj").textContent = VERSION;
+  }
   function piedDePage() {
     return el("footer", { class: "co-pied" }, [el("p", { text: VERSION }), el("p", null, [el("a", { href: "#/mentions", text: "Mentions légales et confidentialité" })])]);
   }
@@ -886,6 +880,10 @@
       if (a.getAttribute("data-rubrique") === r) a.setAttribute("aria-current", "page");
       else a.removeAttribute("aria-current");
     });
+    var courant = document.querySelector('.co-onglets a[aria-current="page"]');
+    var menu = document.querySelector(".co-menu");
+    menu.querySelector(".co-menu-libelle").textContent = courant ? courant.textContent : "Menu";
+    menu.setAttribute("aria-label", "Menu de navigation" + (courant ? ", " + courant.textContent + ", page actuelle" : ""));
   }
 
   function router() {
@@ -997,6 +995,7 @@
     observationTitres.observe(vue); observationTitres.observe(accueil);
   }
 
+  construirePresentation();
   window.addEventListener("hashchange", router);
   router();
 })();

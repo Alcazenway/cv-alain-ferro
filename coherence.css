@@ -611,3 +611,52 @@ body[data-fond="parcours"] #vue, .co-fiche-parcours {
   .co-fiche-parcours .co-fiche-sphere { --d: 108px; float: none; display: flex; margin: 0 auto 20px; }
   .co-fiche-parcours .co-fiche-sphere.essentiel { --d: 121px; }
 }
+
+/* Mission 8 : Présentation conforme à la maquette, sans changer les autres pages. */
+body.sur-accueil { background: #fff; }
+body.sur-accueil .co-fond { background: #fff; }
+body.sur-accueil .co-fond::after { background: #fff; }
+body.sur-accueil .co-fond-image { display: none; background-image: none; animation: none; }
+body.sur-accueil #accueil { padding: 0; color: var(--ch-texte); --focus: var(--ch-essentiel); }
+#accueil .lecture-fenetre { padding-right: 0; }
+#accueil .lecture-flux { padding-top: 0; }
+#accueil .co-une { display: grid; grid-template-columns: 480px minmax(0, 1fr); gap: 48px; align-items: center; padding: 36px 20px 24px; overflow: visible; }
+#accueil #titre-nom { position: absolute !important; }
+.pr-terre { display: block; width: 100%; max-width: 480px; height: auto; margin: 0 auto; }
+.pr-terre a, .pr-terre a:hover { text-decoration: none; cursor: pointer; }
+.pr-terre .pr-contact:focus-visible { outline: none; }
+.pr-terre .pr-contact:focus-visible rect { fill: #03122A; stroke: var(--ch-or); stroke-width: 3px; }
+.pr-terre .pr-contact:hover text { fill: var(--ch-or); }
+.pr-profil h2 { margin: 0 0 14px; padding: 0; color: var(--ch-encre); font: 700 13px/1.4 var(--ch-police); letter-spacing: 1.6px; text-transform: uppercase; }
+.pr-profil p { margin: 0 0 14px; max-width: none; color: var(--ch-texte); font: 400 16px/1.62 var(--ch-police); }
+.pr-profil p:last-child { margin-bottom: 0; }
+.pr-essentielles { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; margin: 0; padding: 4px 20px 0; list-style: none; }
+.pr-essentielles li { margin: 0; padding: 0; }
+.pr-essentielles .pr-sphere { --d: 148px; display: flex; flex-direction: column; padding: 0 16px; overflow-wrap: normal; color: #fff; text-decoration: none; }
+.pr-sphere b { font-size: 14.5px; line-height: 1.18; font-weight: 700; }
+.pr-sphere .pr-periode { margin-top: 6px; font-size: 11.5px; line-height: 1.25; font-weight: 400; }
+.pr-essentielles .pr-sphere:hover { color: #fff; box-shadow: 0 0 0 3px var(--ch-comp-pale); }
+#accueil .co-pied { align-items: center; gap: 12px 20px; margin: 22px 20px 0; padding: 12px 0 18px; border-color: var(--ch-filet); color: var(--ch-discret); }
+#accueil .co-pied a { color: var(--ch-discret); }
+#accueil .co-pied p:nth-child(2) { font-size: 11px; }
+.pr-legende { margin-left: auto; gap: 8px 20px; font-size: 13px; }
+.pr-legende > span { flex-wrap: wrap; gap: 5px; white-space: normal; }
+.pr-legende .ch-sphere { flex: none; }
+.pr-legende strong, .pr-legende-explication { white-space: nowrap; }
+@media (max-width: 1000px) {
+  #accueil .co-une { grid-template-columns: minmax(0, .9fr) minmax(0, 1fr); gap: 28px; }
+}
+@media (max-width: 700px) {
+  #accueil .co-une { grid-template-columns: 1fr; gap: 22px; padding: 22px 16px; }
+  .pr-profil p { font-size: 15px; }
+  .pr-essentielles { gap: 12px; padding: 0 16px; }
+  .pr-essentielles .pr-sphere { --d: 104px; padding: 0 9px; }
+  .pr-sphere b { font-size: 11px; }
+  .pr-sphere .pr-periode { margin-top: 4px; font-size: 9.5px; }
+  #accueil .co-pied { flex-direction: column; align-items: flex-end; margin: 22px 16px 0; padding: 12px 0 18px; }
+  .pr-legende { order: -1; }
+}
+@media (forced-colors: active) {
+  .pr-essentielles .pr-sphere { border: 2px solid LinkText; }
+  .pr-terre .pr-contact:focus-visible rect { stroke: Highlight; }
+}

@@ -19,7 +19,7 @@ window.CV = {
   "identite": {
     "nom": "Alain Ferro",
     "accroche": "Administration, coordination et relation clients",
-    "promesse": "Dix ans d’encadrement d’équipes aux Thermes de Balaruc-les-Bains, sept ans à la tête d’une activité de négoce et un titre professionnel de Comptable assistant : mon parcours associe organisation, relation clients et rigueur administrative, avec une pratique d’Excel avancé (Tosa 850 / 1000).\nJ’orchestre aujourd’hui des assistants IA pour mener des projets complets, du cadrage au contrôle des résultats : applications, sites, logiciel Windows et créations pour la simulation de vol, avec des consignes écrites, des rôles répartis et un suivi de versions.\nPilote virtuel depuis plus de vingt ans, je prépare mes vols comme dans la réalité : plan de vol, météo, lecture des cartes et navigation, puis pilotage d’Airbus, de Boeing et d’avions légers. Cette passion m’a appris à maîtriser des systèmes avioniques complexes, à suivre des procédures et à garder une méthode rigoureuse.",
+    "promesse": "Mon parcours commence dans le commerce : un BAC Sciences et technologies tertiaires, puis un BTS commercial préparé en alternance dans le courtage en vins, au contact des domaines viticoles. Une année à Londres, entre restauration et enquêtes téléphoniques, m’a ensuite appris à m’adapter rapidement à un nouvel environnement.\nJ’ai créé et dirigé pendant sept ans une activité de négoce de truffes auprès de la restauration gastronomique, puis encadré pendant dix ans 30 à 40 agents et kinésithérapeutes aux Thermes de Balaruc-les-Bains. Formé au management, à la gestion des conflits et à la comptabilité, certifié Tosa Excel avancé (850 / 1000) et habitué aux outils de gestion documentaire et de maintenance (GED, GMAO), j’associe organisation, relation clients et rigueur administrative.\nUtilisateur des modèles de langage (LLM) depuis leur arrivée en 2022, j’orchestre aujourd’hui des assistants IA pour mener des projets complets, du cadrage au contrôle des résultats : applications, sites, logiciel Windows et, avec SkyLivra, des créations pour la simulation de vol. Consignes écrites, rôles répartis et suivi de versions : la même méthode que pour diriger une équipe.\nPilote virtuel depuis plus de vingt ans, je prépare mes vols comme dans la réalité : plan de vol, météo, cartes et navigation, puis pilotage d’Airbus, de Boeing et d’avions légers. Cette passion, comme les trois années passées à rénover un bateau en bois de 11 mètres, m’a appris la persévérance, le respect des procédures et une méthode rigoureuse. Curieux de sciences et d’astronomie, j’aime comprendre comment les choses fonctionnent.",
     "ville": "Poussan (34560)",
     "email": "alainferro34@gmail.com",
     "telephone": "06 12 76 10 12",
@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.52.0",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.53.0",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -752,7 +752,7 @@ window.CV = {
       "id": "numerique",
       "essentiel": true,
       "nom": "Intelligence artificielle",
-      "texte": "Projets menés en orchestrant des assistants IA.",
+      "texte": "Pratique des modèles de langage (LLM) depuis leur sortie en 2022 ; projets menés en orchestrant des assistants IA.",
       "image": {
         "src": "assets/photos/selection/selection-054.webp",
         "alt": "Montage d’un ordinateur sur table"
@@ -2228,7 +2228,7 @@ window.CV = {
       "bulle": [
         "Orchestration IA"
       ],
-      "periode": "2026–aujourd’hui",
+      "periode": "2024–aujourd’hui",
       "enfants": [
         "skylivra",
         "barysense",
@@ -3004,7 +3004,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne contient aucun formulaire : l’éditeur ne collecte aucune donnée. Le bouton « Proposer un entretien » ouvre simplement votre messagerie, sans aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "11 novembre 2026",
-    "version": "2.52.0"
+    "version": "2.53.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"
