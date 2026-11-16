@@ -72,7 +72,7 @@
   var VERSION = "Version " + D.mentions.version;
 
   function construirePresentation() {
-    var terre = window.IdentiteTerre.creer(I);
+    var terre = window.IdentiteTerre.creer(I, {sansContour: true});
 
     var profil = el("section", { class: "pr-profil", "aria-labelledby": "pr-titre" }, [el("h2", { id: "pr-titre", text: "Présentation" })]);
     I.promesse.split("\n").filter(Boolean).forEach(function (t) { profil.appendChild(el("p", { text: t })); });
