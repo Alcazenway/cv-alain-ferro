@@ -102,13 +102,6 @@
       ])]);
     }));
     $("haut").after(bulles);
-    var cle = legende(); cle.className = "ch-legende pr-legende"; cle.setAttribute("aria-label", "Légende Essentiel et Complément");
-    // Une ligne par notion sur petit écran ; aucun mot coupé dans « Complément ».
-    var principal = cle.firstElementChild;
-    var explication = document.createElement("span"); explication.className = "pr-legende-explication";
-    explication.appendChild(document.createTextNode("expérience ou appétence forte"));
-    principal.lastChild.textContent = " · "; principal.appendChild(explication);
-    $("pied").appendChild(cle);
     $("maj").textContent = VERSION;
   }
   function piedDePage() {
