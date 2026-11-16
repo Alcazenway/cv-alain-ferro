@@ -48,3 +48,36 @@
 .ch-titre.comp { color: var(--ch-comp); } .ch-titre.int { color: var(--ch-int); }
 .ch-titre.form { color: var(--ch-form); } .ch-titre.poste { color: var(--ch-poste); }
 .ch-titre.parcours { color: var(--ch-encre); font-size: 18pt; letter-spacing: 1.2px; }
+
+/* 2.54.0 — pages à bulles : charte PDF, physique du billard conservée. */
+body:has(.bi-charte) { background: #fff; }
+body:has(.bi-charte) .co-fond { display: none; }
+.lecture-flux:has(> .bi-charte) { display: block; padding-bottom: 24px; }
+.bi-zone.bi-charte { --bi-c: var(--ch-essentiel); flex: none; margin: 12px 0 78px; min-height: 0; overflow: visible; border: 0; border-radius: 28px; box-shadow: none; background: var(--ch-comp-pale); }
+.bi-zone.bi-charte.bi-zone-formation { background: var(--ch-form-pale); }
+.bi-zone.bi-charte.bi-zone-interets { background: var(--ch-int-pale); }
+.bi-zone.bi-charte.bi-zone-metiers { background: var(--ch-poste-pale); }
+.bi-zone.bi-charte::before, .bi-zone.bi-charte::after { display: none; }
+.bi-charte .bi-astuce { position: absolute; top: -30px; bottom: auto; right: 0; margin: 0; padding: 0; background: none; color: var(--ch-discret); font-size: 12px; }
+.bi-charte > .ch-legende { position: absolute; top: 100%; right: 0; margin: 22px 0 0; padding: 12px 0; width: 100%; justify-content: flex-end; }
+.bi-charte .bi-bulle.ch-sphere { display: block; padding: 0; animation: none; box-shadow: 0 5px 9px #19383d18; }
+.bi-charte .bi-bulle.ch-sphere:not(.essentiel) { color: var(--ch-essentiel); background: radial-gradient(circle at 36% 30%, #fff 0, #F1F5F6 43%, var(--ch-comp-bord) 78%); border: 1.5px solid var(--ch-essentiel); }
+.bi-charte .bi-bulle.ch-sphere.essentiel { color: white; background: radial-gradient(circle at 36% 30%, var(--ch-ess-clair), var(--ch-essentiel) 39%, var(--ch-ess-sombre) 78%); border: 1.5px solid transparent; }
+.bi-charte .bi-titre { color: inherit; font: 700 1em/1.15 var(--ch-police); -webkit-text-stroke: 0; text-shadow: none; overflow-wrap: normal; hyphens: manual; }
+.bi-charte .bi-texte { color: inherit; gap: 9px; }
+.bi-charte .bi-motif { display: block; flex: none; width: 30px; height: 30px; background: currentColor; mask: var(--motif) center/contain no-repeat; -webkit-mask: var(--motif) center/contain no-repeat; }
+.bi-charte .bi-bulle:focus-visible { outline: 3px solid var(--ch-encre); outline-offset: 4px; }
+.bi-charte .bi-bulle:hover { box-shadow: 0 7px 16px #19383d35; }
+.bi-charte .bi-carte { z-index: 10; }
+@media (max-width: 740px) { .bi-charte .bi-astuce { position: relative; top: -25px; font-size: 11px; } .bi-zone.bi-charte { margin-top: 35px; } .bi-charte .bi-motif { width: 26px; height: 26px; } }
+/* Priorité sur les anciens fonds et le masquage des titres du bandeau métal. */
+body:has(.bi-charte) #fond { display: none; }
+.lecture-flux:has(> .bi-charte) > .co-tete { position: relative !important; width: auto !important; height: auto !important; min-height: 36px !important; margin: 0 !important; padding: 8px 0 !important; overflow: visible !important; clip: auto !important; clip-path: none !important; white-space: normal !important; }
+.lecture-flux:has(> .bi-charte) > .co-tete h1 { font: 700 21px var(--ch-police); letter-spacing: 1.6px; text-transform: uppercase; color: var(--ch-comp); }
+.lecture-flux:has(> .bi-zone-formation) > .co-tete h1 { color: var(--ch-form); }
+.lecture-flux:has(> .bi-zone-interets) > .co-tete h1 { color: var(--ch-int); }
+.lecture-flux:has(> .bi-zone-metiers) > .co-tete h1 { color: var(--ch-poste); }
+.lecture-flux:has(> .bi-charte) .co-filigrane { display: none; }
+.bi-zone.bi-charte .bi-astuce { left: auto; right: 0; color: var(--ch-discret); text-shadow: none; }
+.bi-charte .bi-bulle.ch-sphere::after { inset: auto; left: 10%; top: 9%; width: 50%; height: 30%; border: 0; border-radius: 50%; background: radial-gradient(closest-side, #ffffffb8, #ffffff2e 55%, #ffffff00); transform: rotate(-24deg); box-shadow: none; opacity: 1; }
+.bi-charte .bi-bulle.bi-vedette .bi-titre { font-weight: 700; }

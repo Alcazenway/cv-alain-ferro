@@ -210,7 +210,7 @@ function finAttente(zone) { zone.classList.remove("bi-spheres-attente"); }
 // Zones quittées (changement de page) : contexte WebGL libéré, pour ne jamais en accumuler.
 function balayer() { for (const c of couches) if (!c.zone.isConnected && c.etat === "actif") c.detruire(); }
 function attacher(api) {
-  if (!api || api.biSpheres) return;
+  if (!api || api.biSpheres || api.zone.classList.contains("bi-charte")) return;
   if (horsService) { finAttente(api.zone); return; }
   const c = new Couche(api);
   api.biSpheres = c;

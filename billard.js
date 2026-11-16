@@ -41,10 +41,11 @@
     var zone = el("div", "bi-zone" + (options.page ? " bi-zone-" + options.page : ""));
     // 2.41 : si les sphères 3D peuvent s’afficher, bulles 2D masquées pendant leur chargement (spheres.js lève l’attente) ;
     // garde-fou : au bout de 6 s, ou sans WebGL, les bulles 2D réapparaissent.
-    if (window.WebGLRenderingContext && !window.matchMedia("print").matches) {
+    if (!options.charte && window.WebGLRenderingContext && !window.matchMedia("print").matches) {
       zone.classList.add("bi-spheres-attente");
       setTimeout(function () { zone.classList.remove("bi-spheres-attente"); }, 6000);
     }
+    if (options.charte) zone.classList.add("bi-charte");
     var liste = el("ul", "bi-liste");
     liste.setAttribute("aria-label", options.libelle || "Bulles");
     zone.appendChild(liste);
@@ -72,6 +73,9 @@
       if (d.lien) n.href = d.lien;
       else { n.type = "button"; if (d.carte) { n.setAttribute("aria-haspopup", "dialog"); n.setAttribute("aria-expanded", "false"); } }
       n.className = "bi-bulle bi-f-" + (d.famille || "defaut") + (d.vedette ? " bi-vedette" : "") + (d.cls ? " " + d.cls : "") + (d.fond ? " avec-fond" : "");
+      if (options.charte) {
+        n.classList.add("ch-sphere"); if (d.essentiel) n.classList.add("essentiel");
+      }
       n.setAttribute("draggable", "false");
       if (d.aria) n.setAttribute("aria-label", d.aria);
       if (d.id) n.id = d.id;
@@ -83,6 +87,7 @@
       var texte = el("span", "bi-texte");
       b.cesure = cesures(d.titre);
       b.titre = el("span", "bi-titre", d.titre);
+      if (d.motif) { var motif = el("i", "bi-motif"); motif.setAttribute("aria-hidden", "true"); motif.style.setProperty("--motif", "url(\"" + d.motif + "\")"); texte.appendChild(motif); }
       texte.appendChild(b.titre);
       if (d.sous) texte.appendChild(el("small", "bi-sous", d.sous));
       n.appendChild(texte);
@@ -98,7 +103,13 @@
     function peindre() { if (api.rendu) api.rendu(); }
 
     /* ---------- Dimensions et placement ---------- */
+    function colonnes() { return W < 310 ? 1 : W < 600 ? 2 : bulles.length > 10 ? (W < 1000 ? 4 : 6) : 4; }
     function rayons(echelle) {
+      if (options.charte) {
+        var cols = colonnes(), cellule = W / cols;
+        bulles.forEach(function(b) { b.pe = b.poids; b.r = Math.min(100, cellule * .455) / 1.12 * (b.d.id === "poste-assistant-approvisionnement" ? 1.12 : b.poids); });
+        return;
+      }
       var petit = Math.min(W, H) < 520 || W < 600;
       // Sur petit écran, l’écart de taille des vedettes est atténué pour laisser de la place aux titres des autres bulles.
       bulles.forEach(function (b) { b.pe = petit && b.poids > 1 ? 1 + (b.poids - 1) * 0.8 : b.poids; });
@@ -122,6 +133,10 @@
       return false;
     }
     function placer() {
+      if (options.charte) {
+        var cols = colonnes(), lignes = Math.ceil(bulles.length / cols), ch = (H - Y0) / lignes;
+        bulles.forEach(function(b,i) { b.x = W / cols * (i % cols + .5); b.y = Y0 + ch * (Math.floor(i / cols) + .5); var angle = Math.random() * Math.PI * 2, v = vitesseDerive(); b.vx = Math.cos(angle) * v; b.vy = Math.sin(angle) * v; }); return;
+      }
       // Les plus grandes d’abord ; si l’espace manque, toutes les bulles rétrécissent un peu puis on recommence.
       var ordre = bulles.slice().sort(function (a, b) { return b.r - a.r; });
       // Regroupement : chaque famille part d’une bande verticale qui lui est propre.
@@ -187,6 +202,13 @@
       b.texte.style.top = Math.round(b.n.clientHeight / 2 + decalage(b, h) - h / 2) + "px";
     }
     function ajuster(b, depart) {
+      if (options.charte) {
+        var diam = Math.round(b.r * 2); b.n.style.width = b.n.style.height = diam + "px";
+        b.n.style.setProperty("--d", diam + "px");
+        b.n.style.fontSize = (W < 600 ? 14 : 16) + "px";
+        b.texte.style.padding = "0 7%"; b.texte.style.top = "50%"; b.texte.style.transform = "translateY(-50%)";
+        b.ok = true; return W < 600 ? 14 : 16;
+      }
       var d = Math.round(b.r * 2), min = plancher();
       b.n.style.width = d + "px"; b.n.style.height = d + "px";
       var taille = Math.max(min, depart || borne(b.r * 0.3, min, b.d.vedette ? 36 : 30));
@@ -239,7 +261,9 @@
       if (place && !zone.isConnected) { arreter(); return; }
       // 2.34 : repère du conteneur pour les navigateurs sans :has() (Safari < 15.4, Firefox < 121) ; voir billard.css.
       if (zone.parentNode && zone.parentNode.classList && !zone.parentNode.classList.contains("bi-flux")) zone.parentNode.classList.add("bi-flux");
-      var w = zone.clientWidth, h = zone.clientHeight;
+      var w = zone.clientWidth;
+      if (options.charte) { var cols = w < 310 ? 1 : w < 600 ? 2 : bulles.length > 10 ? (w < 1000 ? 4 : 6) : 4; zone.style.height = Math.max(w < 600 ? 0 : 580, Math.ceil(bulles.length / cols) * (Math.min(200, w / cols * .91) + 28)) + "px"; }
+      var h = zone.clientHeight;
       if (!w || !h) return;
       // Sur petit écran, la légende occupe le haut de la zone : les bulles restent dessous.
       var y0 = legende && !/absolute|fixed/.test(getComputedStyle(legende).position) ? legende.offsetHeight : 0;
@@ -249,7 +273,7 @@
       bulles.forEach(function (b) { b.ajust = 1; });
       rayons();
       dimensionnerTout(true);
-      if (!place) { place = true; placer(); dimensionnerTout(false); }
+      if (!place || options.charte) { place = true; placer(); dimensionnerTout(false); }
       else {
         // Redimensionnement : positions mises à l’échelle, puis on écarte les bulles qui se recouvrent.
         bulles.forEach(function (b) { b.x = b.x * W / ancienW; b.y = b.y * H / ancienH; });

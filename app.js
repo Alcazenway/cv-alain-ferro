@@ -418,6 +418,24 @@
     return [tete, filtreActif, vueChemin, vueListe, legende()];
   }
 
+  // Charte phase 2 : même moteur physique, données Essentiel communes au PDF.
+  function billardCharte(options) {
+    var sources = options.page === "competences" ? D.competences : options.page === "formation" ? formations : options.page === "interets" ? D.interets : D.pistes.metiers;
+    var prefixe = {competences: "competence-", formation: "formation-", interets: "interet-", metiers: "poste-"}[options.page];
+    options.charte = true; options.regrouper = false; options.legende = null;
+    if (options.page === "metiers") options.bulles.sort(function(a,b) { return sources.findIndex(function(x){return prefixe+x.id===a.id;})-sources.findIndex(function(x){return prefixe+x.id===b.id;}); });
+    options.bulles.forEach(function(b) {
+      var source = sources.find(function(x) { return prefixe + x.id === b.id; });
+      b.essentiel = !!source.essentiel; b.vedette = b.essentiel; b.poids = b.essentiel ? 1.12 : 1;
+      b.titre = texteBulle({id: source.id, titre: b.titre}); b.sous = null; b.fond = null;
+      b.motif = "assets/spheres/motifs/" + b.id + ".svg";
+      b.aria = b.titre + " · " + (b.essentiel ? "Essentiel, expérience ou appétence forte" : "Complément") + " : ouvrir la fiche";
+    });
+    var zone = window.Billard.creer(options);
+    zone.appendChild(legende());
+    return zone;
+  }
+
   /* ---------- Formation : page séparée, hors chemin ---------- */
   // v2.18 : même organisation que Compétences, de la plus récente à la plus ancienne.
   function pageSavoir() {
@@ -426,7 +444,7 @@
     var vedettes = ["bts", "tosa", "keyce", "ged-gmao"];
     return [
       tetePage(SAVOIR, "toque"),
-      window.Billard.creer({ page: "formation", libelle: "Formations", bulles: formations.slice().reverse().map(function (e) {
+      billardCharte({ page: "formation", libelle: "Formations", bulles: formations.slice().reverse().map(function (e) {
         var vedette = vedettes.indexOf(e.id) !== -1;
         return { id: "formation-" + e.id, famille: "formation", titre: bulle(e), sous: e.periode, lien: "#/parcours/" + e.id, vedette: vedette,
           fond: fondVignette("formation", e.id), poids: vedette ? 1.32 : 1, aria: e.titre + ", " + e.periode + " : fiche complète" };
@@ -608,7 +626,7 @@
     var vedettes = { "creations-ia": 1.55, encadrement: 1.3, relation: 1.3 };
     return [
       tetePage("Compétences", "reseau"),
-      window.Billard.creer({ page: "competences", libelle: "Compétences", bulles: D.competences.map(function (c) {
+      billardCharte({ page: "competences", libelle: "Compétences", bulles: D.competences.map(function (c) {
         return { id: "competence-" + c.id, famille: c.rubrique ? "orchestration" : "competence", vedette: !!vedettes[c.id],
           titre: c.titre, lien: c.rubrique ? "#/" + c.rubrique : "#/competence/" + c.id, fond: fondVignette("competence", c.id),
           poids: vedettes[c.id] || 1, aria: c.titre + " : fiche complète" };
@@ -764,7 +782,7 @@
     var metiers = P.metiers.slice().sort(function (a, b) { return ordre.indexOf(famillePoste(a)) - ordre.indexOf(famillePoste(b)); });
     return [
       tetePage(P.titre, "compas"),
-      window.Billard.creer({ page: "metiers", libelle: P.titre, regrouper: true, astuce: "Attrapez une bulle et lancez-la ; un simple clic affiche ses justificatifs.",
+      billardCharte({ page: "metiers", libelle: P.titre, regrouper: true, astuce: "Attrapez une bulle et lancez-la ; un simple clic affiche ses justificatifs.",
         legende: FAMILLES_POSTES,
         bulles: metiers.map(function (m) {
           var famille = famillePoste(m), vedette = famille === "numerique";
@@ -789,7 +807,7 @@
     var vedettes = ["numerique", "vol", "sciences"];
     return [
       tetePage("Intérêts", "planete"),
-      window.Billard.creer({ page: "interets", libelle: "Intérêts", bulles: D.interets.map(function (x) {
+      billardCharte({ page: "interets", libelle: "Intérêts", bulles: D.interets.map(function (x) {
         var vedette = vedettes.indexOf(x.id) !== -1;
         return { id: "interet-" + x.id, famille: "interet", titre: x.nom, fond: fondVignette("interet", x.id), vedette: vedette, poids: x.id === "sciences" ? 1.18 : vedette ? 1.32 : 1, // v2.30 : Sciences un peu réduite (Alain)
           lien: x.lien || "#/interet/" + x.id, aria: x.nom + " : page dédiée" };
