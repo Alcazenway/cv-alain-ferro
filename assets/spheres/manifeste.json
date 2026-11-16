@@ -1,5 +1,5 @@
 {
- "genere": "2026-11-13T16:08:59.192Z",
+ "genere": "2026-11-16T10:18:26.578Z",
  "format": "3N×N gris : hauteur | patine sRGB | rugosité ; 2.40 sans bandeau, sillon sombre, motifs/<id>.svg",
  "bulles": {
   "competence-creations-ia": {
@@ -180,22 +180,6 @@
     512
    ]
   },
-  "poste-developpeur-web-ia": {
-   "titre": "Développeur web junior assisté par IA",
-   "sous": "",
-   "tailles": [
-    512,
-    1024
-   ]
-  },
-  "poste-integrateur-web": {
-   "titre": "Intégrateur web / no-code",
-   "sous": "",
-   "tailles": [
-    512,
-    1024
-   ]
-  },
   "poste-assistant-chef-projet-numerique": {
    "titre": "Assistant chef de projet numérique",
    "sous": "",
@@ -300,6 +284,28 @@
   },
   "poste-assistant-rh": {
    "titre": "Assistant RH (appui administratif)",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "poste-referent-ia": {
+   "titre": "Référent outils IA",
+   "sous": "",
+   "tailles": [
+    512,
+    1024
+   ]
+  },
+  "poste-superviseur-service-client": {
+   "titre": "Superviseur service client",
+   "sous": "",
+   "tailles": [
+    512
+   ]
+  },
+  "poste-office-manager": {
+   "titre": "Office manager",
    "sous": "",
    "tailles": [
     512

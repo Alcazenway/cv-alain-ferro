@@ -766,15 +766,16 @@
   }
   // v2.28 : quatre familles de métiers (couleurs franches, légende) ; tous les postes numériques sont en vedette.
   var FAMILLES_POSTES = [
-    { famille: "numerique", texte: "Numérique et développement", court: "Numérique" },
+    { famille: "numerique", texte: "Numérique et IA", court: "Numérique" },
     { famille: "gestion", texte: "Administration, gestion, comptabilité", court: "Gestion, comptabilité" },
     { famille: "commerce", texte: "Commerce et relation clients", court: "Commerce, clients" },
     { famille: "coordination", texte: "Coordination et RH", court: "Coordination, RH" }
   ];
   // Poste → [famille, image de fond]. Images déjà publiques (vignettes du site, photos publiées), choisies pour le sens du métier.
   var POSTES = {
-    "developpeur-web-ia": ["numerique", "vignettes/poste-developpeur.webp"],        // écrans de développement
-    "integrateur-web": ["numerique", "vignettes/competence-plateformes.webp"],            // serveur dans le nuage, services web
+    "office-manager": ["coordination", "vignettes/formation-keyce.webp"], // réunion animée, coordination du bureau et des services ; image déjà publique
+    "superviseur-service-client": ["commerce", "vignettes/competence-encadrement.webp"], // équipe encadrée, supervision du service client ; image déjà publique
+    "referent-ia": ["numerique", "vignettes/interet-numerique.webp"], // cerveau et outils IA, accompagnement des usages ; image déjà publique
     "assistant-chef-projet-numerique": ["numerique", "photos/aurora-apercu-studio.webp"], // studio SkyLivra, projet numérique mené
     "testeur-recetteur": ["numerique", "vignettes/competence-informatique.webp"],         // carte mère, composants testés
     "charge-automatisation": ["numerique", "vignettes/interet-numerique.webp"],           // puce et flux de données

@@ -80,6 +80,120 @@ export function creer(calque, calqueHaut) {
   const mesh = (g, m, parent) => { const o = new THREE.Mesh(g, m); parent.add(o); return o; };
   const grp = (parent) => { const o = new THREE.Group(); parent.add(o); return o; };
 
+  // 2.49 : surfaces continues du crâne, des cheveux et de la barbe adulte.
+  // Les géométries sont construites une seule fois ; aucune dépendance supplémentaire.
+  const borner = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+  // 2.49 v2 : pommettes gardées, joues basses et menton un peu resserrés ; sommet moins bombé.
+  const largeurAdulte = y => 0.91 * (1 + 0.035 * Math.sin(Math.PI * borner(-y * 2)) - 0.055 * borner((-y - 0.08) / 0.35));
+  const hauteurAdulte = y => y * 1.04 - 0.025 * Math.pow(borner((y - 0.24) / 0.26), 2);
+  function surfaceAdulte(y, a, relief = 0) {
+    const r = Math.sqrt(Math.max(0, 0.25 - y * y));
+    return [(r * largeurAdulte(y) + relief) * Math.sin(a), hauteurAdulte(y), (r * 0.97 + relief) * Math.cos(a)];
+  }
+  function nappe(n, m, point, teinte) {
+    const positions = [], indices = [], couleurs = [];
+    for (let j = 0; j <= m; j++) for (let i = 0; i <= n; i++) {
+      positions.push(...point(i / n, j / m));
+      if (teinte) couleurs.push(...teinte(i / n, j / m).toArray());
+    }
+    for (let j = 0; j < m; j++) for (let i = 0; i < n; i++) {
+      const a = j * (n + 1) + i, b = a + n + 1;
+      indices.push(a, b, a + 1, a + 1, b, b + 1);
+    }
+    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    if (teinte) g.setAttribute('color', new THREE.Float32BufferAttribute(couleurs, 3));
+    g.setIndex(indices); g.computeVertexNormals(); return g;
+  }
+  const gVisage = G.boule.clone(), cibleVisage = G.boule.clone();
+  const pVisage = cibleVisage.attributes.position;
+  for (let i = 0; i < pVisage.count; i++) {
+    const y = pVisage.getY(i);
+    pVisage.setXYZ(i, pVisage.getX(i) * largeurAdulte(y), hauteurAdulte(y), pVisage.getZ(i) * 0.97);
+  }
+  cibleVisage.computeVertexNormals();
+  gVisage.morphAttributes.position = [pVisage];
+  gVisage.morphAttributes.normal = [cibleVisage.attributes.normal];
+  // Golfes dégagés, dessus court légèrement porté vers l'avant, nuque et côtés en dégradé.
+  const brun = new THREE.Color(0x241b17), court = new THREE.Color(0x827067), peauCoupe = new THREE.Color(PEAU);
+  const limiteCheveux = (a) => {
+    const f = Math.max(0, Math.cos(a));
+    return 0.35 * Math.pow(f, 0.45) + 0.06 * Math.exp(-Math.pow((Math.abs(a) - 0.8) / 0.32, 2))
+      + 0.0015 * Math.sin(37 * a); // 2.49 : nuque plus courte, contour légèrement irrégulier.
+  };
+  const gCoupe = nappe(64, 20, (u, v) => {
+    const a = (u * 2 - 1) * Math.PI, theta = Math.acos(limiteCheveux(a) * 2) * v;
+    const y = 0.5 * Math.cos(theta), dessus = borner((y - 0.1) / 0.4);
+    const fonduBord = borner((1 - v) / 0.14);
+    const stries = 0.0018 * Math.sin(a * 39 + theta * 15) * Math.sin(theta) * fonduBord;
+    const p = surfaceAdulte(y, a, (0.006 + 0.010 * dessus * fonduBord + stries) * Math.sin(theta));
+    p[1] += 0.003 + (0.018 * dessus + 0.006 * Math.cos(a) * dessus * Math.sin(theta)) * fonduBord;
+    p[2] += 0.018 * dessus; return p;
+  }, (u, v) => {
+    const a = (u * 2 - 1) * Math.PI, y = 0.5 * Math.cos(Math.acos(limiteCheveux(a) * 2) * v);
+    const fade = borner((0.22 - y) / 0.36) * (1 - Math.pow(Math.max(0, Math.cos(a)), 6));
+    const bord = Math.pow(borner((v - 0.73) / 0.27), 1.4) * (1 - Math.pow(Math.max(0, Math.cos(a)), 5));
+    return brun.clone().lerp(court, fade * 0.8).lerp(peauCoupe, bord);
+  });
+  const matCoupe = mat(0xffffff, 0.95); matCoupe.vertexColors = true; matCoupe.side = THREE.DoubleSide;
+  // 2.49 : mèches fines procédurales, stables et raccordées en longitude ; aucun fichier image.
+  const toileCheveux = document.createElement('canvas'); toileCheveux.width = 512; toileCheveux.height = 256;
+  const pinceau = toileCheveux.getContext('2d');
+  pinceau.fillStyle = '#ededed'; pinceau.fillRect(0, 0, 512, 256);
+  let graineCheveux = 249;
+  const hasardCheveux = () => { graineCheveux = (Math.imul(graineCheveux, 1664525) + 1013904223) >>> 0; return graineCheveux / 4294967296; };
+  for (let i = 0; i < 640; i++) {
+    const x = hasardCheveux() * 512, y = hasardCheveux() * 256;
+    const clair = i % 3 === 0;
+    pinceau.strokeStyle = clair ? '#ffffff' : '#bdbdbd'; pinceau.lineWidth = clair ? 0.8 : 1;
+    for (const decalage of [-512, 0, 512]) {
+      pinceau.beginPath(); pinceau.moveTo(x + decalage, y);
+      pinceau.quadraticCurveTo(x + decalage + 1.5, y + 3, x + decalage + 4, y + 7 + i % 7); pinceau.stroke();
+    }
+  }
+  const textureCheveux = new THREE.CanvasTexture(toileCheveux); textureCheveux.wrapS = THREE.RepeatWrapping;
+  const uvCoupe = [];
+  for (let j = 0; j <= 20; j++) for (let i = 0; i <= 64; i++) uvCoupe.push(i / 64, j / 20);
+  gCoupe.setAttribute('uv', new THREE.Float32BufferAttribute(uvCoupe, 2));
+  matCoupe.map = textureCheveux; matCoupe.bumpMap = textureCheveux; matCoupe.bumpScale = 0.012;
+  // La barbe monte aux joues basses et aux favoris, sans couvrir la nuque.
+  const gBarbePleine = nappe(48, 14, (u, v) => {
+    const a = (u * 2 - 1) * 1.88, haut = -0.19 + 0.24 * Math.pow(Math.sin(Math.abs(a) * 0.84), 1.5);
+    return surfaceAdulte(haut + (-0.497 - haut) * v, a, 0.003);
+  }, (u, v) => {
+    const bord = Math.max(Math.pow(1 - v, 10), Math.pow(Math.abs(u * 2 - 1), 18));
+    return new THREE.Color(0x45352b).lerp(new THREE.Color(PEAU), bord * 0.96);
+  });
+  const matBarbe = mat(0xffffff, 0.96); matBarbe.side = THREE.DoubleSide; matBarbe.vertexColors = true;
+  matBarbe.transparent = true; matBarbe.depthWrite = false;
+  // Yeux en amande et sourcils courbes : petits volumes raccordés au visage.
+  const amande = new THREE.Shape(); amande.moveTo(-0.5, 0);
+  amande.quadraticCurveTo(0, 0.44, 0.5, 0); amande.quadraticCurveTo(0, -0.3, -0.5, 0);
+  const gAmande = new THREE.ShapeGeometry(amande, 12);
+  const gSourcil = new THREE.TubeGeometry(new THREE.CatmullRomCurve3([
+    new THREE.Vector3(-0.5, -0.05, 0), new THREE.Vector3(-0.12, 0.13, 0.015),
+    new THREE.Vector3(0.23, 0.11, 0), new THREE.Vector3(0.5, -0.06, -0.025)
+  ]), 12, 0.09, 5, false);
+  const blancOeil = mat(0xe6d9c7, 0.6), irisM = mat(0x37251c, 0.55), pupilleM = mat(0x15110e, 0.5);
+  const sourire = new THREE.Shape(); sourire.moveTo(-0.5, 0.11);
+  sourire.quadraticCurveTo(0, -0.05, 0.5, 0.11); sourire.quadraticCurveTo(0.36, -0.49, 0, -0.5);
+  sourire.quadraticCurveTo(-0.36, -0.49, -0.5, 0.11);
+  const gSourire = new THREE.ShapeGeometry(sourire, 18);
+  function devantVisage(x, y) {
+    const yy = y / 1.04, k = largeurAdulte(yy); // bouche située sous y = 0, hors aplatissement du sommet
+    return 0.97 * Math.sqrt(Math.max(0, 0.25 - yy * yy - Math.pow(x / k, 2)));
+  }
+  for (let i = 0; i < gSourire.attributes.position.count; i++) {
+    const x = gSourire.attributes.position.getX(i) * 0.44, y = gSourire.attributes.position.getY(i) * 0.24 - 0.218;
+    gSourire.attributes.position.setXYZ(i, x, y, devantVisage(x, y) + 0.016);
+  }
+  gSourire.computeVertexNormals();
+  const gDents = nappe(20, 3, (u, v) => {
+    const x = (u - 0.5) * 0.88, arc = 1 - Math.pow(x / 0.5, 2);
+    const xx = x * 0.44, yy = (0.07 - 0.09 * arc - v * 0.23 * arc) * 0.24 - 0.218;
+    return [xx, yy, devantVisage(xx, yy) + 0.022];
+  });
+  const boucheM = mat(0x693e34, 0.9); boucheM.side = THREE.DoubleSide;
+
   const ombre = mesh(G.disque, M.ombre, scene); ombre.rotation.x = -Math.PI / 2; ombre.renderOrder = -1;
   const racine = grp(scene);          // lacet (orientation)
   const corps = grp(racine);          // bond de la marche, bercement
@@ -93,12 +207,16 @@ export function creer(calque, calqueHaut) {
   bras.forEach((b) => { b.main = mesh(G.boule, M.peau, b.bout); });
   const tronc = mesh(G.tronc, M.haut, corps), ventre = mesh(G.boule, M.haut, corps), bassin = mesh(G.boule, M.bas, corps);
   const cou = mesh(G.cyl, M.peau, corps);
-  const tete = grp(corps), crane = mesh(G.boule, M.peau, tete), cheveuxG = grp(tete), cheveux = mesh(G.calotte, M.cheveux, cheveuxG), meche = mesh(G.boule, M.cheveux, tete);
-  // 2.48 : coupe adulte (après l'adolescence) d'après la photo d'Alain : dessus court texturé avec du volume, côtés en dégradé.
-  M.degrade = mat(0x6a4330, 0.9);
-  const coupeG = grp(tete), dessus = mesh(G.boule, M.cheveux, coupeG);
-  const boucles = [[-0.28, 0.1, 0.3], [0, 0.14, 0.36], [0.28, 0.1, 0.3], [-0.16, 0.2, 0.1], [0.16, 0.2, 0.12], [-0.3, 0.12, -0.1], [0.3, 0.12, -0.08], [0, 0.22, -0.12], [-0.12, 0.15, -0.32], [0.14, 0.15, -0.3]]
-    .map(([x, y, z]) => { const b = mesh(G.boule, M.cheveux, coupeG); b.userData.p = [x, y, z]; return b; });
+  const tete = grp(corps), crane = mesh(gVisage, M.peau, tete), cheveuxG = grp(tete), cheveux = mesh(G.calotte, M.cheveux, cheveuxG), meche = mesh(G.boule, M.cheveux, tete);
+  // 2.49 : une seule masse de cheveux, pas de bande ni de boules isolées.
+  const coupeG = grp(tete); mesh(gCoupe, matCoupe, coupeG);
+  const visageG = grp(tete), barbePleine = mesh(gBarbePleine, matBarbe, visageG);
+  const regard = [-1, 1].map(() => {
+    const g = grp(visageG), blanc = mesh(gAmande, blancOeil, g), iris = mesh(G.boule, irisM, g), pupille = mesh(G.boule, pupilleM, g);
+    return { g, blanc, iris, pupille, sourcil: mesh(gSourcil, M.sourcil, visageG) };
+  });
+  const pontNez = mesh(G.boule, M.nez, visageG), ailesNez = [-1, 1].map(() => mesh(G.boule, M.nez, visageG));
+  const sourireAdulte = mesh(gSourire, boucheM, visageG), dentsAdulte = mesh(gDents, M.dents, visageG);
   const yeux = [mesh(G.boule, M.oeil, tete), mesh(G.boule, M.oeil, tete)], joues = [mesh(G.boule, M.joue, tete), mesh(G.boule, M.joue, tete)];
   const nez = mesh(G.boule, M.joue, tete), oreilles = [mesh(G.boule, M.peau, tete), mesh(G.boule, M.peau, tete)];
   // 2.45 : plus de collerette (tore « col ») au cou. Visage : sourcils, bouche souriante, barbe et moustache.
@@ -108,8 +226,42 @@ export function creer(calque, calqueHaut) {
   // 2.47 : bouc au menton et deux traits reliant la moustache au bouc (cercle autour de la bouche), joues rasées.
   const bouc = mesh(G.boule, M.barbe, tete), coins = [-1, 1].map(() => mesh(G.gelule, M.barbe, tete));
   nez.material = M.nez;
-  // Nourrisson : lange (cocon) et bande.
+  // 2.49 : nourrisson enveloppé, capuche ouverte sur le visage et plis de drap.
   const cocon = mesh(G.gelule, M.lange, corps), bande = mesh(G.tore, M.bande, corps); bande.rotation.x = Math.PI / 2;
+  const drapOmbre = mat(0xd8d2c8, 0.98), drapClair = mat(0xfff9ef, 0.96);
+  const capuche = grp(tete);
+  const gCapuche = nappe(48, 18, (u, v) => {
+    const a = u * Math.PI * 2, theta = 1.13 + v * (Math.PI - 1.13);
+    const pli = 1 + 0.008 * Math.sin(a * 9) * Math.sin(theta);
+    return [0.59 * Math.sin(theta) * Math.cos(a) * pli, 0.61 * Math.sin(theta) * Math.sin(a) * pli + 0.01, 0.55 * Math.cos(theta) - 0.005];
+  });
+  mesh(gCapuche, M.lange, capuche).material.side = THREE.DoubleSide;
+  const courbe = (points, rayon, parent, materiau, ferme = false) => mesh(new THREE.TubeGeometry(
+    new THREE.CatmullRomCurve3(points.map(p => new THREE.Vector3(...p)), ferme), 40, rayon, 5, ferme), materiau, parent);
+  courbe(Array.from({ length: 48 }, (_, i) => {
+    const a = i / 48 * Math.PI * 2;
+    return [0.534 * Math.cos(a), 0.552 * Math.sin(a) + 0.01, 0.23 + 0.006 * Math.sin(a * 7)];
+  }), 0.025, capuche, drapClair, true);
+  const plisLange = grp(corps);
+  const devantLange = (x, y, relief = 0.002) => {
+    const bout = Math.max(0, Math.abs(y - 0.35) - 0.155) / 0.155;
+    return [x, y, 0.17 * Math.sqrt(Math.max(0, 1 - bout * bout - Math.pow(x / 0.2, 2))) + relief];
+  };
+  // Pan rabattu : surface large et bord replié, pas de sangle autour du corps.
+  mesh(nappe(24, 12, (u, v) => {
+    const x = -0.165 + u * 0.33, bord = 0.43 - x * 0.72;
+    return devantLange(x, bord - v * 0.12, 0.003 + 0.003 * Math.sin(v * Math.PI));
+  }), drapClair, plisLange).material.side = THREE.DoubleSide;
+  // Les pans croisés suivent la face avant du cocon ; le relief reste faible.
+  for (const points of [
+    [[-0.11, 0.59], [-0.1, 0.53], [0.035, 0.40], [0.17, 0.31]],
+    [[0.13, 0.58], [0.10, 0.50], [-0.015, 0.37], [-0.16, 0.28]],
+    [[-0.10, 0.20], [0, 0.17], [0.12, 0.21]]
+  ]) courbe(points.map(([x, y]) => devantLange(x, y, 0.004)), 0.004, plisLange, drapOmbre);
+  const tetine = grp(tete), silicone = mat(0x9eabb4, 0.45), anneauM = mat(0xd4a7a0, 0.6);
+  const bouclier = mesh(G.boule, silicone, tetine); bouclier.scale.set(0.24, 0.13, 0.055);
+  const boutonTetine = mesh(G.boule, anneauM, tetine); boutonTetine.scale.set(0.09, 0.075, 0.06); boutonTetine.position.z = 0.045;
+  const anneauTetine = mesh(G.tore, anneauM, tetine); anneauTetine.scale.set(0.12, 0.14, 0.10); anneauTetine.position.set(0, -0.055, 0.085);
   // Vêtements et accessoires.
   const A = {
     veste: mesh(G.coque, M.veste, corps), gilet: mesh(G.coque, M.gilet, corps), blouse: mesh(G.coque, M.blouse, corps),
@@ -126,8 +278,16 @@ export function creer(calque, calqueHaut) {
   const arceau = mesh(G.arceau, M.noir, A.casque); arceau.scale.setScalar(1.1);
   [-1, 1].forEach((k) => { const e = mesh(G.boule, M.noir, A.casque); e.position.set(k * 0.55, 0, 0); e.scale.set(0.16, 0.32, 0.3); });
   const micro = mesh(G.cyl, M.noir, A.casque); micro.scale.set(0.035, 0.5, 0.035); micro.position.set(0.42, -0.3, 0.32); micro.rotation.set(0.9, 0, 0.7);
-  [-1, 1].forEach((k) => { const l = mesh(G.tore, M.noir, A.lunettes); l.position.x = k * 0.21; l.scale.setScalar(0.32); });
-  const pontL = mesh(G.boite, M.noir, A.lunettes); pontL.scale.set(0.12, 0.02, 0.02);
+  // 2.49 : même accessoire pour les stages et l'adulte récent ; monture fine, branches et verres clairs.
+  const verreM = new THREE.MeshStandardMaterial({ color: 0xe6f0f4, roughness: 0.12, transparent: true, opacity: 0.09, depthWrite: false });
+  const gMonture = new THREE.TorusGeometry(0.5, 0.024, 6, 36);
+  [-1, 1].forEach(k => {
+    const oeilleton = grp(A.lunettes); oeilleton.position.set(k * 0.205, 0, -0.026); oeilleton.rotation.y = k * 0.22;
+    const l = mesh(gMonture, M.noir, oeilleton); l.scale.set(0.32, 0.20, 0.32);
+    const verre = mesh(G.disque, verreM, oeilleton); verre.scale.set(0.305, 0.187, 1); verre.position.z = 0.003;
+    courbe([[k * 0.36, 0.02, -0.06], [k * 0.46, 0.015, -0.20], [k * 0.48, 0.01, -0.50]], 0.007, A.lunettes, M.noir);
+  });
+  courbe([[-0.045, 0.015, 0.01], [0, 0.04, 0.018], [0.045, 0.015, 0.01]], 0.007, A.lunettes, M.noir);
   // Col en V (tunique de soins, revers de la blouse) : deux bandes en V.
   [-1, 1].forEach((k) => { const b = mesh(G.boite, M.vcol, A.vcol); b.userData.k = k; });
   // Col de chemise : deux pointes de col et une patte de boutonnage (remplace l’ancienne collerette en anneau).
@@ -230,21 +390,18 @@ export function creer(calque, calqueHaut) {
     // Tête : crâne, calotte de cheveux, mèche, visage.
     tete.position.y = epaule + s.cou + hh * 0.46;
     crane.scale.set(hw, hh, hw * 0.96);
+    const maturite = borner(((s.age || 0) - 17) / 5), adulte = maturite > 0;
+    crane.morphTargetInfluences[0] = maturite; // 2.49 : pommettes gardées, mâchoire affinée, transition après l'enfance.
     const adulteC = Math.max(0, Math.min(1, ((s.age || 0) - 16) / 12));
     // 2.45 : calotte tournée dans l’espace de la sphère unité puis mise à l’échelle du crâne (elle épouse la tête même très inclinée).
     cheveuxG.scale.set(hw * 1.07, hh * 1.04, hw * 1.03); cheveuxG.position.set(0, hh * 0.02, -hw * 0.02);
     cheveux.rotation.x = -0.42 + s.calotte * 0.2 - 0.36 * adulteC; // front dégagé de l’adulte (sourcils visibles)
     cheveux.visible = s.calotte > 0.05;
-    // 2.48 : coupe adulte, progressive de 17 à 20 ans ; la calotte devient le dégradé (couleur mêlée à la peau, plus courte).
-    const coupe = Math.max(0, Math.min(1, ((s.age || 0) - 17) / 3));
-    M.degrade.color.copy(M.cheveux.color).lerp(M.peau.color, 0.14);
-    cheveux.material = coupe > 0.5 ? M.degrade : M.cheveux;
-    if (coupe > 0) cheveux.rotation.x += 0.12 * coupe;   // dégradé dégageant un peu plus les tempes
-    coupeG.visible = coupe > 0.02 && s.calotte > 0.05;
-    coupeG.position.set(0, hh * 0.25, hw * 0.03); coupeG.scale.set(hw, hh, hw);
-    dessus.scale.set(1.04, 0.3 + 0.06 * coupe, 1.02); dessus.position.set(0, 0, 0.01);
-    boucles.forEach((b) => { const [x, y, z] = b.userData.p; b.position.set(x * 0.95, 0.1 + y * 0.4 * coupe, z * 0.95); b.scale.set(0.17 * coupe, 0.11 * coupe, 0.17 * coupe); });
-    meche.visible = s.meche > 0.1 && (s.age || 0) < 22 && coupe < 0.4; meche.scale.set(hw * 0.5, hh * 0.16, hw * 0.3); meche.position.set(hw * 0.12, hh * 0.36, hw * 0.34); meche.rotation.z = -0.3;
+    // 2.49 : la coupe adulte remplace entièrement la calotte ; le dégradé est dans sa surface continue.
+    cheveux.visible = cheveux.visible && !adulte;
+    coupeG.visible = adulte && s.calotte > 0.05;
+    coupeG.position.set(0, 0, 0); coupeG.scale.set(hw, hh, hw * 0.96);
+    meche.visible = s.meche > 0.1 && !adulte; meche.scale.set(hw * 0.5, hh * 0.16, hw * 0.3); meche.position.set(hw * 0.12, hh * 0.36, hw * 0.34); meche.rotation.z = -0.3;
     // 2.45 : visage inspiré du portrait d’Alain : yeux rieurs plissés, sourcils épais, nez marqué, grand sourire, barbe.
     const zs = (y) => hw * 0.48 * Math.sqrt(Math.max(0, 1 - Math.pow(y / (hh * 0.5), 2))); // surface avant du visage à la hauteur y
     yeux.forEach((e, n) => { e.scale.set(hh * 0.1, hh * 0.055, hh * 0.06); e.position.set((n ? 1 : -1) * hw * 0.19, hh * 0.04, zs(hh * 0.04) * 0.97); });
@@ -265,6 +422,33 @@ export function creer(calque, calqueHaut) {
     moustache.scale.set(hh * 0.3, hh * 0.06, hh * 0.08); moustache.position.set(0, yb + hh * 0.08, zs(yb + hh * 0.08) + hw * 0.02 * pousse);
     oreilles.forEach((e, n) => { e.scale.set(hh * 0.08, hh * 0.18, hh * 0.12); e.position.set((n ? 1 : -1) * hw * 0.5, 0, 0); });
 
+    // 2.49 : visage adulte d'après portrait-bulle-360.png ; visage enfant conservé, tétine du bébé ajoutée plus bas.
+    visageG.visible = adulte; visageG.scale.set(hw, hh, hw * 0.96);
+    if (adulte) {
+      yeux.forEach(e => { e.visible = false; }); sourcils.forEach(e => { e.visible = false; });
+      joues.forEach(e => { e.visible = false; }); levre.visible = dents.visible = false;
+      barbe.visible = bouc.visible = false; coins.forEach(e => { e.visible = false; });
+      matBarbe.opacity = Math.pow(pousse, 0.6);
+      barbePleine.visible = pousse > 0.02;
+      barbePleine.scale.set(1 + pousse * 0.004, 1, 1 + pousse * 0.006);
+      regard.forEach((e, n) => {
+        const k = n ? 1 : -1;
+        e.g.position.set(k * 0.205, 0.065, 0.442); e.g.rotation.y = k * 0.32;
+        e.blanc.scale.set(0.195, 0.11, 1);
+        e.iris.scale.set(0.067, 0.034, 0.018); e.iris.position.set(-k * 0.007, 0, 0.009);
+        e.pupille.scale.set(0.029, 0.025, 0.01); e.pupille.position.set(-k * 0.007, 0, 0.019);
+        e.sourcil.scale.set(0.255, 0.135, 0.12); e.sourcil.position.set(k * 0.205, 0.159, 0.426);
+        e.sourcil.rotation.set(0, k * 0.32, -k * 0.09);
+      });
+      pontNez.scale.set(0.105, 0.21, 0.105); pontNez.position.set(0, -0.005, 0.475);
+      nez.scale.set(hw * 0.15, hh * 0.105, hw * 0.16); nez.position.set(0, -hh * 0.075, hw * 0.505);
+      ailesNez.forEach((e, n) => { e.scale.set(0.083, 0.063, 0.09); e.position.set((n ? 1 : -1) * 0.069, -0.089, 0.496); });
+      moustache.scale.set(hw * 0.34, hh * 0.054, hw * 0.085); moustache.position.set(0, -hh * 0.169, hw * 0.457);
+    } else {
+      yeux.forEach(e => { e.visible = true; }); sourcils.forEach(e => { e.visible = true; });
+      levre.visible = dents.visible = true;
+    }
+
     // Bras : balancement opposé aux jambes ; le serveur porte le plateau avant-bras relevé.
     bras.forEach((b) => {
       const ph = phase + (b.cote < 0 ? 0 : Math.PI), av = Math.sin(ph) * amp;
@@ -282,13 +466,21 @@ export function creer(calque, calqueHaut) {
       b.r.visible = !bebe;
     });
 
+    // 2.49 : capuche et tétine réservées au nourrisson ; taille issue des proportions du site, sans agrandissement.
+    capuche.visible = tetine.visible = bebe;
+    capuche.scale.set(hw, hh, hw * 0.96);
+    tetine.scale.set(hw, hh, hw); tetine.position.set(0, -hh * 0.235, hw * 0.45);
+    if (bebe) { levre.visible = dents.visible = false; meche.visible = cheveux.visible = false; }
+    cou.visible = !bebe;
     // Nourrisson emmailloté.
     cocon.visible = bande.visible = lange > 0.02;
+    plisLange.visible = bebe; plisLange.scale.setScalar(H);
     if (cocon.visible) {
       const lh = H * 0.62, lr = H * 0.2;
       cocon.scale.set(lr * 2, lh / 2, lr * 1.7); cocon.position.y = lh / 2 + lr * 0.2;
       bande.scale.set(lr * 2.05, lr * 2.05, lr * 4); bande.position.y = lh * 0.55;
       const e = Math.min(1, lange * 1.4); cocon.scale.multiplyScalar(e); bande.scale.multiplyScalar(e);
+      bande.visible = !bebe; // les pans de drap remplacent la sangle chez le nourrisson
       tronc.visible = ventre.visible = bassin.visible = !bebe;
       tete.position.y = bebe ? lh + lr * 0.7 : tete.position.y;
     } else tronc.visible = ventre.visible = bassin.visible = true;
@@ -327,7 +519,10 @@ export function creer(calque, calqueHaut) {
     coupeG.visible = coupeG.visible && Math.max(X.casquette, X.bonnet, X.chapeau) < 0.5;   // coiffe portée : la coupe est dessous
     A.casque.scale.setScalar(hw * 0.95); A.casque.position.set(0, hh * 0.05, 0); vis(A.casque, Math.max(X.casque, X.micro));
     micro.visible = X.micro > 0.05 || X.casque > 0.05;
-    A.lunettes.scale.setScalar(hw); A.lunettes.position.set(0, hh * 0.04, hw * 0.5); vis(A.lunettes, X.lunettes);
+    // 2.49 : Orchestration IA = tenue numérique (laptop), puis Aujourd'hui (44 ans, 2026).
+    // Le poids historique X.lunettes des stages reste prioritaire ; aucune donnée partagée modifiée.
+    const lunettesRecentes = adulte ? Math.max(X.laptop || 0, (s.age || 0) >= 44 - 1e-6 ? 1 : 0) : 0;
+    A.lunettes.scale.set(hw, hh, hw); A.lunettes.position.set(0, hh * 0.065, hw * 0.49); vis(A.lunettes, Math.max(X.lunettes, lunettesRecentes));
     // Objets tenus.
     const u = aw * 1.4;
     for (const k in tenus) {
@@ -353,6 +548,7 @@ export function creer(calque, calqueHaut) {
   }
 
   function detruire() {
+    textureCheveux.dispose(); // 2.49 : ressource procédurale propre à ce moteur
     renderer.dispose(); try { renderer.forceContextLoss(); } catch (_) { /* déjà perdu */ }
     fo.remove(); etiquette.remove();
   }

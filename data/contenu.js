@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.48.0",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.49.0",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -149,27 +149,6 @@ window.CV = {
         ]
       },
       {
-        "id": "developpeur-web-ia",
-        "titre": "Développeur web junior assisté par IA",
-        "justification": "Applications web conçues et pilotées avec des assistants IA : React, Next.js, Supabase.",
-        "preuves": [
-          "knockin",
-          "barysense",
-          "poussepousse",
-          "creations-ia"
-        ]
-      },
-      {
-        "id": "integrateur-web",
-        "titre": "Intégrateur web / no-code",
-        "justification": "Sites publiés et services reliés : GitHub Pages, Netlify, paiement Stripe, e-mails Brevo.",
-        "preuves": [
-          "cv-interactif",
-          "skylivra",
-          "plateformes"
-        ]
-      },
-      {
         "id": "assistant-chef-projet-numerique",
         "titre": "Assistant chef de projet numérique",
         "justification": "Cadrage des besoins, critères d’acceptation, suivi des versions et coordination de plusieurs assistants IA.",
@@ -210,6 +189,39 @@ window.CV = {
           "thermes-responsable",
           "pc",
           "knockin"
+        ]
+      },
+      {
+        "id": "office-manager",
+        "titre": "Office manager",
+        "justification": "Organisation du quotidien d’une structure : administration, coordination des équipes et des fournisseurs, suivi sous Excel.",
+        "preuves": [
+          "thermes-responsable",
+          "negoce",
+          "keyce",
+          "tosa"
+        ]
+      },
+      {
+        "id": "superviseur-service-client",
+        "titre": "Superviseur service client",
+        "justification": "Animation d’une équipe au contact du public, gestion des conflits et qualité de la relation clients.",
+        "preuves": [
+          "thermes-responsable",
+          "thermes-agent",
+          "comtel",
+          "bts"
+        ]
+      },
+      {
+        "id": "referent-ia",
+        "titre": "Référent outils IA",
+        "justification": "Accompagner une équipe dans l’usage quotidien des assistants IA et des automatisations simples, sans développement informatique.",
+        "preuves": [
+          "outils-ia",
+          "cv-interactif",
+          "skylivra",
+          "creations-ia"
         ]
       }
     ]
@@ -2962,7 +2974,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne contient aucun formulaire : l’éditeur ne collecte aucune donnée. Le bouton « Proposer un entretien » ouvre simplement votre messagerie, sans aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "11 novembre 2026",
-    "version": "2.48.0"
+    "version": "2.49.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"
