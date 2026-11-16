@@ -1,24 +1,75 @@
-/* v2.50 : page « Proposer un entretien » (entretien.html), couleurs du CV : bleu-vert Essentiel #155E66. */
-:root { --fort: #155E66; --encre: #19383D; --texte: #35484B; --pale: #EAF4F4; --filet: #D9E3E1; }
+/* v2.51 : page « Proposer un entretien » (entretien.html). Couleurs du CV : bleu-vert Essentiel #155E66.
+   Pictogrammes : Material Design Icons (Apache-2.0, assets/icones/LICENCES.txt), appliqués en masque CSS. */
+:root { --fort: #155E66; --encre: #19383D; --texte: #35484B; --pale: #EAF4F4; --filet: #D9E3E1; --fond: #F4F7F7; }
 * { box-sizing: border-box; }
-html, body { margin: 0; background: #F4F7F7; color: var(--texte); font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; }
-.ent { max-width: 560px; margin: 0 auto; padding: 32px 16px 40px; }
-h1 { margin: 0; font-size: 1.9rem; color: var(--encre); }
-.ent-qui { margin: 4px 0 18px; font-size: 1.1rem; }
-.ent-etat { margin: 0 0 22px; padding: 12px 14px; background: var(--pale); border-left: 4px solid var(--fort); border-radius: 6px; color: var(--encre); }
-h2 { margin: 0 0 10px; font-size: 1.05rem; color: var(--encre); }
-.ent-boutons { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
-.ent-boutons > * { min-width: 0; overflow-wrap: anywhere; }
-.ent-adresse { margin: 4px 0 0; }
-.ent-bouton { display: block; width: 100%; padding: 14px 16px; border: 2px solid var(--fort); border-radius: 10px; background: var(--fort); color: #fff;
-  font: inherit; font-size: 1.05rem; font-weight: 700; text-align: center; text-decoration: none; cursor: pointer; }
-.ent-bouton.secondaire { background: #fff; color: var(--fort); }
-.ent-bouton.principal { padding: 18px 16px; font-size: 1.15rem; }
-.ent-bouton:hover, .ent-bouton:focus-visible { filter: brightness(1.12); outline: 3px solid #8FC3F0; outline-offset: 2px; }
-.ent-apercu { margin-top: 26px; padding: 14px; background: #fff; border: 1px solid var(--filet); border-radius: 10px; }
-.ent-objet { margin: 0 0 8px; }
-.ent-objet span:first-child { font-weight: 700; color: var(--encre); }
-pre { margin: 0; white-space: pre-wrap; font: inherit; line-height: 1.45; }
-.ent-tel { margin: 22px 0 6px; }
-.ent-tel a, .ent-retour a { color: var(--fort); font-weight: 700; }
-.ent-sans-js { max-width: 560px; margin: 16px auto; padding: 0 16px; }
+html, body { margin: 0; background: var(--fond); color: var(--texte); font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; }
+.ent { max-width: 600px; margin: 0 auto; padding: 24px 16px 40px; }
+
+/* Pictogrammes */
+.ic { display: inline-block; width: 1.25em; height: 1.25em; flex: none; background: currentColor;
+  -webkit-mask: var(--m) center / contain no-repeat; mask: var(--m) center / contain no-repeat; }
+.ic-tel { --m: url(assets/icones/mdi-phone.svg); }
+.ic-mail { --m: url(assets/icones/mdi-email-outline.svg); }
+.ic-pdf { --m: url(assets/icones/mdi-file-pdf-box.svg); }
+.ic-web { --m: url(assets/icones/mdi-web.svg); }
+.ic-gmail { --m: url(assets/icones/mdi-gmail.svg); color: #EA4335; }
+.ic-outlook { --m: url(assets/icones/mdi-microsoft-outlook.svg); color: #0F6CBD; }
+.ic-outlook.pro { color: #0A3F7A; }
+.ic-copie { --m: url(assets/icones/mdi-content-copy.svg); }
+
+/* Carte d'identité unique */
+.ent-carte { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 16px; align-items: center; padding: 16px;
+  background: #fff; border: 1px solid var(--filet); border-radius: 16px; box-shadow: 0 4px 18px rgba(21, 94, 102, .08); }
+.ent-photo { grid-row: span 2; width: 88px; height: 88px; border-radius: 50%; object-fit: cover; object-position: 50% 18%; border: 3px solid var(--pale); }
+.ent-coord { display: grid; gap: 4px; min-width: 0; }
+.ent-nom { margin: 0 0 2px; font-size: 1.35rem; color: var(--encre); }
+.ent-lien { display: inline-flex; align-items: center; gap: 8px; color: var(--fort); font-weight: 600; text-decoration: none; overflow-wrap: anywhere; }
+.ent-lien:hover { text-decoration: underline; }
+.ent-nav { display: flex; gap: 8px; flex-wrap: wrap; }
+.ent-pastille { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 999px; background: var(--pale);
+  color: var(--fort); font-weight: 700; text-decoration: none; }
+.ent-pastille:hover, .ent-pastille:focus-visible { background: var(--fort); color: #fff; }
+
+h1 { margin: 26px 0 12px; font-size: 1.7rem; color: var(--encre); }
+
+/* Message modifiable */
+.ent-message { display: grid; gap: 10px; }
+.ent-champ { display: grid; gap: 4px; }
+.ent-champ span { font-size: .85rem; font-weight: 700; color: var(--encre); }
+.ent-champ input, .ent-champ textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--filet); border-radius: 10px; background: #fff;
+  color: var(--texte); font: inherit; line-height: 1.45; resize: vertical; }
+.ent-champ input:focus, .ent-champ textarea:focus { outline: 3px solid #8FC3F0; border-color: var(--fort); }
+
+/* Envoi : trois tuiles (ouvrent la messagerie avec le message) */
+.ent-envoi { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
+.ent-tuile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 92px; padding: 12px 8px;
+  border: 2px solid var(--fort); border-radius: 14px; background: #fff; color: var(--encre); font-weight: 700; text-align: center;
+  text-decoration: none; overflow-wrap: anywhere; transition: transform .12s, box-shadow .12s; }
+.ent-tuile .ic { width: 2.1em; height: 2.1em; }
+.ent-tuile:hover, .ent-tuile:focus-visible { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(21, 94, 102, .18); outline: none; }
+
+/* Copie : nature différente, séparée et plus discrète */
+.ent-copie { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; padding-top: 16px; border-top: 1px dashed var(--filet); }
+.ent-copie[hidden] { display: none; }
+.ent-copier { display: inline-flex; align-items: center; gap: 8px; min-width: 0; max-width: 100%; padding: 8px 14px; border: 1px solid var(--filet);
+  border-radius: 999px; background: transparent; color: var(--texte); font: inherit; cursor: pointer; overflow-wrap: anywhere; }
+.ent-copier:hover, .ent-copier:focus-visible { border-color: var(--fort); color: var(--fort); }
+.ent-copier.fait { border-color: #2E8B57; color: #2E8B57; }
+.ent-copier.fait .ic-copie { --m: none; -webkit-mask: none; mask: none; background: none; width: auto; }
+.ent-copier.fait .ic-copie::before { content: "✓"; }
+
+@media (max-width: 420px) {
+  .ent-photo { width: 72px; height: 72px; }
+  .ent-nav { grid-column: 1 / -1; }
+  .ent-tuile { min-height: 84px; font-size: .9rem; }
+}
+/* Texte très agrandi ou écran très étroit : coordonnées sous la photo, tuiles empilées (revue Trinity m1). */
+@media (max-width: 21em) {
+  .ent-carte { grid-template-columns: minmax(0, 1fr); justify-items: start; }
+  .ent-photo { grid-row: auto; }
+  .ent-envoi { grid-template-columns: minmax(0, 1fr); }
+  .ent-tuile { flex-direction: row; min-height: 0; }
+}
+.ent-champ input[readonly], .ent-champ textarea[readonly] { background: var(--pale); }
+.ent-annonce { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; margin: 0; }
+@media (prefers-reduced-motion: reduce) { .ent-tuile { transition: none; } }

@@ -29,3 +29,4 @@ licenses or are distributed under the Apache 2.0 license.
 # Code: MIT (https://opensource.org/licenses/MIT)
 The MIT license applies to all non-font and non-icon files.
 - terre-apollo17-640.jpg (PDF, bulle centrale) : « The Earth seen from Apollo 17 », NASA, domaine public (Wikimedia Commons).
+- entretien.html (v2.51) : mdi-gmail, mdi-content-copy, mdi-file-pdf-box, mdi-web, mdi-phone, mdi-email-outline — Material Design Icons @mdi/svg 7.4.47, Apache-2.0.

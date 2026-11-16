@@ -4,36 +4,56 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Proposer un entretien — Alain FERRO</title>
-<meta name="description" content="Proposer un entretien à Alain Ferro : votre messagerie s’ouvre avec un message prêt à envoyer.">
+<meta name="description" content="Proposer un entretien à Alain Ferro : message prêt à envoyer depuis votre messagerie.">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex">
 <link rel="icon" href="assets/favicon.png">
-<link rel="stylesheet" href="entretien.css?v=2.50.0">
+<link rel="stylesheet" href="entretien.css?v=2.51.0">
 </head>
 <body>
 <main class="ent">
-  <h1>Proposer un entretien</h1>
-  <p class="ent-qui">à <strong>Alain FERRO</strong></p>
-  <p class="ent-etat" id="ent-etat" role="status">Écrivez à Alain Ferro ou appelez-le : les recours ci-dessous fonctionnent toujours.</p>
-  <section class="ent-choix" aria-labelledby="ent-titre-choix">
-    <h2 id="ent-titre-choix">Rien ne s’est ouvert ? Touchez votre messagerie :</h2>
-    <!-- v2.50 : recours statiques, actifs même si les données ou le script ne se chargent pas (remplacés par entretien.js). -->
-    <div class="ent-boutons" id="ent-boutons">
-      <a class="ent-bouton principal" href="mailto:alainferro34@gmail.com?subject=Proposition%20d%E2%80%99entretien">Ma messagerie habituelle</a>
-      <a class="ent-bouton secondaire" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=alainferro34%40gmail.com&amp;su=Proposition%20d%E2%80%99entretien" target="_blank" rel="noopener">Gmail</a>
-      <p class="ent-adresse">Adresse : <strong>alainferro34@gmail.com</strong></p>
+  <!-- v2.51 : carte unique photo + coordonnées, puis retour au CV PDF ou au site (demande d'Alain du 16/11/2026). -->
+  <section class="ent-carte" aria-label="Alain Ferro">
+    <img class="ent-photo" src="assets/portrait-240.webp" width="240" height="292" alt="Alain Ferro">
+    <div class="ent-coord">
+      <p class="ent-nom">Alain <strong>FERRO</strong></p>
+      <a class="ent-lien" id="ent-tel" href="tel:+33612761012"><span class="ic ic-tel" aria-hidden="true"></span>06 12 76 10 12</a>
+      <a class="ent-lien" id="ent-mail" href="mailto:alainferro34@gmail.com?subject=Proposition%20d%E2%80%99entretien&amp;body=Bonjour%20Monsieur%20Ferro%2C%0D%0A%0D%0AVotre%20CV%20a%20retenu%20toute%20notre%20attention%20et%20nous%20souhaiterions%20vous%20rencontrer%20pour%20un%20entretien.%0D%0A%0D%0APourriez-vous%20nous%20indiquer%20vos%20disponibilit%C3%A9s%20%3F%20Nous%20reviendrons%20vers%20vous%20pour%20fixer%20la%20date%2C%20en%20pr%C3%A9sentiel%20ou%20par%20t%C3%A9l%C3%A9phone.%0D%0A%0D%0ACordialement%2C"><span class="ic ic-mail" aria-hidden="true"></span>alainferro34@gmail.com</a>
     </div>
+    <nav class="ent-nav" aria-label="Continuer">
+      <a class="ent-pastille" href="CV-Interactif-Alain-FERRO.pdf?v=2.51.0"><span class="ic ic-pdf" aria-hidden="true"></span>CV PDF</a>
+      <a class="ent-pastille" href="./?v=2.51.0#/"><span class="ic ic-web" aria-hidden="true"></span>Site</a>
+    </nav>
   </section>
-  <section class="ent-apercu" id="ent-apercu" aria-labelledby="ent-titre-apercu" hidden>
-    <h2 id="ent-titre-apercu">Message préparé</h2>
-    <p class="ent-objet"><span>Objet :</span> <span id="ent-objet"></span></p>
-    <pre id="ent-corps"></pre>
+
+  <h1>Proposer un entretien</h1>
+
+  <!-- Message modifiable par le recruteur ; les boutons d'envoi reprennent le texte modifié. -->
+  <section class="ent-message" aria-label="Message">
+    <label class="ent-champ"><span>Objet</span><input id="ent-objet" type="text" readonly value="Proposition d’entretien" autocomplete="off"></label>
+    <label class="ent-champ"><span>Message</span><textarea id="ent-corps" rows="9" readonly>Bonjour Monsieur Ferro,
+
+Votre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.
+
+Pourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.
+
+Cordialement,</textarea></label>
   </section>
-  <p class="ent-tel">Ou par téléphone : <a id="ent-tel" href="tel:+33612761012">06 12 76 10 12</a></p>
-  <p class="ent-retour"><a href="./?v=2.50.0#/">Voir le CV détaillé d’Alain Ferro</a></p>
+
+  <div class="ent-envoi" id="ent-envoi" aria-label="Envoyer avec">
+    <a class="ent-tuile" id="env-gmail" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=alainferro34%40gmail.com&amp;su=Proposition%20d%E2%80%99entretien&amp;body=Bonjour%20Monsieur%20Ferro%2C%0D%0A%0D%0AVotre%20CV%20a%20retenu%20toute%20notre%20attention%20et%20nous%20souhaiterions%20vous%20rencontrer%20pour%20un%20entretien.%0D%0A%0D%0APourriez-vous%20nous%20indiquer%20vos%20disponibilit%C3%A9s%20%3F%20Nous%20reviendrons%20vers%20vous%20pour%20fixer%20la%20date%2C%20en%20pr%C3%A9sentiel%20ou%20par%20t%C3%A9l%C3%A9phone.%0D%0A%0D%0ACordialement%2C" target="_blank" rel="noopener"><span class="ic ic-gmail" aria-hidden="true"></span>Gmail</a>
+    <a class="ent-tuile" id="env-outlook" href="https://outlook.live.com/mail/0/deeplink/compose?to=alainferro34%40gmail.com&amp;subject=Proposition%20d%E2%80%99entretien&amp;body=Bonjour%20Monsieur%20Ferro%2C%0D%0A%0D%0AVotre%20CV%20a%20retenu%20toute%20notre%20attention%20et%20nous%20souhaiterions%20vous%20rencontrer%20pour%20un%20entretien.%0D%0A%0D%0APourriez-vous%20nous%20indiquer%20vos%20disponibilit%C3%A9s%20%3F%20Nous%20reviendrons%20vers%20vous%20pour%20fixer%20la%20date%2C%20en%20pr%C3%A9sentiel%20ou%20par%20t%C3%A9l%C3%A9phone.%0D%0A%0D%0ACordialement%2C" target="_blank" rel="noopener"><span class="ic ic-outlook" aria-hidden="true"></span>Outlook.com</a>
+    <a class="ent-tuile" id="env-365" href="https://outlook.office.com/mail/deeplink/compose?to=alainferro34%40gmail.com&amp;subject=Proposition%20d%E2%80%99entretien&amp;body=Bonjour%20Monsieur%20Ferro%2C%0D%0A%0D%0AVotre%20CV%20a%20retenu%20toute%20notre%20attention%20et%20nous%20souhaiterions%20vous%20rencontrer%20pour%20un%20entretien.%0D%0A%0D%0APourriez-vous%20nous%20indiquer%20vos%20disponibilit%C3%A9s%20%3F%20Nous%20reviendrons%20vers%20vous%20pour%20fixer%20la%20date%2C%20en%20pr%C3%A9sentiel%20ou%20par%20t%C3%A9l%C3%A9phone.%0D%0A%0D%0ACordialement%2C" target="_blank" rel="noopener"><span class="ic ic-outlook pro" aria-hidden="true"></span>Outlook Pro</a>
+  </div>
+
+  <div class="ent-copie" id="ent-copie" aria-label="Copier" hidden>
+    <button type="button" class="ent-copier" id="cop-adresse" aria-label="Copier l’adresse e-mail"><span class="ic ic-copie" aria-hidden="true"></span><span class="txt">alainferro34@gmail.com</span></button>
+    <button type="button" class="ent-copier" id="cop-message" aria-label="Copier l’objet et le message"><span class="ic ic-copie" aria-hidden="true"></span><span class="txt">Message</span></button>
+  </div>
+  <p class="ent-annonce" id="ent-annonce" aria-live="polite"></p>
 </main>
-<script src="data/contenu.js?v=2.50.0"></script>
-<script src="entretien.js?v=2.50.0"></script>
+<script src="data/contenu.js?v=2.51.0"></script>
+<script src="entretien.js?v=2.51.0"></script>
 </body>
 </html>
