@@ -64,12 +64,12 @@ body:has(.bi-charte) .co-fond { display: none; }
 .bi-charte .bi-bulle.ch-sphere:not(.essentiel) { color: var(--ch-essentiel); background: radial-gradient(circle at 36% 30%, #fff 0, #F1F5F6 43%, var(--ch-comp-bord) 78%); border: 1.5px solid var(--ch-essentiel); }
 .bi-charte .bi-bulle.ch-sphere.essentiel { color: white; background: radial-gradient(circle at 36% 30%, var(--ch-ess-clair), var(--ch-essentiel) 39%, var(--ch-ess-sombre) 78%); border: 1.5px solid transparent; }
 .bi-charte .bi-titre { color: inherit; font: 700 1em/1.15 var(--ch-police); -webkit-text-stroke: 0; text-shadow: none; overflow-wrap: normal; hyphens: manual; }
-.bi-charte .bi-texte { color: inherit; gap: 9px; }
-.bi-charte .bi-motif { display: block; flex: none; width: 30px; height: 30px; background: currentColor; mask: var(--motif) center/contain no-repeat; -webkit-mask: var(--motif) center/contain no-repeat; }
+.bi-charte .bi-texte { color: inherit; gap: 6px; }
+.bi-charte .bi-motif { display: block; flex: none; width: var(--bi-visuel, calc(var(--d) * .3)); height: var(--bi-visuel, calc(var(--d) * .3)); background: currentColor; mask: var(--motif) center/contain no-repeat; -webkit-mask: var(--motif) center/contain no-repeat; }
 .bi-charte .bi-bulle:focus-visible { outline: 3px solid var(--ch-encre); outline-offset: 4px; }
 .bi-charte .bi-bulle:hover { box-shadow: 0 7px 16px #19383d35; }
 .bi-charte .bi-carte { z-index: 10; }
-@media (max-width: 740px) { .bi-charte .bi-astuce { position: relative; top: -25px; font-size: 11px; } .bi-zone.bi-charte { margin-top: 35px; } .bi-charte .bi-motif { width: 26px; height: 26px; } }
+@media (max-width: 740px) { .bi-charte .bi-astuce { position: relative; top: -25px; font-size: 11px; } .bi-zone.bi-charte { margin-top: 35px; } }
 /* Priorité sur les anciens fonds et le masquage des titres du bandeau métal. */
 body:has(.bi-charte) #fond { display: none; }
 .lecture-flux:has(> .bi-charte) > .co-tete { position: relative !important; width: auto !important; height: auto !important; min-height: 36px !important; margin: 0 !important; padding: 8px 0 !important; overflow: visible !important; clip: auto !important; clip-path: none !important; white-space: normal !important; }

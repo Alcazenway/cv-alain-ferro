@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.56.0",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.57.0",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -429,10 +429,11 @@ window.CV = {
       "detail": [
         "Assemblage de deux ordinateurs, dont un poste dédié à la simulation aérienne.",
         "Configuration matérielle et logicielle, postes multi-écrans.",
-        "Mise en réseau et paramétrage des périphériques, dont les commandes de vol avec SPAD.neXt."
+        "Mise en réseau et paramétrage des périphériques ; programmation de profils SPAD.neXt pour les commandes de vol."
       ],
       "preuves": [
-        "pc"
+        "pc",
+        "spadnext"
       ]
     },
     {
@@ -682,7 +683,8 @@ window.CV = {
       },
       "fiches": [
         "simulation",
-        "skylivra"
+        "skylivra",
+        "spadnext"
       ],
       "page": {
         "intro": "Plus de vingt ans de simulation de vol sur PC, d’Airbus et Boeing aux avions légers : préparation des vols, navigation, procédures et systèmes avioniques. Cette passion est à l’origine des créations SkyLivra.",
@@ -722,7 +724,8 @@ window.CV = {
         ],
         "liens": [
           "simulation",
-          "skylivra"
+          "skylivra",
+          "spadnext"
         ]
       }
     },
@@ -927,15 +930,41 @@ window.CV = {
       }
     }
   ],
-  "realisations": [
-    "thermes-responsable",
-    "negoce",
-    "knockin",
-    "barysense",
-    "skylivra",
-    "outils-ia",
-    "bateau"
-  ],
+  "realisations": {
+    "titre": "Réalisations",
+    "intro": "Des projets personnels concrets, reliés aux compétences mobilisées et aux étapes du parcours.",
+    "groupes": [
+      {
+        "id": "numerique-ia",
+        "titre": "Projets numériques IA",
+        "intro": "Applications, site, créations et outils menés avec des assistants IA coordonnés.",
+        "ids": [
+          "skylivra",
+          "barysense",
+          "knockin",
+          "poussepousse",
+          "cv-interactif"
+        ]
+      },
+      {
+        "id": "simulation",
+        "titre": "Simulation aérienne",
+        "intro": "Pratique du pilotage virtuel et programmation de profils pour les périphériques de simulation.",
+        "ids": [
+          "simulation",
+          "spadnext"
+        ]
+      },
+      {
+        "id": "bateau",
+        "titre": "Rénovation bateau",
+        "intro": "Un chantier personnel de trois ans sur un bateau en bois de 11 mètres.",
+        "ids": [
+          "bateau"
+        ]
+      }
+    ]
+  },
   "parcours": [
     {
       "id": "vendanges",
@@ -1368,7 +1397,9 @@ window.CV = {
         "Avionique et réglementation simulée.",
         "Configuration des périphériques avec SPAD.neXt."
       ],
-      "competences": [],
+      "competences": [
+        "informatique"
+      ],
       "outils": [
         "Microsoft Flight Simulator",
         "SPAD.neXt",
@@ -1510,7 +1541,44 @@ window.CV = {
         "Simulation de vol"
       ],
       "periode": "2003–aujourd’hui",
-      "important": true
+      "important": true,
+      "enfants": [
+        "spadnext"
+      ],
+      "enfantsTitre": "Réalisation · profils SPAD.neXt"
+    },
+    {
+      "id": "spadnext",
+      "type": "personnel",
+      "titre": "Profils SPAD.neXt",
+      "titreCourt": "Profils SPAD.neXt",
+      "lieu": "",
+      "resume": "Programmation de profils SPAD.neXt pour utiliser les périphériques de simulation avec les avions simulés.",
+      "apportCourt": "Adapter les commandes des périphériques aux avions simulés.",
+      "contexte": "Réalisation personnelle liée à la simulation aérienne : programmation de profils SPAD.neXt pour faire correspondre les périphériques aux commandes des avions du simulateur.",
+      "missions": [
+        "Programmation de profils SPAD.neXt adaptés aux avions simulés.",
+        "Paramétrage des commandes des périphériques de simulation dans ces profils."
+      ],
+      "competences": [
+        "informatique"
+      ],
+      "outils": [
+        "SPAD.neXt",
+        "Microsoft Flight Simulator",
+        "Périphériques de simulation"
+      ],
+      "apports": [
+        "Configuration de périphériques",
+        "Programmation de profils",
+        "Adaptation à un besoin d’usage"
+      ],
+      "transfert": "Traduire un besoin d’usage en réglages techniques adaptés.",
+      "bulle": [
+        "Profils SPAD.neXt"
+      ],
+      "periode": "Projet personnel",
+      "parent": "simulation"
     },
     {
       "id": "pailletrice",
@@ -3004,7 +3072,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne contient aucun formulaire : l’éditeur ne collecte aucune donnée. Le bouton « Proposer un entretien » ouvre simplement votre messagerie, sans aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "11 novembre 2026",
-    "version": "2.56.0"
+    "version": "2.57.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"
@@ -3021,7 +3089,6 @@ window.CV = {
     "/parcours/outils-ia": "/orchestration-ia",
     "/competence/creations-ia": "/orchestration-ia",
     "/competence/ia": "/orchestration-ia",
-    "/realisations": "/",
     "/carte": "/"
   },
   "methode": {

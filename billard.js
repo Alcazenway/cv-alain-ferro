@@ -205,8 +205,25 @@
       if (options.charte) {
         var diam = Math.round(b.r * 2); b.n.style.width = b.n.style.height = diam + "px";
         b.n.style.setProperty("--d", diam + "px");
+        // Visuel proportionnel à la sphère : les motifs composés restent reconnaissables.
+        b.n.style.setProperty("--bi-visuel", (diam * .3).toFixed(1) + "px");
         b.n.style.fontSize = (W < 600 ? 14 : 16) + "px";
         b.texte.style.padding = "0 7%"; b.texte.style.top = "50%"; b.texte.style.transform = "translateY(-50%)";
+        // Garder les libellés dans la courbure : réduire le visuel seul pour les intitulés longs.
+        var motif = b.n.querySelector(".bi-motif"), proportion = .3;
+        function titreDansSphere() {
+          var boite = b.n.getBoundingClientRect(), cx = boite.left + boite.width / 2, cy = boite.top + boite.height / 2;
+          var rayon = boite.width / 2 - 2, range = document.createRange();
+          range.selectNodeContents(b.titre);
+          return Array.prototype.every.call(range.getClientRects(), function(ligne) {
+            var dx = Math.max(Math.abs(ligne.left - cx), Math.abs(ligne.right - cx));
+            var dy = Math.max(Math.abs(ligne.top - cy), Math.abs(ligne.bottom - cy));
+            return dx * dx + dy * dy <= rayon * rayon;
+          });
+        }
+        while (motif && proportion > .22 && !titreDansSphere()) {
+          proportion -= .02; b.n.style.setProperty("--bi-visuel", (diam * proportion).toFixed(1) + "px");
+        }
         b.ok = true; return W < 600 ? 14 : 16;
       }
       var d = Math.round(b.r * 2), min = plancher();

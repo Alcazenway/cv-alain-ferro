@@ -467,7 +467,7 @@
     return e;
   }
 
-  var RETOURS = { "/orchestration-ia/methode": "Méthode", "/savoir-formations": SAVOIR, "/metiers": "Postes visés", "/competences": "Compétences", "/interets": "Intérêts", "/orchestration-ia": "Orchestration IA" };
+  var RETOURS = { "/realisations": "Réalisations", "/orchestration-ia/methode": "Méthode", "/savoir-formations": SAVOIR, "/metiers": "Postes visés", "/competences": "Compétences", "/interets": "Intérêts", "/orchestration-ia": "Orchestration IA" };
   var REDIRECTIONS = D.redirections || {};
   function rediriger(h) { return Object.prototype.hasOwnProperty.call(REDIRECTIONS, h) ? REDIRECTIONS[h] : h; }
 
@@ -494,6 +494,46 @@
         ]);
       })))
     ];
+  }
+
+  // Réalisations : une fiche source par projet, accessible aussi par les compétences et le parcours.
+  function idsRealisations() {
+    return (D.realisations && D.realisations.groupes || []).reduce(function(ids, g) { return ids.concat(g.ids); }, []);
+  }
+  function pageRealisations() {
+    var R = D.realisations;
+    var raccourcis = el("nav", {class: "re-acces", "aria-label": "Domaines de réalisations"});
+    var groupes = R.groupes.map(function(g) {
+      var cible = "realisation-" + g.id;
+      var bouton = el("button", {type: "button", text: g.titre, "aria-controls": cible});
+      bouton.addEventListener("click", function() { var titre = document.getElementById(cible); titre.scrollIntoView({block: "start", behavior: "instant"}); titre.focus({preventScroll:true}); });
+      raccourcis.appendChild(bouton);
+      var cartes = g.ids.filter(function(id) { return parId[id]; }).map(function(id) {
+        var e = parId[id], numerique = g.id === "numerique-ia";
+        var visuel = numerique ? {src: "assets/applis/" + id + ".webp"} : vignette(e);
+        var sphere = el("span", {class: "re-visuel" + (visuel ? " avec-image" : ""), "aria-hidden": "true"}, visuel ? [image(visuel)] : [
+          el("i", {class: "re-icone " + (id === "spadnext" ? "configuration" : "aviation")})
+        ]);
+        var comp = (e.competences || []).filter(function(c) { return compId[c]; }).slice(0, 3);
+        return el("li", null, [el("a", {class: "re-carte", href: "#/parcours/" + id}, [
+          sphere,
+          el("div", {class: "re-description"}, [
+            el("h3", {text: e.titreCourt || e.titre}),
+            el("p", {text: e.apportCourt || e.resume}),
+            comp.length ? el("p", {class: "re-competences", text: comp.map(function(c){return compId[c].titre;}).join(" · ")}) : null,
+            el("span", {class: "re-ouvrir", text: "Découvrir →"})
+          ])
+        ])]);
+      });
+      return el("section", {class: "re-groupe " + g.id, "aria-labelledby": cible}, [
+        el("h2", {id: cible, tabindex: "-1", text: g.titre}),
+        el("p", {class: "re-intro", text: g.intro}), el("ul", {class: "re-cartes"}, cartes)
+      ]);
+    });
+    return [el("div", {class: "re-page"}, [
+      entete(R.titre, R.intro), raccourcis,
+      el("p", {class: "re-reperes", text: "Les compétences expliquent mon savoir-faire. Ces réalisations en montrent l’application dans mes projets personnels."})
+    ].concat(groupes))];
   }
 
   /* ---------- Méthode (v2.24) : graphe façon Obsidian, version texte complète en dessous ---------- */
@@ -559,6 +599,7 @@
       e.site ? el("p", { class: "lien-externe" }, [el("a", { class: "bouton secondaire", href: e.site.url, target: "_blank", rel: "noopener", text: e.site.libelle + " ↗" })]) : null,
       missions.length ? liste(missions, "puces fiche-liste") : null,
       enfantsDe(e),
+      parent !== "/realisations" && idsRealisations().indexOf(e.id) !== -1 ? el("p", {class:"re-toutes"}, [el("a", {href:"#/realisations", text:"Toutes les réalisations →"})]) : null,
       galerie(e.galerie),
       attentes(e.galerie),
       dossiers(e.sections, dejaVu),
@@ -826,6 +867,7 @@
   function resoudre(h) {
     var m;
     if (h === "/" || h === "") return { rubrique: "presentation", titre: "" };
+    if (h === "/realisations") return { rubrique: "realisations", titre: D.realisations.titre, rendu: pageRealisations(), liste: true };
     if (h === "/metiers") return { rubrique: "metiers", titre: D.pistes.titre, rendu: pageMetiers(), liste: true };
     if (h === "/parcours") return { rubrique: "parcours", titre: "Parcours", rendu: pageParcours(null), liste: true };
     if ((m = h.match(/^\/parcours\/([\w-]+)$/))) {
@@ -834,14 +876,14 @@
       if (e) {
         var savoir = e.type === "formation";
         // Une formation ne revient jamais vers le chemin du parcours, qui ne la contient pas.
-        var origineValide = listeOrigine && (savoir ? /^\/(savoir-formations|competence|interets?|metiers)/ : /^\/(parcours|competence|interets?|metiers|orchestration-ia)/).test(listeOrigine);
+        var origineValide = listeOrigine && (savoir ? /^\/(savoir-formations|competence|interets?|metiers|realisations)/ : /^\/(parcours|competence|interets?|metiers|orchestration-ia|realisations)/).test(listeOrigine);
         // Une page enfant revient vers sa fiche parente, sauf depuis une autre rubrique.
         if (e.parent && parId[e.parent] && !(origineValide && !/^\/parcours/.test(listeOrigine))) origineValide = false;
         // v2.26 : un petit-enfant (parent lui-même enfant, ex. créations de SkyLivra) revient toujours vers son parent.
         if (e.parent && parId[e.parent] && parId[e.parent].parent) origineValide = false;
         var parent = origineValide ? listeOrigine : e.parent && parId[e.parent] ? rediriger("/parcours/" + e.parent) : savoir ? "/savoir-formations" : "/parcours";
         // Les projets IA ont leur maison dans la rubrique Orchestration IA ; v2.26 : leurs pages enfants aussi.
-        return { rubrique: savoir ? "savoir" : e.parent && racine(e).id === "outils-ia" ? "competences" : "parcours", titre: e.titre, rendu: ficheParcours(e, parent), detail: true, fiche: true };
+        return { rubrique: listeOrigine === "/realisations" ? "realisations" : savoir ? "savoir" : e.parent && racine(e).id === "outils-ia" ? "competences" : "parcours", titre: e.titre, rendu: ficheParcours(e, parent), detail: true, fiche: true };
       }
     }
     if (h === "/savoir-formations") return { rubrique: "savoir", titre: SAVOIR, rendu: pageSavoir(), liste: true };

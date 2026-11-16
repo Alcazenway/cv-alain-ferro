@@ -76,3 +76,6 @@
 }
 @media (prefers-reduced-motion: reduce) { .co-onglets a { transition: none; } }
 @media print { .co-bandeau { display: none; } }
+/* Sept rubriques : Réalisations conserve le même rythme que les autres onglets. */
+.co-onglets a[data-rubrique="realisations"] { --pr-rubrique: var(--ch-essentiel); }
+@media (min-width: 1101px) { .co-onglets { gap: 6px; }.co-onglets a { font-size: 12px; letter-spacing: 1.2px; } }
