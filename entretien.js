@@ -10,7 +10,7 @@
   var I = window.CV && window.CV.identite;
   // Même composant que Présentation ; les coordonnées statiques restent disponibles sans script.
   if (I && I.nom && I.portrait && I.permis && I.langues && I.ville && window.IdentiteTerre) {
-    var terre = window.IdentiteTerre.creer(I, {entretien: "#ent-objet"});
+    var terre = window.IdentiteTerre.creer(I, {sansEntretien: true});
     terre.querySelector('a[href^="tel:"]').id = "ent-tel";
     terre.querySelector('a[href^="mailto:"]').id = "ent-mail";
     $("ent-identite").replaceChildren(terre);

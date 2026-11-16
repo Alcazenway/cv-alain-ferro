@@ -479,9 +479,8 @@
       retour("/competences", "Compétences"),
       tetePage("Orchestration IA", "reseau"),
       // v2.24 : la méthode, les outils et les réalisations sont réunis dans le graphe de la page Méthode.
-      el("a", { class: "co-bouton-methode co-brille", href: "#/orchestration-ia/methode" }, [
+      el("a", { class: "co-bouton-methode", href: "#/orchestration-ia/methode" }, [
         el("span", { class: "co-bouton-methode-titre", text: "Méthode" }),
-        el("span", { class: "co-bouton-methode-texte", text: "Comment j’orchestre les assistants IA, outil par outil" }),
         el("span", { class: "co-tuile-fleche", "aria-hidden": "true", text: "→" })
       ]),
       // v2.25 : applications en bulles flottantes, logo de chacune en fond (assets/applis/<id>.webp).

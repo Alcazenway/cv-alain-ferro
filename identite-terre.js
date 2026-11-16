@@ -40,7 +40,7 @@
     var permis = I.permis.split(" · ");
     ligne(362, 14, I.ville.replace(/[()]/g, "") + " · " + permis[0].replace(" et véhicule", " · Véhicule"), "#E6EEF6");
     ligne(381, 14, (permis[1] || "") + " · " + I.langues.replace(" courant", "").replace(" · Anglais", ", anglais"), "#E6EEF6");
-    ligne(418, 19, "Proposer un entretien", "#FFD27A", 700, options.entretien || "entretien.html");
+    if (!options.sansEntretien) ligne(418, 19, "Proposer un entretien", "#FFD27A", 700, options.entretien || "entretien.html");
     terre.appendChild(textes);
     return terre;
   }};

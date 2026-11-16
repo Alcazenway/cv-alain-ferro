@@ -97,3 +97,17 @@ h2.co-bouton-methode-titre { margin: 0; color: #fff; }
 .co-gnoeud.pilotage .co-gnoeud-fond { stroke: #5d6fa8; stroke-width: 2.4; }
 .co-graphe-lien.pilotage { stroke: #5d6fa8; opacity: .45; stroke-width: 1.6; }
 @media (prefers-reduced-motion: reduce) { .co-bulle-appli { animation: none; } }
+
+/* 2.56.0 — projets en sphères : images d’origine conservées sous le modelé et le reflet. */
+.co-bulles .co-bulle-disque { border: 1px solid var(--ch-essentiel); box-shadow: 0 12px 18px #19383d30; }
+.co-bulles .co-bulle-disque::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; border-radius: 50%; background: radial-gradient(circle at 36% 30%, #ffffff24 0, transparent 35%, #031b2720 58%, #031b277a 84%, #010b14b3 100%); box-shadow: inset -9px -12px 18px #031b2755, inset 3px 4px 8px #ffffff55; }
+.co-bulles .co-bulle-disque::after { content: ""; position: absolute; inset: auto; left: 10%; top: 9%; width: 50%; height: 30%; z-index: 2; pointer-events: none; border-radius: 50%; background: radial-gradient(closest-side, #ffffffb8, #ffffff2e 55%, #ffffff00); transform: rotate(-24deg); animation: none; }
+.co-bulles .co-bulle-appli a:hover .co-bulle-disque, .co-bulles .co-bulle-appli a:focus-visible .co-bulle-disque { box-shadow: 0 16px 26px #19383d40, 0 0 0 3px var(--ch-comp-bord); }
+/* Appel à découvrir la méthode : couleur Essentiel, capsule claire et reflet des sphères. */
+.co-bouton-methode { justify-content: center; gap: 24px; width: fit-content; max-width: 100%; min-width: min(100%, 310px); margin: 24px auto 30px; padding: 18px 30px; border: 1px solid var(--ch-essentiel); border-radius: 999px; background: radial-gradient(ellipse at 36% 20%, var(--ch-ess-clair), var(--ch-essentiel) 50%, var(--ch-ess-sombre)); box-shadow: 0 7px 18px #155e662b; }
+.co-bouton-methode::before { content: ""; position: absolute; inset: 2px 12% auto; height: 32%; border-radius: 50%; background: linear-gradient(#ffffff40, transparent); pointer-events: none; }
+.co-bouton-methode-titre { font: 700 24px/1.2 var(--ch-police); letter-spacing: 1.6px; text-transform: uppercase; }
+.co-bouton-methode .co-tuile-fleche { display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid #ffffff80; border-radius: 50%; font-size: 24px; }
+.co-bouton-methode:hover, .co-bouton-methode:focus-visible { box-shadow: 0 10px 24px #155e6640; }
+.co-bouton-methode:focus-visible { outline: 3px solid var(--ch-essentiel); outline-offset: 4px; }
+@media (prefers-reduced-motion: reduce) { .co-bulles .co-bulle-disque { transition: none; } }
