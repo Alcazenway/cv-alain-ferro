@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.51.0",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.52.0",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -42,6 +42,7 @@ window.CV = {
     "metiers": [
       {
         "id": "coordinateur-administratif",
+        "essentiel": true,
         "titre": "Coordinateur administratif",
         "justification": "Planification des équipes et gestion quotidienne d’une activité de négoce.",
         "preuves": [
@@ -82,6 +83,7 @@ window.CV = {
       },
       {
         "id": "assistant-commercial-adv",
+        "essentiel": true,
         "titre": "Assistant commercial / ADV",
         "justification": "Prospection B2B et suivi des commandes jusqu’à la facturation.",
         "preuves": [
@@ -92,6 +94,7 @@ window.CV = {
       },
       {
         "id": "charge-relation-clients",
+        "essentiel": true,
         "titre": "Chargé de relation clients",
         "justification": "Accueil, conseil et suivi des clients dans les services et le commerce.",
         "preuves": [
@@ -103,6 +106,7 @@ window.CV = {
       },
       {
         "id": "coordinateur-planning",
+        "essentiel": true,
         "titre": "Coordinateur planning",
         "justification": "Organisation des plannings d’une équipe de 30 à 40 personnes.",
         "preuves": [
@@ -150,6 +154,7 @@ window.CV = {
       },
       {
         "id": "assistant-chef-projet-numerique",
+        "essentiel": true,
         "titre": "Assistant chef de projet numérique",
         "justification": "Cadrage des besoins, critères d’acceptation, suivi des versions et coordination de plusieurs assistants IA.",
         "preuves": [
@@ -172,6 +177,7 @@ window.CV = {
       },
       {
         "id": "charge-automatisation",
+        "essentiel": true,
         "titre": "Chargé d’automatisation IA / Excel",
         "justification": "Outils Excel (Power Query, VBA) et scripts Python ou PowerShell produits puis vérifiés avec l’IA.",
         "preuves": [
@@ -193,6 +199,7 @@ window.CV = {
       },
       {
         "id": "office-manager",
+        "essentiel": true,
         "titre": "Office manager",
         "justification": "Organisation du quotidien d’une structure : administration, coordination des équipes et des fournisseurs, suivi sous Excel.",
         "preuves": [
@@ -204,6 +211,7 @@ window.CV = {
       },
       {
         "id": "superviseur-service-client",
+        "essentiel": true,
         "titre": "Superviseur service client",
         "justification": "Animation d’une équipe au contact du public, gestion des conflits et qualité de la relation clients.",
         "preuves": [
@@ -215,6 +223,7 @@ window.CV = {
       },
       {
         "id": "referent-ia",
+        "essentiel": true,
         "titre": "Référent outils IA",
         "justification": "Accompagner une équipe dans l’usage quotidien des assistants IA et des automatisations simples, sans développement informatique.",
         "preuves": [
@@ -257,6 +266,7 @@ window.CV = {
   "competences": [
     {
       "id": "creations-ia",
+      "essentiel": true,
       "titre": "Orchestration IA",
       "sousTitre": "Applications, sites, logiciel Windows, add-ons, médias",
       "resume": "Concevoir des applications, des sites et des outils, les faire réaliser par plusieurs assistants IA coordonnés et vérifier chaque livrable jusqu’au produit utilisé.",
@@ -309,6 +319,7 @@ window.CV = {
     },
     {
       "id": "encadrement",
+      "essentiel": true,
       "titre": "Encadrement d’équipes",
       "sousTitre": "30 à 40 agents et kinésithérapeutes",
       "resume": "Planifier, coordonner, écouter, désamorcer les tensions et accompagner les personnes au quotidien.",
@@ -325,6 +336,7 @@ window.CV = {
     },
     {
       "id": "gestion",
+      "essentiel": true,
       "titre": "Gestion administrative et comptable",
       "sousTitre": "Dossiers, documents, stocks, commandes, factures",
       "resume": "Tenir des dossiers à jour, traiter des pièces, suivre stocks, commandes et facturation, appliquer les bases comptables.",
@@ -345,6 +357,7 @@ window.CV = {
     },
     {
       "id": "relation",
+      "essentiel": true,
       "titre": "Relation clients et commerce",
       "sousTitre": "Accueil, service, prospection, vente B2B",
       "resume": "Accueillir, conseiller, prospecter et fidéliser, du service en salle à la vente aux professionnels.",
@@ -366,6 +379,7 @@ window.CV = {
     },
     {
       "id": "excel",
+      "essentiel": true,
       "titre": "Excel avancé et automatisation",
       "sousTitre": "Tosa 850 / 1000 · TCD · Power Query · Power Pivot · VBA",
       "resume": "Construire des tableaux de suivi, croiser des données et automatiser des tâches répétitives.",
@@ -659,6 +673,7 @@ window.CV = {
   "interets": [
     {
       "id": "vol",
+      "essentiel": true,
       "nom": "Pilotage virtuel",
       "texte": "Plus de vingt ans de simulation de vol, à l’origine des créations SkyLivra.",
       "image": {
@@ -735,6 +750,7 @@ window.CV = {
     },
     {
       "id": "numerique",
+      "essentiel": true,
       "nom": "Intelligence artificielle",
       "texte": "Projets menés en orchestrant des assistants IA.",
       "image": {
@@ -750,6 +766,7 @@ window.CV = {
     },
     {
       "id": "sciences",
+      "essentiel": true,
       "nom": "Sciences et astronomie",
       "texte": "Intérêt durable pour l’astronomie et la physique, prolongé par le projet d’aurores dans le simulateur.",
       "image": {
@@ -974,6 +991,7 @@ window.CV = {
     },
     {
       "id": "bac",
+      "essentiel": true,
       "type": "formation",
       "titre": "BAC Sciences et technologies tertiaires",
       "titreCourt": "BAC · Sciences et technologies tertiaires",
@@ -999,6 +1017,7 @@ window.CV = {
     },
     {
       "id": "bts",
+      "essentiel": true,
       "liens": [
         "courtier"
       ],
@@ -1030,6 +1049,7 @@ window.CV = {
     },
     {
       "id": "courtier",
+      "essentiel": true,
       "type": "experience",
       "titre": "Apprenti courtier · Vins",
       "titreCourt": "Apprenti courtier · Vins",
@@ -1058,6 +1078,7 @@ window.CV = {
     },
     {
       "id": "londres",
+      "essentiel": true,
       "type": "experience",
       "titre": "Londres · Restauration, sondages",
       "titreCourt": "Londres · Restauration · Sondages",
@@ -1088,6 +1109,7 @@ window.CV = {
     },
     {
       "id": "bateau",
+      "essentiel": true,
       "type": "personnel",
       "titre": "Rénovation Bateau bois 11 m",
       "titreCourt": "Rénovation Bateau bois 11 m",
@@ -1187,6 +1209,7 @@ window.CV = {
     },
     {
       "id": "negoce",
+      "essentiel": true,
       "type": "experience",
       "titre": "Créateur gérant · Négoce B2B Truffes",
       "titreCourt": "Créateur gérant · Négoce B2B Truffes",
@@ -1332,6 +1355,7 @@ window.CV = {
     },
     {
       "id": "simulation",
+      "essentiel": true,
       "type": "personnel",
       "titre": "Simulation de vol",
       "titreCourt": "Simulation de vol · Airbus · Boeing · Avions légers",
@@ -1574,6 +1598,7 @@ window.CV = {
     },
     {
       "id": "thermes-responsable",
+      "essentiel": true,
       "type": "experience",
       "titre": "Responsable d’équipe soignant",
       "titreCourt": "Responsable d’équipe soignant",
@@ -1805,6 +1830,7 @@ window.CV = {
     },
     {
       "id": "ged-gmao",
+      "essentiel": true,
       "liens": [
         "thermes-responsable"
       ],
@@ -1980,6 +2006,7 @@ window.CV = {
     },
     {
       "id": "keyce",
+      "essentiel": true,
       "liens": [
         "thermes-responsable"
       ],
@@ -2009,6 +2036,7 @@ window.CV = {
     },
     {
       "id": "comtel",
+      "essentiel": true,
       "liens": [
         "thermes-responsable"
       ],
@@ -2161,6 +2189,7 @@ window.CV = {
     },
     {
       "id": "outils-ia",
+      "essentiel": true,
       "type": "personnel",
       "titre": "Orchestration IA",
       "titreCourt": "Orchestration IA",
@@ -2382,6 +2411,7 @@ window.CV = {
     },
     {
       "id": "skylivra",
+      "essentiel": true,
       "type": "personnel",
       "titre": "SkyLivra · Créations / Simulation aérienne",
       "titreCourt": "SkyLivra · Créations / Simulation aérienne",
@@ -2974,7 +3004,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne contient aucun formulaire : l’éditeur ne collecte aucune donnée. Le bouton « Proposer un entretien » ouvre simplement votre messagerie, sans aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "11 novembre 2026",
-    "version": "2.51.0"
+    "version": "2.52.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"

@@ -42,7 +42,7 @@
   // « annexe » : index d’une étape sous laquelle une bulle hors chemin est suspendue (le BTS sous Apprenti courtier).
   // 2.42 : rangées plus espacées (le personnage marche sur le dessus des sphères sans toucher la rangée au-dessus).
   var RANGEES = [800, 510, 220], X0 = 250, X1 = 1150, HAUT = 1070;
-  function chemin(nombre, annexe) {
+  function chemin(nombre, annexe, essentiels) {
     if (nombre < 6) return null;
     var p = [], tailles = [Math.ceil(nombre / 3), Math.ceil((nombre - Math.ceil(nombre / 3)) / 2)];
     tailles.push(nombre - tailles[0] - tailles[1]);
@@ -67,6 +67,7 @@
     var arrivee = " C" + (der.x + 50) + "," + der.y + " " + (fin.x - 60) + "," + fin.y + " " + fin.x + "," + fin.y;
     var geo = { positions: p, route: route, trajet: depart + route.replace(/^M[^ ]+/, "") + arrivee, viewBox: "0 0 1400 " + HAUT, rayon: rayon,
       debut: debut, fin: fin, coude: { x: debut.x, y: coude } };
+    p.forEach(function (q, i) { q.rayon = rayon * (essentiels && essentiels[i] ? 1.12 : 1); });
     marche(geo, tailles);
     if (annexe >= 0 && annexe < p.length) geo.annexe = { x: p[annexe].x, y: p[annexe].y + 2 * rayon + 30 };
     return geo;
@@ -76,16 +77,18 @@
   // (arcs de rayon R, ponts tangents entre deux sphères voisines) et change de rangée en montant le long du côté
   // extérieur (vers le bord de la fenêtre) de la sphère du dessus. geo.sommets : point haut de chaque sphère (jalons).
   function marche(geo, tailles) {
-    var p = geo.positions, R = geo.rayon + 7, a1 = function (n) { return Math.round(n * 10) / 10; };
-    var pt = function (c, t) { return { x: c.x + R * Math.cos(t), y: c.y + R * Math.sin(t) }; };
+    var p = geo.positions, rayon = function (c) { return (c.rayon || geo.rayon) + 7; }, a1 = function (n) { return Math.round(n * 10) / 10; };
+    var pt = function (c, t) { var R = rayon(c); return { x: c.x + R * Math.cos(t), y: c.y + R * Math.sin(t) }; };
     var ang = function (c, q) { return Math.atan2(q.y - c.y, q.x - c.x); };
-    var arc = function (q, sens) { return " A" + R + "," + R + " 0 0 " + sens + " " + a1(q.x) + "," + a1(q.y); };
+    var arc = function (q, sens, c) { var R = rayon(c); return " A" + R + "," + R + " 0 0 " + sens + " " + a1(q.x) + "," + a1(q.y); };
     var lig = function (q) { return " L" + a1(q.x) + "," + a1(q.y); };
-    // Tangente extérieure haute entre deux sphères de même rayon.
+    // Tangente extérieure haute : la normale tient compte de la différence des rayons.
     var tangente = function (a, b) {
-      var dx = b.x - a.x, dy = b.y - a.y, l = Math.hypot(dx, dy), nx = dy / l, ny = -dx / l;
-      if (ny > 0) { nx = -nx; ny = -ny; }
-      return [{ x: a.x + R * nx, y: a.y + R * ny }, { x: b.x + R * nx, y: b.y + R * ny }];
+      var dx = b.x - a.x, dy = b.y - a.y, l = Math.hypot(dx, dy), ux = dx / l, uy = dy / l;
+      var h = (rayon(a) - rayon(b)) / l, v = Math.sqrt(Math.max(0, 1 - h * h));
+      var nx = h * ux + v * uy, ny = h * uy - v * ux;
+      if (ny > 0) { nx = h * ux - v * uy; ny = h * uy + v * ux; }
+      return [{ x: a.x + rayon(a) * nx, y: a.y + rayon(a) * ny }, { x: b.x + rayon(b) * nx, y: b.y + rayon(b) * ny }];
     };
     var d = "M" + geo.debut.x + "," + geo.debut.y + " L" + geo.debut.x + "," + geo.coude.y, debutRangee = 0;
     // Arrivée à gauche de la première sphère, à hauteur de son centre.
@@ -118,7 +121,7 @@
           d += lig(croise(ponts[k - 1][0], ponts[k - 1][1], ponts[k][0], ponts[k][1]));
         } else {
           if (k > 0) d += lig(entree);
-          d += arc(sortie, sens);
+          d += arc(sortie, sens, p[debutRangee + k]);
         }
         entree = ponts[k][1];
       }
@@ -127,15 +130,15 @@
       if (r < tailles.length - 1) {
         // Côté extérieur : à droite pour une rangée qui va vers la droite, à gauche sinon ; montée verticale.
         var cote = sens ? 0 : Math.PI, s1 = pt(cf, cote), u = p[fin + 1], s2 = pt(u, cote);
-        d += arc(s1, sens) + lig(s2);
+        d += arc(s1, sens, cf) + lig(s2);
       } else {
         var sx = pt(cf, 0);
-        d += arc(sx, sens) + " C" + a1(sx.x + 40) + "," + a1(sx.y) + " " + a1(geo.fin.x - 40) + "," + geo.fin.y + " " + geo.fin.x + "," + geo.fin.y;
+        d += arc(sx, sens, cf) + " C" + a1(sx.x + 40) + "," + a1(sx.y) + " " + a1(geo.fin.x - 40) + "," + geo.fin.y + " " + geo.fin.x + "," + geo.fin.y;
       }
       debutRangee = fin + 1;
     });
     geo.marche = d;
-    geo.sommets = p.map(function (c) { return { x: c.x, y: c.y - R }; });
+    geo.sommets = p.map(function (c) { return { x: c.x, y: c.y - rayon(c) }; });
   }
 
   /* ---------- Bandeau : menu mobile et menu complémentaire ---------- */

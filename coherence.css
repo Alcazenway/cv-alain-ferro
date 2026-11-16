@@ -550,3 +550,64 @@ a.co-noeud:hover .co-sph-reflet { opacity: 1.15; }
 @media print { .co-sph-ombre, .co-sph-reflet { display: none; } .co-sphere { filter: none; } }
 /* 2.42 : chemin de marche du personnage (invisible, sert de guide). */
 .co-marche { fill: none; stroke: none; pointer-events: none; }
+
+/* Mission 7, phase 1 : charte PDF sur Parcours et ses fiches uniquement.
+   charte.css appartient à Néo ; les jetons y restent la source commune. */
+body[data-fond="parcours"], body:has(.co-fiche-parcours) { background: #fff; }
+body[data-fond="parcours"] .co-fond, body:has(.co-fiche-parcours) .co-fond { background: #fff; }
+body[data-fond="parcours"] .co-fond::after, body:has(.co-fiche-parcours) .co-fond::after { background: #fff; }
+body[data-fond="parcours"] .co-fond-image, body:has(.co-fiche-parcours) .co-fond-image { display: none; background-image: none; animation: none; }
+body[data-fond="parcours"] #vue, .co-fiche-parcours {
+  --encre: var(--ch-encre); --texte: var(--ch-texte); --discret: var(--ch-discret);
+  --experience: var(--ch-essentiel); --personnel: var(--ch-essentiel); --formation: var(--ch-essentiel);
+  --formation-texte: var(--ch-essentiel); --focus: var(--ch-essentiel); --filet: var(--ch-filet);
+  color: var(--ch-texte); font-family: var(--ch-police);
+}
+.co-tete-parcours h1 { color: var(--ch-encre); font-weight: 700; letter-spacing: 1.6px; }
+.co-tete-parcours { justify-content: flex-end; }
+.co-tete-parcours .pe-bascule { margin-left: auto; }
+.co-legende-parcours { flex: none; margin: 6px 1% 0; gap: 8px 24px; font-size: 13px; }
+.co-legende-parcours span { flex-wrap: wrap; gap: 4px; }
+.co-legende-parcours .ch-sphere { margin-right: 4px; }
+.co-parcours-filtre { flex: none; margin: 0 1%; color: var(--ch-discret); font-size: 13px; }
+.co-route { stroke: var(--ch-chemin); stroke-width: 6px; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: none; animation: none; }
+.co-route-annexe { stroke: var(--ch-encre); stroke-width: 2px; stroke-dasharray: 3 7; opacity: .4; }
+.co-repere-texte, .co-repere-annee { fill: var(--ch-essentiel); }
+.co-repere-jalon { fill: #fff; stroke: var(--ch-essentiel); }
+.co-chemin .co-noeud-charte { filter: none; animation: none; }
+.co-chemin .co-noeud-charte .co-sphere-fond { fill: url(#ch-comp); stroke: var(--ch-essentiel); stroke-width: 2.8; }
+.co-chemin .co-noeud-charte.essentiel .co-sphere-fond { fill: url(#ch-ess); stroke: none; }
+.co-chemin .co-noeud-charte .co-noeud-texte { fill: var(--ch-essentiel); stroke: none; font-family: var(--ch-police); font-weight: 700; }
+.co-chemin .co-noeud-charte.essentiel .co-noeud-texte { fill: #fff; }
+.co-noeud-charte .co-sphere-reflet { pointer-events: none; }
+.co-chemin .co-noeud-charte .co-noeud-periode { fill: var(--ch-discret); stroke: #fff; }
+.co-chemin .co-noeud-charte:hover .co-sphere-fond { stroke: var(--ch-essentiel); stroke-width: 4px; }
+.co-chemin .co-noeud-charte:focus-visible .co-sphere-fond { stroke: var(--ch-encre); stroke-width: 6px; }
+.co-chemin .co-noeud-charte.essentiel:focus-visible .co-sphere-fond { stroke: var(--ch-ess-clair); }
+.co-chemin-liste::before { border-color: var(--ch-chemin); }
+.co-chemin-liste::after { color: var(--ch-essentiel); background: #fff; }
+.co-arret::before { border-color: var(--ch-chemin); }
+.co-chemin-liste .co-arret.co-arret-charte .co-arret-corps {
+  display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 12px; align-items: center;
+  padding: 14px; border: 1px solid var(--ch-filet); border-radius: 16px; background: #fff; color: var(--ch-essentiel);
+}
+.co-arret-charte .ch-sphere { --d: 26px; padding: 0; grid-column: 1; grid-row: 1 / 3; }
+.co-arret-charte.essentiel .ch-sphere { --d: 29px; }
+.co-arret-charte .co-arret-titre { grid-column: 2; font-weight: 700; }
+.co-chemin-liste .co-arret-charte small { grid-column: 2; color: var(--ch-discret); }
+.co-chemin-liste .co-arret.repere .co-arret-corps { background: #fff; border-color: var(--ch-filet); color: var(--ch-essentiel); }
+.co-chemin-liste .co-arret.repere small { color: var(--ch-essentiel); }
+.co-fiche-parcours .fiche-tete { display: flow-root; border-color: var(--ch-filet); color: var(--ch-texte); }
+.co-fiche-parcours .fiche-tete h1 { color: var(--ch-encre); }
+.co-fiche-parcours .co-fiche-sphere { --d: 132px; float: left; margin: 0 24px 16px 0; font-size: calc(var(--d) * .115); overflow-wrap: normal; }
+.co-fiche-parcours .co-fiche-sphere.essentiel { --d: 148px; }
+.co-sphere-parcours .co-sphere-libelle { white-space: pre-line; overflow-wrap: normal; }
+@media (max-width: 1099px), (max-height: 719px) {
+  .co-legende-parcours { margin: 4px 4px 18px; }
+  .co-tete-parcours { display: none; }
+}
+@media (max-width: 540px) {
+  .co-legende-parcours { font-size: 12px; gap: 10px; }
+  .co-fiche-parcours .co-fiche-sphere { --d: 108px; float: none; display: flex; margin: 0 auto 20px; }
+  .co-fiche-parcours .co-fiche-sphere.essentiel { --d: 121px; }
+}

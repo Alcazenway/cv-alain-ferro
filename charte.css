@@ -1,0 +1,50 @@
+/* Charte « CV PDF 2.51 » (charte-20261116/CHARTE.md) : jetons communs du site, repris de la recette du PDF.
+   Une seule couleur de bulle : pleine = Essentiel (expérience ou appétence forte), claire = Complément. */
+:root {
+  --ch-essentiel: #155E66;
+  --ch-ess-clair: #5B8E94;
+  --ch-ess-sombre: #0D3A3F;
+  --ch-comp-bord: #B9CFD1;
+  --ch-encre: #19383D;
+  --ch-texte: #35484B;
+  --ch-discret: #637678;
+  --ch-filet: #D9E3E1;
+  --ch-chemin: #C9D9D8;
+  --ch-comp: #2F7F7A;   --ch-comp-pale: #E3ECEB;
+  --ch-int: #4E7D3A;    --ch-int-pale: #EAF2E4;
+  --ch-form: #B9653F;   --ch-form-pale: #F8EEE8;
+  --ch-poste: #2F5D8A;  --ch-poste-pale: #E8EFF6;
+  --ch-or: #FFD27A;
+  --ch-police: "Segoe UI", Arial, sans-serif;
+}
+
+/* Sphère HTML (même rendu que le PDF) : <span class="ch-sphere [essentiel]">Libellé</span>, taille par --d. */
+.ch-sphere {
+  --d: 96px;
+  position: relative; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box;
+  width: var(--d); height: var(--d); padding: 0 calc(var(--d) * .1); border-radius: 50%;
+  background: radial-gradient(circle at 36% 30%, #FFFFFF 0, #F1F5F6 43%, var(--ch-comp-bord) 78%);
+  border: 1.5px solid var(--ch-essentiel); color: var(--ch-essentiel);
+  font: 700 calc(var(--d) * .135)/1.15 var(--ch-police); text-align: center; overflow-wrap: anywhere; text-decoration: none;
+}
+.ch-sphere.essentiel {
+  background: radial-gradient(circle at 36% 30%, var(--ch-ess-clair) 0, var(--ch-essentiel) 39%, var(--ch-ess-sombre) 78%);
+  border-color: transparent; color: #FFFFFF;
+}
+.ch-sphere::after { /* reflet spéculaire */
+  content: ""; position: absolute; left: 10%; top: 9%; width: 50%; height: 30%; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, .72), rgba(255, 255, 255, .18) 55%, rgba(255, 255, 255, 0));
+  transform: rotate(-24deg);
+}
+
+/* Légende commune, en bas à droite de la page. */
+.ch-legende { display: flex; gap: 22px; align-items: center; justify-content: flex-end; flex-wrap: wrap; font: 11pt var(--ch-police); color: var(--ch-essentiel); }
+.ch-legende span { display: inline-flex; align-items: center; gap: 8px; }
+.ch-legende .ch-sphere { --d: 14px; padding: 0; border-width: 1.2px; }
+.ch-legende .ch-sphere::after { display: none; }
+
+/* Titres de rubrique : majuscules, couleur de la rubrique. */
+.ch-titre { font: 700 12pt var(--ch-police); letter-spacing: 1.6px; text-transform: uppercase; }
+.ch-titre.comp { color: var(--ch-comp); } .ch-titre.int { color: var(--ch-int); }
+.ch-titre.form { color: var(--ch-form); } .ch-titre.poste { color: var(--ch-poste); }
+.ch-titre.parcours { color: var(--ch-encre); font-size: 18pt; letter-spacing: 1.2px; }

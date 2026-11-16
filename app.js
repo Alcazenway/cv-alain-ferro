@@ -287,23 +287,19 @@
   // le BAC ouvre la rangée du bas, le BTS est suspendu sous Apprenti courtier, hors du trajet.
   var etapesChemin = (parId.bac ? [parId.bac] : []).concat(ordre.filter(function (e) { return e.id !== "jeunesse" && !e.parent; }));
   var ANNEXES = { courtier: "bts" };
-  var LIBELLES_CHEMIN = { bac: ["BAC Sciences", "et technologies", "tertiaires"] };
-  // Fond discret des bulles : première photo de la fiche, sinon vignette de formation, sinon image d’ambiance du site.
-  var FONDS_CHEMIN = {
-    vendanges: "assets/vignettes/interet-jardinage.webp", skiman: "assets/vignettes/interet-randonnee.webp",
-    courtier: "assets/vignettes/competence-gestion.webp", londres: "assets/fonds/parcours-urbain.webp",
-    pailletrice: "assets/vignettes/competence-relation.webp", immobilier: "assets/vignettes/competence-relation.webp",
-    "thermes-agent": "assets/vignettes/formation-sst.webp", "thermes-responsable": "assets/vignettes/competence-encadrement.webp",
-    "stage-audit": "assets/vignettes/formation-titre-comptable.webp", "stage-cecosud": "assets/vignettes/competence-excel.webp",
-    "outils-ia": "assets/vignettes/competence-ia.webp"
-  };
-  function fondBulle(e) {
-    var v = vignette(e);
-    if (v) return v.src;
-    if (e.type === "formation") return fondVignette("formation", e.id);
-    return FONDS_CHEMIN[e.id] || null;
+  // Charte PDF : libellés propres au Parcours, données et autres rubriques inchangées.
+  var LIBELLES_CHEMIN = { bac: "BAC Sciences Technologies Tertiaires", simulation: "Simulation aérienne" };
+  function texteBulle(e) {
+    var t = LIBELLES_CHEMIN[e.id] || (e.bulle || [e.titreCourt || e.titre]).join(" ");
+    return t.replace(/\b[dDlL][’']/g, "").replace(/\b(de|des|du|et|par)\b/gi, " ").replace(/\//g, " ").replace(/\s+/g, " ").trim();
   }
-  function texteBulle(e) { return (LIBELLES_CHEMIN[e.id] || e.bulle || [e.titreCourt || e.titre]).join(" "); }
+  function sphereParcours(e, cls) {
+    var lignes = couper(texteBulle(e), 11);
+    return el("span", { class: "ch-sphere co-sphere-parcours" + (e.essentiel ? " essentiel" : "") + (cls ? " " + cls : ""),
+      "aria-hidden": "true" }, [
+      el("span", { class: "co-sphere-libelle", text: lignes.join("\n") })
+    ]);
+  }
   function couper(t, max) {
     var lignes = [], l = "";
     t.split(" ").forEach(function (m) { if ((l + " " + m).trim().length > max && l) { lignes.push(l); l = m; } else l = (l + " " + m).trim(); });
@@ -311,20 +307,12 @@
     return lignes;
   }
 
-  // Légende : trois filtres (routes #/parcours/exp-pro, projets-perso et exp-forte) ; un second clic les retire.
-  function legende(actif) {
-    var boutons = CATEGORIES.map(function (c) {
-      var presse = c.slug === actif;
-      var points = c.type === "forte"
-        ? [el("i", { class: "co-point plein", "aria-hidden": "true" }), el("i", { class: "co-point plein personnel", "aria-hidden": "true" })]
-        : [el("i", { class: "co-point " + c.type, "aria-hidden": "true" })];
-      var b = el("button", { type: "button", class: "co-filtre " + c.type, "aria-pressed": String(presse), "data-filtre": c.slug, title: c.titre }, points.concat(c.court));
-      b.addEventListener("click", function () { filtreFocus = c.slug; location.hash = presse ? "#/parcours" : "#/parcours/" + c.slug; });
-      return b;
-    });
-    // v2.27 : simple clé de lecture (non filtrante) pour les bulles de scolarité.
-    boutons.push(el("span", { class: "co-filtre-info formation" }, [el("i", { class: "co-point formation", "aria-hidden": "true" }), "Scolarité"]));
-    return el("div", { class: "co-legende", role: "group", "aria-label": "Filtrer le parcours" }, boutons);
+  // Clé de lecture commune au PDF ; les anciennes routes de filtre restent accessibles.
+  function legende() {
+    return el("div", { class: "ch-legende co-legende-parcours", role: "note", "aria-label": "Légende du parcours" }, [
+      el("span", null, [el("i", { class: "ch-sphere essentiel", "aria-hidden": "true" }), el("strong", { text: "Essentiel" }), " · expérience ou appétence forte"]),
+      el("span", null, [el("i", { class: "ch-sphere", "aria-hidden": "true" }), "Complément"])
+    ]);
   }
 
   // Repère temporel (v2.27) : petit jalon sur le trajet, texte et année seuls, sans image ni lien.
@@ -338,56 +326,35 @@
     ]);
   }
 
-  // 2.41 : définitions des bulles sphériques du Parcours (une fois par SVG).
-  // Lentille : assets/parcours/lentille.png (parcours-spheres-20261113/lentille.py), image plane enroulée sur une sphère.
+  // Sphères vectorielles de la charte : couleurs lues dans charte.css, sans photo ni lentille.
   function defsSphere() {
-    var stop = function (o, c, a) { return C.svg("stop", { offset: o, "stop-color": c, "stop-opacity": a }); };
-    var ombre = C.svg("radialGradient", { id: "co-sph-ombre", cx: 0.46, cy: 0.42, r: 0.58 }, [
-      stop(0, "#000", 0), stop(0.62, "#000", 0), stop(0.86, "#0b1a1c", 0.12), stop(1, "#0b1a1c", 0.34)]);
-    var reflet = C.svg("radialGradient", { id: "co-sph-reflet", cx: 0.34, cy: 0.28, r: 0.42, fx: 0.32, fy: 0.24 }, [
-      stop(0, "#fff", 0.78), stop(0.22, "#fff", 0.32), stop(0.6, "#fff", 0.06), stop(1, "#fff", 0)]);
-    return C.svg("defs", {}, [ombre, reflet]);
+    var stop = function (o, c, a) { return C.svg("stop", { offset: o, "stop-color": c, "stop-opacity": a == null ? 1 : a }); };
+    var gradient = function (id, arrets) { return C.svg("radialGradient", { id: id, cx: .36, cy: .30, r: .78 }, arrets); };
+    return C.svg("defs", {}, [
+      gradient("ch-ess", [stop(0, "var(--ch-ess-clair)"), stop(.5, "var(--ch-essentiel)"), stop(1, "var(--ch-ess-sombre)")]),
+      gradient("ch-comp", [stop(0, "#FFFFFF"), stop(.55, "#F1F5F6"), stop(1, "var(--ch-comp-bord)")]),
+      C.svg("radialGradient", { id: "ch-reflet" }, [stop(0, "#FFFFFF", .72), stop(.55, "#FFFFFF", .18), stop(1, "#FFFFFF", 0)])
+    ]);
   }
 
-  // Titres lisibles : 18 unités (environ 14 px à 1280×800), 16 si le libellé demande quatre lignes.
-  // v2.27 : fond photographique très discret, découpé dans le cercle ; retiré si le fichier manque.
   function noeudChemin(e, pos, r) {
-    var x = pos.x, y = pos.y, repere = !e.type, fond = repere ? null : fondBulle(e);
-    var lignes = couper(texteBulle(e), 11), taille = lignes.length > 3 ? 16 : 18, pas = taille + 2;
-    var cls = "co-noeud " + (repere ? "repere" : e.type) + (e.important ? " important" : "") + (fond ? " avec-fond" : "");
-    var contenu = [C.svg("circle", { cx: x, cy: y, r: r })];
-    if (fond) {
-      var clip = "co-bulle-" + e.id, img = C.svg("image", { href: fond, x: x - r, y: y - r, width: 2 * r, height: 2 * r,
-        preserveAspectRatio: "xMidYMid slice", "clip-path": "url(#" + clip + ")", class: "co-noeud-fond", "aria-hidden": "true" });
-      img.addEventListener("error", function () { img.remove(); });
-      contenu.push(C.svg("clipPath", { id: clip }, [C.svg("circle", { cx: x, cy: y, r: r - 1 })]), img,
-        C.svg("circle", { cx: x, cy: y, r: r, class: "co-noeud-contour" }));
-    }
-    // 2.41 : titre bombé en vectoriel (net) : chaque ligne est élargie au centre et resserrée vers les pôles,
-    // comme imprimée sur la sphère (projection orthographique), sans changer police, couleur ni découpe.
-    var titre = C.svg("g", { class: "co-noeud-titre" }, lignes.map(function (l, i) {
-      var ly = y + (i - (lignes.length - 1) / 2) * pas, t = Math.min(0.92, Math.abs(ly - y) / r);
-      var sx = 1.07 * Math.sqrt(1 - t * t * 0.85), sy = 1.04 * Math.sqrt(1 - t * t * 0.55);
-      var my = y + (ly - y) * (0.94 + 0.06 * sy);
-      return C.svg("text", { x: x, y: my, "text-anchor": "middle", "dominant-baseline": "middle", class: "co-noeud-texte", "font-size": taille,
-        transform: "translate(" + x + " " + my.toFixed(1) + ") scale(" + sx.toFixed(3) + " " + sy.toFixed(3) + ") translate(" + (-x) + " " + (-my).toFixed(1) + ")" }, [l]);
-    }));
-    // 2.41 : bulle rendue en sphère — couleurs et image inchangées, enroulées par la lentille ; titre bombé au-dessus de l’ombre, sous le reflet (filtre co-lentille-<id>, un par bulle en coordonnées absolues),
-    // puis modelé : ombre propre vers le bord et reflet en haut à gauche (dégradés de defsSphere). Période hors sphère.
-    var idL = "co-lentille-" + (e.id || "r" + Math.round(x) + "-" + Math.round(y)), m = 1.08 * r;   // = MARGE de lentille.py
-    var lentille = C.svg("filter", { id: idL, filterUnits: "userSpaceOnUse", primitiveUnits: "userSpaceOnUse", x: x - m, y: y - m, width: 2 * m, height: 2 * m, "color-interpolation-filters": "sRGB" }, [
-      C.svg("feImage", { href: "assets/parcours/lentille.png", x: x - m, y: y - m, width: 2 * m, height: 2 * m, preserveAspectRatio: "none", result: "carte" }),
-      C.svg("feDisplacementMap", { in: "SourceGraphic", in2: "carte", scale: (0.3 * 2 * m).toFixed(2), xChannelSelector: "R", yChannelSelector: "G" })
-    ]);
-    contenu = [lentille, C.svg("g", { class: "co-sphere", filter: "url(#" + idL + ")" }, contenu),
-      C.svg("circle", { cx: x, cy: y, r: r, class: "co-sph-ombre", fill: "url(#co-sph-ombre)", "aria-hidden": "true" }), titre,
-      C.svg("circle", { cx: x, cy: y, r: r, class: "co-sph-reflet", fill: "url(#co-sph-reflet)", "aria-hidden": "true" })];
-    contenu.push(
-      pos.periodeACote
-        ? C.svg("text", { x: x + r + 12, y: y + 5, "text-anchor": "start", class: "co-noeud-periode" }, [e.periode])
-        : C.svg("text", { x: x, y: y + r + 18, "text-anchor": "middle", class: "co-noeud-periode" }, [e.periode]));
-    if (repere) return C.svg("g", { class: cls, role: "img", "aria-label": e.titre + " " + e.periode }, contenu);
-    return C.svg("a", { href: "#/parcours/" + e.id, class: cls, "aria-label": bulle(e) + " (" + e.periode + ", " + LIBELLES[e.type] + (e.important ? ", élément marquant" : "") + ")" }, contenu);
+    r = pos.rayon || r;
+    var x = pos.x, y = pos.y, essentiel = !!e.essentiel;
+    var lignes = couper(texteBulle(e), 11), taille = (lignes.length > 3 ? 16 : 18) * (essentiel ? 1.08 : 1), pas = taille + 1;
+    var cls = "co-noeud co-noeud-charte " + e.type + (essentiel ? " essentiel" : "") + (e.important ? " important" : "");
+    var cx = x - .30 * r, cy = y - .48 * r;
+    var contenu = [C.svg("circle", { cx: x, cy: y, r: r, class: "co-sphere-fond" }),
+      C.svg("ellipse", { cx: cx, cy: cy, rx: .50 * r, ry: .30 * r, class: "co-sphere-reflet", fill: "url(#ch-reflet)",
+        transform: "rotate(-24 " + cx + " " + cy + ")", "aria-hidden": "true" })];
+    contenu.push(C.svg("g", { class: "co-noeud-titre" }, lignes.map(function (l, i) {
+      return C.svg("text", { x: x, y: y + (i - (lignes.length - 1) / 2) * pas, "text-anchor": "middle",
+        "dominant-baseline": "middle", class: "co-noeud-texte", "font-size": taille }, [l]);
+    })));
+    contenu.push(pos.periodeACote
+      ? C.svg("text", { x: x + r + 12, y: y + 5, "text-anchor": "start", class: "co-noeud-periode" }, [e.periode])
+      : C.svg("text", { x: x, y: y + r + 18, "text-anchor": "middle", class: "co-noeud-periode" }, [e.periode]));
+    return C.svg("a", { href: "#/parcours/" + e.id, class: cls,
+      "aria-label": texteBulle(e) + " (" + e.periode + ", " + (essentiel ? "Essentiel, expérience ou appétence forte" : "Complément") + ")" }, contenu);
   }
 
   function anneeDebut(e) { var m = /\d{4}/.exec(e.periode || ""); return m ? +m[0] : null; }
@@ -403,7 +370,7 @@
       if (b) { tous.push(b); if (iAnnexe < 0) { iAnnexe = i; annexe = b; } }
     });
     tous.push(repere(REPERES.fin, "aujourdhui"));
-    var geo = C.chemin(etapesChemin.length, iAnnexe);
+    var geo = C.chemin(etapesChemin.length, iAnnexe, etapesChemin.map(function (e) { return !!e.essentiel; }));
     var filtre = cat ? " filtre-" + cat.type : "";
     var vueChemin = null;
     if (geo) {
@@ -420,7 +387,7 @@
       enfants.push(repereTemps(REPERES.debut, geo.debut, "gauche"), repereTemps(REPERES.enfance, enfance, "gauche"),
         repereTemps(REPERES.fin, geo.fin, "dessous"));
       enfants = enfants.concat(etapesChemin.map(function (e, i) { return noeudChemin(e, geo.positions[i], geo.rayon); }));
-      if (geo.annexe) enfants.push(noeudChemin(annexe, { x: geo.annexe.x, y: geo.annexe.y, periodeACote: true }, geo.rayon));
+      if (geo.annexe) enfants.push(noeudChemin(annexe, { x: geo.annexe.x, y: geo.annexe.y, rayon: geo.rayon * (annexe.essentiel ? 1.12 : 1), periodeACote: true }, geo.rayon));
       // 2.42 : le personnage passe au-dessus des sphères (il marche sur leur dessus, jamais masqué).
       enfants.push(calque);
       // Seule la petite étiquette d’âge passe au-dessus des bulles, pour rester lisible.
@@ -443,15 +410,18 @@
     var vueListe = el("ol", { class: "co-chemin-liste" + filtre + (geo ? "" : " toujours"), reversed: "" }, tous.slice().reverse().map(function (e) {
       if (!e.type) return el("li", { class: "co-arret repere" }, [el("span", { class: "co-arret-corps" }, [
         el("span", { class: "co-arret-titre", text: e.titre }), el("small", { text: e.periode })])]);
-      return el("li", { class: "co-arret " + e.type + (e.important ? " important" : "") }, [el("a", { href: "#/parcours/" + e.id, class: "co-arret-corps" }, [
+      return el("li", { class: "co-arret co-arret-charte " + e.type + (e.essentiel ? " essentiel" : "") + (e.important ? " important" : "") }, [el("a", { href: "#/parcours/" + e.id, class: "co-arret-corps" }, [
+        el("i", { class: "ch-sphere" + (e.essentiel ? " essentiel" : ""), "aria-hidden": "true" }),
         el("span", { class: "co-arret-titre", text: texteBulle(e) }), el("small", { text: e.periode }),
-        el("span", { class: "visuellement-cache", text: " (" + LIBELLES[e.type] + (e.important ? ", élément marquant" : "") + ")" })
+        el("span", { class: "visuellement-cache", text: " (" + (e.essentiel ? "Essentiel, expérience ou appétence forte" : "Complément") + ")" })
       ])]);
     }));
     // En-tête réduit à une ligne pour laisser toute la hauteur au chemin.
     // Titre fixe : le filtre actif se lit déjà sur son bouton.
-    var tete = el("header", { class: "co-tete-parcours" }, [el("h1", { id: "fiche-titre", tabindex: "-1", text: "Parcours" }), legende(cat ? cat.slug : "")]);
-    return [tete, vueChemin, vueListe];
+    var tete = el("header", { class: "co-tete-parcours" }, [el("h1", { id: "fiche-titre", tabindex: "-1", text: "PARCOURS" })]);
+    // Les anciennes catégories restent navigables, sans se confondre avec Essentiel/Complément.
+    var filtreActif = cat ? el("p", { class: "co-parcours-filtre" }, ["Filtre : " + cat.titre + " · ", el("a", { href: "#/parcours", text: "Tout le parcours" })]) : null;
+    return [tete, filtreActif, vueChemin, vueListe, legende()];
   }
 
   /* ---------- Formation : page séparée, hors chemin ---------- */
@@ -597,9 +567,10 @@
     if (contexte) dejaVu.push(contexte);
     var missions = (e.missions || []).filter(function (m) { return dejaVu.indexOf(m) === -1; });
     var c = parent.match(/^\/competence\/([\w-]+)$/), pf = parent.match(/^\/parcours\/([\w-]+)$/);
-    var fiche = el("div", { class: "fiche fiche-" + e.type }, [
+    var fiche = el("div", { class: "fiche fiche-" + e.type + " co-fiche-parcours" }, [
       retour(parent, pf && parId[pf[1]] ? parId[pf[1]].titre : /^\/parcours/.test(parent) ? "Parcours" : c && compId[c[1]] ? compId[c[1]].titre : RETOURS[parent] || "Retour"),
       el("header", { class: "fiche-tete " + e.type }, [
+        sphereParcours(e, "co-fiche-sphere"),
         el("h1", { id: "fiche-titre", tabindex: "-1", text: e.titre }),
         el("p", { class: "fiche-periode" }, [Icones.symbole("periode"), "(" + e.periode + ")"]),
         e.lieu ? el("p", { class: "fiche-lieu" }, [Icones.symbole("lieu"), e.lieu]) : null,
