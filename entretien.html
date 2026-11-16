@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proposer un entretien — Alain FERRO</title>
+<meta name="description" content="Proposer un entretien à Alain Ferro : votre messagerie s’ouvre avec un message prêt à envoyer.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/favicon.png">
+<link rel="stylesheet" href="entretien.css?v=2.50.0">
+</head>
+<body>
+<main class="ent">
+  <h1>Proposer un entretien</h1>
+  <p class="ent-qui">à <strong>Alain FERRO</strong></p>
+  <p class="ent-etat" id="ent-etat" role="status">Écrivez à Alain Ferro ou appelez-le : les recours ci-dessous fonctionnent toujours.</p>
+  <section class="ent-choix" aria-labelledby="ent-titre-choix">
+    <h2 id="ent-titre-choix">Rien ne s’est ouvert ? Touchez votre messagerie :</h2>
+    <!-- v2.50 : recours statiques, actifs même si les données ou le script ne se chargent pas (remplacés par entretien.js). -->
+    <div class="ent-boutons" id="ent-boutons">
+      <a class="ent-bouton principal" href="mailto:alainferro34@gmail.com?subject=Proposition%20d%E2%80%99entretien">Ma messagerie habituelle</a>
+      <a class="ent-bouton secondaire" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=alainferro34%40gmail.com&amp;su=Proposition%20d%E2%80%99entretien" target="_blank" rel="noopener">Gmail</a>
+      <p class="ent-adresse">Adresse : <strong>alainferro34@gmail.com</strong></p>
+    </div>
+  </section>
+  <section class="ent-apercu" id="ent-apercu" aria-labelledby="ent-titre-apercu" hidden>
+    <h2 id="ent-titre-apercu">Message préparé</h2>
+    <p class="ent-objet"><span>Objet :</span> <span id="ent-objet"></span></p>
+    <pre id="ent-corps"></pre>
+  </section>
+  <p class="ent-tel">Ou par téléphone : <a id="ent-tel" href="tel:+33612761012">06 12 76 10 12</a></p>
+  <p class="ent-retour"><a href="./?v=2.50.0#/">Voir le CV détaillé d’Alain Ferro</a></p>
+</main>
+<script src="data/contenu.js?v=2.50.0"></script>
+<script src="entretien.js?v=2.50.0"></script>
+</body>
+</html>
