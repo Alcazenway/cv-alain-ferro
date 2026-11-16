@@ -73,3 +73,13 @@ h1 { margin: 26px 0 12px; font-size: 1.7rem; color: var(--encre); }
 .ent-champ input[readonly], .ent-champ textarea[readonly] { background: var(--pale); }
 .ent-annonce { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; margin: 0; }
 @media (prefers-reduced-motion: reduce) { .ent-tuile { transition: none; } }
+
+/* Identité strictement commune à Présentation : Terre, portrait et coordonnées. */
+.ent-carte { display: block; padding: 0; border: 0; background: transparent; box-shadow: none; }
+#ent-identite { max-width: 420px; margin: 0 auto; }
+.ent-nav { display: flex; justify-content: center; gap: 18px; margin: 12px 0 0; }
+.ent-pastille { min-width: 130px; min-height: 64px; justify-content: center; gap: 12px; border: 1px solid var(--filet); background: #fff; font-size: 1.1rem; }
+.ent-pastille .ic-pdf { width: 36px; height: 36px; color: #B53631; }
+.ent-icone-parcours { width: 34px; height: 34px; flex: none; }
+.ent-pastille:focus-visible { outline: 3px solid #155E66; outline-offset: 3px; }
+html, body { background: #fff; }

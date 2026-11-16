@@ -1,0 +1,5 @@
+.pr-terre { display: block; width: 100%; max-width: 480px; height: auto; margin: 0 auto; }
+.pr-terre a, .pr-terre a:hover { text-decoration: none; cursor: pointer; }
+.pr-terre .pr-contact:focus-visible { outline: none; }
+.pr-terre .pr-contact:focus-visible rect { fill: #03122A; stroke: #FFD27A; stroke-width: 3px; }
+.pr-terre .pr-contact:hover text { fill: #FFD27A; }

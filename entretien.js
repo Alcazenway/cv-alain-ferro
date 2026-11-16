@@ -8,6 +8,13 @@
   "use strict";
   var $ = function (id) { return document.getElementById(id); };
   var I = window.CV && window.CV.identite;
+  // Même composant que Présentation ; les coordonnées statiques restent disponibles sans script.
+  if (I && I.nom && I.portrait && I.permis && I.langues && I.ville && window.IdentiteTerre) {
+    var terre = window.IdentiteTerre.creer(I, {entretien: "#ent-objet"});
+    terre.querySelector('a[href^="tel:"]').id = "ent-tel";
+    terre.querySelector('a[href^="mailto:"]').id = "ent-mail";
+    $("ent-identite").replaceChildren(terre);
+  }
   var email = (I && I.email) || "alainferro34@gmail.com";
   var objet = $("ent-objet"), corps = $("ent-corps");
   if (I && I.mail && I.mail.objet && I.mail.corps) { objet.value = I.mail.objet; corps.value = I.mail.corps; }
@@ -21,7 +28,7 @@
     $("env-gmail").href = "https://mail.google.com/mail/?view=cm&fs=1&to=" + q(email) + "&su=" + q(objet.value) + "&body=" + q(texte());
     $("env-outlook").href = "https://outlook.live.com/mail/0/deeplink/compose?to=" + q(email) + "&subject=" + q(objet.value) + "&body=" + q(texte());
     $("env-365").href = "https://outlook.office.com/mail/deeplink/compose?to=" + q(email) + "&subject=" + q(objet.value) + "&body=" + q(texte());
-    $("ent-mail").href = mailto();
+    $("ent-mail").setAttribute("href", mailto());
   }
   // Champs en lecture seule tant que le script n'est pas actif (sans JS, le message affiché = message envoyé).
   objet.readOnly = false; corps.readOnly = false;

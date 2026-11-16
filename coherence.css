@@ -622,11 +622,6 @@ body.sur-accueil #accueil { padding: 0; color: var(--ch-texte); --focus: var(--c
 #accueil .lecture-flux { padding-top: 0; }
 #accueil .co-une { display: grid; grid-template-columns: 480px minmax(0, 1fr); gap: 48px; align-items: center; padding: 36px 20px 24px; overflow: visible; }
 #accueil #titre-nom { position: absolute !important; }
-.pr-terre { display: block; width: 100%; max-width: 480px; height: auto; margin: 0 auto; }
-.pr-terre a, .pr-terre a:hover { text-decoration: none; cursor: pointer; }
-.pr-terre .pr-contact:focus-visible { outline: none; }
-.pr-terre .pr-contact:focus-visible rect { fill: #03122A; stroke: var(--ch-or); stroke-width: 3px; }
-.pr-terre .pr-contact:hover text { fill: var(--ch-or); }
 .pr-profil h2 { margin: 0 0 14px; padding: 0; color: var(--ch-encre); font: 700 13px/1.4 var(--ch-police); letter-spacing: 1.6px; text-transform: uppercase; }
 .pr-profil p { margin: 0 0 14px; max-width: none; color: var(--ch-texte); font: 400 16px/1.62 var(--ch-police); }
 .pr-profil p:last-child { margin-bottom: 0; }
