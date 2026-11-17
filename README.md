@@ -33,7 +33,7 @@ Parcours : spirale interactive (spirale.js, spirale.css), naissance au centre, �
 
 Fiches : un seul titre sur une ligne, période entre parenthèses juste dessous dans l’en-tête, lieu, résumé, puis une phrase explicative sur l’apport concret (`apportCourt`) ; galeries sans en-tête. Les intitulés des liens reprennent les libellés courts du parcours, avec ajustement de la police sans ellipse. Les périodes ne figurent pas dans les liens.
 
-Routes stables : `#/parcours/<id>`, `#/competence/<id>`, `#/parcours/exp-pro|projets-perso`, `#/savoir-formations`, `#/interets`, `#/metiers`, `#/realisations`, `#/carte`, `#/mentions`. Anciennes adresses conservées : `#/contact` (présentation, actions de contact), `#/parcours/thermes-adjoint` (fiche fusionnée « Responsable d’équipe soignant »), `#/parcours/savoir` (onglet « Savoir - formations »), `#/parcours/enfance` et `#/parcours/adolescence` (fiches retirées en 2.1, renvoi vers le parcours).
+Routes stables : `#/parcours/<id>`, `#/competence/<id>`, `#/parcours/exp-pro|projets-perso`, `#/savoir-formations`, `#/interets`, `#/metiers`, `#/realisations`, `#/carte`, `#/mentions`. Anciennes adresses conservées : `#/contact` (présentation, actions de contact), `#/parcours/thermes-adjoint` (fiche fusionnée « Responsable équipes soignants »), `#/parcours/savoir` (onglet « Savoir - formations »), `#/parcours/enfance` et `#/parcours/adolescence` (fiches retirées en 2.1, renvoi vers le parcours).
 
 Les photographies et visuels restent la propriété de leur auteur. Les logos identifient les outils de leurs éditeurs. Images et vidéos locales sont chargées à la demande.
 

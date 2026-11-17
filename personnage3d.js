@@ -352,7 +352,7 @@ export function creer(calque, calqueHaut) {
     M.haut.color.copy(couleur(s.haut)); M.bas.color.copy(couleur(s.bas)); M.bras.color.copy(couleur(s.bras));
     M.chaus.color.copy(couleur(s.chaussure)); M.cheveux.color.copy(couleur(s.cheveux));
     M.salop.color.copy(couleur(s.bas)); M.veste.color.copy(couleur(s.vesteC || s.bras));
-    M.blouse.color.copy(couleur(s.blouseC || s.haut)); // 2.45 : blouse de médecin bleue #a8bfd4 (Responsable d’équipe soignant)
+    M.blouse.color.copy(couleur(s.blouseC || s.haut)); // 2.45 : blouse de médecin bleue #a8bfd4 (Responsable équipes soignants)
     if (s.badgeC) M.badge.color.copy(couleur(s.badgeC)); if (s.lisereC) { M.lisere.color.copy(couleur(s.lisereC)); M.vcol.color.copy(couleur(s.lisereC)); }
     // 2.45 : barbe qui pousse (teinte de la peau vers le brun foncé, puis volume).
     const pousse = Math.max(0, Math.min(1, s.barbe || 0));
