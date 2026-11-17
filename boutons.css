@@ -1,0 +1,33 @@
+/* Charte boutons B épurée (2.61.0) — capsule arrondie, pastille dominante, 1 à 2 mots, aucun sous-texte.
+   Modèle validé par Alain le 17/11/2026 : boutons-20261117/B-epure.html (dossier privé). Icônes : assets/boutons/. */
+.bb { position: relative; box-sizing: border-box; display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 5px 20px 5px 5px;
+  border: 1.5px solid #155E66; border-radius: 999px; background: #fff; color: #155E66; font: 700 15px/1 "Segoe UI", Arial, sans-serif;
+  letter-spacing: 0; text-transform: none; text-decoration: none; text-shadow: none; white-space: nowrap; cursor: pointer;
+  transition: box-shadow .2s, background-color .2s, border-color .2s; -webkit-tap-highlight-color: transparent; }
+.bb:hover, .bb:focus-visible, .bb:visited { text-decoration: none; }
+.bb-pastille { position: relative; display: grid; place-items: center; width: 42px; height: 42px; flex: none; border-radius: 50%; background: #E3ECEB; transition: transform .2s; }
+.bb-ic { display: block; width: 26px; height: 26px; }
+.bb-badge { position: absolute; right: -3px; bottom: -3px; width: 19px; height: 19px; border-radius: 50%; background: #155E66 center / 12px 12px no-repeat; box-shadow: 0 0 0 2px #fff; }
+.bb-badge-bas { background-image: url("assets/boutons/badge-bas.svg"); }
+.bb-badge-pro { background-color: #0A3F7A; background-image: url("assets/boutons/badge-mallette.svg"); }
+.bb:hover { box-shadow: 0 6px 16px #155e6630; } .bb:hover .bb-pastille { transform: scale(1.08); }
+.bb:active .bb-pastille { transform: scale(.96); }
+.bb:focus-visible { outline: none; box-shadow: 0 0 0 3px #fff, 0 0 0 6px #155E66, 0 0 0 9px #FFD27A; }
+/* Priorités : principale, secondaire, navigation, messagerie. */
+.bb-p1 { border-color: transparent; color: #fff; background: linear-gradient(135deg, #5B8E94, #155E66 45%, #0D3A3F); }
+.bb-p1:hover, .bb-p1:focus-visible, .bb-p1:visited { color: #fff; }
+.bb-p1 .bb-pastille { background: #fff; box-shadow: 0 2px 6px #0003; }
+.bb-p2 .bb-pastille { background: #FBECEB; }
+.bb-p2:hover, .bb-p2:visited, .bb-p3:visited { color: #155E66; }
+.bb-p3 { border-color: transparent; background: #E3ECEB; } .bb-p3 .bb-pastille { background: #fff; } .bb-p3:hover { background: #d6e4e2; color: #155E66; }
+.bb-m { border-color: #D9E3E1; color: #19383D; } .bb-m:hover, .bb-m:visited { color: #19383D; }
+.bb-m .bb-pastille { background: #fff; box-shadow: 0 0 0 2px var(--bb-marque), 0 3px 8px #19383d1f; }
+.bb-m:hover { border-color: var(--bb-marque); }
+.bb-gm { --bb-marque: #EA4335; } .bb-ol { --bb-marque: #0F6CBD; } .bb-pro { --bb-marque: #0A3F7A; }
+/* Très petits écrans (≤ 380 px) : même capsule, un peu plus compacte ; cible ≥ 44 px conservée. */
+@media (max-width: 380px) {
+  .bb { gap: 7px; min-height: 48px; padding-right: 12px; font-size: 14px; }
+  .bb-pastille { width: 38px; height: 38px; } .bb-ic { width: 23px; height: 23px; }
+}
+@media (prefers-reduced-motion: reduce) { .bb, .bb-pastille { transition: none; } }
+@media print { .bb { box-shadow: none; } }

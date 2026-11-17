@@ -79,3 +79,5 @@
 /* Sept rubriques : Réalisations conserve le même rythme que les autres onglets. */
 .co-onglets a[data-rubrique="realisations"] { --pr-rubrique: var(--ch-essentiel); }
 @media (min-width: 1101px) { .co-onglets { gap: 6px; }.co-onglets a { font-size: 12px; letter-spacing: 1.2px; } }
+/* 2.61.0 bb-bandeau : capsules B épurées du bandeau (boutons.css) ; partage de la largeur sur téléphone. */
+@media (max-width: 700px) { .co-actions-bandeau .bb { flex: 1 1 0; min-width: 0; } }

@@ -83,3 +83,8 @@ h1 { margin: 26px 0 12px; font-size: 1.7rem; color: var(--encre); }
 .ent-icone-parcours { width: 34px; height: 34px; flex: none; }
 .ent-pastille:focus-visible { outline: 3px solid #155E66; outline-offset: 3px; }
 html, body { background: #fff; }
+/* 2.61.0 bb-ent : charte boutons B épurée (boutons.css) — disposition propre à Entretien. */
+.ent-nav { gap: 12px; flex-wrap: wrap; }
+.ent-envoi { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.ent-envoi .bb { flex: 1 1 170px; }
+@media (max-width: 560px) { .ent-envoi .bb { flex-basis: 100%; } }
