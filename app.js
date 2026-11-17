@@ -72,7 +72,7 @@
   var VERSION = "Version " + D.mentions.version;
 
   function construirePresentation() {
-    var terre = window.IdentiteTerre.creer(I, {sansContour: true});
+    var terre = window.IdentiteTerre.creer(I, {sansContour: true, anime: true});
 
     var profil = el("section", { class: "pr-profil", "aria-labelledby": "pr-titre" }, [el("h2", { id: "pr-titre", text: "Présentation" })]);
     I.promesse.split("\n").filter(Boolean).forEach(function (t) { profil.appendChild(el("p", { text: t })); });
@@ -97,7 +97,7 @@
     });
     var bulles = el("ul", { class: "pr-essentielles", "aria-label": "Expériences essentielles" }, essentielles.map(function (e) {
       return el("li", null, [el("a", { class: "ch-sphere essentiel pr-sphere", href: "#/parcours/" + e.id, "aria-label": texteBulle(e) + " · " + periode(e) + " · Essentiel" }, [
-        // Insécables : « 11 m » et le point médian restent avec le mot précédent.
+        // Insécables : nombre suivi de « m » et point médian restent avec le mot précédent.
         el("b", { text: texteBulle(e).replace(/ ·/g, " ·").replace(/(\d) m\b/g, "$1 m") }), el("span", { class: "pr-periode", text: periode(e) })
       ])]);
     }));

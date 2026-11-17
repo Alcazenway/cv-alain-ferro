@@ -16,7 +16,8 @@ body.mv-active > main { position: relative; z-index: 1; }
 .pr-terre:focus-within, .pr-terre:hover, .pr-sphere:hover, .pr-sphere:focus-visible,
 .re-carte:hover .re-visuel, .re-carte:focus-visible .re-visuel,
 .co-bulle-appli a:hover .co-bulle-disque, .co-bulle-appli a:focus-visible .co-bulle-disque { animation-play-state: paused; }
-.pr-terre { animation: mv-terre-eclat 8s ease-in-out infinite alternate; }
+.pr-terre, .pr-terre-boite { animation: mv-terre-eclat 8s ease-in-out infinite alternate; }
+.pr-terre-boite > .pr-terre { animation: none; }
 @keyframes mv-terre-eclat { from { filter: drop-shadow(0 2px 3px #155e6612); } to { filter: drop-shadow(0 6px 10px #155e662e); } }
 /* Modelé vivant des sphères de jeu, sans intervenir sur leurs positions ou collisions. */
 .pr-sphere::after, .bi-charte .ch-sphere::after, .co-sphere-reflet { animation: mv-reflet 5.5s ease-in-out infinite alternate; }
@@ -29,6 +30,21 @@ body.mv-active > main { position: relative; z-index: 1; }
 /* Le lecteur garde l’image du PDF et ses zones cliquables exactement superposées. */
 .cvl-barre::after { content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #155e6670, transparent); background-size: 50% 100%; animation: mv-lecture 9s linear infinite; pointer-events: none; }
 @keyframes mv-lecture { to { background-position: 200% 0; } }
+/* 2.60.0 : sphères du Parcours toujours en léger mouvement tant que la page est affichée :
+   respiration du disque autour de son centre et reflet qui glisse. Textes, liens, chemin et personnage fixes. */
+.co-chemin .co-noeud-charte .co-sphere-fond { transform-box: fill-box; transform-origin: 50% 50%; animation: mv-souffle 5.2s ease-in-out infinite alternate; }
+.co-chemin .co-noeud-charte .co-sphere-reflet { animation: mv-reflet 5.5s ease-in-out infinite alternate, mv-reflet-glisse 7.4s ease-in-out infinite alternate; }
+.co-chemin .co-noeud-charte:nth-of-type(2n) .co-sphere-fond { animation-duration: 6.1s; animation-delay: -2.3s; }
+.co-chemin .co-noeud-charte:nth-of-type(3n) .co-sphere-fond { animation-duration: 4.6s; animation-delay: -3.7s; }
+.co-chemin .co-noeud-charte:nth-of-type(2n) .co-sphere-reflet { animation-delay: -1.6s, -4.1s; }
+.co-chemin .co-noeud-charte:nth-of-type(3n) .co-sphere-reflet { animation-delay: -3s, -2.2s; }
+/* Liste du Parcours (petit écran / fenêtre basse) : petites sphères en respiration et reflet vivant. */
+.co-arret-charte .ch-sphere { animation: mv-souffle 5.2s ease-in-out infinite alternate; }
+.co-arret-charte:nth-child(2n) .ch-sphere { animation-duration: 6.1s; animation-delay: -2.3s; }
+.co-arret-charte:nth-child(3n) .ch-sphere { animation-duration: 4.6s; animation-delay: -3.7s; }
+.co-arret-charte .ch-sphere::after { animation: mv-reflet 5.5s ease-in-out infinite alternate; }
+@keyframes mv-souffle { from { scale: .965; } to { scale: 1.035; } }
+@keyframes mv-reflet-glisse { from { translate: -4px -2px; } to { translate: 4px 3px; } }
 /* Pause de toutes les animations CSS, anciennes et nouvelles, quand l’onglet n’est pas affiché. */
 html.mv-pause *, html.mv-pause *::before, html.mv-pause *::after { animation-play-state: paused !important; }
 @media (prefers-reduced-motion: reduce) {

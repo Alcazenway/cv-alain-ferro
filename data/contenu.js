@@ -19,7 +19,7 @@ window.CV = {
   "identite": {
     "nom": "Alain Ferro",
     "accroche": "Administration, coordination et relation clients",
-    "promesse": "Mon parcours commence dans le commerce : un BAC Sciences et technologies tertiaires, puis un BTS commercial préparé en alternance dans le courtage en vins, au contact des domaines viticoles. Une année à Londres, entre restauration et enquêtes téléphoniques, m’a ensuite appris à m’adapter rapidement à un nouvel environnement.\nJ’ai créé et dirigé pendant sept ans une activité de négoce de truffes auprès de la restauration gastronomique, puis encadré pendant dix ans 30 à 40 agents et kinésithérapeutes aux Thermes de Balaruc-les-Bains. Formé au management, à la gestion des conflits et à la comptabilité, certifié Tosa Excel avancé (850 / 1000) et habitué aux outils de gestion documentaire et de maintenance (GED, GMAO), j’associe organisation, relation clients et rigueur administrative.\nUtilisateur des modèles de langage (LLM) depuis leur arrivée en 2022, j’orchestre aujourd’hui des assistants IA pour mener des projets complets, du cadrage au contrôle des résultats : applications, sites, logiciel Windows et, avec SkyLivra, des créations pour la simulation de vol. Consignes écrites, rôles répartis et suivi de versions : la même méthode que pour diriger une équipe.\nPilote virtuel depuis plus de vingt ans, je prépare mes vols comme dans la réalité : plan de vol, météo, cartes et navigation, puis pilotage d’Airbus, de Boeing et d’avions légers. Cette passion, comme les trois années passées à rénover un bateau en bois de 11 mètres, m’a appris la persévérance, le respect des procédures et une méthode rigoureuse. Curieux de sciences et d’astronomie, j’aime comprendre comment les choses fonctionnent.",
+    "promesse": "Mon parcours commence dans le commerce : un BAC Sciences et technologies tertiaires, puis un BTS commercial préparé en alternance dans le courtage en vins, au contact des domaines viticoles. Une année à Londres, entre restauration et enquêtes téléphoniques, m’a ensuite appris à m’adapter rapidement à un nouvel environnement.\nJ’ai créé et dirigé pendant sept ans une activité de négoce de truffes auprès de la restauration gastronomique, puis encadré pendant dix ans 30 à 40 agents et kinésithérapeutes aux Thermes de Balaruc-les-Bains. Formé au management, à la gestion des conflits et à la comptabilité, certifié Tosa Excel avancé (850 / 1000) et habitué aux outils de gestion documentaire et de maintenance (GED, GMAO), j’associe organisation, relation clients et rigueur administrative.\nUtilisateur des modèles de langage (LLM) depuis leur arrivée en 2022, j’orchestre aujourd’hui des assistants IA pour mener des projets complets, du cadrage au contrôle des résultats : applications, sites, logiciel Windows et, avec SkyLivra, des créations pour la simulation de vol. Consignes écrites, rôles répartis et suivi de versions : la même méthode que pour diriger une équipe.\nPilote virtuel depuis plus de vingt ans, je prépare mes vols comme dans la réalité : plan de vol, météo, cartes et navigation, puis pilotage d’Airbus, de Boeing et d’avions légers. Cette passion, comme les trois années passées à rénover un bateau en bois, m’a appris la persévérance, le respect des procédures et une méthode rigoureuse. Curieux de sciences et d’astronomie, j’aime comprendre comment les choses fonctionnent.",
     "ville": "Poussan (34560)",
     "email": "alainferro34@gmail.com",
     "telephone": "06 12 76 10 12",
@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.59.3",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.60.0",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -442,7 +442,7 @@ window.CV = {
       "sousTitre": "Bois, plomberie, électricité, préparation et chiffrage",
       "resume": "Préparer un chantier, chiffrer les achats et réaliser soi-même avec l’outillage adapté.",
       "detail": [
-        "Rénovation d’un bateau en bois de 11 mètres pendant trois ans : menuiserie, résine époxy, plomberie, électricité 220 V / 12 V.",
+        "Rénovation d’un bateau en bois pendant trois ans : menuiserie, résine époxy, plomberie, électricité 220 V / 12 V.",
         "Travaux dans la maison familiale à Poussan : préparation, organisation et chiffrage des achats.",
         "Outillage pratiqué : perceuse à percussion, disqueuse, scie sauteuse, ponceuse, élagueuse, tronçonneuse, tondeuse.",
         "Pratique personnelle développée au fil des chantiers et de l’entretien du matériel."
@@ -958,7 +958,7 @@ window.CV = {
       {
         "id": "bateau",
         "titre": "Rénovation bateau",
-        "intro": "Un chantier personnel de trois ans sur un bateau en bois de 11 mètres.",
+        "intro": "Un chantier personnel de trois ans sur un bateau en bois.",
         "ids": [
           "bateau"
         ]
@@ -1140,13 +1140,13 @@ window.CV = {
       "id": "bateau",
       "essentiel": true,
       "type": "personnel",
-      "titre": "Rénovation Bateau bois 11 m",
-      "titreCourt": "Rénovation Bateau bois 11 m",
+      "titre": "Rénovation Bateau bois",
+      "titreCourt": "Rénovation Bateau bois",
       "important": true,
       "lieu": "",
       "resume": "Trois ans de chantier sur une coque à clin.",
       "apportCourt": "Conduite d’un chantier de trois ans, de la préparation aux interventions techniques.",
-      "contexte": "Rénovation du Wyjume, un bateau en bois de 11 mètres à coque à clin. Ce chantier a mobilisé la préparation, l’organisation des travaux et une pratique directe de plusieurs techniques. Les photos personnelles montrent notamment le carénage, les boiseries, le ponçage et le tableau électrique.",
+      "contexte": "Rénovation du Wyjume, un bateau en bois à coque à clin. Ce chantier a mobilisé la préparation, l’organisation des travaux et une pratique directe de plusieurs techniques. Les photos personnelles montrent notamment le carénage, les boiseries, le ponçage et le tableau électrique.",
       "missions": [
         "Menuiserie et aménagement intérieur.",
         "Travaux en résine époxy.",
@@ -1232,7 +1232,7 @@ window.CV = {
         }
       ],
       "bulle": [
-        "Rénovation Bateau bois 11 m"
+        "Rénovation Bateau bois"
       ],
       "periode": "2003–2006"
     },
@@ -3087,7 +3087,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie, n’utilise aucun outil de mesure d’audience et ne contient aucun formulaire : l’éditeur ne collecte aucune donnée. Le bouton « Proposer un entretien » ouvre simplement votre messagerie, sans aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "11 novembre 2026",
-    "version": "2.59.3"
+    "version": "2.60.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"

@@ -17,7 +17,7 @@
       '<radialGradient id="pr-bord" cx=".42" cy=".38" r=".62"><stop offset=".7" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#01060F" stop-opacity=".55"/></radialGradient>' +
       '<radialGradient id="pr-reflet"><stop offset="0" stop-color="#fff" stop-opacity=".72"/><stop offset=".55" stop-color="#fff" stop-opacity=".18"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>' +
       '<filter id="pr-detourage" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="1" stdDeviation="1.2" flood-color="#03122A" flood-opacity=".9"/></filter></defs>' +
-      '<g clip-path="url(#pr-terre-clip)" aria-hidden="true"><image href="assets/presentation/terre-apollo17-640.jpg" x="14" y="14" width="452" height="452"/><rect x="14" y="14" width="452" height="452" fill="url(#pr-voile)"/><circle cx="240" cy="240" r="226" fill="url(#pr-bord)"/></g>' +
+      '<g clip-path="url(#pr-terre-clip)" aria-hidden="true"><image class="pr-terre-photo" href="assets/presentation/terre-apollo17-640.jpg" x="14" y="14" width="452" height="452"/><rect x="14" y="14" width="452" height="452" fill="url(#pr-voile)"/><circle cx="240" cy="240" r="226" fill="url(#pr-bord)"/></g>' +
       '<ellipse cx="160" cy="112" rx="104" ry="56" fill="url(#pr-reflet)" opacity=".5" transform="rotate(-24 160 112)" aria-hidden="true"/>' +
       (options.sansContour ? "" : '<circle cx="240" cy="240" r="226" fill="none" stroke="#8FC3F0" stroke-width="4" opacity=".9" aria-hidden="true"/>');
     terre.querySelector("title").textContent = I.nom + ", coordonnées et proposition d’entretien";
@@ -42,6 +42,8 @@
     ligne(381, 14, (permis[1] || "") + " · " + I.langues.replace(" courant", "").replace(" · Anglais", ", anglais"), null, 700);
     if (!options.sansEntretien) ligne(418, 19, "Proposer un entretien", null, 700, options.entretien || "entretien.html");
     terre.appendChild(textes);
+    // 2.60.0 : globe animé sous le portrait (Présentation). Repli = cette même photo fixe.
+    if (options.anime && window.GlobeTerre) return window.GlobeTerre.envelopper(terre);
     return terre;
   }};
 })();

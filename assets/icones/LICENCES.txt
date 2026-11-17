@@ -29,4 +29,7 @@ licenses or are distributed under the Apache 2.0 license.
 # Code: MIT (https://opensource.org/licenses/MIT)
 The MIT license applies to all non-font and non-icon files.
 - terre-apollo17-640.jpg (PDF, bulle centrale) : « The Earth seen from Apollo 17 », NASA, domaine public (Wikimedia Commons).
+- terre-jour-1024.jpg (2.60.0, globe animé de Présentation) : « The Blue Marble: land surface, ocean color and sea ice », NASA Goddard Space Flight Center / Visible Earth (Reto Stöckli, Robert Simmon ; données MODIS), https://visibleearth.nasa.gov/images/57730 ; copie Wikimedia Commons « Land_ocean_ice_2048.jpg » (marquée CC BY-SA 3.0 sur Commons). Réduite en 1024 × 512 et légèrement éclaircie ; cette adaptation reste sous la même licence, crédit NASA.
+- nuages-1024.jpg (2.60.0) : nuages procéduraux générés pour ce site (bruit 3D), aucune donnée externe.
+- assets/fonds/motif-*.svg (2.60.0) : motifs de fond dessinés pour ce site.
 - entretien.html (v2.51) : mdi-gmail, mdi-content-copy, mdi-file-pdf-box, mdi-web, mdi-phone, mdi-email-outline — Material Design Icons @mdi/svg 7.4.47, Apache-2.0.

@@ -81,3 +81,23 @@ body:has(.bi-charte) #fond { display: none; }
 .bi-zone.bi-charte .bi-astuce { left: auto; right: 0; color: var(--ch-discret); text-shadow: none; }
 .bi-charte .bi-bulle.ch-sphere::after { inset: auto; left: 10%; top: 9%; width: 50%; height: 30%; border: 0; border-radius: 50%; background: radial-gradient(closest-side, #ffffffb8, #ffffff2e 55%, #ffffff00); transform: rotate(-24deg); box-shadow: none; opacity: 1; }
 .bi-charte .bi-bulle.bi-vedette .bi-titre { font-weight: 700; }
+
+/* 2.60.0 : fonds identifiables par rubrique (Alain, 17/11/2026). Traits fins de la couleur de rubrique
+   sur le fond pâle de la charte, lumière douce ; calque décoratif sous les sphères, sans effet sur cibles ni textes. */
+.bi-zone.bi-charte::before { content: ""; display: block; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  background-repeat: repeat, no-repeat, no-repeat; background-size: auto, 100% 100%, 100% 100%;
+  animation: mv-fond-derive 80s linear infinite; }
+.bi-zone.bi-charte.bi-zone-competences::before { --mv-pas: 220px 220px;
+  background-image: url("assets/fonds/motif-competences.svg"), radial-gradient(70% 60% at 18% 12%, #ffffffb0, #fff0 70%), radial-gradient(60% 70% at 92% 96%, #2f7f7a1f, #2f7f7a00 70%); }
+.bi-zone.bi-charte.bi-zone-formation::before { --mv-pas: 100px 100px;
+  background-image: url("assets/fonds/motif-formation.svg"), radial-gradient(70% 60% at 18% 12%, #ffffffb8, #fff0 70%), radial-gradient(60% 70% at 92% 96%, #b9653f1c, #b9653f00 70%); }
+.bi-zone.bi-charte.bi-zone-interets::before { --mv-pas: 300px 300px;
+  background-image: url("assets/fonds/motif-interets.svg"), radial-gradient(70% 60% at 18% 12%, #ffffffb0, #fff0 70%), radial-gradient(60% 70% at 92% 96%, #4e7d3a1f, #4e7d3a00 70%); }
+.bi-zone.bi-charte.bi-zone-metiers::before { --mv-pas: 80px 80px; --mv-rose: 96% 50%;
+  background-image: url("assets/fonds/motif-metiers.svg"), url("assets/fonds/motif-metiers-rose.svg"), radial-gradient(70% 60% at 18% 12%, #ffffffb0, #fff0 70%), radial-gradient(60% 70% at 92% 96%, #2f5d8a1f, #2f5d8a00 70%);
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat; background-size: auto, min(520px, 70%) auto, 100% 100%, 100% 100%; background-position: 0 0, var(--mv-rose), 0 0, 0 0;
+  animation-name: mv-fond-derive-metiers; }
+@keyframes mv-fond-derive { from { background-position: 0 0, 0 0, 0 0; } to { background-position: var(--mv-pas), 0 0, 0 0; } }
+@keyframes mv-fond-derive-metiers { from { background-position: 0 0, var(--mv-rose), 0 0, 0 0; } to { background-position: var(--mv-pas), var(--mv-rose), 0 0, 0 0; } }
+@media (max-width: 740px) { .bi-zone.bi-charte.bi-zone-metiers::before { --mv-rose: 50% 50%; } }
+@media print { .bi-zone.bi-charte::before { animation: none; } }

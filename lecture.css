@@ -61,8 +61,6 @@
   .lecture-galaxie .lecture-fenetre { overflow: hidden; padding-right: 0; scrollbar-gutter: auto; }
   .lecture-galaxie .lecture-flux { height: 100%; padding-bottom: 6px; display: flex; flex-direction: column; }
   .lecture-galaxie .parcours-commandes { flex: none; margin-bottom: .6rem; }
-  .lecture-galaxie .spirale { flex: 1; min-height: 0; margin: 0 !important; padding: 0 !important; }
-  .lecture-galaxie .spirale-fenetre { height: 100%; overflow: clip; display: flex; align-items: center; justify-content: center; }
   .parcours-chapitres { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; font-size: .85rem; }
   .parcours-chapitres button { min-height: 38px; padding: .3rem .8rem; font-size: .85rem; }
   body.sur-parcours .parcours-chapitres .bouton { color: #fff; background: #062e33; border-color: #63d5d8; }
