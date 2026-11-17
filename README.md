@@ -1,6 +1,6 @@
 # Alain Ferro — parcours détaillé
 
-Vitrine professionnelle personnelle, sans dépendance distante ni collecte de données.
+Vitrine professionnelle personnelle, sans cookie ni mesure d’audience. Entretien : e-mail envoyé par le visiteur lui-même, ou réservation via la page Google Agenda d’Alain Ferro (lien externe, données recueillies par Google).
 Version commune du site et du PDF : 2.60.0 (valeur de référence : version.json). PowerPoint : 2.4, historique.
 Navigation : bandeau clair compact — Présentation, Parcours, Compétences, Formation, Intérêts, Postes visés, et menu « Plus » (Carte des liens, Réalisations, CV PDF) ; menu repliable sur mobile. « Proposer un entretien » ouvre la messagerie du visiteur avec un message prérempli, sans envoi automatique.
 Versionnage : site et PDF partagent un seul numéro MAJEUR.MINEUR.CORRECTIF (x.x.x), quel que soit le support modifié. Source unique : mentions.version dans data/contenu.js ; la recette PDF lit cette valeur. Toute nouvelle version met à jour les deux supports.

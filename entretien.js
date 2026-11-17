@@ -51,9 +51,27 @@
   $("cop-adresse").querySelector(".txt").textContent = email;
   $("ent-copie").hidden = false;
 
+  // 2.62.0 (préparé) : bouton « Rendez-vous » vers la page de réservation Google Agenda d'Alain.
+  // Affiché seulement si identite.rendezVous est une URL Google de réservation valide ; sinon reste masqué.
+  function urlRendezVous(v) {
+    if (typeof v !== "string" || !v) return null;
+    try { var u = new URL(v); } catch (e) { return null; }
+    if (u.protocol !== "https:" || u.username || u.password || u.port) return null;
+    var ok = (u.hostname === "calendar.app.google" && /^\/[A-Za-z0-9_-]{6,}\/?$/.test(u.pathname)) ||
+             (u.hostname === "calendar.google.com" && /^\/calendar\/(u\/\d+\/)?appointments\/[A-Za-z0-9_\/-]+$/.test(u.pathname));
+    return ok ? u.href : null;
+  }
+  var rdv = urlRendezVous(I && I.rendezVous);
+  if (rdv && $("env-rdv")) {
+    var lien = $("env-rdv");
+    lien.setAttribute("href", rdv); lien.setAttribute("target", "_blank"); lien.setAttribute("rel", "noopener noreferrer");
+    $("ent-rdv").hidden = false;
+  }
+
   // Ouverture automatique une seule fois (session + entrée d'historique), texte par défaut.
   var deja = !!(history.state && history.state.entOuvert);
   try { deja = deja || sessionStorage.getItem("ent-ouvert") === "1"; sessionStorage.setItem("ent-ouvert", "1"); } catch (e) { /* stockage indisponible */ }
   try { var etat = history.state && typeof history.state === "object" ? history.state : {}; etat.entOuvert = true; history.replaceState(etat, ""); } catch (e) { /* historique indisponible */ }
-  if (!deja) setTimeout(function () { window.location.href = mailto(); }, 350);
+  // 2.62.0 : avec la réservation active, le visiteur choisit son canal (aucune messagerie imposée) ; e-mail sur clic seulement.
+  if (!deja && !rdv) setTimeout(function () { window.location.href = mailto(); }, 350);
 })();

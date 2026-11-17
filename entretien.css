@@ -88,3 +88,7 @@ html, body { background: #fff; }
 .ent-envoi { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
 .ent-envoi .bb { flex: 1 1 170px; }
 @media (max-width: 560px) { .ent-envoi .bb { flex-basis: 100%; } }
+/* 2.62.0 (préparé) : canal réservation, capsule B centrée au-dessus du message. */
+.ent-rdv { display: flex; justify-content: center; margin: 0 0 16px; }
+.ent-rdv[hidden] { display: none; }
+@media (max-width: 560px) { .ent-rdv .bb { width: 100%; } }
