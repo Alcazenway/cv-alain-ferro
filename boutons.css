@@ -31,3 +31,6 @@
 }
 @media (prefers-reduced-motion: reduce) { .bb, .bb-pastille { transition: none; } }
 @media print { .bb { box-shadow: none; } }
+/* 2.61.1 bb-deux-lignes : « Proposer entretien » peut passer sur deux lignes dans la capsule sur petit écran. */
+@media (max-width: 700px) { .co-actions-bandeau .bb { white-space: normal; line-height: 1.1; } }
+@media (max-width: 380px) { .bb { white-space: normal; line-height: 1.1; } }
