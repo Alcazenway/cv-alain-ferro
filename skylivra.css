@@ -88,3 +88,8 @@
 
 /* Captures du site : vue entière, sans recadrer les interfaces. */
 .sky-photo-entier img { object-fit: contain; }
+
+/* Quatre captures du site, de même taille, lisibles sur une rangée au bureau. */
+.sky-site .sky-media { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 900px) { .sky-site .sky-media { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .sky-site .sky-media { grid-template-columns: 1fr; } }

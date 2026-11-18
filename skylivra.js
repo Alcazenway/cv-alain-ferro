@@ -116,12 +116,13 @@
     if (e.id === "skylivra-phoenix-pristine") items = [{youtube: "6jUwnpN6TYk", legende: "Vidéo Phoenix"}].concat(items);
     var site = e.id === "skylivra", titre = site ? "Site marchand" : e.titre;
     if (site) items = [
-      {src: "assets/skylivra/site-accueil.png", legende: "Accueil du site", entier: true},
+      {src: "assets/skylivra/site-accueil-complet.png", legende: "Accueil du site", entier: true},
+      {src: "assets/skylivra/site-catalogue-floute.png", legende: "Catalogue des livrées", entier: true},
       {src: "assets/skylivra/site-installation.png", legende: "Guide d’installation", entier: true},
       {src: "assets/skylivra/site-faq.png", legende: "Questions fréquentes", entier: true}
     ];
     var resume = site ? "Site marchand conçu pour distribuer mes livrées et add-ons de simulation de vol. Finalisé, il reste fermé en attendant l’autorisation des éditeurs d’avions." : e.resume;
-    if (site) return [el("div", {class: "sky sky-fiche sky-detail"}, [
+    if (site) return [el("div", {class: "sky sky-fiche sky-detail sky-site"}, [
       retour(parent, "SkyLivra"), tete(titre), el("p", {class: "sky-prose", text: resume}), medias(items, ouvrir),
       el("p", {class: "sky-prose", text: "Je conçois le parcours client, coordonne les assistants IA et vérifie le catalogue, le paiement et l’installation des produits : cadrage, organisation et contrôle qualité."})
     ])];
