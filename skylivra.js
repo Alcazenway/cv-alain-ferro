@@ -7,9 +7,6 @@
 (function () {
   "use strict";
   var IMG = "assets/photos/selection/", TUILE = "assets/skylivra/";
-  var STATUT = "Site finalisé, non ouvert : accords partenaires en attente";
-  var ROLE = ["Définit les besoins et la direction artistique", "Orchestre plusieurs assistants IA (code, textures, site)", "Teste en vol, demande les corrections, suit les versions"];
-  var COMP = ["Cadrage", "Orchestration d’IA", "Direction créative", "Contrôle qualité", "Suivi de versions"];
   var CATEGORIES = ["site", "livrees", "addons", "installateur", "studio"];
   // Textes courts issus des fiches SkyLivra du CV (data/contenu.js) ; aucun chiffre commercial.
   var FICHES = {
@@ -73,22 +70,27 @@
       retour(parent, titreParent),
       el("header", { class: "sky-tete" }, [
         el("h1", { id: "fiche-titre", tabindex: "-1", text: "SkyLivra" }),
-        el("p", { class: "sky-phrase", text: "Créer, présenter et distribuer des contenus pour la simulation de vol" }),
-        el("ul", { class: "sky-puces", "aria-label": "Repères" }, [el("li", { text: "Projet personnel · 2026" }), el("li", { text: "Microsoft Flight Simulator 2020" }), el("li", { class: "etat", text: STATUT })])
+        el("p", { class: "sky-phrase", text: "SkyLivra réunit mes créations pour Microsoft Flight Simulator 2020 : livrées d’avions, add-ons et vidéos, avec un site de vente et un installateur Windows." })
       ]),
       el("ul", { class: "sky-categories", "aria-label": "Catégories du projet" }, CATEGORIES.map(function (k) {
         var f = FICHES[k];
         return el("li", null, [el("a", { class: "sky-cat", href: "#/parcours/skylivra-" + k, "aria-label": f.titre }, [el("img", { src: TUILE + f.tuile, alt: "", decoding: "async" }), el("span", { class: "sky-cat-titre", text: f.titre })])]);
       })),
       el("section", { class: "sky-synthese", "aria-label": "Rôle d’Alain et compétences" }, [
-        el("div", null, [el("h2", { text: "Rôle d’Alain" }), el("ul", { class: "sky-faits" }, ROLE.map(function (r) { return el("li", { text: r }); }))]),
-        el("div", null, [el("h2", { text: "Compétences transférables" }), el("ul", { class: "sky-comp" }, COMP.map(function (c) { return el("li", { text: c }); })),
-          bouton("#/parcours/skylivra-complet", "Fiche complète", "cv-lire", "Fiche complète de SkyLivra : missions, outils et galerie")])
+        el("p", { class: "sky-role-texte", text: "Je définis les besoins, donne la direction artistique et coordonne plusieurs assistants IA. Des essais en vol au suivi des versions, je mobilise organisation, créativité et contrôle qualité pour mener chaque création à son aboutissement." }),
+        bouton("#/parcours/skylivra-complet", "Fiche complète", "cv-lire", "Fiche complète de SkyLivra : missions, outils et galerie")
       ])
     ])];
   }
 
   function categorie(k) {
+    if (k === "livrees") return [el("div", { class: "sky sky-fiche" }, [
+      retour("/parcours/skylivra", "SkyLivra"), tete(FICHES.livrees.titre),
+      el("ul", { class: "sky-categories sky-livrees", "aria-label": "Livrées d’avions" }, FICHES.livrees.enfants.map(function (id) {
+        var titre = parTitre(id);
+        return el("li", null, [el("a", { class: "sky-cat", href: "#/parcours/" + id + "-complet", "aria-label": titre }, [image(CREATIONS[id].preuves[0][0], titre)])]);
+      }))
+    ])];
     var f = FICHES[k], texte = el("div", { class: "sky-texte" }, faits(f.faits, f.role));
     if (f.enfants) texte.appendChild(el("ul", { class: "sky-sous", "aria-label": f.titre === "Add-ons" ? "Add-on" : "Livrées" }, f.enfants.map(function (id) {
       var c = CREATIONS[id], titre = (window.CV && parTitre(id)) || id;

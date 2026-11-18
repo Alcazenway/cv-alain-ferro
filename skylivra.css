@@ -53,3 +53,11 @@
 @media (max-width: 360px) { .sky-categories { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .sky-cat, .sky-sous-lien { transition: none; } .sky-cat:hover, .sky-sous-lien:hover { transform: none; } }
 @media print { .sky video { display: none; } }
+
+/* 2.66.1 — synthèse en prose et une photo par livrée, accès direct à la fiche complète. */
+.sky-tete .sky-phrase { flex-basis: 100%; line-height: 1.5; max-width: 980px; }
+.sky-synthese { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.sky-role-texte { margin: 0; font-size: 16px; line-height: 1.5; max-width: 980px; }
+.sky-livrees { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.sky-livrees .sky-cat img { border-radius: 14px; }
+@media (max-width: 600px) { .sky-livrees { grid-template-columns: 1fr; } }
