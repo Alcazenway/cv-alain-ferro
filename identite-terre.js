@@ -38,8 +38,9 @@
     ligne(308, 26, I.telephone, null, 700, "tel:" + I.telephoneLien, "Téléphoner à " + I.nom + " : " + I.telephone);
     ligne(336, 18, I.email, null, 700, "mailto:" + I.email, "Écrire à " + I.nom + " : " + I.email);
     var permis = I.permis.split(" · ");
-    ligne(362, 14, I.ville.replace(/[()]/g, "") + " · " + permis[0].replace(" et véhicule", " · Véhicule"), null, 700);
-    ligne(381, 14, (permis[1] || "") + " · " + I.langues.replace(" courant", "").replace(" · Anglais", ", anglais"), null, 700);
+    // 2.64.0 (Alain) : langues retirées de l’encart (elles restent dans le CV) ; deux lignes recentrées, comme le PDF.
+    ligne(363, 15, I.ville.replace(/[()]/g, "") + " · " + permis[0].replace(" et véhicule", " · Véhicule"), null, 700);
+    var bateau = (permis[1] || "").trim(); if (bateau) ligne(384, 15, bateau.charAt(0).toUpperCase() + bateau.slice(1), null, 700);
     if (!options.sansEntretien) ligne(418, 19, "Proposer un entretien", null, 700, options.entretien || "entretien.html");
     terre.appendChild(textes);
     // 2.60.0 : globe animé sous le portrait (Présentation). Repli = cette même photo fixe.
