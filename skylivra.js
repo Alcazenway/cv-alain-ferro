@@ -115,7 +115,11 @@
     var items = (e.galerie || []).concat.apply(e.galerie || [], (e.sections || []).map(function (s) { return s.galerie || []; }));
     if (e.id === "skylivra-phoenix-pristine") items = [{youtube: "6jUwnpN6TYk", legende: "Vidéo Phoenix"}].concat(items);
     var site = e.id === "skylivra", titre = site ? "Site marchand" : e.titre;
-    var resume = site ? "Site marchand non actif : j’attends l’autorisation des éditeurs pour l’ouvrir. Il est destiné à distribuer mes livrées et add-ons pour Microsoft Flight Simulator 2020." : e.resume;
+    var resume = site ? "Site marchand conçu pour distribuer mes livrées et add-ons de simulation de vol. Finalisé, il reste fermé en attendant l’autorisation des éditeurs d’avions." : e.resume;
+    if (site) return [el("div", {class: "sky sky-fiche sky-detail"}, [
+      retour(parent, "SkyLivra"), tete(titre), el("p", {class: "sky-prose", text: resume}), medias(items, ouvrir),
+      el("p", {class: "sky-prose", text: "Je conçois le parcours client, coordonne les assistants IA et vérifie le catalogue, le paiement et l’installation des produits : cadrage, organisation et contrôle qualité."})
+    ])];
     var textes = [];
     if (e.contexte && !site) textes.push(el("p", {text: e.contexte}));
     var missions = e.missions || [];
