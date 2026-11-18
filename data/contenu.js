@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.67.0",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.67.1",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -412,7 +412,7 @@ window.CV = {
         "Stripe : intégration de Checkout et des webhooks pour relier le paiement au traitement des commandes, réalisée par IA sous la direction d’Alain Ferro.",
         "Brevo : modèles, déclencheurs et envoi des e-mails transactionnels du site SkyLivra.",
         "Netlify : hébergement du site SkyLivra et de ses fonctions serveur.",
-        "Le code technique est produit par des assistants IA ; le rôle d’Alain Ferro porte sur le cadrage, les consignes, les essais et le contrôle."
+        "Le code technique est produit par des assistants IA. Je définis le cadrage et les consignes, puis réalise les essais et le contrôle."
       ],
       "preuves": [
         "skylivra",
@@ -2500,7 +2500,7 @@ window.CV = {
       "titreCourt": "SkyLivra · Livrées et add-ons",
       "important": true,
       "lieu": "",
-      "resume": "Projet de site destiné à vendre mes livrées d’avions et mes add-ons pour Microsoft Flight Simulator 2020. Je crée ces contenus avec l’appui de l’IA et réalise des montages vidéo pour les présenter sur ma chaîne YouTube.",
+      "resume": "Projet de site destiné à vendre mes livrées d’avions et mes add-ons pour Microsoft Flight Simulator 2020. Je crée ces contenus avec l’appui de l’IA et réalise des montages vidéo pour les présenter sur ma chaîne YouTube, qui n’est pas encore publique.",
       "apportCourt": "Concevoir, créer, présenter et distribuer mes propres contenus pour la simulation de vol.",
       "contexte": "Les livrées concernent des avions proposés par différents éditeurs. Le projet vise d’abord Microsoft Flight Simulator 2020 ; une extension à MSFS 2024, puis éventuellement à d’autres simulateurs de vol, est envisagée à plus long terme.",
       "missions": [
@@ -2592,7 +2592,7 @@ window.CV = {
             "Briefs visuels, maquettes et retouches : motifs, couleurs et continuité entre les différentes pièces de l’avion.",
             "Préparation et contrôle des textures DDS, de leurs alignements et de leur intégration dans les paquets MSFS.",
             "Suivi des variantes, assemblage des paquets et préparation des installateurs Windows.",
-            "Contrôle visuel dans le simulateur, puis montage de vidéos pour présenter les livrées et add-ons sur ma chaîne YouTube."
+            "Contrôle visuel dans le simulateur, puis montage de vidéos pour présenter les livrées et add-ons sur ma chaîne YouTube, qui n’est pas encore publique."
           ]
         },
         {
@@ -3087,7 +3087,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie et n’utilise aucun outil de mesure d’audience. La page « Proposer un entretien » prépare un message modifiable qui reste dans votre navigateur : rien n’est transmis tant que vous ne l’envoyez pas vous-même depuis votre messagerie (Gmail, Outlook ou logiciel habituel) ; aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "17 novembre 2026",
-    "version": "2.67.0"
+    "version": "2.67.1"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"

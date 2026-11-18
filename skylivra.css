@@ -68,3 +68,7 @@
 .sky-prose { font-size: 16px; line-height: 1.55; margin: 0; }
 .sky-prose p { margin: 0 0 12px; }
 .sky-livrees .sky-cat img { border-radius: 14px 14px 0 0; }
+
+/* 2.67.1 — montage Phoenix YouTube exact, sans lecture automatique. */
+.sky-studio iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 12px; background: #0c1726; }
+@media print { .sky-studio iframe { display: none; } }

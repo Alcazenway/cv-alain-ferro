@@ -27,8 +27,8 @@
       preuves: [[IMG + "selection-092.webp", "Écran de l’installateur"]], seule: true,
       faits: ["Installation guidée : langue, produit, dossier, installation.", "Vérifie le simulateur et l’avion requis avant d’installer.", "Restauration protégée en cas de problème."],
       role: "Fiabilité de l’installation : dépendances, contrôles et reprises." },
-    studio: { titre: "Studio Vidéos", tuile: "studio.webp", statut: "Chaîne YouTube",
-      faits: ["Montages vidéo pour présenter les créations SkyLivra sur la chaîne YouTube.", "Vidéo Phoenix terminée : vues extérieures filmées dans le simulateur.", "Vidéo de la livrée Aurora Borealis : en cours de création."],
+    studio: { titre: "Studio Vidéos", tuile: "studio.webp", statut: "Chaîne YouTube non publique",
+      faits: ["Je réalise des montages pour présenter les créations SkyLivra. Ma chaîne YouTube n’est pas encore publique.", "Le montage Phoenix est terminé.", "Vidéo de la livrée Aurora Borealis : en cours de création."],
       role: "Choix des plans, captation (OBS Studio) et montage." }
   };
   // Créations : fiche courte (3 faits) ; la fiche complète existante reste à /parcours/<id>-complet.
@@ -60,7 +60,7 @@
   function logo() { return image("assets/applis/skylivra.webp", "SkyLivra", "sky-logo"); }
   function tete(titre, statut) { return el("header", { class: "sky-fiche-tete" }, [logo(), el("h1", { id: "fiche-titre", tabindex: "-1", text: titre }), statut ? el("span", { class: "sky-statut", text: statut }) : null]); }
   function faits(liste, role) {
-    return [el("p", { class: "sky-prose", text: liste.join(" ") }), el("p", { class: "sky-role-court" }, [el("b", { text: "Rôle d’Alain : " }), role])];
+    return [el("p", { class: "sky-prose", text: liste.join(" ") }), el("p", { class: "sky-role-court" }, [role])];
   }
   function preuves(liste, seule) {
     return el("div", { class: "sky-preuves" + (seule ? " seule" : "") }, liste.map(function (p) { return el("figure", null, [image(p[0], p[1]), el("figcaption", { text: p[1] })]); }));
@@ -77,7 +77,7 @@
         var f = FICHES[k];
         return el("li", null, [el("a", { class: "sky-cat", href: "#/parcours/skylivra-" + k, "aria-label": f.titre }, [el("img", { src: TUILE + f.tuile, alt: "", decoding: "async" }), el("span", { class: "sky-cat-titre", text: f.titre })])]);
       })),
-      el("section", { class: "sky-synthese", "aria-label": "Rôle d’Alain et compétences" }, [
+      el("section", { class: "sky-synthese", "aria-label": "Pilotage et compétences" }, [
         el("p", { class: "sky-role-texte", text: "Je définis les besoins, donne la direction artistique et coordonne plusieurs assistants IA. Des essais en vol au suivi des versions, je mobilise organisation, créativité et contrôle qualité pour mener chaque création à son aboutissement." })
       ])
     ])];
@@ -101,14 +101,13 @@
     return [el("div", { class: "sky sky-fiche" }, [retour("/parcours/skylivra", "SkyLivra"), tete(f.titre, f.statut), el("div", { class: "sky-corps" }, [gauche, texte])])];
   }
 
-  // Studio Vidéos : vidéo Phoenix terminée (confirmée par Alain le 18/11/2026) ; la vidéo Aurora Borealis est en cours de création (aucune lecture).
+  // Vidéo Phoenix fournie explicitement par Alain le 18/11/2026 ; chaîne pas encore publique.
   function studio() {
-    var video = el("video", { controls: "", preload: "metadata", playsinline: "", poster: "assets/videos/phoenix-exterieur.webp", "aria-label": "Vidéo Phoenix : vues extérieures dans le simulateur" }, [
-      el("source", { src: "assets/videos/phoenix-exterieur.mp4", type: "video/mp4" })]);
+    var video = el("iframe", { src: "https://www.youtube-nocookie.com/embed/83G_M5FIU8w", title: "Vidéo Phoenix — SkyLivra", loading: "lazy", allow: "encrypted-media; picture-in-picture; fullscreen", allowfullscreen: "", referrerpolicy: "strict-origin-when-cross-origin" });
     return el("div", { class: "sky-preuves sky-studio" }, [
-      el("figure", null, [video, el("figcaption", { text: "Vidéo Phoenix" })]),
+      el("figure", null, [video, el("figcaption", null, [el("a", { href: "https://www.youtube.com/watch?v=83G_M5FIU8w", target: "_blank", rel: "noopener", text: "Vidéo Phoenix ↗" })])]),
       el("figure", { class: "sky-encours" }, [el("div", { class: "sky-encours-visuel" }, [image(IMG + "selection-088.webp", "Livrée Aurora Borealis Blue, illustration"), el("span", { class: "sky-badge", text: "En cours de création" })]),
-        el("figcaption", { text: "Vidéo Aurora Borealis — en cours de création" })])
+        el("figcaption", { text: "Vidéo Aurora Borealis" })])
     ]);
   }
 
