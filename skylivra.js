@@ -103,9 +103,9 @@
 
   // Vidéo Phoenix fournie explicitement par Alain le 18/11/2026 ; chaîne pas encore publique.
   function studio() {
-    var video = el("iframe", { src: "https://www.youtube-nocookie.com/embed/83G_M5FIU8w", title: "Vidéo Phoenix — SkyLivra", loading: "lazy", allow: "encrypted-media; picture-in-picture; fullscreen", allowfullscreen: "", referrerpolicy: "strict-origin-when-cross-origin" });
+    var video = el("iframe", { src: "https://www.youtube-nocookie.com/embed/6jUwnpN6TYk", title: "Vidéo Phoenix — SkyLivra", loading: "lazy", allow: "encrypted-media; picture-in-picture; fullscreen", allowfullscreen: "", referrerpolicy: "strict-origin-when-cross-origin" });
     return el("div", { class: "sky-preuves sky-studio" }, [
-      el("figure", null, [video, el("figcaption", null, [el("a", { href: "https://www.youtube.com/watch?v=83G_M5FIU8w", target: "_blank", rel: "noopener", text: "Vidéo Phoenix ↗" })])]),
+      el("figure", null, [video, el("figcaption", null, [el("a", { href: "https://www.youtube.com/watch?v=6jUwnpN6TYk&list=PLZdDgNxdfv6Q", target: "_blank", rel: "noopener", text: "Vidéo Phoenix ↗" })])]),
       el("figure", { class: "sky-encours" }, [el("div", { class: "sky-encours-visuel" }, [image(IMG + "selection-088.webp", "Livrée Aurora Borealis Blue, illustration"), el("span", { class: "sky-badge", text: "En cours de création" })]),
         el("figcaption", { text: "Vidéo Aurora Borealis" })])
     ]);
