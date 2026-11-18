@@ -1,0 +1,55 @@
+/* 2.66.0 — SkyLivra vu par un recruteur (skylivra.js). Palette de la charte ; tuiles égales image + titre seul. */
+.sky { --sky-gap: 14px; display: flex; flex-direction: column; gap: var(--sky-gap); color: var(--ch-texte, #35484B); font-family: var(--ch-police, "Segoe UI", Arial, sans-serif); }
+.sky .sky-retour { margin: 0; }
+.sky-tete { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+.sky-tete h1, .sky-fiche-tete h1 { margin: 0; font-size: 26px; line-height: 1.2; color: var(--ch-encre, #19383D); }
+.sky-phrase { margin: 0; font-size: 17px; color: var(--ch-encre, #19383D); flex: 1 1 360px; }
+.sky-puces, .sky-comp { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; width: 100%; }
+.sky-puces li { font-size: 13.5px; padding: 3px 10px; border-radius: 999px; background: #fff; border: 1px solid var(--ch-filet, #D9E3E1); color: var(--ch-encre, #19383D); }
+.sky-puces li.etat { border-color: #e2b65a; background: #fff8e6; }
+/* Cinq catégories strictement identiques. */
+.sky-categories { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.sky-categories li { display: flex; }
+.sky-cat { display: flex; flex-direction: column; width: 100%; border: 1.5px solid var(--ch-filet, #D9E3E1); border-radius: 16px; background: #fff; color: var(--ch-encre, #19383D); text-decoration: none; transition: box-shadow .2s, border-color .2s, transform .2s; }
+.sky-cat img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 14px 14px 0 0; background: #0c1726; }
+.sky-cat-titre { display: flex; flex: 1; align-items: center; justify-content: center; padding: 9px 10px 10px; font-weight: 700; font-size: 16.5px; text-align: center; }
+.sky-cat:hover, .sky-sous-lien:hover { border-color: var(--ch-essentiel, #155E66); box-shadow: 0 8px 18px #155e6630; transform: translateY(-2px); color: var(--ch-encre, #19383D); }
+.sky-cat:focus-visible, .sky-sous-lien:focus-visible { outline: none; box-shadow: 0 0 0 3px #fff, 0 0 0 6px var(--ch-essentiel, #155E66), 0 0 0 9px var(--ch-or, #FFD27A); }
+.sky-synthese { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px 22px; padding: 10px 16px; background: #fff; border: 1.5px solid var(--ch-filet, #D9E3E1); border-radius: 16px; }
+.sky-synthese h2 { margin: 0 0 6px; font-size: 16px; color: var(--ch-encre, #19383D); }
+.sky-synthese > div:last-child { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.sky-comp li { font-size: 13.5px; padding: 3px 10px; border-radius: 999px; background: var(--ch-comp-pale, #E3ECEB); color: var(--ch-ess-sombre, #0D3A3F); font-weight: 600; }
+.sky-faits { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.sky-faits li { display: flex; gap: 8px; font-size: 15px; line-height: 1.38; }
+.sky-faits li::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 7px; border-radius: 50%; background: var(--ch-essentiel, #155E66); }
+/* Fiche : retour, titre + statut, preuves | faits. */
+.sky-fiche-tete { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.sky-statut { font-size: 13.5px; padding: 3px 10px; border-radius: 999px; background: #fff; border: 1px solid var(--ch-filet, #D9E3E1); }
+.sky-corps { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+.sky-preuves { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.sky-preuves figure { margin: 0; }
+.sky-preuves img, .sky-preuves video { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 12px; border: 1px solid var(--ch-filet, #D9E3E1); background: #0c1726; }
+.sky-preuves video { object-fit: contain; }
+.sky-preuves.seule { grid-template-columns: 1fr; }
+.sky-preuves.seule img { aspect-ratio: 16 / 9; object-fit: contain; }
+.sky-preuves figcaption { margin-top: 4px; font-size: 13px; color: var(--ch-discret, #5b6f72); }
+.sky-encours-visuel { position: relative; }
+.sky-encours-visuel img { filter: saturate(.75) brightness(.8); }
+.sky-badge { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 6px 14px; border-radius: 999px; background: #fff8e6; border: 1px solid #e2b65a; color: var(--ch-encre, #19383D); font-weight: 700; font-size: 14px; white-space: nowrap; }
+.sky-texte { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.sky-role-court { margin: 0; font-size: 15px; padding: 10px 12px; border-left: 4px solid var(--ch-essentiel, #155E66); background: #fff; border-radius: 8px; align-self: stretch; }
+.sky-sous { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; align-self: stretch; }
+.sky-sous-lien { display: flex; flex-direction: column; border: 1.5px solid var(--ch-filet, #D9E3E1); border-radius: 12px; background: #fff; color: var(--ch-encre, #19383D); text-decoration: none; font-weight: 700; font-size: 14px; transition: box-shadow .2s, border-color .2s, transform .2s; }
+.sky-sous-lien img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px 10px 0 0; }
+.sky-sous-lien span { padding: 6px 8px; }
+@media (max-width: 1100px) { .sky-categories { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .sky-corps, .sky-synthese { grid-template-columns: 1fr; } }
+@media (max-width: 600px) {
+  .sky-categories { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sky-preuves { grid-template-columns: 1fr; }
+  .sky-sous { grid-template-columns: 1fr; }
+  .sky-tete h1, .sky-fiche-tete h1 { font-size: 23px; }
+}
+@media (max-width: 360px) { .sky-categories { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .sky-cat, .sky-sous-lien { transition: none; } .sky-cat:hover, .sky-sous-lien:hover { transform: none; } }
+@media print { .sky video { display: none; } }

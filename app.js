@@ -858,6 +858,8 @@
     if (h === "/parcours") return { rubrique: "parcours", titre: "Parcours", rendu: pageParcours(null), liste: true };
     if ((m = h.match(/^\/parcours\/([\w-]+)$/))) {
       if (catSlug[m[1]]) return { rubrique: "parcours", titre: "Parcours · " + catSlug[m[1]].titre, rendu: pageParcours(catSlug[m[1]]), liste: true };
+      // 2.66.0 : SkyLivra vu par un recruteur (skylivra.js) — vue d'ensemble, 5 catégories, créations, fiches complètes.
+      var sky = routeSkyLivra(m[1]); if (sky) return sky;
       var e = parId[m[1]];
       if (e) {
         var savoir = e.type === "formation";
@@ -885,6 +887,21 @@
     if (h === "/orchestration-ia") return { rubrique: "competences", titre: "Orchestration IA", rendu: pageOrchestration(), liste: true, detail: true };
     if (h === "/mentions") return { rubrique: "", titre: "Mentions légales", rendu: pageMentions() };
     return null;
+  }
+
+  // 2.66.0 : routes SkyLivra. Les retours suivent les règles des fiches (origine Réalisations, sinon Orchestration IA).
+  function routeSkyLivra(slug) {
+    var base = parId.skylivra; if (!window.SkyLivra || !base) return null;
+    var rub = listeOrigine === "/realisations" ? "realisations" : racine(base).id === "outils-ia" ? "competences" : "parcours";
+    var titre = function (id) { return parId[id] ? parId[id].titre : null; };
+    var cm = slug.match(/^(.+)-complet$/);
+    if (cm && parId[cm[1]] && window.SkyLivra.retourComplet(cm[1])) {
+      var e = parId[cm[1]];
+      return { rubrique: rub, titre: e.titre, rendu: ficheParcours(e, window.SkyLivra.retourComplet(cm[1])), fiche: true };
+    }
+    var origine = listeOrigine && /^\/(realisations|orchestration-ia|competence|parcours$)/.test(listeOrigine) ? listeOrigine : rediriger("/parcours/" + base.parent);
+    var r = window.SkyLivra.route(slug, { titre: titre, parent: origine, titreParent: RETOURS[origine] || (origine === "/orchestration-ia" ? "Orchestration IA" : "Retour") });
+    return r ? { rubrique: rub, titre: r.titre, rendu: r.rendu, fiche: true, detail: slug === "skylivra" } : null;
   }
 
   function marquerRubrique(r) {
