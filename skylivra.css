@@ -85,3 +85,6 @@
 .sky-explication h2 { font-size: 19px; margin: 22px 0 10px; }
 @media (max-width: 900px) { .sky-media, .sky-fiche > .sky-preuves { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .sky-media, .sky-fiche > .sky-preuves { grid-template-columns: 1fr; } }
+
+/* Captures du site : vue entière, sans recadrer les interfaces. */
+.sky-photo-entier img { object-fit: contain; }

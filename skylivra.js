@@ -104,7 +104,7 @@
       if (p.youtube) visuel = el("iframe", {src: "https://www.youtube-nocookie.com/embed/" + p.youtube, title: titre, loading: "lazy", allow: "encrypted-media; picture-in-picture; fullscreen", allowfullscreen: "", referrerpolicy: "strict-origin-when-cross-origin"});
       else if (p.video) visuel = el("video", {src: p.video, poster: p.poster || "", controls: "", preload: "none", playsinline: "", "aria-label": titre});
       else {
-        visuel = el("button", {type: "button", class: "sky-photo", "aria-label": "Agrandir : " + titre}, [image(p.statique || p.src, "")]);
+        visuel = el("button", {type: "button", class: "sky-photo" + (p.entier ? " sky-photo-entier" : ""), "aria-label": "Agrandir : " + titre}, [image(p.statique || p.src, "")]);
         visuel.addEventListener("click", function () { ouvrir(photos, photos.indexOf(p), visuel); });
       }
       return el("figure", {class: "sky-media-carte", "data-media": p.video || p.youtube ? "video" : "photo"}, [visuel, el("figcaption", {text: titre})]);
@@ -115,6 +115,11 @@
     var items = (e.galerie || []).concat.apply(e.galerie || [], (e.sections || []).map(function (s) { return s.galerie || []; }));
     if (e.id === "skylivra-phoenix-pristine") items = [{youtube: "6jUwnpN6TYk", legende: "Vidéo Phoenix"}].concat(items);
     var site = e.id === "skylivra", titre = site ? "Site marchand" : e.titre;
+    if (site) items = [
+      {src: "assets/skylivra/site-accueil.png", legende: "Accueil du site", entier: true},
+      {src: "assets/skylivra/site-installation.png", legende: "Guide d’installation", entier: true},
+      {src: "assets/skylivra/site-faq.png", legende: "Questions fréquentes", entier: true}
+    ];
     var resume = site ? "Site marchand conçu pour distribuer mes livrées et add-ons de simulation de vol. Finalisé, il reste fermé en attendant l’autorisation des éditeurs d’avions." : e.resume;
     if (site) return [el("div", {class: "sky sky-fiche sky-detail"}, [
       retour(parent, "SkyLivra"), tete(titre), el("p", {class: "sky-prose", text: resume}), medias(items, ouvrir),
