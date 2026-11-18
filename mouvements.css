@@ -1,10 +1,16 @@
 /* Mouvement commun à toutes les rubriques et pages autonomes. Les textes restent lisibles. */
-.mv-ambiance { position: fixed; inset: -6%; z-index: 0; pointer-events: none; overflow: hidden; opacity: .75; contain: strict; }
-.mv-ambiance::before, .mv-ambiance::after { content: ""; position: absolute; width: 50%; height: 55%; border-radius: 50%; background: radial-gradient(ellipse, #155e6614, #5b8e9408 45%, transparent 70%); animation: mv-ambiance 16s ease-in-out infinite alternate; }
-.mv-ambiance::before { left: -12%; top: 12%; }
-.mv-ambiance::after { right: -12%; bottom: -8%; animation-delay: -8s; animation-direction: alternate-reverse; }
-body.mv-active > main { position: relative; z-index: 1; }
-@keyframes mv-ambiance { from { transform: translate3d(0, 0, 0) scale(.9); opacity: .55; } to { transform: translate3d(7vw, -4vh, 0) scale(1.12); opacity: 1; } }
+/* 2.65.0 (Alain) : ambiance d'arrière-plan réellement visible sur toutes les pages. Elle passe au-dessus des fonds de
+   page (#fond, fonds blancs) et sous le contenu (main en z-index 2, bandeau 20) : textes et cibles ne bougent pas.
+   Trois nappes douces aux couleurs de la charte (pétrole, pétrole clair, or pâle) qui dérivent lentement. */
+.mv-ambiance { position: fixed; inset: -10%; z-index: 1; pointer-events: none; overflow: hidden; contain: strict;
+  background: radial-gradient(38% 42% at 50% 50%, #ffd27a2e, #ffd27a00 70%) 0 0 / 140% 140% no-repeat;
+  animation: mv-ambiance-fond 17s ease-in-out infinite alternate; }
+.mv-ambiance::before, .mv-ambiance::after { content: ""; position: absolute; width: 62%; height: 70%; border-radius: 50%; animation: mv-ambiance 11s ease-in-out infinite alternate; }
+.mv-ambiance::before { left: -14%; top: 4%; background: radial-gradient(ellipse, #155e6638, #155e6614 42%, transparent 70%); }
+.mv-ambiance::after { right: -14%; bottom: -6%; background: radial-gradient(ellipse, #5b8e943d, #5b8e9414 45%, transparent 70%); animation-duration: 13.7s; animation-delay: -3s; animation-direction: alternate-reverse; } /* périodes différentes : les nappes ne s’arrêtent jamais ensemble */
+body.mv-active > main { position: relative; z-index: 2; }
+@keyframes mv-ambiance { from { transform: translate3d(0, 0, 0) scale(.92); } to { transform: translate3d(11vw, -7vh, 0) scale(1.12); } }
+@keyframes mv-ambiance-fond { from { background-position: 0% 0%; } to { background-position: 100% 100%; } }
 /* Entrée au changement de page, puis au défilement : jamais de contenu masqué en attente de JS. */
 .mv-entree { animation: mv-entree .6s cubic-bezier(.2,.65,.3,1) both; animation-delay: var(--mv-delai, 0ms); }
 @keyframes mv-entree { from { opacity: .35; translate: 0 12px; } to { opacity: 1; translate: 0 0; } }

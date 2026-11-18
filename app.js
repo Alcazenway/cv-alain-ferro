@@ -74,7 +74,7 @@
   function construirePresentation() {
     var terre = window.IdentiteTerre.creer(I, {sansContour: true, anime: true});
 
-    var profil = el("section", { class: "pr-profil", "aria-labelledby": "pr-titre" }, [el("h2", { id: "pr-titre", text: "Présentation" })]);
+    var profil = el("section", { class: "pr-profil", "aria-label": "Présentation" }); // 2.65.0 : titre visible retiré (Alain)
     I.promesse.split("\n").filter(Boolean).forEach(function (t) { profil.appendChild(el("p", { text: t })); });
     $("haut").replaceChildren(el("h1", { id: "titre-nom", class: "visuellement-cache", tabindex: "-1", text: I.nom }), terre, profil);
 

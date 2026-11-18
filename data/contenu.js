@@ -24,14 +24,14 @@ window.CV = {
     "email": "alainferro34@gmail.com",
     "telephone": "06 12 76 10 12",
     "telephoneLien": "+33612761012",
-    "permis": "Permis B et véhicule · permis bateau côtier",
+    "permis": "Permis B et Permis côtier",
     "langues": "Français courant · Anglais A1",
     "portrait": {
       "src": "assets/portrait-480.webp",
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.64.0",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.65.0",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -3087,7 +3087,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie et n’utilise aucun outil de mesure d’audience. La page « Proposer un entretien » prépare un message modifiable qui reste dans votre navigateur : rien n’est transmis tant que vous ne l’envoyez pas vous-même depuis votre messagerie (Gmail, Outlook ou logiciel habituel) ; aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "17 novembre 2026",
-    "version": "2.64.0"
+    "version": "2.65.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"

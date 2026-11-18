@@ -34,14 +34,13 @@
     }
     var nom = I.nom.split(" "); nom[nom.length - 1] = nom[nom.length - 1].toUpperCase();
     // Accroche retirée de la Présentation (demande d'Alain, 16/11/2026) ; donnée conservée dans contenu.js.
-    ligne(258, 28, nom.join(" "), null, 700);
-    ligne(308, 26, I.telephone, null, 700, "tel:" + I.telephoneLien, "Téléphoner à " + I.nom + " : " + I.telephone);
-    ligne(336, 18, I.email, null, 700, "mailto:" + I.email, "Écrire à " + I.nom + " : " + I.email);
-    var permis = I.permis.split(" · ");
-    // 2.64.0 (Alain) : langues retirées de l’encart (elles restent dans le CV) ; deux lignes recentrées, comme le PDF.
-    ligne(363, 15, I.ville.replace(/[()]/g, "") + " · " + permis[0].replace(" et véhicule", " · Véhicule"), null, 700);
-    var bateau = (permis[1] || "").trim(); if (bateau) ligne(384, 15, bateau.charAt(0).toUpperCase() + bateau.slice(1), null, 700);
-    if (!options.sansEntretien) ligne(418, 19, "Proposer un entretien", null, 700, options.entretien || "entretien.html");
+    ligne(256, 28, nom.join(" "), null, 700);
+    ligne(296, 26, I.telephone, null, 700, "tel:" + I.telephoneLien, "Téléphoner à " + I.nom + " : " + I.telephone);
+    ligne(328, 18, I.email, null, 700, "mailto:" + I.email, "Écrire à " + I.nom + " : " + I.email);
+    // 2.65.0 (Alain) : cinq lignes centrées et régulières : nom, téléphone, e-mail, ville, permis (comme le PDF).
+    ligne(356, 17, I.ville.replace(/[()]/g, ""), null, 700);
+    ligne(382, 17, I.permis, null, 700);
+    if (!options.sansEntretien) ligne(420, 19, "Proposer un entretien", null, 700, options.entretien || "entretien.html");
     terre.appendChild(textes);
     // 2.60.0 : globe animé sous le portrait (Présentation). Repli = cette même photo fixe.
     if (options.anime && window.GlobeTerre) return window.GlobeTerre.envelopper(terre);
