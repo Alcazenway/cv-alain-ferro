@@ -1,7 +1,7 @@
 /* 2.66.0 — SkyLivra vu par un recruteur (prototype validé par Alain le 18/11/2026, skylivra-maquette-20261118).
    Vue d'ensemble : phrase + statut exact, 5 catégories égales (image + titre seul), rôle et compétences.
    Catégorie ou création : la vue remplace le contenu, retour visible (Échap), 3 faits, preuve visuelle.
-   Les fiches complètes historiques restent accessibles (« Fiche complète », routes -complet).
+   Pages détaillées directement accessibles ; anciens liens -complet compatibles.
    Routes : /parcours/skylivra, /parcours/skylivra-{site|livrees|addons|installateur|studio},
    /parcours/skylivra-<création> (fiche courte), /parcours/<id>-complet (fiche complète existante). */
 (function () {
@@ -10,9 +10,9 @@
   var CATEGORIES = ["site", "livrees", "addons", "installateur", "studio"];
   // Textes courts issus des fiches SkyLivra du CV (data/contenu.js) ; aucun chiffre commercial.
   var FICHES = {
-    site: { titre: "Site marchand", tuile: "site.webp", statut: "Finalisé, non ouvert",
+    site: { titre: "Site marchand", tuile: "site.webp", statut: "Non actif : autorisation des éditeurs en attente",
       preuves: [[TUILE + "site.webp", "Visuel d’accueil SkyLivra"]],
-      faits: ["Boutique en ligne pour les livrées et add-ons SkyLivra (MSFS 2020).", "Site finalisé ; ouverture en attente d’accords avec les partenaires.", "Alain pilote le site, ses briques et ses tests ; le code est produit par des assistants IA."],
+      faits: ["Boutique en ligne pour les livrées et add-ons SkyLivra (MSFS 2020).", "Site marchand non actif : ouverture en attente de l’autorisation des éditeurs.", "Alain pilote le site, ses briques et ses tests ; le code est produit par des assistants IA."],
       role: "Architecture fonctionnelle, critères d’acceptation, tests et documentation.", complet: "skylivra" },
     livrees: { titre: "Livrées d’avions", tuile: "livrees.webp", statut: "3 livrées · Fenix A320",
       preuves: [[IMG + "selection-088.webp", "Aurora Borealis Blue — extérieur"], [IMG + "selection-077.webp", "Ancient Dragon — extérieur"]],
@@ -57,9 +57,10 @@
   function bouton(href, texte, ic, aria) { // capsule charte B (boutons.css)
     return el("a", { class: "bb bb-p3 sky-bb", href: href, "aria-label": aria || texte }, [el("span", { class: "bb-pastille", "aria-hidden": "true" }, [image("assets/boutons/" + ic + ".svg", "", "bb-ic")]), el("span", { class: "bb-lb", text: texte })]);
   }
-  function tete(titre, statut) { return el("header", { class: "sky-fiche-tete" }, [el("h1", { id: "fiche-titre", tabindex: "-1", text: titre }), statut ? el("span", { class: "sky-statut", text: statut }) : null]); }
+  function logo() { return image("assets/applis/skylivra.webp", "SkyLivra", "sky-logo"); }
+  function tete(titre, statut) { return el("header", { class: "sky-fiche-tete" }, [logo(), el("h1", { id: "fiche-titre", tabindex: "-1", text: titre }), statut ? el("span", { class: "sky-statut", text: statut }) : null]); }
   function faits(liste, role) {
-    return [el("ul", { class: "sky-faits" }, liste.map(function (f) { return el("li", { text: f }); })), el("p", { class: "sky-role-court" }, [el("b", { text: "Rôle d’Alain : " }), role])];
+    return [el("p", { class: "sky-prose", text: liste.join(" ") }), el("p", { class: "sky-role-court" }, [el("b", { text: "Rôle d’Alain : " }), role])];
   }
   function preuves(liste, seule) {
     return el("div", { class: "sky-preuves" + (seule ? " seule" : "") }, liste.map(function (p) { return el("figure", null, [image(p[0], p[1]), el("figcaption", { text: p[1] })]); }));
@@ -70,15 +71,14 @@
       retour(parent, titreParent),
       el("header", { class: "sky-tete" }, [
         el("h1", { id: "fiche-titre", tabindex: "-1", text: "SkyLivra" }),
-        el("p", { class: "sky-phrase", text: "SkyLivra réunit mes créations pour Microsoft Flight Simulator 2020 : livrées d’avions, add-ons et vidéos, avec un site de vente et un installateur Windows." })
+        el("p", { class: "sky-phrase", text: "SkyLivra réunit mes créations pour Microsoft Flight Simulator 2020 : livrées d’avions, add-ons et vidéos, avec un installateur Windows et un site marchand non actif, en attente de l’autorisation des éditeurs." })
       ]),
       el("ul", { class: "sky-categories", "aria-label": "Catégories du projet" }, CATEGORIES.map(function (k) {
         var f = FICHES[k];
         return el("li", null, [el("a", { class: "sky-cat", href: "#/parcours/skylivra-" + k, "aria-label": f.titre }, [el("img", { src: TUILE + f.tuile, alt: "", decoding: "async" }), el("span", { class: "sky-cat-titre", text: f.titre })])]);
       })),
       el("section", { class: "sky-synthese", "aria-label": "Rôle d’Alain et compétences" }, [
-        el("p", { class: "sky-role-texte", text: "Je définis les besoins, donne la direction artistique et coordonne plusieurs assistants IA. Des essais en vol au suivi des versions, je mobilise organisation, créativité et contrôle qualité pour mener chaque création à son aboutissement." }),
-        bouton("#/parcours/skylivra-complet", "Fiche complète", "cv-lire", "Fiche complète de SkyLivra : missions, outils et galerie")
+        el("p", { class: "sky-role-texte", text: "Je définis les besoins, donne la direction artistique et coordonne plusieurs assistants IA. Des essais en vol au suivi des versions, je mobilise organisation, créativité et contrôle qualité pour mener chaque création à son aboutissement." })
       ])
     ])];
   }
@@ -88,7 +88,7 @@
       retour("/parcours/skylivra", "SkyLivra"), tete(FICHES.livrees.titre),
       el("ul", { class: "sky-categories sky-livrees", "aria-label": "Livrées d’avions" }, FICHES.livrees.enfants.map(function (id) {
         var titre = parTitre(id);
-        return el("li", null, [el("a", { class: "sky-cat", href: "#/parcours/" + id + "-complet", "aria-label": titre }, [image(CREATIONS[id].preuves[0][0], titre)])]);
+        return el("li", null, [el("a", { class: "sky-cat", href: "#/parcours/" + id, "aria-label": titre }, [image(CREATIONS[id].preuves[0][0], ""), el("span", { class: "sky-cat-titre", text: titre })])]);
       }))
     ])];
     var f = FICHES[k], texte = el("div", { class: "sky-texte" }, faits(f.faits, f.role));
@@ -96,7 +96,7 @@
       var c = CREATIONS[id], titre = (window.CV && parTitre(id)) || id;
       return el("li", null, [el("a", { class: "sky-sous-lien", href: "#/parcours/" + id, "aria-label": titre }, [image(c.preuves[0][0], ""), el("span", { text: titre })])]);
     })));
-    if (f.complet) texte.appendChild(bouton("#/parcours/" + f.complet + "-complet", "Fiche complète", "cv-lire", "Fiche complète de SkyLivra : missions, outils et galerie"));
+
     var gauche = k === "studio" ? studio() : preuves(f.preuves, f.seule);
     return [el("div", { class: "sky sky-fiche" }, [retour("/parcours/skylivra", "SkyLivra"), tete(f.titre, f.statut), el("div", { class: "sky-corps" }, [gauche, texte])])];
   }
@@ -112,12 +112,6 @@
     ]);
   }
 
-  function creation(id, titre) {
-    var c = CREATIONS[id], f = FICHES[c.cat];
-    return [el("div", { class: "sky sky-fiche" }, [retour("/parcours/skylivra-" + c.cat, f.titre), tete(titre, c.statut),
-      el("div", { class: "sky-corps" }, [preuves(c.preuves), el("div", { class: "sky-texte" }, faits(c.faits, c.role).concat([bouton("#/parcours/" + id + "-complet", "Fiche complète", "cv-lire", "Fiche complète de " + titre + " : missions, galerie et vidéos")]))])])];
-  }
-
   var parTitre = function () { return null; };
   window.SkyLivra = {
     categories: CATEGORIES,
@@ -127,11 +121,11 @@
       if (slug === "skylivra") return { titre: "SkyLivra", rendu: ensemble(ctx.parent, ctx.titreParent) };
       var m = /^skylivra-(site|livrees|addons|installateur|studio)$/.exec(slug);
       if (m) return { titre: "SkyLivra · " + FICHES[m[1]].titre, rendu: categorie(m[1]) };
-      if (CREATIONS[slug]) return { titre: ctx.titre(slug), rendu: creation(slug, ctx.titre(slug)) };
+
       return null;
     },
     // Retour d'une fiche complète : vers la vue courte correspondante.
-    retourComplet: function (id) { return id === "skylivra" ? "/parcours/skylivra" : CREATIONS[id] ? "/parcours/" + id : null; }
+    retourComplet: function (id) { return id === "skylivra" ? "/parcours/skylivra" : CREATIONS[id] ? "/parcours/skylivra-" + CREATIONS[id].cat : null; }
   };
   // Une vidéo ne continue jamais après un changement de vue.
   window.addEventListener("hashchange", function () { Array.prototype.forEach.call(document.querySelectorAll(".sky video"), function (v) { try { v.pause(); } catch (e) { /* ignoré */ } }); });

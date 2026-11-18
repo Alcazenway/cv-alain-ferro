@@ -61,3 +61,10 @@
 .sky-livrees { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .sky-livrees .sky-cat img { border-radius: 14px; }
 @media (max-width: 600px) { .sky-livrees { grid-template-columns: 1fr; } }
+
+/* 2.67.0 — identité commune sur toutes les pages enfants et textes explicatifs. */
+.sky-logo { display: block; width: 92px; height: 92px; object-fit: contain; border-radius: 12px; flex: none; }
+.sky-detail .fiche-tete > .sky-logo { grid-column: 1 / -1; }
+.sky-prose { font-size: 16px; line-height: 1.55; margin: 0; }
+.sky-prose p { margin: 0 0 12px; }
+.sky-livrees .sky-cat img { border-radius: 14px 14px 0 0; }

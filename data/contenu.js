@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.66.1",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.67.0",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -2548,7 +2548,7 @@ window.CV = {
           "src": "assets/photos/selection/skylivra-decollage-boucle.gif",
           "alt": "Découvrir SkyLivra",
           "legende": "Découvrir SkyLivra",
-          "attente": "Ouverture prochaine : le site SkyLivra est finalisé. Sa mise en ligne publique est suspendue dans l’attente de la validation de mes partenaires ; il sera accessible dès leur accord.",
+          "attente": "Site marchand non actif : j’attends l’autorisation des éditeurs pour l’ouvrir.",
           "statique": "assets/photos/selection/skylivra-affiche.webp"
         },
         {
@@ -3087,7 +3087,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie et n’utilise aucun outil de mesure d’audience. La page « Proposer un entretien » prépare un message modifiable qui reste dans votre navigateur : rien n’est transmis tant que vous ne l’envoyez pas vous-même depuis votre messagerie (Gmail, Outlook ou logiciel habituel) ; aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "17 novembre 2026",
-    "version": "2.66.1"
+    "version": "2.67.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"
