@@ -51,6 +51,9 @@ html.mv-pause *, html.mv-pause *::before, html.mv-pause *::after { animation-pla
   .mv-ambiance { display: none; }
   html *, html *::before, html *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+/* 2.63.0 : le poids du personnage ne déplace jamais les bulles en mouvement réduit ni à l’impression. */
+@media (prefers-reduced-motion: reduce) { .co-chemin .co-noeud-charte { translate: none !important; } }
+@media print { .co-chemin .co-noeud-charte { translate: none !important; } }
 @media print {
   .mv-ambiance { display: none; }
   html *, html *::before, html *::after { animation: none !important; transition: none !important; }

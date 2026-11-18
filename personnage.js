@@ -722,6 +722,7 @@
       document.removeEventListener("visibilitychange", visibilite);
       var i = actifs.indexOf(etat); if (i >= 0) actifs.splice(i, 1);
       if (etat.figure && etat.figure.m) etat.figure.m.detruire();
+      reposPoids();
     }
     function pret() {
       if (etat.T) return true;
@@ -740,6 +741,37 @@
       var t = etat.tour;
       return { vue: t < .5 ? etat.vuePrec : etat.vue, sx: t >= 1 ? 1 : Math.abs(Math.cos(Math.PI * t)) };
     }
+    // 2.63.0 : poids du personnage. La bulle réellement sous ses pieds s'enfonce d'environ 3 px à l'écran puis
+    // remonte en souplesse (ressort amorti) ; les pieds suivent la surface. Seulement pendant l'animation active,
+    // jamais en mouvement réduit ; remise au repos à la pause, au retrait ou au masquage du chemin.
+    var POIDS_PX = 3;
+    function bullesPoids() {
+      if (!etat.bulles) etat.bulles = [].map.call(svg.querySelectorAll("a.co-noeud-charte"), function (a) {
+        var c = a.querySelector(".co-sphere-fond");
+        return c ? { a: a, cx: +c.getAttribute("cx"), cy: +c.getAttribute("cy"), r: +c.getAttribute("r"), d: 0 } : null;
+      }).filter(Boolean);
+      return etat.bulles;
+    }
+    function reposPoids() {
+      (etat.bulles || []).forEach(function (b) { b.d = 0; b.a.style.translate = ""; });
+    }
+    function poidsSous(x, y, dt) {
+      if (!o.surSpheres || !etat.actif || reduitSysteme()) { reposPoids(); return 0; }
+      var m = svg.getScreenCTM ? svg.getScreenCTM() : null, prof = POIDS_PX / (m && m.a > 0 ? m.a : 1);
+      var k = dt == null ? 1 : 1 - Math.exp(-dt * 7), sous = 0, meilleur = 0;
+      bullesPoids().forEach(function (b) {
+        var dx = Math.abs(x - b.cx), cible = 0;
+        if (dx < b.r) {
+          var haut = b.cy - Math.sqrt(b.r * b.r - dx * dx);
+          if (Math.abs(y - haut) < b.r * .35) cible = prof * Math.cos(dx / b.r * Math.PI / 2);
+        }
+        b.d += (cible - b.d) * k;
+        if (Math.abs(b.d) < .005) b.d = 0;
+        b.a.style.translate = b.d ? "0 " + b.d.toFixed(3) + "px" : "";
+        if (cible > meilleur) { meilleur = cible; sous = b.d; }
+      });
+      return sous;
+    }
     // Position à l’indice fractionnaire k.
     function poser(k, opacite, vue, dt) {
       var T = etat.T, i = Math.max(0, Math.min(T.N - 1, Math.floor(k))), j = Math.min(T.N - 1, i + 1), t = k - i;
@@ -748,6 +780,7 @@
       // Rangée du haut : la tête (et un éventuel chapeau) reste dans le cadre. 2.42 : avec surSpheres (chemin posé sur
       // le dessus des sphères, app.js/coherence.js), la bosse « leve » ne sert plus qu’au ralenti sur chaque bulle.
       y = Math.max(y, parametres(age).taille * 1.2 + 6);
+      y += poidsSous(x, y, dt); // 2.63.0 : pieds posés sur la bulle qui s’enfonce
       var or = orienter(vue || T.vues[i], dt);
       var ii = Math.round(k) >= T.N ? T.N - 1 : Math.round(k);
       etat.figure.dessiner(age, x, y, etat.phase, Math.floor(annee + 1e-6), etat.mouv, or.vue, or.sx, { a: T.tA[ii], b: T.tB[ii], t: T.tT[ii], barbe: T.barbe ? T.barbe[ii] : null }, vue || T.vues[i], dt);
@@ -780,6 +813,7 @@
       poser(k, Math.max(0, Math.min(1, op)), vue, dt);
     }
     function immobile() { // animation désactivée : adulte de face, immobile à « Aujourd’hui » (ou là où on l’a déposé, 2.45)
+      reposPoids();
       etat.phase = 0; etat.mouv = 0; etat.vue = etat.vuePrec = "face"; etat.tour = 1;
       poser(etat.kManuel != null ? etat.kManuel : etat.T.N - 1, 1, "face", null);
     }
@@ -823,7 +857,7 @@
       if (etat.placer) etat.placer();
       if (document.hidden) return; // reprise par visibilitychange
       // Chemin masqué (vue liste) : vérification espacée, sans faire avancer le temps.
-      if (!svg.getBoundingClientRect().width) { etat.prec = null; etat.attente = setTimeout(function () { etat.rafId = requestAnimationFrame(boucle); }, 500); return; }
+      if (!svg.getBoundingClientRect().width) { reposPoids(); etat.prec = null; etat.attente = setTimeout(function () { etat.rafId = requestAnimationFrame(boucle); }, 500); return; }
       if (!pret()) { etat.attente = setTimeout(function () { etat.rafId = requestAnimationFrame(boucle); }, 300); return; }
       if (etat.saisie) { manuelImage(maintenant); return; }
       if (!etat.actif) { immobile(); return; }
@@ -840,6 +874,7 @@
     }
     document.addEventListener("visibilitychange", visibilite);
     etat.basculer = function (on) {
+      if (!on) reposPoids();
       etat.actif = !!on; etat.fige = false; etat.saisie = null; etat.kManuel = null;
       cancelAnimationFrame(etat.rafId); clearTimeout(etat.attente); etat.prec = null;
       // Relance : départ presque immédiat de la marche (pas de fondu d’entrée).
@@ -889,6 +924,8 @@
     instant: function (t, fige, phase) { actifs.forEach(function (e) { e.aller(t, fige, phase); }); return actifs.length; },
     // Outil de contrôle : vue affichée et état de l’animation.
     etat: function () { return actifs.map(function (e) { return { vue: e.vue, actif: e.actif, rendu: e.figure ? (e.figure.m ? "3d" : "svg") : null }; }); },
+    // 2.63.0 — outil de contrôle : enfoncement courant (unités SVG) de chaque bulle et position des pieds.
+    poids: function () { return actifs.map(function (e) { return { pieds: e.pos ? { k: e.pos.k, x: e.pos.x, y: e.pos.y } : null, bulles: (e.bulles || []).map(function (b) { return { href: b.a.getAttribute("href"), d: Math.round(b.d * 1000) / 1000 }; }) }; }); },
     cycle: CYCLE,
     // Outil de contrôle : planche de poses (âge, vue, phase) dans un groupe SVG donné.
     Figure: Figure,

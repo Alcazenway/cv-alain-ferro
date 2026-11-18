@@ -101,3 +101,5 @@ body:has(.bi-charte) #fond { display: none; }
 @keyframes mv-fond-derive-metiers { from { background-position: 0 0, var(--mv-rose), 0 0, 0 0; } to { background-position: var(--mv-pas), var(--mv-rose), 0 0, 0 0; } }
 @media (max-width: 740px) { .bi-zone.bi-charte.bi-zone-metiers::before { --mv-rose: 50% 50%; } }
 @media print { .bi-zone.bi-charte::before { animation: none; } }
+/* 2.63.0 (Alain) : bulle « Tosa Excel avancé » de la page Formation en pétrole plein, texte blanc, comme les bulles pleines. */
+.bi-zone-formation #formation-tosa.bi-bulle.ch-sphere { color: #fff; background: radial-gradient(circle at 36% 30%, var(--ch-ess-clair), var(--ch-essentiel) 39%, var(--ch-ess-sombre) 78%); border: 1.5px solid transparent; }
