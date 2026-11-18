@@ -31,8 +31,8 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "rendezVous": "https://calendar.app.google/dLoZ66bd1SF8A7pg6",
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.62.0",
+    "rendezVous": "https://calendar.app.google/nM6dUABWLZ7i5WaE9",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.62.1",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -3088,7 +3088,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie et n’utilise aucun outil de mesure d’audience. La page « Proposer un entretien » propose deux canaux. Par e-mail : le message modifiable reste dans votre navigateur et rien n’est transmis tant que vous ne l’envoyez pas vous-même depuis votre messagerie (Gmail, Outlook ou logiciel habituel) ; aucun envoi automatique. Par rendez-vous : le bouton « Rendez-vous » ouvre la page de réservation Google Agenda d’Alain Ferro ; si vous réservez, Google recueille les informations demandées (prénom, nom, adresse e-mail) et ajoute le rendez-vous à l’agenda d’Alain Ferro, qui les utilise uniquement pour organiser l’entretien. Ce service est soumis aux règles de confidentialité de Google. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "17 novembre 2026",
-    "version": "2.62.0"
+    "version": "2.62.1"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"

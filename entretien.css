@@ -92,3 +92,6 @@ html, body { background: #fff; }
 .ent-rdv { display: flex; justify-content: center; margin: 0 0 16px; }
 .ent-rdv[hidden] { display: none; }
 @media (max-width: 560px) { .ent-rdv .bb { width: 100%; } }
+/* 2.62.1 : une phrase sous le bouton Rendez-vous (confirmation et annulation par e-mail Google). */
+.ent-rdv { flex-direction: column; align-items: center; gap: 6px; }
+.ent-rdv-note { margin: 0; color: #5b6f72; font-size: 13px; line-height: 1.35; text-align: center; }
