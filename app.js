@@ -870,7 +870,7 @@
         if (e.parent && parId[e.parent] && parId[e.parent].parent) origineValide = false;
         var parent = origineValide ? listeOrigine : e.parent && parId[e.parent] ? rediriger("/parcours/" + e.parent) : savoir ? "/savoir-formations" : "/parcours";
         // Les projets IA ont leur maison dans la rubrique Orchestration IA ; v2.26 : leurs pages enfants aussi.
-        return { rubrique: listeOrigine === "/realisations" ? "realisations" : savoir ? "savoir" : e.parent && racine(e).id === "outils-ia" ? "competences" : "parcours", titre: e.titre, rendu: ficheParcours(e, parent), detail: true, fiche: true };
+        return { rubrique: listeOrigine === "/realisations" ? "realisations" : savoir ? "savoir" : e.parent && racine(e).id === "outils-ia" ? "competences" : "parcours", titre: e.titre, rendu: (window.Realisations && window.Realisations.page(e, parent, function (photos, i, bouton) { Visionneuse.ouvrir(photos, i, bouton); })) || ficheParcours(e, parent), detail: true, fiche: true };
       }
     }
     if (h === "/savoir-formations") return { rubrique: "savoir", titre: SAVOIR, rendu: pageSavoir(), liste: true };

@@ -155,6 +155,7 @@
   window.SkyLivra = {
     categories: CATEGORIES,
     detail: detail,
+    medias: medias,
     // ctx : { titre(id) → titre de la fiche ; parent ; titreParent }
     route: function (slug, ctx) {
       parTitre = ctx.titre;

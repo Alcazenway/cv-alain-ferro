@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.68.3",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.69.0",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -393,13 +393,7 @@ window.CV = {
         "thermes-responsable",
         "negoce"
       ],
-      "galerie": [
-        {
-          "src": "assets/photos/selection/selection-048.webp",
-          "alt": "Tableau de bord Excel de suivi des candidatures",
-          "legende": "Tableau de bord Excel de suivi des candidatures"
-        }
-      ]
+      "galerie": []
     },
     {
       "id": "plateformes",
@@ -1144,8 +1138,8 @@ window.CV = {
       "titreCourt": "Rénovation Bateau bois",
       "important": true,
       "lieu": "",
-      "resume": "Trois ans de chantier sur une coque à clin.",
-      "apportCourt": "Conduite d’un chantier de trois ans, de la préparation aux interventions techniques.",
+      "resume": "Rénovation du Wyjume, un bateau en bois à coque à clin : un chantier personnel de trois ans, de la coque jusqu’à l’aménagement intérieur.",
+      "apportCourt": "J’ai organisé les travaux et pratiqué directement menuiserie, résine époxy, plomberie, électricité 220 V et 12 V, ponçage et peinture. Ce chantier montre ma capacité à mener un projet long jusqu’au bout en passant d’un métier à l’autre.",
       "contexte": "Rénovation du Wyjume, un bateau en bois à coque à clin. Ce chantier a mobilisé la préparation, l’organisation des travaux et une pratique directe de plusieurs techniques. Les photos personnelles montrent notamment le carénage, les boiseries, le ponçage et le tableau électrique.",
       "missions": [
         "Menuiserie et aménagement intérieur.",
@@ -1165,76 +1159,85 @@ window.CV = {
       "galerie": [
         {
           "src": "assets/photos/selection/selection-123.webp",
-          "alt": "Coque — avant rénovation",
-          "legende": "Coque — avant rénovation"
+          "legende": "Coque avant rénovation",
+          "entier": true
         },
         {
           "src": "assets/photos/selection/selection-124.webp",
-          "alt": "Coque — pendant la rénovation",
-          "legende": "Coque — pendant la rénovation"
+          "legende": "Peinture de la coque",
+          "entier": false
         },
         {
-          "src": "assets/photos/selection/selection-128.webp",
-          "alt": "Vue d’ensemble du Wyjume",
-          "legende": "Vue d’ensemble du Wyjume"
+          "src": "assets/photos/selection/selection-126.webp",
+          "legende": "Aménagement en cours",
+          "entier": false
+        },
+        {
+          "src": "assets/photos/selection/selection-127.webp",
+          "legende": "Intérieur rénové",
+          "entier": false
+        },
+        {
+          "src": "assets/photos/selection/selection-131.webp",
+          "legende": "Tableau de bord",
+          "entier": false
+        },
+        {
+          "src": "assets/photos/selection/selection-132.webp",
+          "legende": "Le Wyjume au port",
+          "entier": false
         }
       ],
       "sections": [
         {
-          "titre": "Boiseries · Aménagement",
-          "galerie": [
-            {
-              "src": "assets/photos/selection/selection-125.webp",
-              "alt": "Boiseries — avant",
-              "legende": "Boiseries — avant"
-            },
-            {
-              "src": "assets/photos/selection/selection-126.webp",
-              "alt": "Boiseries — pendant les travaux",
-              "legende": "Boiseries — pendant les travaux"
-            },
-            {
-              "src": "assets/photos/selection/selection-127.webp",
-              "alt": "Boiseries et intérieur — après",
-              "legende": "Boiseries et intérieur — après"
-            },
-            {
-              "src": "assets/photos/selection/selection-130.webp",
-              "alt": "Menuiserie et préparation de l’intérieur",
-              "legende": "Menuiserie et préparation de l’intérieur"
-            },
-            {
-              "src": "assets/photos/selection/selection-133.webp",
-              "alt": "Travail des boiseries",
-              "legende": "Travail des boiseries"
-            }
-          ]
+          "titre": "Boiseries · Aménagement"
         },
         {
-          "titre": "À bord · Navigation",
-          "galerie": [
-            {
-              "src": "assets/photos/selection/selection-131.webp",
-              "alt": "Tableau de bord",
-              "legende": "Tableau de bord"
-            },
-            {
-              "src": "assets/photos/selection/selection-132.webp",
-              "alt": "Vue du bateau au port",
-              "legende": "Vue du bateau au port"
-            },
-            {
-              "src": "assets/photos/selection/selection-129.webp",
-              "alt": "Bateau en navigation",
-              "legende": "Bateau en navigation"
-            }
-          ]
+          "titre": "À bord · Navigation"
         }
       ],
       "bulle": [
         "Rénovation Bateau bois"
       ],
-      "periode": "2003–2006"
+      "periode": "2003–2006",
+      "presentation": {
+        "titre": "Rénovation d’un bateau",
+        "resume": "Rénovation du Wyjume, un bateau en bois à coque à clin : un chantier personnel de trois ans, de la coque jusqu’à l’aménagement intérieur.",
+        "role": "J’ai organisé les travaux et pratiqué directement menuiserie, résine époxy, plomberie, électricité 220 V et 12 V, ponçage et peinture. Ce chantier montre ma capacité à mener un projet long jusqu’au bout en passant d’un métier à l’autre.",
+        "medias": [
+          {
+            "src": "assets/photos/selection/selection-123.webp",
+            "legende": "Coque avant rénovation",
+            "entier": true
+          },
+          {
+            "src": "assets/photos/selection/selection-124.webp",
+            "legende": "Peinture de la coque",
+            "entier": false
+          },
+          {
+            "src": "assets/photos/selection/selection-126.webp",
+            "legende": "Aménagement en cours",
+            "entier": false
+          },
+          {
+            "src": "assets/photos/selection/selection-127.webp",
+            "legende": "Intérieur rénové",
+            "entier": false
+          },
+          {
+            "src": "assets/photos/selection/selection-131.webp",
+            "legende": "Tableau de bord",
+            "entier": false
+          },
+          {
+            "src": "assets/photos/selection/selection-132.webp",
+            "legende": "Le Wyjume au port",
+            "entier": false
+          }
+        ],
+        "liens": []
+      }
     },
     {
       "id": "negoce",
@@ -1389,8 +1392,8 @@ window.CV = {
       "titre": "Simulation de vol",
       "titreCourt": "Simulation de vol · Airbus · Boeing · Avions légers",
       "lieu": "",
-      "resume": "Plus de vingt ans de simulation de vol sur PC : Airbus, Boeing et avions légers.",
-      "apportCourt": "Préparation des opérations, suivi des procédures et vérification des paramètres.",
+      "resume": "Plus de vingt ans de simulation de vol sur PC, sur Airbus, Boeing et avions légers : une passion technique pratiquée de façon exigeante, à l’origine de mes créations SkyLivra.",
+      "apportCourt": "Je prépare chaque vol, météo et navigation comprises, puis je suis les procédures de l’avion simulé. Cette pratique a ancré chez moi la méthode, la rigueur et le réflexe de vérifier avant d’agir.",
       "contexte": "Une passion technique pratiquée de façon exigeante, qui a ensuite conduit aux créations du projet SkyLivra.",
       "missions": [
         "Préparation des vols, météo et navigation.",
@@ -1414,124 +1417,37 @@ window.CV = {
       "galerie": [
         {
           "src": "assets/photos/selection/selection-061.webp",
-          "alt": "Installation personnelle de simulation de vol",
-          "legende": "Installation personnelle de simulation de vol"
-        },
-        {
-          "src": "assets/photos/selection/selection-062.webp",
-          "alt": "Matériel et commandes de simulation",
-          "legende": "Matériel et commandes de simulation"
+          "legende": "Poste de simulation multi-écrans",
+          "entier": false
         },
         {
           "src": "assets/photos/selection/selection-059.webp",
-          "alt": "Cockpit d’Airbus dans le simulateur",
-          "legende": "Cockpit d’Airbus dans le simulateur"
-        },
-        {
-          "src": "assets/photos/selection/selection-060.webp",
-          "alt": "Avion de ligne dans le simulateur",
-          "legende": "Avion de ligne dans le simulateur"
-        },
-        {
-          "src": "assets/photos/selection/selection-063.webp",
-          "alt": "Poste de pilotage d’un avion léger simulé",
-          "legende": "Poste de pilotage d’un avion léger simulé"
-        },
-        {
-          "src": "assets/photos/selection/selection-064.webp",
-          "alt": "Cockpit d’Airbus A320 simulé",
-          "legende": "Cockpit d’Airbus A320 simulé"
-        },
-        {
-          "src": "assets/photos/selection/selection-065.webp",
-          "alt": "Cockpit d’avion léger simulé",
-          "legende": "Cockpit d’avion léger simulé"
+          "legende": "Cockpit de Boeing 737",
+          "entier": false
         },
         {
           "src": "assets/photos/selection/selection-071.webp",
-          "alt": "Vue du cockpit dans le simulateur",
-          "legende": "Vue du cockpit dans le simulateur"
+          "legende": "Cockpit d’Airbus",
+          "entier": false
         },
         {
-          "src": "assets/photos/selection/selection-073.webp",
-          "alt": "Avion de ligne simulé",
-          "legende": "Avion de ligne simulé"
+          "src": "assets/photos/selection/selection-063.webp",
+          "legende": "Tableau de bord d’avion léger",
+          "entier": false
         }
       ],
       "sections": [
         {
-          "titre": "Univers simulation",
-          "galerie": [
-            {
-              "src": "assets/photos/selection/selection-057.webp",
-              "alt": "Aviation et simulation : Boeing 777",
-              "legende": "Aviation et simulation : Boeing 777"
-            },
-            {
-              "src": "assets/photos/selection/selection-058.webp",
-              "alt": "Présentation d’un avion pour la simulation",
-              "legende": "Présentation d’un avion pour la simulation"
-            },
-            {
-              "src": "assets/photos/selection/selection-069.webp",
-              "alt": "Microsoft Flight Simulator — intérêt pour la simulation",
-              "legende": "Microsoft Flight Simulator — intérêt pour la simulation"
-            }
-          ]
+          "titre": "Univers simulation"
         },
         {
           "titre": "Défis simulateur",
-          "galerie": [
-            {
-              "src": "assets/photos/selection/selection-066.webp",
-              "alt": "Attestation virtuelle Flight Simulator : pilote de ligne",
-              "legende": "Attestation virtuelle Flight Simulator : pilote de ligne"
-            },
-            {
-              "src": "assets/photos/selection/selection-067.webp",
-              "alt": "Attestation virtuelle Flight Simulator : pilote privé",
-              "legende": "Attestation virtuelle Flight Simulator : pilote privé"
-            },
-            {
-              "src": "assets/photos/selection/selection-068.webp",
-              "alt": "Attestation virtuelle Flight Simulator : pilote commercial",
-              "legende": "Attestation virtuelle Flight Simulator : pilote commercial"
-            },
-            {
-              "src": "assets/photos/selection/selection-070.webp",
-              "alt": "Attestation virtuelle Flight Simulator : vol aux instruments",
-              "legende": "Attestation virtuelle Flight Simulator : vol aux instruments"
-            },
-            {
-              "src": "assets/photos/selection/selection-074.webp",
-              "alt": "Attestation virtuelle Flight Simulator : premier vol solo",
-              "legende": "Attestation virtuelle Flight Simulator : premier vol solo"
-            }
-          ],
           "paragraphes": [
             "Attestations internes de Flight Simulator : elles ne constituent pas des qualifications aéronautiques réelles."
           ]
         },
         {
           "titre": "Aviation · Découverte",
-          "galerie": [
-            {
-              "src": "assets/photos/selection/selection-005.webp",
-              "alt": "Visite d’un musée aéronautique",
-              "legende": "Visite d’un musée aéronautique"
-            },
-            {
-              "src": "assets/photos/selection/selection-006.webp",
-              "alt": "Découverte d’un Airbus A380",
-              "legende": "Découverte d’un Airbus A380"
-            },
-            {
-              "video": "assets/videos/aviation-vol-cotier.mp4",
-              "poster": "assets/videos/aviation-vol-cotier.webp",
-              "alt": "Découverte en vol sur la côte",
-              "legende": "Découverte en vol sur la côte"
-            }
-          ],
           "paragraphes": [
             "Visites et découverte en vol."
           ]
@@ -1545,7 +1461,35 @@ window.CV = {
       "enfants": [
         "spadnext"
       ],
-      "enfantsTitre": "Réalisation · profils SPAD.neXt"
+      "enfantsTitre": "Réalisation · profils SPAD.neXt",
+      "presentation": {
+        "titre": "Simulation de vol",
+        "resume": "Plus de vingt ans de simulation de vol sur PC, sur Airbus, Boeing et avions légers : une passion technique pratiquée de façon exigeante, à l’origine de mes créations SkyLivra.",
+        "role": "Je prépare chaque vol, météo et navigation comprises, puis je suis les procédures de l’avion simulé. Cette pratique a ancré chez moi la méthode, la rigueur et le réflexe de vérifier avant d’agir.",
+        "medias": [
+          {
+            "src": "assets/photos/selection/selection-061.webp",
+            "legende": "Poste de simulation multi-écrans",
+            "entier": false
+          },
+          {
+            "src": "assets/photos/selection/selection-059.webp",
+            "legende": "Cockpit de Boeing 737",
+            "entier": false
+          },
+          {
+            "src": "assets/photos/selection/selection-071.webp",
+            "legende": "Cockpit d’Airbus",
+            "entier": false
+          },
+          {
+            "src": "assets/photos/selection/selection-063.webp",
+            "legende": "Tableau de bord d’avion léger",
+            "entier": false
+          }
+        ],
+        "liens": []
+      }
     },
     {
       "id": "spadnext",
@@ -1553,8 +1497,8 @@ window.CV = {
       "titre": "Profils SPAD.neXt",
       "titreCourt": "Profils SPAD.neXt",
       "lieu": "",
-      "resume": "Programmation de profils SPAD.neXt pour utiliser les périphériques de simulation avec les avions simulés.",
-      "apportCourt": "Adapter les commandes des périphériques aux avions simulés.",
+      "resume": "Profils SPAD.neXt programmés pour faire fonctionner mes périphériques de simulation, boutons et panneaux de commandes, avec les avions de Microsoft Flight Simulator.",
+      "apportCourt": "J’analyse le fonctionnement de chaque avion, puis j’enchaîne conditions et actions jusqu’à obtenir le comportement voulu. Je traduis ainsi un besoin d’usage en réglages techniques précis, testés et ajustés.",
       "competences": [
         "informatique"
       ],
@@ -1576,24 +1520,54 @@ window.CV = {
       "parent": "simulation",
       "galerie": [
         {
+          "src": "assets/photos/selection/selection-062.webp",
+          "legende": "Périphériques de simulation",
+          "entier": false
+        },
+        {
           "src": "assets/spadnext/programmation-bouton.webp",
-          "alt": "Programmation d’un bouton : conditions et enchaînement d’actions dans un profil SPAD.neXt.",
-          "legende": "Programmation d’un bouton : conditions et enchaînement d’actions dans un profil SPAD.neXt.",
+          "legende": "Programmation d’un bouton",
           "entier": true
         },
         {
           "src": "assets/spadnext/panneaux-commandes.webp",
-          "alt": "Panneaux de commandes et radio représentés dans SPAD.neXt.",
-          "legende": "Panneaux de commandes et radio représentés dans SPAD.neXt.",
+          "legende": "Panneaux de commandes",
           "entier": true
         },
         {
           "src": "assets/spadnext/variables-simulateur.webp",
-          "alt": "Suivi de variables du simulateur pour adapter les commandes du profil.",
-          "legende": "Suivi de variables du simulateur pour adapter les commandes du profil.",
+          "legende": "Variables du simulateur",
           "entier": true
         }
-      ]
+      ],
+      "presentation": {
+        "titre": "Profils SPAD.neXt",
+        "resume": "Profils SPAD.neXt programmés pour faire fonctionner mes périphériques de simulation, boutons et panneaux de commandes, avec les avions de Microsoft Flight Simulator.",
+        "role": "J’analyse le fonctionnement de chaque avion, puis j’enchaîne conditions et actions jusqu’à obtenir le comportement voulu. Je traduis ainsi un besoin d’usage en réglages techniques précis, testés et ajustés.",
+        "medias": [
+          {
+            "src": "assets/photos/selection/selection-062.webp",
+            "legende": "Périphériques de simulation",
+            "entier": false
+          },
+          {
+            "src": "assets/spadnext/programmation-bouton.webp",
+            "legende": "Programmation d’un bouton",
+            "entier": true
+          },
+          {
+            "src": "assets/spadnext/panneaux-commandes.webp",
+            "legende": "Panneaux de commandes",
+            "entier": true
+          },
+          {
+            "src": "assets/spadnext/variables-simulateur.webp",
+            "legende": "Variables du simulateur",
+            "entier": true
+          }
+        ],
+        "liens": []
+      }
     },
     {
       "id": "pailletrice",
@@ -2326,8 +2300,8 @@ window.CV = {
       "titre": "BarySense · Suivi du café",
       "titreCourt": "BarySense · Suivi du café",
       "lieu": "",
-      "resume": "Application de suivi des cafés, des machines, des extractions et du stock.",
-      "apportCourt": "Organisation du suivi des stocks et des dépenses dans un outil adapté aux usages.",
+      "resume": "BarySense est une application personnelle de suivi du café : paquets en réserve, machines, réglages d’extraction et cafés à racheter.",
+      "apportCourt": "J’ai défini les informations utiles et l’organisation des écrans, puis piloté les évolutions avec des assistants IA. J’y mobilise la structuration des données et la conception d’un outil adapté aux usages.",
       "contexte": "Application issue d’une pratique personnelle du café : suivi des cafés, réglages, extractions, machines et paquets.",
       "missions": [
         "Définition des informations à conserver et des parcours de consultation.",
@@ -2355,42 +2329,53 @@ window.CV = {
       "galerie": [
         {
           "src": "assets/photos/selection/selection-009.webp",
-          "alt": "BarySense — accueil de l’application",
-          "legende": "BarySense — accueil de l’application"
+          "legende": "Tableau de bord",
+          "entier": true
         },
         {
           "src": "assets/photos/selection/selection-008.webp",
-          "alt": "BarySense — gestion des machines à café",
-          "legende": "BarySense — gestion des machines à café"
+          "legende": "Cafés en réserve",
+          "entier": true
         },
         {
           "src": "assets/photos/selection/selection-010.webp",
-          "alt": "BarySense — fiche et réglages café",
-          "legende": "BarySense — fiche et réglages café"
+          "legende": "Réglages d’extraction",
+          "entier": true
         }
       ],
       "sections": [
         {
-          "titre": "Identité visuelle",
-          "galerie": [
-            {
-              "src": "assets/photos/selection/selection-011.webp",
-              "alt": "BarySense — visuel de présentation",
-              "legende": "BarySense — visuel de présentation"
-            },
-            {
-              "src": "assets/photos/selection/selection-012.webp",
-              "alt": "BarySense — identité visuelle",
-              "legende": "BarySense — identité visuelle"
-            }
-          ]
+          "titre": "Identité visuelle"
         }
       ],
       "bulle": [
         "BarySense"
       ],
       "periode": "2026",
-      "parent": "outils-ia"
+      "parent": "outils-ia",
+      "presentation": {
+        "titre": "BarySense",
+        "resume": "BarySense est une application personnelle de suivi du café : paquets en réserve, machines, réglages d’extraction et cafés à racheter.",
+        "role": "J’ai défini les informations utiles et l’organisation des écrans, puis piloté les évolutions avec des assistants IA. J’y mobilise la structuration des données et la conception d’un outil adapté aux usages.",
+        "medias": [
+          {
+            "src": "assets/photos/selection/selection-009.webp",
+            "legende": "Tableau de bord",
+            "entier": true
+          },
+          {
+            "src": "assets/photos/selection/selection-008.webp",
+            "legende": "Cafés en réserve",
+            "entier": true
+          },
+          {
+            "src": "assets/photos/selection/selection-010.webp",
+            "legende": "Réglages d’extraction",
+            "entier": true
+          }
+        ],
+        "liens": []
+      }
     },
     {
       "id": "knockin",
@@ -2398,8 +2383,8 @@ window.CV = {
       "titre": "Knockin ever Door · Recherche d’emploi",
       "titreCourt": "Knockin ever Door · CRM candidatures",
       "lieu": "",
-      "resume": "Conception d’un outil de suivi des entreprises, contacts, candidatures et relances.",
-      "apportCourt": "Suivi structuré des contacts, candidatures, rendez-vous et relances.",
+      "resume": "Knockin ever Door est un outil personnel conçu pour centraliser ma recherche d’emploi : entreprises, contacts, candidatures, rendez-vous, relances et offres collectées.",
+      "apportCourt": "J’ai cadré les besoins, organisé les données et contrôlé chaque évolution réalisée avec des assistants IA. Exprimer clairement un besoin puis vérifier qu’un outil y répond me sert pour accompagner tout projet numérique.",
       "contexte": "Projet personnel né d’un besoin concret : centraliser une recherche d’emploi. Le cadrage des besoins et le pilotage de la réalisation s’appuient sur des assistants IA.",
       "missions": [
         "Cadrage fonctionnel : entreprises, contacts, candidatures, rendez-vous, relances.",
@@ -2426,61 +2411,30 @@ window.CV = {
       "transfert": "Exprimer un besoin clairement et vérifier qu’un outil y répond : un atout pour accompagner des projets numériques.",
       "galerie": [
         {
-          "src": "assets/photos/selection/selection-050.webp",
-          "alt": "Knockin ever Door — création d’une démarche",
-          "legende": "Knockin ever Door — création d’une démarche"
-        },
-        {
           "src": "assets/photos/selection/selection-044.webp",
-          "alt": "Knockin ever Door — filtres de suivi des démarches",
-          "legende": "Knockin ever Door — filtres de suivi des démarches"
+          "legende": "Suivi des démarches",
+          "entier": true
         },
         {
-          "src": "assets/photos/selection/selection-049.webp",
-          "alt": "Knockin ever Door — suivi des pistes, informations masquées",
-          "legende": "Knockin ever Door — suivi des pistes, informations masquées"
+          "src": "assets/photos/selection/selection-045.webp",
+          "legende": "Recherche d’offres",
+          "entier": true
+        },
+        {
+          "src": "assets/photos/selection/selection-050.webp",
+          "legende": "Nouvelle démarche",
+          "entier": true
         }
       ],
       "sections": [
         {
-          "titre": "Offres · Recherche, classement",
-          "galerie": [
-            {
-              "src": "assets/photos/selection/selection-045.webp",
-              "alt": "Knockin ever Door — recherche d’offres en cours",
-              "legende": "Knockin ever Door — recherche d’offres en cours"
-            },
-            {
-              "src": "assets/photos/selection/selection-047.webp",
-              "alt": "Knockin ever Door — offres collectées",
-              "legende": "Knockin ever Door — offres collectées"
-            },
-            {
-              "src": "assets/photos/selection/selection-051.webp",
-              "alt": "Knockin ever Door — classement et recherche d’offres",
-              "legende": "Knockin ever Door — classement et recherche d’offres"
-            }
-          ]
+          "titre": "Offres · Recherche, classement"
         },
         {
-          "titre": "Connexion",
-          "galerie": [
-            {
-              "src": "assets/photos/selection/selection-046.webp",
-              "alt": "Knockin ever Door — écran de connexion",
-              "legende": "Knockin ever Door — écran de connexion"
-            }
-          ]
+          "titre": "Connexion"
         },
         {
           "titre": "Suivi Excel",
-          "galerie": [
-            {
-              "src": "assets/photos/selection/selection-048.webp",
-              "alt": "Tableau de bord Excel de suivi des candidatures",
-              "legende": "Tableau de bord Excel de suivi des candidatures"
-            }
-          ],
           "paragraphes": [
             "Tableau de bord personnel de suivi des candidatures."
           ]
@@ -2490,7 +2444,30 @@ window.CV = {
         "Knockin ever Door"
       ],
       "periode": "2026–aujourd’hui",
-      "parent": "outils-ia"
+      "parent": "outils-ia",
+      "presentation": {
+        "titre": "Knockin ever Door",
+        "resume": "Knockin ever Door est un outil personnel conçu pour centraliser ma recherche d’emploi : entreprises, contacts, candidatures, rendez-vous, relances et offres collectées.",
+        "role": "J’ai cadré les besoins, organisé les données et contrôlé chaque évolution réalisée avec des assistants IA. Exprimer clairement un besoin puis vérifier qu’un outil y répond me sert pour accompagner tout projet numérique.",
+        "medias": [
+          {
+            "src": "assets/photos/selection/selection-044.webp",
+            "legende": "Suivi des démarches",
+            "entier": true
+          },
+          {
+            "src": "assets/photos/selection/selection-045.webp",
+            "legende": "Recherche d’offres",
+            "entier": true
+          },
+          {
+            "src": "assets/photos/selection/selection-050.webp",
+            "legende": "Nouvelle démarche",
+            "entier": true
+          }
+        ],
+        "liens": []
+      }
     },
     {
       "id": "skylivra",
@@ -2973,8 +2950,8 @@ window.CV = {
       "titre": "PoussePousse · Potager",
       "titreCourt": "PoussePousse",
       "lieu": "Projet personnel",
-      "resume": "Application de plan et de suivi d’un potager, utilisable sur téléphone, tablette et PC.",
-      "apportCourt": "Organisation des cultures, des arrosages et des récoltes dans un outil simple au quotidien.",
+      "resume": "PoussePousse est une application personnelle de plan et de suivi du potager, installable sur Android, utilisable hors connexion sur téléphone, tablette et PC.",
+      "apportCourt": "Je l’ai conçue à partir de ma pratique du jardinage : parcelles, semis, arrosages et récoltes. J’ai piloté sa réalisation avec des assistants IA, en soignant une interface simple au quotidien et des données bien organisées.",
       "contexte": "Application installable sur Android depuis Chrome, qui fonctionne aussi hors connexion, née de la pratique du jardinage.",
       "missions": [
         "Plan du jardin au cœur de l’application : emplacements, cultures et état de chaque parcelle.",
@@ -2995,7 +2972,47 @@ window.CV = {
       "bulle": [
         "PoussePousse"
       ],
-      "periode": "2026"
+      "periode": "2026",
+      "presentation": {
+        "titre": "PoussePousse",
+        "resume": "PoussePousse est une application personnelle de plan et de suivi du potager, installable sur Android, utilisable hors connexion sur téléphone, tablette et PC.",
+        "role": "Je l’ai conçue à partir de ma pratique du jardinage : parcelles, semis, arrosages et récoltes. J’ai piloté sa réalisation avec des assistants IA, en soignant une interface simple au quotidien et des données bien organisées.",
+        "medias": [
+          {
+            "src": "assets/realisations/pousse-plan-demo.png",
+            "legende": "Plan du jardin — démo",
+            "entier": true
+          },
+          {
+            "src": "assets/realisations/pousse-cultures-demo.png",
+            "legende": "Suivi des cultures — démo",
+            "entier": true
+          },
+          {
+            "src": "assets/realisations/pousse-mobile-demo.png",
+            "legende": "Interface mobile — démo",
+            "entier": true
+          }
+        ],
+        "liens": []
+      },
+      "galerie": [
+        {
+          "src": "assets/realisations/pousse-plan-demo.png",
+          "legende": "Plan du jardin — démo",
+          "entier": true
+        },
+        {
+          "src": "assets/realisations/pousse-cultures-demo.png",
+          "legende": "Suivi des cultures — démo",
+          "entier": true
+        },
+        {
+          "src": "assets/realisations/pousse-mobile-demo.png",
+          "legende": "Interface mobile — démo",
+          "entier": true
+        }
+      ]
     },
     {
       "id": "cv-interactif",
@@ -3008,8 +3025,8 @@ window.CV = {
       "titre": "CV interactif · Site et PDF",
       "titreCourt": "CV interactif",
       "lieu": "Projet personnel",
-      "resume": "Ce CV : un site publié sur GitHub Pages et un PDF interactif relié au site, construits à partir d’une seule source de contenu.",
-      "apportCourt": "Un même contenu, une même version, deux supports cohérents.",
+      "resume": "Ce CV réunit un site publié et un PDF interactif relié au site, construits à partir d’une seule source de contenu pour rester cohérents.",
+      "apportCourt": "Je définis le contenu, l’organisation des pages et le design, et je coordonne deux assistants IA qui se répartissent les tâches et se relisent. J’y mobilise direction de projet, orchestration d’outils IA et contrôle de cohérence.",
       "contexte": "Projet conçu et dirigé par Alain Ferro, réalisé avec deux assistants IA coordonnés (Claude et Codex) qui se répartissent les tâches et se relisent.",
       "missions": [
         "Définition du contenu, de l’organisation des pages et du design.",
@@ -3034,7 +3051,47 @@ window.CV = {
       "bulle": [
         "CV interactif"
       ],
-      "periode": "2026–aujourd’hui"
+      "periode": "2026–aujourd’hui",
+      "presentation": {
+        "titre": "CV interactif",
+        "resume": "Ce CV réunit un site publié et un PDF interactif relié au site, construits à partir d’une seule source de contenu pour rester cohérents.",
+        "role": "Je définis le contenu, l’organisation des pages et le design, et je coordonne deux assistants IA qui se répartissent les tâches et se relisent. J’y mobilise direction de projet, orchestration d’outils IA et contrôle de cohérence.",
+        "medias": [
+          {
+            "src": "assets/realisations/cv-parcours.png",
+            "legende": "Parcours interactif",
+            "entier": true
+          },
+          {
+            "src": "assets/realisations/cv-competences.png",
+            "legende": "Compétences",
+            "entier": true
+          },
+          {
+            "src": "assets/cv/cv-page.webp",
+            "legende": "CV PDF interactif",
+            "entier": true
+          }
+        ],
+        "liens": []
+      },
+      "galerie": [
+        {
+          "src": "assets/realisations/cv-parcours.png",
+          "legende": "Parcours interactif",
+          "entier": true
+        },
+        {
+          "src": "assets/realisations/cv-competences.png",
+          "legende": "Compétences",
+          "entier": true
+        },
+        {
+          "src": "assets/cv/cv-page.webp",
+          "legende": "CV PDF interactif",
+          "entier": true
+        }
+      ]
     },
     {
       "id": "jeunesse",
@@ -3087,7 +3144,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie et n’utilise aucun outil de mesure d’audience. La page « Proposer un entretien » prépare un message modifiable qui reste dans votre navigateur : rien n’est transmis tant que vous ne l’envoyez pas vous-même depuis votre messagerie (Gmail, Outlook ou logiciel habituel) ; aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "17 novembre 2026",
-    "version": "2.68.3"
+    "version": "2.69.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"

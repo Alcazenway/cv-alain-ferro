@@ -1,0 +1,11 @@
+/* Même grille image + titre et même comportement d’agrandissement que SkyLivra. */
+.re-fiche { gap: 14px; }
+.re-logo { display: block; width: 88px; height: 88px; object-fit: contain; border-radius: 14px; }
+.re-texte { margin: 0; font-size: 16px; line-height: 1.55; max-width: 1050px; }
+.re-fiche .sky-media { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.re-liens { display: flex; flex-wrap: wrap; gap: 14px; font-weight: 700; }
+@media (max-width: 900px) { .re-fiche .sky-media { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .re-fiche .sky-media { grid-template-columns: 1fr; } }
+@media print { .re-fiche video, .re-fiche iframe { display: none; } }
+
+@media (min-width: 901px) { .re-fiche.re-quatre .sky-media { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
