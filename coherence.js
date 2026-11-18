@@ -90,10 +90,11 @@
       if (ny > 0) { nx = h * ux - v * uy; ny = h * uy + v * ux; }
       return [{ x: a.x + rayon(a) * nx, y: a.y + rayon(a) * ny }, { x: b.x + rayon(b) * nx, y: b.y + rayon(b) * ny }];
     };
-    var d = "M" + geo.debut.x + "," + geo.debut.y + " L" + geo.debut.x + "," + geo.coude.y, debutRangee = 0;
-    // Arrivée à gauche de la première sphère, à hauteur de son centre.
-    var c0 = p[0], e0 = pt(c0, Math.PI);
-    d += " C" + geo.debut.x + "," + a1(e0.y - 20) + " " + a1((geo.debut.x + e0.x) / 2) + "," + a1(e0.y) + " " + a1(e0.x) + "," + a1(e0.y);
+    // 2.63.1 (Alain) : plus d'escalade au départ. La descente de la marge s'arrondit vers l'horizontale et arrive
+    // directement au sommet de la première sphère (ordonnées toujours croissantes : il ne fait que descendre).
+    var c0 = p[0], e0 = pt(c0, -Math.PI / 2), debutRangee = 0;
+    var d = "M" + geo.debut.x + "," + geo.debut.y + " L" + geo.debut.x + "," + a1(e0.y - 40);
+    d += " C" + geo.debut.x + "," + a1(e0.y) + " " + a1(e0.x - 70) + "," + a1(e0.y) + " " + a1(e0.x) + "," + a1(e0.y);
     // 2.44 : sur une sphère plus basse que ses deux voisines (« creux » de l'ondulation), le point de contact de sortie
     // est en arrière du point d'entrée : l'arc faisait reculer le personnage (aller-retour). On passe alors au-dessus
     // du creux, à l'intersection des deux ponts tangents (quelques pixels au-dessus de la sphère), sans reculer.
@@ -128,12 +129,21 @@
       if (ponts.length) d += lig(entree);
       var cf = p[fin];
       if (r < tailles.length - 1) {
-        // Côté extérieur : à droite pour une rangée qui va vers la droite, à gauche sinon ; montée verticale.
-        var cote = sens ? 0 : Math.PI, s1 = pt(cf, cote), u = p[fin + 1], s2 = pt(u, cote);
-        d += arc(s1, sens, cf) + lig(s2);
+        // 2.63.1 (Alain) : montée seulement pour changer de rangée, sans plonger le long de la sphère avant de monter.
+        // Depuis le sommet de la dernière sphère (ou le point de contact s'il est déjà passé), Bézier aux ordonnées de
+        // contrôle décroissantes (montée monotone) jusqu'au flanc extérieur de la sphère du dessus, tangente verticale
+        // à l'arrivée ; l'arc de la rangée suivante repart de ce flanc par-dessus la sphère (continuité des tangentes).
+        var cote = sens ? 0 : Math.PI, dir = sens ? 1 : -1, u = p[fin + 1], s2 = pt(u, cote), haut = pt(cf, -Math.PI / 2);
+        var dep = recule(cf, entree, haut, sens) ? entree : haut;
+        if (dep === haut) d += arc(haut, sens, cf);
+        var h = dep.y - s2.y;
+        d += " C" + a1(dep.x + dir * Math.abs(s2.x - dep.x) * .9) + "," + a1(dep.y) + " " + a1(s2.x) + "," + a1(s2.y + h * .55) + " " + a1(s2.x) + "," + a1(s2.y);
       } else {
-        var sx = pt(cf, 0);
-        d += arc(sx, sens, cf) + " C" + a1(sx.x + 40) + "," + a1(sx.y) + " " + a1(geo.fin.x - 40) + "," + geo.fin.y + " " + geo.fin.x + "," + geo.fin.y;
+        // 2.63.1 : arrivée sur « Aujourd’hui » sans quart de cercle : depuis le sommet (ou le contact déjà passé),
+        // descente seule (ordonnées de contrôle croissantes), départ horizontal et arrivée verticale sur le repère.
+        var hf = pt(cf, -Math.PI / 2), df = recule(cf, entree, hf, sens) ? entree : hf, Rf = rayon(cf);
+        if (df === hf) d += arc(hf, sens, cf);
+        d += " C" + a1(Math.max(df.x + Rf * 1.25, cf.x + Rf + 20)) + "," + a1(df.y) + " " + geo.fin.x + "," + a1(geo.fin.y - 45) + " " + geo.fin.x + "," + geo.fin.y;
       }
       debutRangee = fin + 1;
     });
