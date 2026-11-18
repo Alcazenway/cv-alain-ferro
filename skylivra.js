@@ -16,12 +16,12 @@
       role: "Architecture fonctionnelle, critères d’acceptation, tests et documentation.", complet: "skylivra" },
     livrees: { titre: "Livrées d’avions", tuile: "livrees.webp", statut: "3 livrées · Fenix A320",
       preuves: [[IMG + "selection-088.webp", "Aurora Borealis Blue — extérieur"], [IMG + "selection-077.webp", "Ancient Dragon — extérieur"]],
-      faits: ["3 livrées complètes pour le Fenix A320 : extérieur, cockpit et cabine.", "Direction artistique et validation par Alain ; fabrication pilotée avec l’IA.", "Aurora Borealis Blue validée en jeu (version 1.28.0)."],
+      faits: ["3 livrées complètes pour le Fenix A320 : extérieur, cockpit et cabine.", "Direction artistique et validation par Alain ; fabrication pilotée avec l’IA.", ""],
       role: "Direction artistique, essais dans le simulateur, retours précis jusqu’à la validation.",
       enfants: ["skylivra-ancient-dragon", "skylivra-aurora-borealis-blue", "skylivra-phoenix-pristine"] },
-    addons: { titre: "Add-ons", tuile: "addons.webp", statut: "Aurora Borealis Add-on · v0.10.3",
+    addons: { titre: "Add-ons", tuile: "addons.webp", statut: "Aurora Borealis Add-on",
       preuves: [["assets/videos/aurores-en-vol.webp", "Aurores en vol"], [IMG + "selection-082.webp", "Capture de diagnostic"]],
-      faits: ["Aurores boréales et australes la nuit, selon la position de l’avion.", "Panneau de commande dans le simulateur : interrupteur et indication d’état.", "Rendu défini par Alain ; code C++ / WebAssembly produit par l’IA, suivi jusqu’à la version 0.10.3."],
+      faits: ["Aurores boréales et australes la nuit, selon la position de l’avion.", "Panneau de commande dans le simulateur : interrupteur et indication d’état.", "Je définis le rendu et pilote la réalisation avec des assistants IA."],
       role: "Conception fonctionnelle, essais en vol, diagnostic des versions.", enfants: ["skylivra-aurores"] },
     installateur: { titre: "Installateur Windows", tuile: "installateur.webp", statut: "Livré avec chaque création",
       preuves: [[IMG + "selection-092.webp", "Écran de l’installateur"]], seule: true,
@@ -36,13 +36,13 @@
     "skylivra-ancient-dragon": { cat: "livrees", statut: "Livrée · Fenix A320", preuves: [[IMG + "selection-077.webp", "Extérieur dans MSFS"], [IMG + "selection-078.webp", "Cockpit et cabine"]],
       faits: ["Tête de dragon cuivrée, écailles et regard ambre, sans modifier la silhouette de l’avion.", "Fresques cuivre et ivoire en cabine, emblème sur les 174 sièges passagers.", "Textures et installateur Windows contrôlés avant l’essai en vol."],
       role: "Direction artistique : choix de la tête, maquettes de cabine approuvées, contrôle du rendu." },
-    "skylivra-aurora-borealis-blue": { cat: "livrees", statut: "Validée en jeu · v1.28.0", preuves: [[IMG + "selection-088.webp", "Extérieur"], [IMG + "selection-085.webp", "Poste de pilotage"]],
-      faits: ["Aurore en haute définition et ciel étoilé, motifs alignés jusqu’aux volets.", "Cockpit et cabine retravaillés, emblème sur la dérive, les portes et les appuie-têtes.", "Validée en jeu le 1er novembre 2026 ; déclinaison PMDG 737-900ER sans validation à ce jour."],
-      role: "Essais en vol et suivi des révisions jusqu’à la version 1.28.0." },
+    "skylivra-aurora-borealis-blue": { cat: "livrees", statut: "Livrée · Fenix A320", preuves: [[IMG + "selection-088.webp", "Extérieur"], [IMG + "selection-085.webp", "Poste de pilotage"]],
+      faits: ["Aurore en haute définition et ciel étoilé, motifs alignés jusqu’aux volets.", "Cockpit et cabine retravaillés, emblème sur la dérive, les portes et les appuie-têtes.", "Déclinaison également préparée pour le PMDG 737-900ER."],
+      role: "Essais en vol et ajustements du rendu." },
     "skylivra-phoenix-pristine": { cat: "livrees", statut: "Livrée de référence", preuves: [[IMG + "selection-098.webp", "Extérieur"], [IMG + "selection-100.webp", "Cabine passagers"]],
       faits: ["Version neuve d’une famille de livrées (immatriculation fictive F-PHNX).", "Base de la variante usée Phoenix — Weathered.", "Installateur renforcé : reprise si fichier verrouillé, restauration protégée."],
       role: "Direction artistique, validation des sources de peinture, contrôles avant chaque édition." },
-    "skylivra-aurores": { cat: "addons", statut: "Add-on · v0.10.3", preuves: [["assets/videos/aurores-en-vol.webp", "Aurores en vol"], [IMG + "selection-082.webp", "Capture de diagnostic"]],
+    "skylivra-aurores": { cat: "addons", statut: "Add-on", preuves: [["assets/videos/aurores-en-vol.webp", "Aurores en vol"], [IMG + "selection-082.webp", "Capture de diagnostic"]],
       faits: FICHES.addons.faits, role: FICHES.addons.role }
   };
 
@@ -62,8 +62,9 @@
   function faits(liste, role) {
     return [el("p", { class: "sky-prose", text: liste.join(" ") }), el("p", { class: "sky-role-court" }, [role])];
   }
+  var ouvrirMedia = function () {};
   function preuves(liste, seule) {
-    return el("div", { class: "sky-preuves" + (seule ? " seule" : "") }, liste.map(function (p) { return el("figure", null, [image(p[0], p[1]), el("figcaption", { text: p[1] })]); }));
+    return medias(liste.map(function (p) { return {src: p[0], legende: p[1]}; }), ouvrirMedia);
   }
 
   function ensemble(parent, titreParent) {
@@ -84,21 +85,50 @@
   }
 
   function categorie(k) {
-    if (k === "livrees") return [el("div", { class: "sky sky-fiche" }, [
-      retour("/parcours/skylivra", "SkyLivra"), tete(FICHES.livrees.titre),
-      el("ul", { class: "sky-categories sky-livrees", "aria-label": "Livrées d’avions" }, FICHES.livrees.enfants.map(function (id) {
-        var titre = parTitre(id);
-        return el("li", null, [el("a", { class: "sky-cat", href: "#/parcours/" + id, "aria-label": titre }, [image(CREATIONS[id].preuves[0][0], ""), el("span", { class: "sky-cat-titre", text: titre })])]);
-      }))
-    ])];
-    var f = FICHES[k], texte = el("div", { class: "sky-texte" }, faits(f.faits, f.role));
-    if (f.enfants) texte.appendChild(el("ul", { class: "sky-sous", "aria-label": f.titre === "Add-ons" ? "Add-on" : "Livrées" }, f.enfants.map(function (id) {
-      var c = CREATIONS[id], titre = (window.CV && parTitre(id)) || id;
-      return el("li", null, [el("a", { class: "sky-sous-lien", href: "#/parcours/" + id, "aria-label": titre }, [image(c.preuves[0][0], ""), el("span", { text: titre })])]);
-    })));
+    var f = FICHES[k];
+    var cartes = f.enfants ? el("ul", { class: "sky-categories sky-livrees", "aria-label": f.titre }, f.enfants.map(function (id) {
+      var titre = parTitre(id);
+      return el("li", null, [el("a", { class: "sky-cat", href: "#/parcours/" + id, "aria-label": titre }, [image(CREATIONS[id].preuves[0][0], ""), el("span", { class: "sky-cat-titre", text: titre })])]);
+    })) : k === "studio" ? studio() : preuves(f.preuves, f.seule);
+    return [el("div", { class: "sky sky-fiche" }, [retour("/parcours/skylivra", "SkyLivra"), tete(f.titre),
+      k === "livrees" ? null : el("p", {class: "sky-prose", text: f.faits.join(" ")}), cartes,
+      k === "livrees" || k === "addons" ? null : el("p", {class: "sky-role-texte", text: f.role})])];
+  }
 
-    var gauche = k === "studio" ? studio() : preuves(f.preuves, f.seule);
-    return [el("div", { class: "sky sky-fiche" }, [retour("/parcours/skylivra", "SkyLivra"), tete(f.titre, f.statut), el("div", { class: "sky-corps" }, [gauche, texte])])];
+  // Vignettes communes : titre sous chaque média, vidéos avant les photos.
+  function medias(items, ouvrir) {
+    var tries = items.filter(function (p) { return p.src || p.video || p.youtube; }).slice().sort(function (a, b) { return Number(!!(b.video || b.youtube)) - Number(!!(a.video || a.youtube)); });
+    var photos = tries.filter(function (p) { return !p.video && !p.youtube; });
+    return el("div", {class: "sky-media"}, tries.map(function (p) {
+      var titre = p.legende || p.alt || "SkyLivra", visuel;
+      if (p.youtube) visuel = el("iframe", {src: "https://www.youtube-nocookie.com/embed/" + p.youtube, title: titre, loading: "lazy", allow: "encrypted-media; picture-in-picture; fullscreen", allowfullscreen: "", referrerpolicy: "strict-origin-when-cross-origin"});
+      else if (p.video) visuel = el("video", {src: p.video, poster: p.poster || "", controls: "", preload: "none", playsinline: "", "aria-label": titre});
+      else {
+        visuel = el("button", {type: "button", class: "sky-photo", "aria-label": "Agrandir : " + titre}, [image(p.statique || p.src, "")]);
+        visuel.addEventListener("click", function () { ouvrir(photos, photos.indexOf(p), visuel); });
+      }
+      return el("figure", {class: "sky-media-carte", "data-media": p.video || p.youtube ? "video" : "photo"}, [visuel, el("figcaption", {text: titre})]);
+    }));
+  }
+
+  function detail(e, parent, ouvrir) {
+    var items = (e.galerie || []).concat.apply(e.galerie || [], (e.sections || []).map(function (s) { return s.galerie || []; }));
+    if (e.id === "skylivra-phoenix-pristine") items = [{youtube: "6jUwnpN6TYk", legende: "Vidéo Phoenix"}].concat(items);
+    var site = e.id === "skylivra", titre = site ? "Site marchand" : e.titre;
+    var resume = site ? "Site marchand non actif : j’attends l’autorisation des éditeurs pour l’ouvrir. Il est destiné à distribuer mes livrées et add-ons pour Microsoft Flight Simulator 2020." : e.resume;
+    var textes = [];
+    if (e.contexte && !site) textes.push(el("p", {text: e.contexte}));
+    var missions = e.missions || [];
+    for (var i = 0; i < missions.length; i += 2) textes.push(el("p", {text: missions.slice(i, i + 2).join(" ")}));
+    (e.sections || []).forEach(function (s) {
+      textes.push(el("section", {class: "sky-explication"}, [el("h2", {text: s.titre})].concat((s.paragraphes || []).map(function (t) { return el("p", {text: t}); }),
+        (s.points || []).map(function (t) { return el("p", {text: t}); }))));
+    });
+    if (e.apports && e.apports.length) textes.push(el("p", {text: "Compétences mobilisées : " + e.apports.join(", ") + "."}));
+    return [el("div", {class: "sky sky-fiche sky-detail"}, [
+      retour(parent, site ? "SkyLivra" : e.id === "skylivra-aurores" ? "Add-ons" : "Livrées d’avions"), tete(titre),
+      el("p", {class: "sky-prose", text: resume}), medias(items, ouvrir), el("div", {class: "sky-prose sky-explications"}, textes)
+    ])];
   }
 
   // Vidéo Phoenix fournie explicitement par Alain le 18/11/2026 ; chaîne pas encore publique.
@@ -114,9 +144,11 @@
   var parTitre = function () { return null; };
   window.SkyLivra = {
     categories: CATEGORIES,
+    detail: detail,
     // ctx : { titre(id) → titre de la fiche ; parent ; titreParent }
     route: function (slug, ctx) {
       parTitre = ctx.titre;
+      ouvrirMedia = ctx.ouvrir;
       if (slug === "skylivra") return { titre: "SkyLivra", rendu: ensemble(ctx.parent, ctx.titreParent) };
       var m = /^skylivra-(site|livrees|addons|installateur|studio)$/.exec(slug);
       if (m) return { titre: "SkyLivra · " + FICHES[m[1]].titre, rendu: categorie(m[1]) };

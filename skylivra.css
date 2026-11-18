@@ -72,3 +72,16 @@
 /* 2.67.1 — montage Phoenix YouTube exact, sans lecture automatique. */
 .sky-studio iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 12px; background: #0c1726; }
 @media print { .sky-studio iframe { display: none; } }
+
+/* 2.68.0 — toutes les pages enfants SkyLivra reprennent les cartes Livrées. */
+.sky-media, .sky-fiche > .sky-preuves { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.sky-media-carte, .sky-fiche > .sky-preuves figure { margin: 0; overflow: hidden; border: 1.5px solid var(--ch-filet, #D9E3E1); border-radius: 16px; background: #fff; }
+.sky-media-carte > video, .sky-media-carte > iframe, .sky-media-carte > button, .sky-fiche > .sky-preuves img { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 0; object-fit: cover; background: #0c1726; }
+.sky-photo { padding: 0; cursor: zoom-in; }
+.sky-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.sky-photo:focus-visible { outline: 4px solid var(--ch-essentiel, #155E66); outline-offset: -4px; }
+.sky-media-carte figcaption, .sky-fiche > .sky-preuves figcaption { padding: 10px; margin: 0; text-align: center; font-size: 16px; font-weight: 700; color: var(--ch-encre, #19383D); }
+.sky-explications { max-width: 1000px; }
+.sky-explication h2 { font-size: 19px; margin: 22px 0 10px; }
+@media (max-width: 900px) { .sky-media, .sky-fiche > .sky-preuves { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .sky-media, .sky-fiche > .sky-preuves { grid-template-columns: 1fr; } }

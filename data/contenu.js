@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.67.2",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.68.0",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -2604,7 +2604,7 @@ window.CV = {
             "Site de présentation et catalogue en HTML, CSS et JavaScript, avec des fonctions serveur Netlify et des services Supabase.",
             "Organisation des données du catalogue, de la présentation des produits et du parcours de distribution, dont l’intégration de Stripe Checkout.",
             "Supabase : organisation du catalogue et des données, authentification et stockage ; Brevo : modèles et envoi des e-mails transactionnels.",
-            "SkyLivra Manager 0.9.0 : application Windows fondée sur Tauri et Rust, avec détection de l’installation MSFS et catalogue des créations.",
+            "SkyLivra Manager : application Windows fondée sur Tauri et Rust, avec détection de l’installation MSFS et catalogue des créations.",
             "Contrôle des fichiers par empreinte SHA-256 et suivi des installations, mises à jour et désinstallations."
           ]
         },
@@ -2617,7 +2617,7 @@ window.CV = {
             "Scripts Python de génération d’effets, de textures et de préparation des paquets.",
             "Compilation avec le SDK MSFS, audits statiques et tests du module WebAssembly sur un hôte simulé.",
             "Outils de diagnostic pour comprendre les effets invisibles, les états du module ou les problèmes d’intégration.",
-            "Installateurs Inno Setup, numéros de version, preuves de contrôle et documentation de reprise.",
+            "Installateurs Windows et documentation pour accompagner les créations.",
             "Organisation des sources, configurations et sauvegardes pour conserver la continuité du travail."
           ]
         }
@@ -2708,14 +2708,14 @@ window.CV = {
       "titreCourt": "Aurora Borealis Blue",
       "lieu": "",
       "resume": "Livrée aux couleurs des aurores boréales pour le Fenix A320 CFM dans Microsoft Flight Simulator 2020 : extérieur, cockpit et cabine.",
-      "apportCourt": "Livrée menée jusqu’à sa validation en jeu par des révisions successives.",
-      "contexte": "Livrée SkyLivra pour le Fenix A320 CFM de Microsoft Flight Simulator 2020, terminée en version 1.28.0 après validation en jeu par Alain Ferro le 1er novembre 2026. Alain fixe la direction artistique, essaie les versions dans le simulateur et demande les corrections ; les assistants IA produisent les textures et les installateurs. Une déclinaison pour le PMDG 737-900ER existe, sans validation en jeu à ce jour.",
+      "apportCourt": "Une direction artistique déclinée sur l’extérieur, le cockpit et la cabine.",
+      "contexte": "Je définis la direction artistique, teste le rendu dans le simulateur et guide les corrections. Les assistants IA produisent les textures et les installateurs à partir de mes consignes. Le projet comprend aussi une déclinaison pour le PMDG 737-900ER.",
       "missions": [
         "Maquettes extérieure et intérieure approuvées, puis emblème Aurora Borealis décliné sur la dérive, les portes et les appuie-têtes.",
         "Aurore en haute définition et ciel étoilé, avec continuité du motif entre les pièces qui partagent leurs coordonnées de texture.",
         "Alignement des motifs des volets et des becs, contrôlé à chaque cran de sortie.",
         "Cabine et cockpit : voile blanc partagé par six sièges, plafond, sols et poste de pilotage retravaillés.",
-        "Essais en vol, retours précis et suivi des révisions jusqu’à la version 1.28.0."
+        "Essais en vol et retours précis pour ajuster le rendu aux intentions artistiques."
       ],
       "outils": [
         "ChatGPT",
@@ -2795,7 +2795,7 @@ window.CV = {
       "lieu": "",
       "resume": "Livrée Phoenix, version neuve, pour le Fenix A320 CFM dans Microsoft Flight Simulator 2020.",
       "apportCourt": "Livrée de référence d’une famille, déclinée ensuite en version usée.",
-      "contexte": "Livrée SkyLivra pour le Fenix A320 CFM de Microsoft Flight Simulator 2020, immatriculation fictive F-PHNX. Les sources de peinture correspondent à l’édition confirmée par Alain Ferro le 8 octobre 2026 ; les éditions suivantes renforcent l’installateur. La variante usée Phoenix — Weathered en dépend.",
+      "contexte": "Phoenix — Pristine constitue la référence de la famille Phoenix. Sa déclinaison Phoenix — Weathered présente une apparence usée. Un installateur Windows accompagne les créations.",
       "missions": [
         "Direction artistique de la livrée et validation des sources de peinture.",
         "Habillage de l’extérieur et de la cabine : motifs, voilure, sièges, cloisons et décor de plafond.",
@@ -2901,7 +2901,7 @@ window.CV = {
         "Définition du comportement : activation de nuit selon la position de l’avion et l’ovale auroral.",
         "Choix de la direction visuelle : lueurs vert-bleu, arcs lumineux, couleurs réparties selon l’altitude.",
         "Conception du panneau de commande dans le simulateur : interrupteur et indication d’état.",
-        "Essais en vol, diagnostic des versions successives et suivi jusqu’à la version 0.10.3."
+        "Essais en vol, diagnostic et corrections pour obtenir le rendu recherché."
       ],
       "outils": [
         "ChatGPT",
@@ -2921,8 +2921,8 @@ window.CV = {
       "galerie": [
         {
           "src": "assets/photos/selection/selection-082.webp",
-          "alt": "Aurora Borealis Add-on — capture de diagnostic 0.9.2",
-          "legende": "Aurora Borealis Add-on — capture de diagnostic 0.9.2"
+          "alt": "Aurora Borealis Add-on — mise au point",
+          "legende": "Aurora Borealis Add-on — mise au point"
         },
         {
           "video": "assets/videos/aurores-vues-exterieures.mp4",
@@ -2943,7 +2943,7 @@ window.CV = {
           "ouvert": false,
           "paragraphes": [
             "Pilotage de la conception d’un add-on faisant apparaître des aurores pendant les vols de nuit, en fonction de la position de l’avion.",
-            "Les captures et vidéos montrent des états de travail distincts : la capture de diagnostic est identifiée comme version 0.9.2."
+            "Les captures et vidéos illustrent le rendu des aurores et leur mise au point dans le simulateur."
           ],
           "points": [
             "Activation de nuit lorsque l’avion se trouve à portée de l’ovale auroral de son hémisphère.",
@@ -3087,7 +3087,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie et n’utilise aucun outil de mesure d’audience. La page « Proposer un entretien » prépare un message modifiable qui reste dans votre navigateur : rien n’est transmis tant que vous ne l’envoyez pas vous-même depuis votre messagerie (Gmail, Outlook ou logiciel habituel) ; aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "17 novembre 2026",
-    "version": "2.67.2"
+    "version": "2.68.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"

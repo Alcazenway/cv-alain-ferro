@@ -899,28 +899,11 @@
     var idDetail = canonique === "skylivra-site" ? "skylivra" : canonique;
     if (idDetail !== "skylivra" && parId[idDetail] && /^skylivra-/.test(idDetail) || canonique === "skylivra-site") {
       var e = parId[idDetail], parent = canonique === "skylivra-site" ? "/parcours/skylivra" : idDetail === "skylivra-aurores" ? "/parcours/skylivra-addons" : "/parcours/skylivra-livrees";
-      var rendu = ficheParcours(e, parent), fiche = rendu[0];
-      fiche.classList.add("sky-detail");
-      var logo = el("img", {src: "assets/applis/skylivra.webp", alt: "SkyLivra", class: "sky-logo"});
-      fiche.querySelector(".co-fiche-sphere").replaceWith(logo);
-      fiche.querySelector(".retour a").textContent = "← " + (parent === "/parcours/skylivra-livrees" ? "Livrées d’avions" : parent === "/parcours/skylivra-addons" ? "Add-ons" : "SkyLivra");
-      if (canonique === "skylivra-site") {
-        fiche.querySelector("h1").textContent = "Site marchand";
-        fiche.querySelector(".fiche-resume").textContent = "Site marchand non actif : j’attends l’autorisation des éditeurs pour l’ouvrir. Il est destiné à distribuer mes livrées et add-ons pour Microsoft Flight Simulator 2020.";
-      }
-      // Les descriptions deviennent de courts paragraphes ; les liens de navigation restent structurés.
-      fiche.querySelectorAll(".fiche-liste, .dossier-contenu > ul").forEach(function (liste) {
-        var prose = el("div", {class: "sky-prose"}), phrases = [];
-        Array.prototype.forEach.call(liste.children, function (item, i) {
-          phrases.push(item.textContent);
-          if (phrases.length === 2 || i === liste.children.length - 1) { prose.appendChild(el("p", {text: phrases.join(" ")})); phrases = []; }
-        });
-        liste.replaceWith(prose);
-      });
-      return { rubrique: rub, titre: canonique === "skylivra-site" ? "Site marchand" : e.titre, rendu: rendu, fiche: true };
+      return { rubrique: rub, titre: canonique === "skylivra-site" ? "Site marchand" : e.titre,
+        rendu: window.SkyLivra.detail(e, parent, function (photos, i, bouton) { Visionneuse.ouvrir(photos, i, bouton); }), fiche: true };
     }
     var origine = listeOrigine && /^\/(realisations|orchestration-ia|competence|parcours$)/.test(listeOrigine) ? listeOrigine : rediriger("/parcours/" + base.parent);
-    var r = window.SkyLivra.route(slug, { titre: titre, parent: origine, titreParent: RETOURS[origine] || (origine === "/orchestration-ia" ? "Orchestration IA" : "Retour") });
+    var r = window.SkyLivra.route(slug, { titre: titre, parent: origine, ouvrir: function (photos, i, bouton) { Visionneuse.ouvrir(photos, i, bouton); }, titreParent: RETOURS[origine] || (origine === "/orchestration-ia" ? "Orchestration IA" : "Retour") });
     return r ? { rubrique: rub, titre: r.titre, rendu: r.rendu, fiche: true, detail: slug === "skylivra" } : null;
   }
 
