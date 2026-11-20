@@ -11,20 +11,17 @@
     options = options || {};
     var terre = svg("svg", { class: "pr-terre", viewBox: "0 0 480 480", role: "group", "aria-labelledby": "pr-terre-titre" });
     // Géométrie, voile et reflet de la maquette validée. Aucune donnée personnelle en HTML interpolé.
+    // 2.70.0 (Alain, 3A) : disque très pâle aux couleurs de la charte à la place de la Terre ; aucune image de fond.
     terre.innerHTML = '<title id="pr-terre-titre"></title><defs>' +
-      '<clipPath id="pr-terre-clip"><circle cx="240" cy="240" r="226"/></clipPath>' +
-      '<linearGradient id="pr-voile" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#04142C" stop-opacity=".12"/><stop offset=".42" stop-color="#04142C" stop-opacity=".5"/><stop offset="1" stop-color="#04142C" stop-opacity=".76"/></linearGradient>' +
-      '<radialGradient id="pr-bord" cx=".42" cy=".38" r=".62"><stop offset=".7" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#01060F" stop-opacity=".55"/></radialGradient>' +
-      '<radialGradient id="pr-reflet"><stop offset="0" stop-color="#fff" stop-opacity=".72"/><stop offset=".55" stop-color="#fff" stop-opacity=".18"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>' +
-      '<filter id="pr-detourage" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="1" stdDeviation="1.2" flood-color="#03122A" flood-opacity=".9"/></filter></defs>' +
-      '<g clip-path="url(#pr-terre-clip)" aria-hidden="true"><image class="pr-terre-photo" href="assets/presentation/terre-apollo17-640.jpg" x="14" y="14" width="452" height="452"/><rect x="14" y="14" width="452" height="452" fill="url(#pr-voile)"/><circle cx="240" cy="240" r="226" fill="url(#pr-bord)"/></g>' +
-      '<ellipse cx="160" cy="112" rx="104" ry="56" fill="url(#pr-reflet)" opacity=".5" transform="rotate(-24 160 112)" aria-hidden="true"/>' +
-      (options.sansContour ? "" : '<circle cx="240" cy="240" r="226" fill="none" stroke="#8FC3F0" stroke-width="4" opacity=".9" aria-hidden="true"/>');
+      '<radialGradient id="pr-disque" cx=".5" cy=".42" r=".62"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".72" stop-color="#F6F9F8"/><stop offset="1" stop-color="#E8F0EE"/></radialGradient></defs>' +
+      '<circle cx="240" cy="240" r="226" fill="url(#pr-disque)" aria-hidden="true"/>' +
+      '<circle cx="240" cy="240" r="225" fill="none" stroke="#C9DCD9" stroke-width="2" aria-hidden="true"/>' +
+      (options.sansContour ? "" : '<circle cx="240" cy="240" r="231" fill="none" stroke="#155E66" stroke-width="3" opacity=".55" aria-hidden="true"/>');
     terre.querySelector("title").textContent = I.nom + ", coordonnées et proposition d’entretien";
     terre.appendChild(svg("image", { href: "assets/presentation/portrait-detoure-440.png", x: 150, y: 34, width: 180, height: 180, role: "img", "aria-label": I.portrait.alt }));
-    var textes = svg("g", { "text-anchor": "middle", fill: "#fff", filter: "url(#pr-detourage)", "font-family": "Segoe UI, Arial, sans-serif" });
+    var textes = svg("g", { "text-anchor": "middle", fill: "#22313A", "font-family": "Segoe UI, Arial, sans-serif" });
     function ligne(y, taille, texte, couleur, gras, lien, label) {
-      var n = svg("text", { x: 240, y: y, "font-size": taille, "font-weight": gras || 700, fill: couleur || "#FFFFFF" }, [texte]);
+      var n = svg("text", { x: 240, y: y, "font-size": taille, "font-weight": gras || 700, fill: couleur || "#22313A" }, [texte]);
       if (lien) {
         // Zone tactile élargie et invisible ; texte sans soulignement.
         var a = svg("a", { href: lien, "aria-label": label || texte, class: "pr-contact" });
@@ -34,16 +31,16 @@
     }
     var nom = I.nom.split(" "); nom[nom.length - 1] = nom[nom.length - 1].toUpperCase();
     // Accroche retirée de la Présentation (demande d'Alain, 16/11/2026) ; donnée conservée dans contenu.js.
-    ligne(256, 28, nom.join(" "), null, 700);
-    ligne(296, 26, I.telephone, null, 700, "tel:" + I.telephoneLien, "Téléphoner à " + I.nom + " : " + I.telephone);
-    ligne(328, 18, I.email, null, 700, "mailto:" + I.email, "Écrire à " + I.nom + " : " + I.email);
+    ligne(258, 31, nom.join(" "), "#155E66", 700);
+    ligne(300, 28, I.telephone, null, 700, "tel:" + I.telephoneLien, "Téléphoner à " + I.nom + " : " + I.telephone);
+    ligne(333, 20, I.email, null, 600, "mailto:" + I.email, "Écrire à " + I.nom + " : " + I.email);
     // 2.65.0 (Alain) : cinq lignes centrées et régulières : nom, téléphone, e-mail, ville, permis (comme le PDF).
-    ligne(356, 17, I.ville.replace(/[()]/g, ""), null, 700);
-    ligne(382, 17, I.permis, null, 700);
-    if (!options.sansEntretien) ligne(420, 19, "Proposer un entretien", null, 700, options.entretien || "entretien.html");
+    ligne(362, 18.5, I.ville.replace(/[()]/g, ""), null, 600);
+    ligne(389, 18.5, I.permis, null, 600);
+    if (!options.sansEntretien) ligne(428, 20, "Proposer un entretien", "#155E66", 700, options.entretien || "entretien.html");
     terre.appendChild(textes);
     // 2.60.0 : globe animé sous le portrait (Présentation). Repli = cette même photo fixe.
-    if (options.anime && window.GlobeTerre) return window.GlobeTerre.envelopper(terre);
+    // 2.70.0 : globe animé retiré avec la Terre (décision 3A).
     return terre;
   }};
 })();

@@ -1,21 +1,5 @@
 .pr-terre { display: block; width: 100%; max-width: 480px; height: auto; margin: 0 auto; }
 .pr-terre a, .pr-terre a:hover { text-decoration: none; cursor: pointer; }
 .pr-terre .pr-contact:focus-visible { outline: none; }
-.pr-terre .pr-contact:focus-visible rect { fill: #03122A; stroke: #FFD27A; stroke-width: 3px; }
-.pr-terre .pr-contact:hover text { fill: #FFFFFF; }
-
-/* 2.60.0 : globe animé de Présentation. Le canevas occupe exactement le disque (x/y 14, 452 sur 480). */
-.pr-terre-boite { position: relative; width: 100%; max-width: 480px; margin: 0 auto; }
-.pr-terre-boite > .pr-terre { position: relative; max-width: none; }
-.pr-terre-globe { position: absolute; left: 2.9167%; top: 2.9167%; width: 94.1667%; height: 94.1667%; pointer-events: none; opacity: 0; transition: opacity .9s ease; }
-.pr-terre-photo { transition: opacity .9s ease; }
-.pr-terre-anime > .pr-terre-globe { opacity: 1; }
-.pr-terre-anime .pr-terre-photo { opacity: 0; }
-@media print {
-  .pr-terre-globe { display: none !important; }
-  .pr-terre-anime .pr-terre-photo { opacity: 1 !important; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .pr-terre-globe { display: none; }
-  .pr-terre-photo { opacity: 1 !important; }
-}
+.pr-terre .pr-contact:focus-visible rect { fill: #E3ECEB; stroke: #155E66; stroke-width: 3px; }
+.pr-terre .pr-contact:hover text { fill: #155E66; }

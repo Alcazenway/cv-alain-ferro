@@ -28,9 +28,24 @@ licenses or are distributed under the Apache 2.0 license.
 
 # Code: MIT (https://opensource.org/licenses/MIT)
 The MIT license applies to all non-font and non-icon files.
-- terre-apollo17-640.jpg (PDF, bulle centrale) : « The Earth seen from Apollo 17 », NASA, domaine public (Wikimedia Commons).
-- terre-jour-1024.jpg (2.60.0, globe animé de Présentation) : « The Blue Marble: land surface, ocean color and sea ice », NASA Goddard Space Flight Center / Visible Earth (Reto Stöckli, Robert Simmon ; données MODIS), https://visibleearth.nasa.gov/images/57730 ; copie Wikimedia Commons « Land_ocean_ice_2048.jpg » (marquée CC BY-SA 3.0 sur Commons). Réduite en 1024 × 512 et légèrement éclaircie ; cette adaptation reste sous la même licence, crédit NASA.
-- nuages-1024.jpg (2.60.0) : nuages procéduraux générés pour ce site (bruit 3D), aucune donnée externe.
 - assets/fonds/motif-*.svg (2.60.0) : motifs de fond dessinés pour ce site.
 - assets/boutons/ (2.61.0, charte boutons B) : cv-pdf.svg, outlook.svg, outlook-pro.svg = tracés Material Design Icons (mdi-file-pdf-box, mdi-microsoft-outlook, @mdi/svg 7.4.47, Apache-2.0) recolorés ; gmail.svg = logo Gmail (marque de Google LLC) redessiné pour identifier le service de messagerie, usage nominatif ; entretien.svg, cv-lire.svg, parcours.svg, site.svg, badge-bas.svg, badge-mallette.svg = dessinés pour ce site.
 - entretien.html (v2.51) : mdi-gmail, mdi-content-copy, mdi-file-pdf-box, mdi-web, mdi-phone, mdi-email-outline — Material Design Icons @mdi/svg 7.4.47, Apache-2.0.
+- assets/boutons/cv-telecharger.svg et icône intégrée des boutons « CV » (index.html, cv.html), 2.70.0 : Lucide « file-down », lucide-static 0.460.0, licence ISC (Copyright (c) Lucide Contributors 2022 ; portions Feather, Cole Bemis, MIT), https://lucide.dev/license. cv-pdf.svg n'est plus utilisé.
+
+# Lucide (lucide-static 0.460.0) — texte intégral de la licence
+ISC License
+
+Copyright (c) for portions of Lucide are held by Cole Bemis 2013-2022 as part of Feather (MIT). All other copyright (c) for Lucide are held by Lucide Contributors 2022.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.

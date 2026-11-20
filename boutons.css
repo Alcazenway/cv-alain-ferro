@@ -34,3 +34,7 @@
 /* 2.61.1 bb-deux-lignes : « Proposer entretien » peut passer sur deux lignes dans la capsule sur petit écran. */
 @media (max-width: 700px) { .co-actions-bandeau .bb { white-space: normal; line-height: 1.1; } }
 @media (max-width: 380px) { .bb { white-space: normal; line-height: 1.1; } }
+/* 2.70.0 : bouton « CV » (téléchargement du PDF) au dégradé de « Proposer un entretien » ; icône Lucide file-down en SVG intégré
+   (currentColor), turquoise sur pastille blanche. Survol, focus et contraste hérités de .bb-p1 (blanc sur #155E66 : 7,4:1). */
+.bb-cv .bb-pastille { color: #155E66; }
+svg.bb-ic { overflow: visible; }

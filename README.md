@@ -1,7 +1,7 @@
 # Alain Ferro — parcours détaillé
 
 Vitrine professionnelle personnelle, sans cookie ni mesure d’audience. Entretien : e-mail préparé sur la page, envoyé par le visiteur lui-même depuis sa messagerie.
-Version commune du site et du PDF : 2.60.0 (valeur de référence : version.json). PowerPoint : 2.4, historique.
+Version commune du site et du PDF : 2.70.0 (valeur de référence : version.json). PowerPoint : 2.4, historique.
 Navigation : bandeau clair compact — Présentation, Parcours, Compétences, Formation, Intérêts, Postes visés, et menu « Plus » (Carte des liens, Réalisations, CV PDF) ; menu repliable sur mobile. « Proposer un entretien » ouvre la messagerie du visiteur avec un message prérempli, sans envoi automatique.
 Versionnage : site et PDF partagent un seul numéro MAJEUR.MINEUR.CORRECTIF (x.x.x), quel que soit le support modifié. Source unique : mentions.version dans data/contenu.js ; la recette PDF lit cette valeur. Toute nouvelle version met à jour les deux supports.
 
@@ -9,7 +9,9 @@ PDF de production stable : CV-Interactif-Alain-FERRO.pdf, remplacé à chaque ve
 
 Adresse publique stable : https://alcazenway.github.io/cv-alain-ferro/
 
-V2.60.0 : Terre de Présentation animée en globe WebGL local (globe-terre.js) : rotation sur l’axe incliné, deux couches de nuages mobiles, repli sur la photo fixe en mouvement réduit, impression ou sans WebGL ; pause onglet masqué ou hors écran. Sphères du Parcours en léger mouvement continu. Fonds identifiables pour Compétences, Formation, Intérêts et Postes visés (assets/fonds/motif-*.svg). Longueur du bateau retirée. Fichiers inutilisés retirés.
+V2.70.0 : page « Pilotage d’avions de ligne » (Simulation de vol) avec six visuels d’un même vol ; bouton CV aux couleurs du site ; coordonnées sur un disque clair à la place de la Terre (site et PDF), globe animé et images de la Terre retirés ; photos retouchées (données personnelles masquées), trois photos retirées.
+
+V2.60.0 (historique, globe retiré en 2.70.0) : Terre de Présentation animée en globe WebGL local (globe-terre.js) : rotation sur l’axe incliné, deux couches de nuages mobiles, repli sur la photo fixe en mouvement réduit, impression ou sans WebGL ; pause onglet masqué ou hors écran. Sphères du Parcours en léger mouvement continu. Fonds identifiables pour Compétences, Formation, Intérêts et Postes visés (assets/fonds/motif-*.svg). Longueur du bateau retirée. Fichiers inutilisés retirés.
 
 V2.16.0 : compétences organisées en deux niveaux : index puis « Fiche complète », regroupant expériences, acquis et formations sur la même page. Portrait identique au cadrage du PDF. Parcours entier sans défilement sur ordinateur, titres agrandis, légende simplifiée ; liste lisible sur les fenêtres étroites ou basses. Sélecteur « Parcourir » retiré des fiches. Postes visés directement dans le bandeau. Titres « BTS commercial » et « BAC Sciences et technologies tertiaires ». Fonds de rubrique générés, très pâles et lentement animés, avec arrêt en mouvement réduit. Le design du PDF reste identique ; son numéro et ses liens suivent la version commune. L'ouverture des liens du PDF en nouvel onglet dépend du lecteur utilisé.
 

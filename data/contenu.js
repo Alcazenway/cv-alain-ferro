@@ -31,7 +31,7 @@ window.CV = {
       "srcPetit": "assets/portrait-240.webp",
       "alt": "Portrait d’Alain Ferro, souriant, chemise bleu clair"
     },
-    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.69.0",
+    "cvPdf": "./CV-Interactif-Alain-FERRO.pdf?v=2.70.0",
     "mail": {
       "objet": "Proposition d’entretien",
       "corps": "Bonjour Monsieur Ferro,\n\nVotre CV a retenu toute notre attention et nous souhaiterions vous rencontrer pour un entretien.\n\nPourriez-vous nous indiquer vos disponibilités ? Nous reviendrons vers vous pour fixer la date, en présentiel ou par téléphone.\n\nCordialement,"
@@ -677,6 +677,7 @@ window.CV = {
       },
       "fiches": [
         "simulation",
+        "pilotage-ligne",
         "skylivra",
         "spadnext"
       ],
@@ -686,10 +687,6 @@ window.CV = {
           {
             "src": "assets/photos/selection/selection-061.webp",
             "alt": "Installation personnelle de simulation de vol"
-          },
-          {
-            "src": "assets/photos/selection/selection-062.webp",
-            "alt": "Matériel et commandes de simulation"
           },
           {
             "src": "assets/photos/selection/selection-059.webp",
@@ -718,6 +715,7 @@ window.CV = {
         ],
         "liens": [
           "simulation",
+          "pilotage-ligne",
           "skylivra",
           "spadnext"
         ]
@@ -946,6 +944,7 @@ window.CV = {
         "intro": "Pratique du pilotage virtuel et programmation de profils pour les périphériques de simulation.",
         "ids": [
           "simulation",
+          "pilotage-ligne",
           "spadnext"
         ]
       },
@@ -1459,9 +1458,10 @@ window.CV = {
       "periode": "2003–aujourd’hui",
       "important": true,
       "enfants": [
+        "pilotage-ligne",
         "spadnext"
       ],
-      "enfantsTitre": "Réalisation · profils SPAD.neXt",
+      "enfantsTitre": "Réalisations · pilotage et profils SPAD.neXt",
       "presentation": {
         "titre": "Simulation de vol",
         "resume": "Plus de vingt ans de simulation de vol sur PC, sur Airbus, Boeing et avions légers : une passion technique pratiquée de façon exigeante, à l’origine de mes créations SkyLivra.",
@@ -1486,6 +1486,106 @@ window.CV = {
             "src": "assets/photos/selection/selection-063.webp",
             "legende": "Tableau de bord d’avion léger",
             "entier": false
+          }
+        ],
+        "liens": []
+      }
+    },
+    {
+      "id": "pilotage-ligne",
+      "type": "personnel",
+      "titre": "Pilotage d’avions de ligne",
+      "titreCourt": "Pilotage d’avions de ligne · Navigraph",
+      "lieu": "",
+      "resume": "Dans Microsoft Flight Simulator 2020, je pilote notamment l’Airbus A320 de Fenix en conditions réalistes. Je prépare chaque vol avec un plan de vol SimBrief et des cartes aéronautiques (Navigraph) : départs (SID), arrivées (STAR) et approches.",
+      "apportCourt": "Je calcule les performances, programme le calculateur de vol et suis les procédures jusqu’à l’atterrissage : lecture de documents techniques, méthode et rigueur. Loisir, sans qualification aéronautique réelle.",
+      "competences": [
+        "informatique"
+      ],
+      "outils": [
+        "Microsoft Flight Simulator 2020",
+        "Navigraph Charts",
+        "SimBrief",
+        "Airbus A320 (Fenix)",
+        "Boeing 737 (PMDG)"
+      ],
+      "apports": [
+        "Lecture de cartes aéronautiques",
+        "Préparation des vols",
+        "Respect des procédures"
+      ],
+      "transfert": "Lire un document technique, préparer, puis appliquer une procédure pas à pas.",
+      "bulle": [
+        "Pilotage d’avions de ligne"
+      ],
+      "periode": "Pratique personnelle",
+      "parent": "simulation",
+      "galerie": [
+        {
+          "src": "assets/pilotage/simbrief-ofp-copenhague-tromso.webp",
+          "legende": "Plan de vol SimBrief Copenhague → Tromsø : départ VEDAR2C, arrivée ATWEG2L, piste 36",
+          "entier": true
+        },
+        {
+          "src": "assets/pilotage/efb-masse-centrage-copenhague.webp",
+          "legende": "Masse et centrage calculés avant le départ de Copenhague",
+          "entier": true
+        },
+        {
+          "src": "assets/pilotage/mcdu-sid-copenhague.webp",
+          "legende": "Choix du départ (SID) à Copenhague, Airbus A320",
+          "entier": true
+        },
+        {
+          "src": "assets/pilotage/mcdu-star-tromso.webp",
+          "legende": "Arrivée (STAR) et approche ILS en cours de sélection pour Tromsø",
+          "entier": true
+        },
+        {
+          "src": "assets/pilotage/a320-roulage-copenhague.webp",
+          "legende": "Airbus A320 au roulage vers la piste, Copenhague",
+          "entier": false
+        },
+        {
+          "src": "assets/pilotage/pfd-nd-croisiere.webp",
+          "legende": "Croisière au niveau 350, approche de Tromsø déjà chargée",
+          "entier": true
+        }
+      ],
+      "presentation": {
+        "titre": "Pilotage d’avions de ligne",
+        "resume": "Dans Microsoft Flight Simulator 2020, je pilote notamment l’Airbus A320 de Fenix en conditions réalistes. Je prépare chaque vol avec un plan de vol SimBrief et des cartes aéronautiques (Navigraph) : départs (SID), arrivées (STAR) et approches.",
+        "role": "Je calcule les performances, programme le calculateur de vol et suis les procédures jusqu’à l’atterrissage : lecture de documents techniques, méthode et rigueur. Loisir, sans qualification aéronautique réelle.",
+        "medias": [
+          {
+            "src": "assets/pilotage/simbrief-ofp-copenhague-tromso.webp",
+            "legende": "Plan de vol SimBrief Copenhague → Tromsø : départ VEDAR2C, arrivée ATWEG2L, piste 36",
+            "entier": true
+          },
+          {
+            "src": "assets/pilotage/efb-masse-centrage-copenhague.webp",
+            "legende": "Masse et centrage calculés avant le départ de Copenhague",
+            "entier": true
+          },
+          {
+            "src": "assets/pilotage/mcdu-sid-copenhague.webp",
+            "legende": "Choix du départ (SID) à Copenhague, Airbus A320",
+            "entier": true
+          },
+          {
+            "src": "assets/pilotage/mcdu-star-tromso.webp",
+            "legende": "Arrivée (STAR) et approche ILS en cours de sélection pour Tromsø",
+            "entier": true
+          },
+          {
+            "src": "assets/pilotage/a320-roulage-copenhague.webp",
+            "legende": "Airbus A320 au roulage vers la piste, Copenhague",
+            "entier": false
+          },
+          {
+            "src": "assets/pilotage/pfd-nd-croisiere.webp",
+            "legende": "Croisière au niveau 350, approche de Tromsø déjà chargée",
+            "entier": true
           }
         ],
         "liens": []
@@ -1520,11 +1620,6 @@ window.CV = {
       "parent": "simulation",
       "galerie": [
         {
-          "src": "assets/photos/selection/selection-062.webp",
-          "legende": "Périphériques de simulation",
-          "entier": false
-        },
-        {
           "src": "assets/spadnext/programmation-bouton.webp",
           "legende": "Programmation d’un bouton",
           "entier": true
@@ -1545,11 +1640,6 @@ window.CV = {
         "resume": "Profils SPAD.neXt programmés pour faire fonctionner mes périphériques de simulation, boutons et panneaux de commandes, avec les avions de Microsoft Flight Simulator.",
         "role": "J’analyse le fonctionnement de chaque avion, puis j’enchaîne conditions et actions jusqu’à obtenir le comportement voulu. Je traduis ainsi un besoin d’usage en réglages techniques précis, testés et ajustés.",
         "medias": [
-          {
-            "src": "assets/photos/selection/selection-062.webp",
-            "legende": "Périphériques de simulation",
-            "entier": false
-          },
           {
             "src": "assets/spadnext/programmation-bouton.webp",
             "legende": "Programmation d’un bouton",
@@ -3144,7 +3234,7 @@ window.CV = {
     "hebergeur": "GitHub Pages, service de GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.",
     "donnees": "Ce site ne dépose aucun cookie et n’utilise aucun outil de mesure d’audience. La page « Proposer un entretien » prépare un message modifiable qui reste dans votre navigateur : rien n’est transmis tant que vous ne l’envoyez pas vous-même depuis votre messagerie (Gmail, Outlook ou logiciel habituel) ; aucun envoi automatique. Comme tout hébergeur, GitHub peut conserver des journaux techniques de connexion.",
     "maj": "17 novembre 2026",
-    "version": "2.69.0"
+    "version": "2.70.0"
   },
   "alias": {
     "thermes-adjoint": "thermes-responsable"

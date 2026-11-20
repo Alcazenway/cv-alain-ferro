@@ -72,7 +72,7 @@
   var VERSION = "Version " + D.mentions.version;
 
   function construirePresentation() {
-    var terre = window.IdentiteTerre.creer(I, {sansContour: true, anime: true});
+    var terre = window.IdentiteTerre.creer(I, {sansContour: true});
 
     var profil = el("section", { class: "pr-profil", "aria-label": "Présentation" }); // 2.65.0 : titre visible retiré (Alain)
     I.promesse.split("\n").filter(Boolean).forEach(function (t) { profil.appendChild(el("p", { text: t })); });
